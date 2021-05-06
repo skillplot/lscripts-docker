@@ -1,12 +1,6 @@
 # Lscripts Docker
 > Linux Scripts For Deep Learning Projects
 
-
-Copyright 2016-2021 Bhaskar Mangal (a.k.a. mangalbhaskar). All rights reserved.
-__author__ = 'mangalbhaskar'
-----------------------------------------------------------
-
-
 Lscripts Docker just happened to come into existence as a part of my personal research work. It was an attempt to reduce my manual effort to setup my systems. I hope you will discover some cool tricks using it and surely will develop the love-hate relationship with `lscripts-docker` framework.
 
 
@@ -239,3 +233,9 @@ You shall not use it to spread hatred or to write/do bad things.
 I hope you find it useful!
 
 See [License](LICENSE) terms.
+
+
+```
+Copyright 2016-2021 Bhaskar Mangal (a.k.a. mangalbhaskar). All rights reserved.
+__author__ = 'mangalbhaskar'
+```
