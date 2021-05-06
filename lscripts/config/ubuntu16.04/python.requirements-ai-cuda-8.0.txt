@@ -1,0 +1,17 @@
+Theano
+
+cloudsight
+clarifai
+watson-developer-cloud
+
+git+https://github.com/crowdai/coco.git#subdirectory=PythonAPI
+
+## for cuda-9.0
+tensorflow-gpu==1.9.0
+keras==2.2.2
+
+## https://github.com/matterport/Mask_RCNN/issues/1808
+
+torch==0.4.0
+
+tensorflow-model-optimization

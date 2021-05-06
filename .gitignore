@@ -1,0 +1,95 @@
+## Copyright (c) 2021 mangalbhaskar. All Rights Reserved.
+## __author__ = 'mangalbhaskar'
+###----------------------------------------------------------
+## disallow files/folders in same directory as the .gitignore file
+###----------------------------------------------------------
+#
+## References:
+## * https://stackoverflow.com/questions/987142/make-gitignore-ignore-everything-except-a-few-files
+###----------------------------------------------------------
+
+/*
+
+## allow some files
+!.dockerignore
+!.gitattributes
+!.nojekyll
+!.gitignore
+!.gitmodules
+!*.md
+!*.adoc
+!*.html
+!*.yml
+!*.sh
+!*.txt
+!*.py
+!*.cfg
+!*.example
+!*.toml
+!*.env
+!*.in
+!LICENSE*
+
+!dockerfiles/
+!docs/
+# !external/
+!lscripts/
+!pyscripts/
+
+
+## disallow some specific files in the allowed list
+**/*~
+**/*.swp
+**/nohup.*
+**/*.log
+**/*bk
+**/temp.*
+**/.goutputstream-*
+
+## conventions - these directories not allowed
+**/cache
+**/_site
+**/tmp
+# **/config
+**/*-config
+**/data
+**/*-data
+**/logs
+**/virtualenvs
+**/mobile
+**/*-mobile
+
+**/local
+**/.local
+**/*.local
+**/*.local.*
+**/*-lock.*
+
+**/README.html
+**/node_modules
+**/*.pyc
+**/*__pycache__
+**/*.ipynb_checkpoints
+**/*.pytest_cache
+**/*.py.*
+# **/*.mp4
+# **/*.mp3
+
+**/gradle
+**/captures
+**/screenshot
+
+**/.vscode
+**/.gradle
+**/.idea
+**/.externalNativeBuild
+**/*.iml
+**/.DS_Store
+**/build
+**/dist
+**/bin
+
+## Python egg metadata, regenerated from source files by setuptools.
+**/*.egg-info
+**/*.egg
+
