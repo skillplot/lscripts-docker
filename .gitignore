@@ -64,6 +64,7 @@
 **/*.local
 **/*.local.*
 **/*-lock.*
+**/*.lock
 
 **/README.html
 **/node_modules
