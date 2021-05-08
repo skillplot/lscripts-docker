@@ -73,6 +73,7 @@ kramdown:
 include:
   - .htaccess
   - _pages
+  - _posts
 
 exclude: 
   - node_modules
