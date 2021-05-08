@@ -35,17 +35,17 @@ Lscripts Docker just happened to come into existence as a part of my personal re
   * 11.0, 450+ driver
 * **a) Full-stack setup**
   ```bash
-  bash lscripts/stack-full-setup.sh
+  bash stack-full-setup.sh
   ```
 * **b) Chose Items individually from full stack**
   ```bash
-  bash lscripts/stack-item-setup.sh
+  bash stack-item-setup.sh
   ```
 * **c) Custom - chose whatever you want; examples: -**
   ```bash
   bash nvidia-driver-install.sh
   #
-  ## bash lscripts/stack-setup-docker.sh
+  ## bash stack-setup-docker.sh
   bash docker-ce-install.sh
   bash docker-compose-install.sh
   #

@@ -46,63 +46,82 @@ function python-virtualenvwrapper-test() {
 
   local pyVer=$1
   local PYTHON
+  local __PY_VIRTUALENVWRAPPER
 
   PYTHON=python${pyVer}
 
   local __pyVer=$(${PYTHON} -c 'import sys; print("-".join(map(str, sys.version_info[:3])))')
-  local test_env_name="test_${__pyVer}_${__TIMESTAMP__}"
+  local py_env_name="test_${__pyVer}_$(date -d now +'%d%m%y_%H%M%S')"
+  _log_.debug "Creating...py_env_name: ${py_env_name}"
 
-  [[ -d ${PY_VENV_PATH} ]] || _log_.fail "Does not exists PY_VENV_PATH: ${PY_VENV_PATH}"
+  _log_.debug "PY_VENV_PATH: ${PY_VENV_PATH}"
+  [[ -d ${PY_VENV_PATH} ]] || {
+    _log_.info "PY_VENV_PATH Does not exists: ${PY_VENV_PATH}"
 
-  export WORKON_HOME=${PY_VENV_PATH}
-  __PY_VIRTUALENVWRAPPER=$(__python-virtualenvwrapper-getconfig_file)
-  _log_.debug "__PY_VIRTUALENVWRAPPER: ${__PY_VIRTUALENVWRAPPER}"
-  source "${__PY_VIRTUALENVWRAPPER}"
+    local _que="Do you want to Create PY_VENV_PATH: ${PY_VENV_PATH}"
+    local _msg="Skipping PY_VENV_PATH creation!"
+    _fio_.yesno_yes "${_que}" && {
+      _log_.echo "Creating PY_VENV_PATH..."
+      mkdir -p ${PY_VENV_PATH}
+    } || _log_.echo "${_msg}"
+  }
 
-  _log_.info "Creating test_env_name: $test_env_name folder inside: ${PY_VENV_PATH}"
-  ## creates the my_project folder inside ${PY_VENV_PATH}
-  mkvirtualenv ${test_env_name} &>/dev/null && {
-    _log_.info "lsvirtualenv: ## List all of the environments."
-    lsvirtualenv
-  
-    _log_.info "cdvirtualenv: ## Navigate into the directory of the currently activated virtual environment, so you can browse its site-packages."
-    cdvirtualenv
-  
-    _log_.info "cdsitepackages: ## Like the above, but directly into site-packages directory."
-    cdsitepackages
-  
-    _log_.info "lssitepackages: ## Shows contents of site-packages directory."
-    lssitepackages
-    #
-    _log_.info "workon <test_env_name>: ## workon also deactivates whatever environment you are currently in, so you can quickly switch between environments."
-    _log_.info "workon $test_env_name"
-    workon ${test_env_name}
-    ##
-    _log_.info "deactivate: ## Deactivates whatever environment you are currently in."
-    deactivate
-    #
-    ## Rename
-    ## https://stackoverflow.com/questions/9540040/rename-an-environment-with-virtualenvwrapper
-    _log_.info "cpvirtualenv <test_env_name> new_<test_env_name>: ## copy the virtualenv environment. Used as workaround for renaming."
-    cpvirtualenv ${test_env_name} new_${test_env_name}
-    deactivate
-    rmvirtualenv ${test_env_name}
-  
-    ## Remove
-    _log_.info "rmvirtualenv new_<test_env_name>: ## Removes the virtualenv environment."
-    rmvirtualenv new_${test_env_name}
-  } || _log_.fail "Internal Error: python virtualenvwrapper is not installed / configured properly. check: WORKON_HOME: ${WORKON_HOME}"
+  [[ -d ${PY_VENV_PATH} ]] && {
+    export WORKON_HOME=${PY_VENV_PATH}
+    __PY_VIRTUALENVWRAPPER=$(__python-virtualenvwrapper-getconfig_file)
+    _log_.debug "__PY_VIRTUALENVWRAPPER: ${__PY_VIRTUALENVWRAPPER}"
+    source "${__PY_VIRTUALENVWRAPPER}"
+
+    _log_.info "Creating py_env_name: ${py_env_name} folder inside: ${PY_VENV_PATH}"
+    ## creates the my_project folder inside ${PY_VENV_PATH}
+    mkvirtualenv -p $(which ${PYTHON}) ${py_env_name} &>/dev/null && {
+      _log_.info "lsvirtualenv: ## List all of the environments."
+      lsvirtualenv
+    
+      _log_.info "cdvirtualenv: ## Navigate into the directory of the currently activated virtual environment, so you can browse its site-packages."
+      cdvirtualenv
+    
+      _log_.info "cdsitepackages: ## Like the above, but directly into site-packages directory."
+      cdsitepackages
+    
+      _log_.info "lssitepackages: ## Shows contents of site-packages directory."
+      lssitepackages
+      #
+      _log_.info "workon <py_env_name>: ## workon also deactivates whatever environment you are currently in, so you can quickly switch between environments."
+      _log_.info "workon ${py_env_name}"
+      workon ${py_env_name}
+      ##
+      _log_.info "deactivate: ## Deactivates whatever environment you are currently in."
+      deactivate
+      #
+      ## Rename
+      ## https://stackoverflow.com/questions/9540040/rename-an-environment-with-virtualenvwrapper
+      _log_.info "cpvirtualenv <py_env_name> new_<py_env_name>: ## copy the virtualenv environment. Used as workaround for renaming."
+      cpvirtualenv ${py_env_name} new_${py_env_name}
+      deactivate
+      rmvirtualenv ${py_env_name}
+    
+      ## Remove
+      _log_.info "rmvirtualenv new_<py_env_name>: ## Removes the virtualenv environment."
+      rmvirtualenv new_${py_env_name}
+    } || _log_.error "python virtualenvwrapper is not installed / configured properly. check: WORKON_HOME: ${WORKON_HOME}"
+  } || _log_.error "PY_VENV_PATH does not exists: ${PY_VENV_PATH}"
 }
+
 
 function python-virtualenvwrapper-create() {
   local pyVer=$1
   local PYTHON
+  local __PY_VIRTUALENVWRAPPER
 
   PYTHON=python${pyVer}
 
   local __pyVer=$(${PYTHON} -c 'import sys; print("-".join(map(str, sys.version_info[:3])))')
   local py_env_name="py_${__pyVer}_$(date -d now +'%d%m%y_%H%M%S')"
   _log_.debug "Creating...py_env_name: ${py_env_name}"
+
+  _log_.debug "PY_VENV_PATH: ${PY_VENV_PATH}"
+  [[ -d ${PY_VENV_PATH} ]] || _log_.fail "Does not exists PY_VENV_PATH: ${PY_VENV_PATH}"
 
   export WORKON_HOME=${PY_VENV_PATH}
   __PY_VIRTUALENVWRAPPER=$(__python-virtualenvwrapper-getconfig_file)
@@ -112,7 +131,7 @@ function python-virtualenvwrapper-create() {
   lsvirtualenv | grep ${py_env_name}
   [[ $? -eq 0 ]] || {
     _log_.warn "Creating: ${py_env_name} folder inside: ${PY_VENV_PATH}"
-    mkvirtualenv -p $(which ${PYTHON}) ${py_env_name} &>/dev/null && workon ${py_env_name} || _log_.fail "Internal _log_.error in mkvirtualenv!"
+    mkvirtualenv -p $(which ${PYTHON}) ${py_env_name} &>/dev/null && workon ${py_env_name} || _log_.error "Internal _log_.error in mkvirtualenv!"
   }
 }
 
@@ -173,31 +192,32 @@ function python-virtualenvwrapper-install() {
 
   _que="Install ${_prog} now"
   _msg="Skipping ${_prog} installation!"
-  _fio_.yesno_${_default} "${_que}" && \
-      _log_.echo "Installing..." && \
-      __${_prog}-install ${pyVer} \
-    || _log_.echo "${_msg}"
+  _fio_.yesno_${_default} "${_que}" && {
+      _log_.echo "Installing..."
+      __${_prog}-install ${pyVer}
+  } || _log_.echo "${_msg}"
 
   _que="Configure ${_prog} now (recommended)"
   _msg="Skipping ${_prog} configuration. This is critical for proper ${_prog} working!"
-  _fio_.yesno_${_default} "${_que}" && \
-      _log_.echo "Configuring..." && \
-      ${_prog}-config \
-    || _log_.echo "${_msg}"
+  _fio_.yesno_${_default} "${_que}" && {
+      _log_.echo "Configuring..."
+      ${_prog}-config
+    } || _log_.echo "${_msg}"
 
   _que="Test creation of python virtualenv now"
   _msg="Skipping testing!"
-  _fio_.yesno_${_default} "${_que}" && \
-      _log_.echo "Testing..." && \
-      ${_prog}-test ${pyVer} \
-    || _log_.echo "${_msg}"
+  _fio_.yesno_${_default} "${_que}" && {
+      _log_.echo "Testing..."
+      ${_prog}-test ${pyVer}
+  } || _log_.echo "${_msg}"
 
   _que="Create python virtualenv now"
   _msg="Skipping python virtualenv creation!"
-  _fio_.yesno_yes "${_que}" && \
-      _log_.echo "Creating..." && \
-      ${_prog}-create ${pyVer} \
-    || _log_.echo "${_msg}"
+  _fio_.yesno_yes "${_que}" && {
+    _log_.echo "Creating..."
+    ${_prog}-create ${pyVer}
+  } || _log_.echo "${_msg}"
+
 }
 
 python-virtualenvwrapper-install $1
