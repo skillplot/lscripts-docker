@@ -28,7 +28,7 @@ twitter_username: theskillplot
 github_username:  skillplot
 
 # Build settings
-theme: jekyll-theme-minimal
+theme: jekyll-theme-cayman
 # plugins:
 #   - jekyll-feed
 
