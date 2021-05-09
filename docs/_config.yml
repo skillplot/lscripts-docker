@@ -31,11 +31,6 @@ email: skillplot@gmail.com
 authors:
   name: mangalbhaskar
   display_name: Mangal
-  # gravatar: 
-  email: skillplot@gmail.com
-  web: http://www.skillplot.org
-  twitter: https://twitter.com/theskillplot
-  description: "Author of Skillplot."
 
 show_excerpts: false # set to true to show excerpts on the homepage
 
@@ -45,8 +40,7 @@ minima:
   date_format: "%b %-d, %Y"
   # generate social links in footer
   social_links:
-    twitter: theskillplot
-    github:  skillplot
+    github:  skillplot/lscripts-docker
 
 # If you want to link only specific pages in your header, uncomment
 # this and add the path to the pages in order as they should show up
