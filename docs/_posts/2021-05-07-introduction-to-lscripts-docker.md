@@ -29,8 +29,3 @@ Imagination is the limit on what and how we can use Linux scripts in deep learni
 
 
 Tools empowers you and the importance of the right set of tools cannot be undermine. One of the challenge is to know what's the right tool for you. This requires considerable time and effort to spend on discovering different options, exploring them and trying them hands-on to figure out what you like or not. There's no one shoe fit all kind of solution for this; it's subjective to individual style and preference. Think about it as your choice of weapon you would like to have in a game. Just like in the game you would have to keep up with the upgrades of these tools and also consider adopting new tools as they come in and goes out rapidly.
-
-
-**Next:**
-* [Quick start](2021-05-08-quick-start.md)
-* [System design](2021-05-09-system-design.md)
