@@ -18,35 +18,49 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 
-title: Lscripts Docker
+title: Lscripts
 description: >- # this means to ignore newlines until "baseurl:"
   Develop a perspective of what happens when shell scripts limits are pushed to be used in conjunction with machine learning and deep learning projects. When the shell scripts and the command line tools are combined with python it provide for the powerful triad for a cadence.
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://www.skillplot.org" # the base hostname & protocol for your site, e.g. http://example.com
 email: skillplot@gmail.com
-twitter_username: theskillplot
-github_username:  skillplot
+# twitter_username: theskillplot
+# github_username:  skillplot
 
 # Authors
 authors:
-  mangal:
-    name: mangalbhaskar
-    display_name: Mangal
-    # gravatar: 
-    email: skillplot@gmail.com
-    web: http://www.skillplot.org
-    twitter: https://twitter.com/theskillplot
-    description: "Author of Skillplot."
+  name: mangalbhaskar
+  display_name: Mangal
+  # gravatar: 
+  email: skillplot@gmail.com
+  web: http://www.skillplot.org
+  twitter: https://twitter.com/theskillplot
+  description: "Author of Skillplot."
 
+show_excerpts: false # set to true to show excerpts on the homepage
+
+# Minima date format
+# refer to https://shopify.github.io/liquid/filters/date/ if you want to customize this
+minima:
+  date_format: "%b %-d, %Y"
+  # generate social links in footer
+  social_links:
+    twitter: theskillplot
+    github:  skillplot
+
+# If you want to link only specific pages in your header, uncomment
+# this and add the path to the pages in order as they should show up
+header_pages:
+  - about.md
 
 # Build settings
 theme: minima
 plugins:
   - jekyll-feed
+  - jekyll-seo-tag
   # - jekyll-paginate
   # - jekyll-sitemap
   # - jekyll-gist
-  # - jekyll-seo-tag
   # - jekyll-archives
 
 words_per_minute: 200
@@ -83,22 +97,3 @@ exclude:
   - CREDITS.md
   - Gemfile
   - Gemfile.lock
-# Exclude from processing.
-# The following items will not be processed, by default.
-# Any item listed under the `exclude:` key here will be automatically added to
-# the internal "default list".
-#
-# Excluded items can be processed by explicitly listing the directories or
-# their entries' file path in the `include:` list.
-#
-# exclude:
-#   - .sass-cache/
-#   - .jekyll-cache/
-#   - gemfiles/
-#   - Gemfile
-#   - Gemfile.lock
-#   - node_modules/
-#   - vendor/bundle/
-#   - vendor/cache/
-#   - vendor/gems/
-#   - vendor/ruby/
