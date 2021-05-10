@@ -21,7 +21,7 @@ function stack-setup-sysutils() {
 
   declare -a _stack_install=(
     ###----------------------------------------------------------
-    ## misc
+    ## stack-setup-sysutils
     ###---------------------------------------------------------- 
     "rclone"
     "inotifytools-apt"

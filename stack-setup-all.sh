@@ -23,11 +23,13 @@ function fullstack-setup() {
     "prerequisite"
     "nvidia-cuda-python-docker"
     "utils"
+    "sysutils"
     "editors"
+    "markdowneditors"
+    "epub"
     "programming"
     "storage"
-    "multimedia"
-    "epub"
+    "graphics"
     "misc"
   )
 

@@ -104,23 +104,7 @@ function itemstack-setup() {
     "zookeeper-wget"
     "kafka-wget-dpkg"
     ###----------------------------------------------------------    
-    ## "stack-setup-markdown"
-    ###----------------------------------------------------------
-    "haroopad-wget-dpkg"
-    "typora-apt"
-    "ghostwriter-apt"
-    ###----------------------------------------------------------    
-    ## "stack-setup-epub"
-    ###----------------------------------------------------------
-    "latex-apt"
-    "pandoc-wget-dpkg"
-    "latex-editors-apt"
-    "lyx-ppa"
-    "epub-editors-apt"
-    "epub-readers-apt"
-    "scribus-apt"
-    ###----------------------------------------------------------    
-    ## "stack-setup-multimedia"
+    ## "stack-setup-graphics"
     ###----------------------------------------------------------
     "vlc-apt"
     "ffmpeg-apt"
@@ -167,10 +151,6 @@ function itemstack-setup() {
     "librecad-ppa"
     "openscad-ppa"
     "makehuman3d-ppa"
-    ###----------------------------------------------------------    
-    ## "IDEs"
-    ###----------------------------------------------------------
-    "pycharm-snap"
     ###----------------------------------------------------------    
     ## "stack-setup-misc"
     ###----------------------------------------------------------

@@ -27,22 +27,6 @@ function stack-setup-editors() {
     "vim-plug"
     "sublime-apt"
     "atom-wget-dpkg"
-    ###----------------------------------------------------------    
-    ## "stack-setup-markdown"
-    ###----------------------------------------------------------
-    "haroopad-wget-dpkg"
-    "typora-apt"
-    "ghostwriter-apt"
-    ###----------------------------------------------------------    
-    ## "stack-setup-epub"
-    ###----------------------------------------------------------
-    "latex-apt"
-    "pandoc-wget-dpkg"
-    "latex-editors-apt"
-    "lyx-ppa"
-    "epub-editors-apt"
-    "epub-readers-apt"
-    "scribus-apt"
   )
 
   # declare -a _stack_verify=()

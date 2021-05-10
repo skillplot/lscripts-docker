@@ -3,8 +3,7 @@
 ## Copyright (c) 2021 mangalbhaskar. All Rights Reserved.
 ##__author__ = 'mangalbhaskar'
 ###----------------------------------------------------------
-## Install epublishing Stack - TeX/LaTeX, pandoc,
-## epub, and editors
+## Install epublishing Stack - TeX/LaTeX,pandoc,epub
 ###----------------------------------------------------------
 
 
@@ -16,77 +15,41 @@ function ctrlc_handler {
   exit
 }
 
-
 function stack-setup-epub() {
-  local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
-  source ${LSCRIPTS}/lscripts.config.sh
+  local LSCRIPTS="$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )"
+  source "${LSCRIPTS}/lscripts/_common_.sh"
 
-  local scriptname=$(basename ${BASH_SOURCE[0]})
-  _log_.debug "executing script...: ${scriptname}"
+  declare -a _stack_install=(
+    ###----------------------------------------------------------    
+    ## "stack-setup-epub"
+    ###----------------------------------------------------------
+    "latex-apt"
+    "pandoc-wget-dpkg"
+    "latex-editors-apt"
+    "lyx-ppa"
+    "epub-editors-apt"
+    "epub-readers-apt"
+    "scribus-apt"
+  )
 
-  local _default=yes
-  local _que
-  local _msg
-  local _prog
+  # declare -a _stack_verify=()
 
+  _log_.warn "Install ${FUNCNAME[0]}; sudo access is required!"
+  _fio_.yesno_no "Continue" && {
+    local item
+    for item in "${_stack_install[@]}";do
+      _log_.info ${item}
+      local _item_filepath="${LSCRIPTS}/lscripts/${item}-install.sh"
 
-  _prog="epub-stack"
-  _log_.info "Install ${_prog}..."
-  _log_.warn "sudo access is required!"
-
-  _prog='latex'
-  _que="Install ${_prog} now"
-  _msg="Skipping ${_prog} installation!"
-  _fio_.yesno_${_default} "${_que}" && {
-    _log_.echo "Installing..."
-    source ${LSCRIPTS}/${_prog}-apt-install.sh
-  } || _log_.echo "${_msg}" && _default=no
-
-
-  _prog='pandoc'
-  _que="Install ${_prog} now"
-  _msg="Skipping ${_prog} installation!"
-  _fio_.yesno_${_default} "${_que}" && {
-    _log_.echo "Installing..."
-    source ${LSCRIPTS}/${_prog}-wget-dpkg-install.sh
-  } || _log_.echo "${_msg}" && _default=no
-
-
-  _prog='markdown-editors'
-  _que="Install ${_prog} now"
-  _msg="Skipping ${_prog} installation!"
-  _fio_.yesno_${_default} "${_que}" && {
-    _log_.echo "Installing..."
-    source ${LSCRIPTS}/${_prog}-install.sh
-  } || _log_.echo "${_msg}" && _default=no
-
-
-  _prog='latex-editors'
-  _que="Install ${_prog} now"
-  _msg="Skipping ${_prog} installation!"
-  _fio_.yesno_${_default} "${_que}" && {
-    _log_.echo "Installing..."
-    source ${LSCRIPTS}/${_prog}-apt-install.sh
-  } || _log_.echo "${_msg}" && _default=no
-
-
-  _prog='epub-editors'
-  _que="Install ${_prog} now"
-  _msg="Skipping ${_prog} installation!"
-  _fio_.yesno_${_default} "${_que}" && {
-    _log_.echo "Installing..."
-    source ${LSCRIPTS}/${_prog}-apt-install.sh
-  } || _log_.echo "${_msg}" && _default=no
-
-
-  _prog='epub-readers'
-  _que="Install ${_prog} now"
-  _msg="Skipping ${_prog} installation!"
-  _fio_.yesno_${_default} "${_que}" && {
-    _log_.echo "Installing..."
-    source ${LSCRIPTS}/${_prog}-apt-install.sh
-  } || _log_.echo "${_msg}" && _default=no
-
+      _log_.echo "Checking for installer..." && \
+      ls -1 "${_item_filepath}" 2>/dev/null && {
+        _fio_.yesno_no "Install ${item}" && {
+          _log_.ok "Executing installer... ${_item_filepath}" && \
+          source "${_item_filepath}" || _log_.error "${_item_filepath}"
+        } || _log_.echo "Skipping ${item} installation!"
+      } || _log_.error "Installer not found: ${item}!"
+    done
+  } || _log_.echo "Skipping ${FUNCNAME[0]} installation!"
 }
 
 stack-setup-epub

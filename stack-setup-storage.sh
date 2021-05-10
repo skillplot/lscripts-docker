@@ -21,13 +21,17 @@ function stack-setup-storage() {
 
   declare -a _stack_install=(
     ###----------------------------------------------------------
-    ## Databases / storage
+    ## stack-setup-storage
     ###----------------------------------------------------------
     "redis-wget-make"
     "postgres-postgis-apt"
     "mysql-apt"
     "mongodb-apt"
     "couchdb-apt"
+    "elasticsearch"
+    "rasdamandb-apt"
+    "zookeeper-wget"
+    "kafka-wget-dpkg"
   )
 
   # declare -a _stack_verify=()

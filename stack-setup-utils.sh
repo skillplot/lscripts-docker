@@ -20,16 +20,14 @@ function stack-setup-utils() {
   source "${LSCRIPTS}/lscripts/_common_.sh"
 
   declare -a _stack_install=(
+    ###----------------------------------------------------------
+    ## stack-setup-utils
+    ###---------------------------------------------------------- 
     "utils-core-apt"
     "utils-essentials-apt"
     "utils-extras-apt"
     "diff-tools"
     "utils-encryption-apt"
-    "rclone"
-    "inotifytools-apt"
-    "stacer-apt"
-    "systemsensors-apt"
-    "timeshift-apt"
   )
 
   # declare -a _stack_verify=()

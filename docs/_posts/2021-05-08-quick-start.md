@@ -70,9 +70,27 @@ Build and setup a system with required software utilities.
 
 This is preferred for first time setup for full stack development build.
 
-```bash
-bash stack-setup-all.sh
-```
+* Complete stack
+  ```bash
+  bash stack-setup-all.sh
+  ```
+* Or, Individual stack
+  ```bash
+
+  bash stack-setup-prerequisite.sh
+  bash stack-setup-nvidia-cuda-python-docker.sh
+  bash stack-setup-utils.sh
+  bash stack-setup-sysutils.sh
+  bash stack-setup-editors.sh
+  bash stack-setup-markdowneditors.sh
+  bash stack-setup-epub.sh
+  bash stack-setup-programming.sh
+  bash stack-setup-storage.sh
+  bash stack-setup-graphics.sh
+  bash stack-setup-itemwise.sh
+  bash stack-setup-misc.sh
+  ```
+
 
 ### **b) Item-wise setup**
 
@@ -81,7 +99,6 @@ This is **recommended** for first time setup and gives more control to select wh
 ```bash
 bash stack-setup-itemwise.sh
 ```
-
 
 ### **c) Custom setup - chose whatever you want**
 

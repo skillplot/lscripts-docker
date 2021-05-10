@@ -29,9 +29,9 @@ function stack-setup-programming() {
     "yarn"
     "golang"
     "octave-apt"
-    "postman-testing-snap"
     "ruby_rails_jekyll"
     "gcc"
+    "postman-testing-snap"
   )
 
   # declare -a _stack_verify=()
