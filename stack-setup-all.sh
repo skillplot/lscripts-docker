@@ -23,8 +23,12 @@ function fullstack-setup() {
     "prerequisite"
     "nvidia-cuda-python-docker"
     "utils"
+    "editors"
     "programming"
+    "storage"
     "multimedia"
+    "epub"
+    "misc"
   )
 
   # declare -a _stack_verify=()

@@ -24,6 +24,8 @@ local CMAKE_REL="${CMAKE_VER}.${CMAKE_BUILD}"
 local PHP_VER="7.0"
 local PHP_VER="7.1"
 local PHP_VER="7.2"
+## for ubuntu 20.04 LTS
+#local PHP_VER="7.4"
 #
 ##----------------------------------------------------------
 ## Node JS, NVM version
@@ -33,8 +35,10 @@ local NODEJS_VER=7
 local NODEJS_VER=8
 local NODEJS_VER=9
 local NODEJS_VER=10
+local NODEJS_VER=16
 #
 local NODE_NVM_VER=v0.35.3
+local NODE_NVM_VER=v0.38.0
 #
 ##----------------------------------------------------------
 ## JAVA JDK version

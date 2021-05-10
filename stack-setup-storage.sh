@@ -3,7 +3,7 @@
 ## Copyright (c) 2021 mangalbhaskar. All Rights Reserved.
 ##__author__ = 'mangalbhaskar'
 ###----------------------------------------------------------
-## Install Lscripts utilities softwares
+## Install Lscripts storage softwares
 ###----------------------------------------------------------
 
 
@@ -15,21 +15,25 @@ function ctrlc_handler {
   exit
 }
 
-function stack-setup-utils() {
+function stack-setup-storage() {
   local LSCRIPTS="$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )"
   source "${LSCRIPTS}/lscripts/_common_.sh"
 
   declare -a _stack_install=(
-    "utils-core-apt"
-    "utils-essentials-apt"
-    "utils-extras-apt"
-    "diff-tools"
+    ###----------------------------------------------------------
+    ## Databases / storage
+    ###----------------------------------------------------------
+    "redis-wget-make"
+    "postgres-postgis-apt"
+    "mysql-apt"
+    "mongodb-apt"
+    "couchdb-apt"
   )
 
   # declare -a _stack_verify=()
 
   _log_.warn "Install ${FUNCNAME[0]}; sudo access is required!"
-  _fio_.yesno_no "Continue" && {
+  _fio_.yesno_yes "Continue" && {
     local item
     for item in "${_stack_install[@]}";do
       _log_.info ${item}
@@ -39,6 +43,7 @@ function stack-setup-utils() {
       ls -1 "${_item_filepath}" 2>/dev/null && {
         _fio_.yesno_no "Install ${item}" && {
           _log_.ok "Executing installer... ${_item_filepath}" && \
+          _log_.echo "Installing..."
           source "${_item_filepath}" || _log_.error "${_item_filepath}"
         } || _log_.echo "Skipping ${item} installation!"
       } || _log_.error "Installer not found: ${item}!"
@@ -46,4 +51,4 @@ function stack-setup-utils() {
   } || _log_.echo "Skipping ${FUNCNAME[0]} installation!"
 }
 
-stack-setup-utils
+stack-setup-storage

@@ -3,7 +3,7 @@
 ## Copyright (c) 2021 mangalbhaskar. All Rights Reserved.
 ##__author__ = 'mangalbhaskar'
 ###----------------------------------------------------------
-## Install Lscripts utilities softwares
+## Install Lscripts editors softwares
 ###----------------------------------------------------------
 
 
@@ -15,15 +15,15 @@ function ctrlc_handler {
   exit
 }
 
-function stack-setup-utils() {
+function stack-setup-editors() {
   local LSCRIPTS="$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )"
   source "${LSCRIPTS}/lscripts/_common_.sh"
 
   declare -a _stack_install=(
-    "utils-core-apt"
-    "utils-essentials-apt"
-    "utils-extras-apt"
-    "diff-tools"
+    "vim-apt"
+    "vim-plug"
+    "sublime-apt"
+    "atom-wget-dpkg"
   )
 
   # declare -a _stack_verify=()
@@ -46,4 +46,4 @@ function stack-setup-utils() {
   } || _log_.echo "Skipping ${FUNCNAME[0]} installation!"
 }
 
-stack-setup-utils
+stack-setup-editors

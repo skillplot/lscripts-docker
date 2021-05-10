@@ -42,38 +42,6 @@ function nodejs-uninstall() {
 }
 
 
-function __nodejs-install_nvm() {
-  # local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
-  # source ${LSCRIPTS}/lscripts.config.sh
-
-  if [ -z "${NODE_NVM_VER}" ]; then
-    local NODE_NVM_VER=v0.35.3
-    echo "Unable to get NODE_NVM_VER version, falling back to default version#: ${NODE_NVM_VER}"
-  fi
-
-  ## Warning: should inspect, instead of running blindfaith
-  # curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
-  # curl -sL https://raw.githubusercontent.com/creationix/nvm/v0.35.3/install.sh -o install_nvm.sh
-
-  wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/${NODE_NVM_VER}/install.sh | sudo -E bash -
-
-  # source ~/.profile
-  # nvm help
-
-  # nvm ls-remote
-  # nvm install 12.18.3
-  # nvm use 12.18.3
-  # node -v
-  # nvm ls
-  # nvm alias default 12.18.3
-  # nvm use default
-
-  # nvm current
-  # nvm uninstall <node_version>
-  # nvm deactivate
-}
-
-
 function nodejs-uninstall() {
   _log_.warn "nodejs will be uninstalled and configuration will be removed!"
 
@@ -109,19 +77,6 @@ function nodejs-config() {
 }
 
 
-function nodejs-install-yarn() {
-  _log_.info "Installing yarn:"
-  curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
-  echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
-  sudo apt -y update
-  sudo apt -y install --no-install-recommends yarn
-
-  ## export PATH="${PATH}:/opt/yarn-[version]/bin"
-
-  _log_.info "yarn version is: $(yarn --version)"
-}
-
-
 function nodejs-install-packages() {
   _log_.info "nodejs-install-packages"
   ls -l ${LSCRIPTS}/config/${LINUX_DISTRIBUTION}/nodejs.requirements.sh
@@ -134,7 +89,7 @@ function __nodejs-install() {
   # source ${LSCRIPTS}/lscripts.config.sh
 
   if [ -z "${NODEJS_VER}" ]; then
-    local NODEJS_VER=10
+    local NODEJS_VER=16
     echo "Unable to get NODEJS_VER version, falling back to default version#: ${NODEJS_VER}"
   fi
 
@@ -166,7 +121,7 @@ function __nodejs-install() {
 function nodejs-install() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
   source ${LSCRIPTS}/lscripts.config.sh
-  
+
   local scriptname=$(basename ${BASH_SOURCE[0]})
   _log_.debug "executing script...: ${scriptname}"
 
@@ -191,13 +146,6 @@ function nodejs-install() {
   _fio_.yesno_no "${_que}" && \
       _log_.echo "Configuring..." && \
       ${_prog}-config \
-    || _log_.echo "${_msg}"
-
-  _que="Install yarn package manager for ${_prog}"
-  _msg="Skipping yarn  package manager installation."
-  _fio_.yesno_no "${_que}" && \
-      _log_.echo "Installing yarn package manager..." && \
-      ${_prog}-install-yarn \
     || _log_.echo "${_msg}"
 
   _que="Install packages for ${_prog} now (recommended)"

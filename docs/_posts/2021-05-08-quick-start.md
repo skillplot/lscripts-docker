@@ -71,19 +71,19 @@ Build and setup a system with required software utilities.
 This is preferred for first time setup for full stack development build.
 
 ```bash
-bash stack-full-setup.sh
+bash stack-setup-all.sh
 ```
 
-### **b) Chose Items individually from full stack**
+### **b) Item-wise setup**
 
 This is **recommended** for first time setup and gives more control to select what will be installed.
 
 ```bash
-bash stack-item-setup.sh
+bash stack-setup-itemwise.sh
 ```
 
 
-### **c) Custom - chose whatever you want; examples: -**
+### **c) Custom setup - chose whatever you want**
 
 This is for **advance** usage providing granular control on specific software component that is to be installed.
 

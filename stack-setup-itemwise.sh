@@ -41,14 +41,13 @@ function itemstack-setup() {
     ## "stack-setup-utils"
     ###----------------------------------------------------------
     "utils-core-apt"
-    "utils-essentials-apt"
     "utils-extras-apt"
+    "utils-essentials-apt"
     "diff-tools"
     "vim-apt"
     "vim-plug"
     "sublime-apt"
     "atom-wget-dpkg"
-    "haroopad-wget-dpkg"
     ###----------------------------------------------------------    
     ## "stack-setup-programming"
     ###----------------------------------------------------------
@@ -79,7 +78,18 @@ function itemstack-setup() {
     "gimp-graphics-apt"
     "audacity-apt"
     ###----------------------------------------------------------    
-    ## "stack-misc"
+    ## "stack-setup-epub"
+    ###----------------------------------------------------------
+    "latex-apt"
+    "pandoc-wget-dpkg"
+    "haroopad-wget-dpkg"
+    "typora-apt"
+    "ghostwriter-apt"
+    "latex-editors-apt"
+    "epub-editors-apt"
+    "epub-readers-apt"
+    ###----------------------------------------------------------    
+    ## "stack-setup-misc"
     ###----------------------------------------------------------
     "balenaetcher-apt"
   )

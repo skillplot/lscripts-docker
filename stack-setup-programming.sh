@@ -24,14 +24,9 @@ function stack-setup-programming() {
     "php"
     "apache2"
     "nginx-apt"
+    "nvm"
     "nodejs"
-    ###----------------------------------------------------------
-    ## Databases 
-    ###----------------------------------------------------------
-    "redis-wget-make"
-    "postgres-postgis-apt"
-    "mysql-apt"
-    "mongodb-apt"
+    "yarn"
   )
 
   # declare -a _stack_verify=()
