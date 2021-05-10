@@ -24,6 +24,14 @@ function stack-setup-misc() {
     ## misc
     ###----------------------------------------------------------
     "balenaetcher-apt"
+    "httrack-apt"
+    "heroku-cli-snap"
+    "openvpn-apt"
+    "gitlab-apt"
+    "sublimemerge-apt"
+    "ros-apt"
+    "vulkansdk-apt"
+    "wine-apt"
   )
 
   # declare -a _stack_verify=()

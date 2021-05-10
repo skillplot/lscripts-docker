@@ -39,8 +39,10 @@ function stack-setup-editors() {
     "latex-apt"
     "pandoc-wget-dpkg"
     "latex-editors-apt"
+    "lyx-ppa"
     "epub-editors-apt"
     "epub-readers-apt"
+    "scribus-apt"
   )
 
   # declare -a _stack_verify=()

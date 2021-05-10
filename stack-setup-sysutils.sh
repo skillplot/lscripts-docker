@@ -3,7 +3,7 @@
 ## Copyright (c) 2021 mangalbhaskar. All Rights Reserved.
 ##__author__ = 'mangalbhaskar'
 ###----------------------------------------------------------
-## Install Lscripts programming softwares
+## Install Lscripts systen utilis softwares
 ###----------------------------------------------------------
 
 
@@ -15,23 +15,19 @@ function ctrlc_handler {
   exit
 }
 
-function stack-setup-programming() {
+function stack-setup-sysutils() {
   local LSCRIPTS="$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )"
   source "${LSCRIPTS}/lscripts/_common_.sh"
 
   declare -a _stack_install=(
-    "java-apt"
-    "php"
-    "apache2"
-    "nginx-apt"
-    "nvm"
-    "nodejs"
-    "yarn"
-    "golang"
-    "octave-apt"
-    "postman-testing-snap"
-    "ruby_rails_jekyll"
-    "gcc"
+    ###----------------------------------------------------------
+    ## misc
+    ###---------------------------------------------------------- 
+    "rclone"
+    "inotifytools-apt"
+    "stacer-apt"
+    "systemsensors-apt"
+    "timeshift-apt"
   )
 
   # declare -a _stack_verify=()
@@ -55,4 +51,4 @@ function stack-setup-programming() {
   } || _log_.echo "Skipping ${FUNCNAME[0]} installation!"
 }
 
-stack-setup-programming
+stack-setup-sysutils
