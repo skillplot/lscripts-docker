@@ -15,6 +15,7 @@ function ctrlc_handler {
   exit
 }
 
+
 function stack-setup-markdowneditors() {
   local LSCRIPTS="$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )"
   source "${LSCRIPTS}/lscripts/_common_.sh"

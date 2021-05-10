@@ -15,6 +15,7 @@ function ctrlc_handler {
   exit
 }
 
+
 function fullstack-setup() {
   local LSCRIPTS="$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )"
   source "${LSCRIPTS}/lscripts/_common_.sh"
@@ -26,8 +27,8 @@ function fullstack-setup() {
     "sysutils"
     "editors"
     "markdowneditors"
-    "epub"
     "programming"
+    "epub"
     "storage"
     "graphics"
     "misc"

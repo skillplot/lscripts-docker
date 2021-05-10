@@ -67,16 +67,6 @@ function itemstack-setup() {
     "typora-apt"
     "ghostwriter-apt"
     ###----------------------------------------------------------    
-    ## "stack-setup-epub"
-    ###----------------------------------------------------------
-    "latex-apt"
-    "pandoc-wget-dpkg"
-    "latex-editors-apt"
-    "lyx-ppa"
-    "epub-editors-apt"
-    "epub-readers-apt"
-    "scribus-apt"
-    ###----------------------------------------------------------    
     ## "stack-setup-programming"
     ###----------------------------------------------------------
     "java-apt"
@@ -91,6 +81,16 @@ function itemstack-setup() {
     "postman-testing-snap"
     "ruby_rails_jekyll"
     "gcc"
+    ###----------------------------------------------------------    
+    ## "stack-setup-epub"
+    ###----------------------------------------------------------
+    "latex-apt"
+    "pandoc-wget-dpkg"
+    "latex-editors-apt"
+    "lyx-ppa"
+    "epub-editors-apt"
+    "epub-readers-apt"
+    "scribus-apt"
     ###----------------------------------------------------------    
     ## "stack-setup-storage"
     ###----------------------------------------------------------

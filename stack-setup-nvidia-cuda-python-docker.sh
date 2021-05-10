@@ -22,6 +22,15 @@
 ###----------------------------------------------------------
 
 
+trap ctrlc_handler INT
+
+## trap 'exit 0' INT or simply trap INT 
+function ctrlc_handler {
+  (>&2 echo -e "\e[0;101m CTRL-C pressed; Terminating..!\e[0m\n")
+  exit
+}
+
+
 function stack-setup-nvidia-cuda-python-docker() {
   local LSCRIPTS="$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )"
   source "${LSCRIPTS}/lscripts/_common_.sh"
@@ -40,8 +49,8 @@ function stack-setup-nvidia-cuda-python-docker() {
   )
 
   declare -a _stack_verify=(
-    "docker-compose"
     "docker-ce"
+    "docker-compose"
     "cuda-stack"
   )
 

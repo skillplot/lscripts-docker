@@ -83,11 +83,10 @@ This is preferred for first time setup for full stack development build.
   bash stack-setup-sysutils.sh
   bash stack-setup-editors.sh
   bash stack-setup-markdowneditors.sh
-  bash stack-setup-epub.sh
   bash stack-setup-programming.sh
+  bash stack-setup-epub.sh
   bash stack-setup-storage.sh
   bash stack-setup-graphics.sh
-  bash stack-setup-itemwise.sh
   bash stack-setup-misc.sh
   ```
 
@@ -104,20 +103,33 @@ bash stack-setup-itemwise.sh
 
 This is for **advance** usage providing granular control on specific software component that is to be installed.
 
-```bash
-bash nvidia-driver-install.sh
-#
-## bash stack-setup-docker.sh
-bash docker-ce-install.sh
-bash docker-compose-install.sh
-#
-## 9.0, 10.0, 10.2, 11.0
-bash cuda-stack-install.sh 10.0
-#
-## installs both python 2 and 3
-bash python-install.sh
-bash python-virtualenvwrapper-install.sh
-```
+1. Install Nvidia driver
+  ```bash
+  bash nvidia-driver-install.sh
+  ```
+2. Install docker, docker-compose
+  ```bash
+  bash docker-ce-install.sh
+  bash docker-compose-install.sh
+  ```
+3. Install Nvidia docker
+  ```bash
+  bash nvidia-container-toolkit
+  ```
+4. Install python
+  ```bash
+  ## installs both python 2 and 3
+  bash python-install.sh
+  ```
+5. Install python's virtualenv, virtualenvwrapper
+  ```bash
+  bash python-virtualenvwrapper-install.sh
+  ```
+6. Install CUDA stack (cuda, cudnn, tensorRT)
+  ```bash
+  ## supported CUDA: 9.0, 10.0, 10.2, 11.0
+  bash cuda-stack-install.sh 10.0
+  ```
 
 
 ### Build Nvidia CUDA Docker Images
@@ -140,7 +152,7 @@ These provides complete development stack for deep learning docker environments.
   pip install -U -r lscripts/config/ubuntu18.04/python.requirements-ai-cuda-11.0.txt
   ```
 * **Docker container tips**
-  * Re-start host docker service if internet access is not there inside container;
+  * Re-start host docker service if Internet access is not there inside container;
     ```bash
     sudo service docker stop
     sudo service docker start
