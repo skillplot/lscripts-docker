@@ -44,6 +44,10 @@ function itemstack-setup() {
     "utils-extras-apt"
     "utils-essentials-apt"
     "diff-tools"
+    "utils-encryption-apt"
+    ###----------------------------------------------------------    
+    ## "stack-setup-editors"
+    ###----------------------------------------------------------
     "vim-apt"
     "vim-plug"
     "sublime-apt"
@@ -58,6 +62,14 @@ function itemstack-setup() {
     "nvm"
     "nodejs"
     "yarn"
+    "golang"
+    "octave-apt"
+    "postman-testing-snap"
+    "ruby_rails_jekyll"
+    ###----------------------------------------------------------    
+    ## "IDEs"
+    ###----------------------------------------------------------
+    "pycharm-snap"
     ###----------------------------------------------------------    
     ## "stack-setup-storage"
     ###----------------------------------------------------------
@@ -66,32 +78,99 @@ function itemstack-setup() {
     "mysql-apt"
     "mongodb-apt"
     "couchdb-apt"
+    "elasticsearch"
+    "rasdamandb-apt"
+    "zookeeper-wget"
+    "kafka-wget-dpkg"
+    "gcc"
+    ###----------------------------------------------------------    
+    ## "stack-setup-markdown"
+    ###----------------------------------------------------------
+    "haroopad-wget-dpkg"
+    "typora-apt"
+    "ghostwriter-apt"
+    ###----------------------------------------------------------    
+    ## "stack-setup-epub"
+    ###----------------------------------------------------------
+    "latex-apt"
+    "pandoc-wget-dpkg"
+    "latex-editors-apt"
+    "lyx-ppa"
+    "epub-editors-apt"
+    "epub-readers-apt"
+    "scribus-apt"
     ###----------------------------------------------------------    
     ## "stack-setup-multimedia"
     ###----------------------------------------------------------
     "vlc-apt"
     "ffmpeg-apt"
     "videofix-apt"
+    "obsstudio-ppa"
+    "slowmovideo-ppa"
+    "youtubedl-apt"
+    ###----------------------------------------------------------
+    ## "image editors"
+    ###----------------------------------------------------------
     "inkscape-graphics-apt"
     "imageviewer-cmdline-apt"
     "imagemagic-graphics-apt"
     "gimp-graphics-apt"
+    "krita-ppa"
+    "digikam-apt"
+    "darktable-apt"
+    "xnview-wget"
+    ###----------------------------------------------------------
+    ## "screenshot, screen-recorders"
+    ###----------------------------------------------------------
+    "shutter-ppa"
+    "simplescreenrecorder-ppa"
+    "vokoscreen-ppa"
+    ###----------------------------------------------------------
+    ## "video editors"
+    ###----------------------------------------------------------
+    "handbrake-ppa"
+    "pitvi-flatpak"
+    "openshot-ppa"
+    "shotcut-wget"
+    ###----------------------------------------------------------
+    ## "home theater"
+    ###----------------------------------------------------------
+    "kodi-multimedia-apt"
+    ###----------------------------------------------------------
+    ## "audio editors"
+    ###----------------------------------------------------------
     "audacity-apt"
     ###----------------------------------------------------------    
-    ## "stack-setup-epub"
+    ## "cad, 3D tools"
     ###----------------------------------------------------------
-    "latex-apt"
-    "pandoc-wget-dpkg"
-    "haroopad-wget-dpkg"
-    "typora-apt"
-    "ghostwriter-apt"
-    "latex-editors-apt"
-    "epub-editors-apt"
-    "epub-readers-apt"
+    "freecad-ppa"
+    "librecad-ppa"
+    "openscad-ppa"
+    "makehuman3d-ppa"
     ###----------------------------------------------------------    
     ## "stack-setup-misc"
     ###----------------------------------------------------------
     "balenaetcher-apt"
+    "httrack-apt"
+    "heroku-cli-snap"
+    "openvpn-apt"
+    "gitlab-apt"
+    "sublimemerge-apt"
+    ###----------------------------------------------------------    
+    ## "system utilities"
+    ###----------------------------------------------------------    
+    "rclone"
+    "inotifytools-apt"
+    "stacer-apt"
+    "systemsensors-apt"
+    "timeshift-apt"
+    ###----------------------------------------------------------    
+    ## "stack-setup-misc"
+    ###----------------------------------------------------------
+    "qgis3-apt"
+    "ros-apt"
+    "vulkansdk-apt"
+    "wine-apt"
   )
 
   # declare -a _stack_verify=()

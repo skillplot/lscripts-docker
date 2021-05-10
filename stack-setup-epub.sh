@@ -17,7 +17,7 @@ function ctrlc_handler {
 }
 
 
-function epub-stack-install() {
+function stack-setup-epub() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
   source ${LSCRIPTS}/lscripts.config.sh
 
@@ -39,7 +39,7 @@ function epub-stack-install() {
   _msg="Skipping ${_prog} installation!"
   _fio_.yesno_${_default} "${_que}" && {
     _log_.echo "Installing..."
-    source ${LSCRIPTS}/latex-apt-install.sh
+    source ${LSCRIPTS}/${_prog}-apt-install.sh
   } || _log_.echo "${_msg}" && _default=no
 
 
@@ -48,18 +48,16 @@ function epub-stack-install() {
   _msg="Skipping ${_prog} installation!"
   _fio_.yesno_${_default} "${_que}" && {
     _log_.echo "Installing..."
-    source ${LSCRIPTS}/pandoc-wget-dpkg-install.sh
+    source ${LSCRIPTS}/${_prog}-wget-dpkg-install.sh
   } || _log_.echo "${_msg}" && _default=no
 
 
-  _prog='markdown editors'
+  _prog='markdown-editors'
   _que="Install ${_prog} now"
   _msg="Skipping ${_prog} installation!"
   _fio_.yesno_${_default} "${_que}" && {
     _log_.echo "Installing..."
-    source ${LSCRIPTS}/haroopad-wget-dpkg-install.sh
-    source ${LSCRIPTS}/typora-apt-install.sh
-    source ${LSCRIPTS}/ghostwriter-apt-install.sh
+    source ${LSCRIPTS}/${_prog}-install.sh
   } || _log_.echo "${_msg}" && _default=no
 
 
@@ -68,7 +66,7 @@ function epub-stack-install() {
   _msg="Skipping ${_prog} installation!"
   _fio_.yesno_${_default} "${_que}" && {
     _log_.echo "Installing..."
-    source ${LSCRIPTS}/latex-editors-apt-install.sh
+    source ${LSCRIPTS}/${_prog}-apt-install.sh
   } || _log_.echo "${_msg}" && _default=no
 
 
@@ -77,7 +75,7 @@ function epub-stack-install() {
   _msg="Skipping ${_prog} installation!"
   _fio_.yesno_${_default} "${_que}" && {
     _log_.echo "Installing..."
-    source ${LSCRIPTS}/epub-editors-apt-install.sh
+    source ${LSCRIPTS}/${_prog}-apt-install.sh
   } || _log_.echo "${_msg}" && _default=no
 
 
@@ -86,9 +84,9 @@ function epub-stack-install() {
   _msg="Skipping ${_prog} installation!"
   _fio_.yesno_${_default} "${_que}" && {
     _log_.echo "Installing..."
-    source ${LSCRIPTS}/epub-readers-apt-install.sh
+    source ${LSCRIPTS}/${_prog}-apt-install.sh
   } || _log_.echo "${_msg}" && _default=no
 
 }
 
-epub-stack-install
+stack-setup-epub

@@ -16,6 +16,7 @@ function latex-editors-apt-install() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
   source ${LSCRIPTS}/lscripts.config.sh
 
+  ## Todo:: check latex is installed or not, otherwise install latex first
   sudo apt -y install texmaker
   sudo apt -y install lyx
   sudo apt -y install texstudio

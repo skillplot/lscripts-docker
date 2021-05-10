@@ -98,10 +98,10 @@ function nvm-install() {
 
   _que="Install ${_prog} now"
   _msg="Skipping ${_prog} installation!"
-  _fio_.yesno_${_default} "${_que}" && \
-      _log_.echo "Installing..." && \
-      __${_prog}-install \
-    || _log_.echo "${_msg}"
+  _fio_.yesno_${_default} "${_que}" {
+      _log_.echo "Installing..."
+      __${_prog}-install
+  } || _log_.echo "${_msg}"
 }
 
 

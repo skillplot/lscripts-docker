@@ -20,10 +20,27 @@ function stack-setup-editors() {
   source "${LSCRIPTS}/lscripts/_common_.sh"
 
   declare -a _stack_install=(
+    ###----------------------------------------------------------    
+    ## "stack-setup-editors"
+    ###----------------------------------------------------------
     "vim-apt"
     "vim-plug"
     "sublime-apt"
     "atom-wget-dpkg"
+    ###----------------------------------------------------------    
+    ## "stack-setup-markdown"
+    ###----------------------------------------------------------
+    "haroopad-wget-dpkg"
+    "typora-apt"
+    "ghostwriter-apt"
+    ###----------------------------------------------------------    
+    ## "stack-setup-epub"
+    ###----------------------------------------------------------
+    "latex-apt"
+    "pandoc-wget-dpkg"
+    "latex-editors-apt"
+    "epub-editors-apt"
+    "epub-readers-apt"
   )
 
   # declare -a _stack_verify=()
