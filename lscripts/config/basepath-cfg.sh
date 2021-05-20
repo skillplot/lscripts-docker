@@ -77,7 +77,8 @@ local WSGIPYTHONHOME="${_LSCRIPTS__WSGIPYTHONHOME}"
 
 
 ##----
-## Docker specific configurationlocal DOCKER_BASENAME="${BASENAME}"
+## Docker specific configuration
+local DOCKER_BASENAME="${BASENAME}"
 [[ ! -z "${DOCKER_BASENAME}" ]] || DOCKER_BASENAME="lscripts"
 
 local __DOCKER_ROOT_BASEDIR__="${__ROOT_BASEDIR__}"
