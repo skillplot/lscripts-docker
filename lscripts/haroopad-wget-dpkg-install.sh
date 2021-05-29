@@ -15,12 +15,12 @@ function haroopad-wget-dpkg-install() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
   source ${LSCRIPTS}/lscripts.config.sh
 
-  if [ -z "${BASEPATH}" ]; then
+  if [ -z "${_LSD__EXTERNAL_HOME}" ]; then
     local BASEPATH="${HOME}/softwares"
-    echo "Unable to get BASEPATH, using default path#: ${BASEPATH}"
+    echo "Unable to get BASEPATH, using default path#: ${_LSD__EXTERNAL_HOME}"
   fi
 
-  [[ ! -d "${BASEPATH}" ]] && mkdir -p "${BASEPATH}"
+  [[ ! -d "${_LSD__EXTERNAL_HOME}" ]] && mkdir -p "${_LSD__EXTERNAL_HOME}"
 
   if [ -z "${HAROOPAD_VER}" ]; then
     local HAROOPAD_VER="0.13.1"
@@ -35,13 +35,13 @@ function haroopad-wget-dpkg-install() {
   local URL="https://bitbucket.org/rhiokim/haroopad-download/downloads/${FILE}"
 
   echo "Number of threads will be used: ${NUMTHREADS}"
-  echo "BASEPATH: ${BASEPATH}"
+  echo "BASEPATH: ${_LSD__EXTERNAL_HOME}"
   echo "URL: ${URL}"
   echo "PROG_DIR: ${PROG_DIR}"
 
   source ${LSCRIPTS}/partials/wget.sh
 
-  sudo dpkg -i "${DOWNLOAD_PATH}/${FILE}"
+  sudo dpkg -i "${_LSD__DOWNLOADS_HOME}/${FILE}"
 }
 
 haroopad-wget-dpkg-install

@@ -3,7 +3,7 @@
 ## Copyright (c) 2021 mangalbhaskar. All Rights Reserved.
 ##__author__ = 'mangalbhaskar'
 ###----------------------------------------------------------
-## test:: for shell script logging module
+## test::shell script utils/_log_.sh module
 ###----------------------------------------------------------
 
 
@@ -20,7 +20,7 @@ function ctrlc_handler {
 [[ $0 != "$BASH_SOURCE" ]] && sourced=1 || sourced=0[1]
 
 
-function case-1-log() {
+function test._log_.case-1() {
   local ll
   ##local N=8
   local N=${#_logger_[@]}
@@ -50,20 +50,20 @@ function case-1-log() {
 }
 
 
-function case-2-log() {
+function test._log_.case-2() {
   _log_.fail "fail"
   echo "## This line and anything below should printed or executed!"
   echo "I never get's to see the Helllllllllll!"
 }
 
 
-function test-1-log() {
+function test._log_.main() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
   source ${LSCRIPTS}/../lscripts.config.sh
   
-  case-1-log
-  case-2-log
+  test._log_.case-1
+  test._log_.case-2
 }
 
 
-test-1-log
+test._log_.main

@@ -30,8 +30,8 @@ ARG _SKILL__pyVer="${_SKILL__pyVer}"
 ARG PYTHON="python${_SKILL__pyVer}"
 ARG PIP="pip${_SKILL__pyVer}"
 
-ARG _SKILL__PY_VENV_PATH="${_SKILL__PY_VENV_PATH}"
-ARG _SKILL__PY_VENV_NAME_ALIAS="${_SKILL__PY_VENV_NAME_ALIAS}"
+ARG _SKILL__PYVENV_PATH="${_SKILL__PYVENV_PATH}"
+ARG _SKILL__PYVENV_NAME_ALIAS="${_SKILL__PYVENV_NAME_ALIAS}"
 
 ARG _SKILL__DUSER="${_SKILL__DUSER}"
 ENV _SKILL__DUSER="${_SKILL__DUSER}"
@@ -70,7 +70,7 @@ RUN addgroup --gid "${_SKILL__DUSER_GRP_ID}" "${_SKILL__DUSER_GRP}" && \
     chown ${_SKILL__DUSER}:${_SKILL__DUSER_GRP} /home/${_SKILL__DUSER} && \
     /bin/ls -ad /home/${_SKILL__DUSER}/.??* | xargs chown -R ${_SKILL__DUSER}:${_SKILL__DUSER_GRP}
 
-RUN mkdir -p "${_SKILL__PY_VENV_PATH}" \
+RUN mkdir -p "${_SKILL__PYVENV_PATH}" \
       "${_SKILL__DOCKER_ROOT_BASEDIR}" \
       "${_SKILL__DOCKER_ROOT_BASEDIR}/installer" \
       "${_SKILL__DOCKER_ROOT_BASEDIR}/logs" \
@@ -81,7 +81,7 @@ RUN mkdir -p "${_SKILL__PY_VENV_PATH}" \
 COPY ./installer ${_SKILL__DOCKER_ROOT_BASEDIR}/installer
 COPY ./logs ${_SKILL__DOCKER_ROOT_BASEDIR}/logs
 
-RUN chown -R ${_SKILL__DUSER}:${_SKILL__DUSER} "${_SKILL__DOCKER_ROOT_BASEDIR}" "${_SKILL__PY_VENV_PATH}" && \
+RUN chown -R ${_SKILL__DUSER}:${_SKILL__DUSER} "${_SKILL__DOCKER_ROOT_BASEDIR}" "${_SKILL__PYVENV_PATH}" && \
     chmod -R a+w "${_SKILL__DOCKER_ROOT_BASEDIR}" && \
     chmod -R a+x "${_SKILL__DOCKER_ROOT_BASEDIR}/installer"
 
@@ -149,13 +149,13 @@ ENV TORCH_CUDA_ARCH_LIST="Kepler;Kepler+Tesla;Maxwell;Maxwell+Tegra;Pascal;Volta
 ## Set a fixed model cache directory.
 ENV FVCORE_CACHE="/tmp"
 
-ARG _SKILL__PY_VENV_NAME="${_SKILL__PY_VENV_NAME}"
+ARG _SKILL__PYVENV_NAME="${_SKILL__PYVENV_NAME}"
 RUN chmod a+rwx "${_SKILL__BASHRC_FILE}" && \
-    venvline="export WORKON_HOME=${_SKILL__PY_VENV_PATH}" && \
+    venvline="export WORKON_HOME=${_SKILL__PYVENV_PATH}" && \
     grep -qF "${venvline}" "${_SKILL__BASHRC_FILE}" || echo "${venvline}" >> "${_SKILL__BASHRC_FILE}" && \
-    venvline="export PY_VENV_NAME=${_SKILL__PY_VENV_NAME}" && \
+    venvline="export PYVENV_NAME=${_SKILL__PYVENV_NAME}" && \
     grep -qF "${venvline}" "${_SKILL__BASHRC_FILE}" || echo "${venvline}" >> "${_SKILL__BASHRC_FILE}" && \
-    venvline="export _SKILL__PY_VENV_NAME_ALIAS=${_SKILL__PY_VENV_NAME_ALIAS}" && \
+    venvline="export _SKILL__PYVENV_NAME_ALIAS=${_SKILL__PYVENV_NAME_ALIAS}" && \
     grep -qF "${venvline}" "${_SKILL__BASHRC_FILE}" || echo "${venvline}" >> "${_SKILL__BASHRC_FILE}" && \
     venvline="source /usr/local/bin/virtualenvwrapper.sh" && \
     grep -qF "${venvline}" "${_SKILL__BASHRC_FILE}" || echo "${venvline}" >> "${_SKILL__BASHRC_FILE}" && \
@@ -163,14 +163,14 @@ RUN chmod a+rwx "${_SKILL__BASHRC_FILE}" && \
     grep -qF "${venvline}" "${_SKILL__BASHRC_FILE}" || echo "${venvline}" >> "${_SKILL__BASHRC_FILE}"
 
 ## Install python packages inside virtual environment
-RUN export WORKON_HOME="${_SKILL__PY_VENV_PATH}" && \
+RUN export WORKON_HOME="${_SKILL__PYVENV_PATH}" && \
     source "/usr/local/bin/virtualenvwrapper.sh" && \
-    mkvirtualenv -p $(which ${PYTHON}) ${_SKILL__PY_VENV_NAME} && \
-    ln -s "${_SKILL__PY_VENV_PATH}/${_SKILL__PY_VENV_NAME}" "${_SKILL__PY_VENV_PATH}/${_SKILL__PY_VENV_NAME_ALIAS}"
+    mkvirtualenv -p $(which ${PYTHON}) ${_SKILL__PYVENV_NAME} && \
+    ln -s "${_SKILL__PYVENV_PATH}/${_SKILL__PYVENV_NAME}" "${_SKILL__PYVENV_PATH}/${_SKILL__PYVENV_NAME_ALIAS}"
 
-RUN export WORKON_HOME="${_SKILL__PY_VENV_PATH}" && \
+RUN export WORKON_HOME="${_SKILL__PYVENV_PATH}" && \
     source "/usr/local/bin/virtualenvwrapper.sh" && \
-    workon "${_SKILL__PY_VENV_NAME}" && \
+    workon "${_SKILL__PYVENV_NAME}" && \
     $(which python) -m pip install --upgrade pip && \
     ${PIP} --no-cache-dir install -U -r ${_SKILL__DOCKER_ROOT_BASEDIR}/installer/lscripts/config/python/python.requirements-extras.txt && \
     ${PIP} --no-cache-dir install -U -r ${_SKILL__DOCKER_ROOT_BASEDIR}/installer/lscripts/config/${_SKILL__LINUX_DISTRIBUTION}/python.requirements-ai-cuda-${_SKILL__CUDA_VERSION}.txt

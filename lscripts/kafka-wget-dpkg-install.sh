@@ -31,9 +31,9 @@ function kafka-uninstall() {
 function kafka-config() {
   _log_.info "_prog: ${_prog}-config"
 
-  [[ ! -L ${BASEPATH}/${PROG} ]] && ln -s ${PROG_DIR} ${BASEPATH}/${PROG}
+  [[ ! -L ${_LSD__EXTERNAL_HOME}/${PROG} ]] && ln -s ${PROG_DIR} ${_LSD__EXTERNAL_HOME}/${PROG}
 
-  ls -l ${BASEPATH}/${PROG} || _log_.fail "Installation does not exists: ${BASEPATH}/${PROG}"
+  ls -l ${_LSD__EXTERNAL_HOME}/${PROG} || _log_.fail "Installation does not exists: ${_LSD__EXTERNAL_HOME}/${PROG}"
 
   _log_.info " username=${KAFKA_USERNAME} groupname=${KAFKA_GROUPNAME}"
   _system_.create_nologin_user --username=${KAFKA_USERNAME} --groupname=${KAFKA_GROUPNAME}
@@ -41,14 +41,14 @@ function kafka-config() {
 
   sudo chown -R ${KAFKA_USERNAME}:${KAFKA_GROUPNAME} ${PROG_DIR}
   ## -h flag to change the ownership of the link itself. Not specifying -h changes the ownership of the target of the link, which you explicitly did in the previous step.
-  sudo chown -h ${KAFKA_USERNAME}:${KAFKA_GROUPNAME} ${BASEPATH}/${PROG}
+  sudo chown -h ${KAFKA_USERNAME}:${KAFKA_GROUPNAME} ${_LSD__EXTERNAL_HOME}/${PROG}
 }
 
 
 function __kafka-install() {
   _log_.info "_prog: ${_prog}-install"
   echo "Number of threads will be used: ${NUMTHREADS}"
-  echo "BASEPATH: ${BASEPATH}"
+  echo "BASEPATH: ${_LSD__EXTERNAL_HOME}"
   echo "URL: ${URL}"
   echo "PROG_DIR: ${PROG_DIR}"
 
@@ -85,12 +85,12 @@ function kafka-wget-install() {
   # local PROG='kafka'
   local PROG=${_prog}
   local DIR="${PROG}-${KAFKA_VER}"
-  local PROG_DIR="${BASEPATH}/${PROG}_${KAFKA_VER}-${KAFKA_REL}"
+  local PROG_DIR="${_LSD__EXTERNAL_HOME}/${PROG}_${KAFKA_VER}-${KAFKA_REL}"
   local FILE="${PROG}_${KAFKA_VER}-${KAFKA_REL}.tgz"
 
   local URL="https://www.apache.org/dist/kafka/${KAFKA_REL}/${FILE}"
 
-  local KAFKA_HOME=${BASEPATH}/${_prog}
+  local KAFKA_HOME=${_LSD__EXTERNAL_HOME}/${_prog}
   local KAFKA_USERNAME=kafka
   local KAFKA_GROUPNAME=kafka
 

@@ -39,9 +39,9 @@ function __docker-buildimg-dummy() {
   local DUSER_GRP_ID=$(id -g ${DUSER})
   local DUSER_HOME="/home/${DUSER}"
 
-  local DOCKER_HUB_REPO="skillplot/boozo"
+  local _LSD__DOCKER_HUB_REPO="skillplot/boozo"
   local DOCKER_BLD_IMG_TAG="${contextname}"
-  local DOCKER_BLD_CONTAINER_IMG="${DOCKER_HUB_REPO}:${DOCKER_BLD_IMG_TAG}"
+  local DOCKER_BLD_CONTAINER_IMG="${_LSD__DOCKER_HUB_REPO}:${DOCKER_BLD_IMG_TAG}"
 
   local ROOT_BASEDIR="/boozo-hub"
   local DOCKER_ROOT_BASEDIR="${ROOT_BASEDIR}"
@@ -71,7 +71,7 @@ function __docker-buildimg-dummy() {
     --build-arg "_SKILL__MAINTAINER=${DOCKER_BLD_MAINTAINER}" \
     -t ${DOCKER_BLD_CONTAINER_IMG} \
     -f ${DOCKERFILE} ${DOCKER_CONTEXT} && {
-      _log_.echo "docker run -d -P --rm --name test_${contextname} ${DOCKER_HUB_REPO}:${contextname} tail -f /dev/null"
+      _log_.echo "docker run -d -P --rm --name test_${contextname} ${_LSD__DOCKER_HUB_REPO}:${contextname} tail -f /dev/null"
       _log_.echo "docker exec -u $(id -u):$(id -g) -it test_${contextname} /bin/bash && xhost -local:root 1>/dev/null 2>&1"
     } || _log_.fail "Build failed!"
 }

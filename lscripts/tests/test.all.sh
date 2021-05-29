@@ -3,7 +3,7 @@
 ## Copyright (c) 2021 mangalbhaskar. All Rights Reserved.
 ##__author__ = 'mangalbhaskar'
 ###----------------------------------------------------------
-## test:: for shell script logging module
+## test::shell scripts test.*.sh
 ###----------------------------------------------------------
 
 
@@ -20,24 +20,24 @@ function ctrlc_handler {
 [[ $0 != "$BASH_SOURCE" ]] && sourced=1 || sourced=0[1]
 
 
-function test-1-case-1-argparse() {
-  source ${LSCRIPTS}/../utils/argparse.sh "$@"
-  echo "Total: $# should be equal to ${#args[@]} and args: ${args[@]}"
-
-  local key
-  for key in "${!args[@]}"; do
-    [[ -n "${args[${key}]+1}" ]] && echo "${key} = ${args[${key}]}" || echo "Key does not exists: ${key}"
-  done
+function test.all.case-0() {
+  # source ${LSCRIPTS}/test._dir_.sh
+  # source ${LSCRIPTS}/test.echo.sh
+  # source ${LSCRIPTS}/test._fio_.sh
+  source ${LSCRIPTS}/test._system_.sh
+  # source ${LSCRIPTS}/test.argparse.sh
+  # source ${LSCRIPTS}/test.cuda_config_supported.sh
+  # source ${LSCRIPTS}/test._log_.sh
 }
 
 
-function test-1-argparse() {
+function test.all.main() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
   source ${LSCRIPTS}/../lscripts.config.sh
   
-  export _fio__LEVEL_=7 ## DEBUG
-  test-1-case-1-argparse --user='blah' --group='dummy' --uid=1111 --gid=0000
+  export _LSCRIPTS__LOG_LEVEL_=7 ## DEBUG
+  test.all.case-0
 }
 
 
-test-1-argparse
+test.all.main

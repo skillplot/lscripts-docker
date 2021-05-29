@@ -21,9 +21,9 @@ function gitlab_install() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
   source ${LSCRIPTS}/lscripts.config.sh
 
-  if [ -z "${BASEPATH}" ]; then
+  if [ -z "${_LSD__EXTERNAL_HOME}" ]; then
     local BASEPATH="$HOME/softwares"
-    echo "Unable to get BASEPATH, using default path#: ${BASEPATH}"
+    echo "Unable to get BASEPATH, using default path#: ${_LSD__EXTERNAL_HOME}"
   fi
 
   local filepath="$(mktemp /tmp/gitlab-ce.install-$(date +"%d%m%y_%H%M%S-XXXXXX").sh)"

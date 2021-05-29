@@ -6,7 +6,7 @@
 
 
 [[ ! -d "${PROG_DIR}" ]] && (
-  (>&2 echo -e "Extracting File: ${DOWNLOAD_PATH}/${FILE} here: ${PROG_DIR}")
-  tar xvfz "${DOWNLOAD_PATH}/${FILE}" -C "${BASEPATH}"
+  (>&2 echo -e "Extracting File: ${_LSD__DOWNLOADS_HOME}/${FILE} here: ${PROG_DIR}")
+  tar xvfz "${_LSD__DOWNLOADS_HOME}/${FILE}" -C "${_LSD__EXTERNAL_HOME}"
   (>&2 echo -e "Extracting...DONE!")
 ) || (>&2 echo -e "Extracted Dir already exists: ${PROG_DIR}")

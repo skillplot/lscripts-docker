@@ -34,7 +34,7 @@ function shotcut-wget-install() {
   source ${LSCRIPTS}/partials/untartxz.sh
 
   ## launch the app
-  ## ${BASEPATH}/${DIR}/Shotcut.app/shotcut
+  ## ${_LSD__EXTERNAL_HOME}/${DIR}/Shotcut.app/shotcut
 }
 
 shotcut-wget-install

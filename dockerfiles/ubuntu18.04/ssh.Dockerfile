@@ -42,7 +42,7 @@ RUN mkdir -p "${_SKILL__DOCKER_ROOT_BASEDIR}" \
       "${_SKILL__DOCKER_ROOT_BASEDIR}/config" \
       "/var/run/sshd"
 
-RUN chown -R ${_SKILL__DUSER}:${_SKILL__DUSER} "${_SKILL__DOCKER_ROOT_BASEDIR}" "${_SKILL__PY_VENV_PATH}" && \
+RUN chown -R ${_SKILL__DUSER}:${_SKILL__DUSER} "${_SKILL__DOCKER_ROOT_BASEDIR}" "${_SKILL__PYVENV_PATH}" && \
     chmod -R a+w "${_SKILL__DOCKER_ROOT_BASEDIR}"
 
 ## set main entry point as working directory

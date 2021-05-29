@@ -16,12 +16,12 @@ function atom-wget-dpkg-install() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
   source ${LSCRIPTS}/lscripts.config.sh
 
-  if [ -z "${BASEPATH}" ]; then
+  if [ -z "${_LSD__EXTERNAL_HOME}" ]; then
     local BASEPATH="${HOME}/softwares"
-    echo "Unable to get BASEPATH, using default path#: ${BASEPATH}"
+    echo "Unable to get BASEPATH, using default path#: ${_LSD__EXTERNAL_HOME}"
   fi
 
-  [[ ! -d "${BASEPATH}" ]] && mkdir -p "${BASEPATH}"
+  [[ ! -d "${_LSD__EXTERNAL_HOME}" ]] && mkdir -p "${_LSD__EXTERNAL_HOME}"
 
   if [ -z "${ATOM_VER}" ]; then
     local ATOM_VER="v1.47.0"
@@ -34,15 +34,15 @@ function atom-wget-dpkg-install() {
   local URL="https://atom-installer.github.com/${ATOM_VER}/${FILE}"
 
   echo "Number of threads will be used: ${NUMTHREADS}"
-  echo "BASEPATH: ${BASEPATH}"
+  echo "BASEPATH: ${_LSD__EXTERNAL_HOME}"
   echo "URL: ${URL}"
   echo "PROG_DIR: ${PROG_DIR}"
 
   source ${LSCRIPTS}/partials/wget.sh
 
-  sudo dpkg -i "${DOWNLOAD_PATH}/${FILE}" 2>/dev/null
+  sudo dpkg -i "${_LSD__DOWNLOADS_HOME}/${FILE}" 2>/dev/null
   sudo apt --fix-broken -y install
-  sudo dpkg -i "${DOWNLOAD_PATH}/${FILE}" 2>/dev/null
+  sudo dpkg -i "${_LSD__DOWNLOADS_HOME}/${FILE}" 2>/dev/null
 }
 
 atom-wget-dpkg-install

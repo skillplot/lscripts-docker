@@ -4,5 +4,5 @@
 ##__author__ = 'mangalbhaskar'
 ##----------------------------------------------------------
 
-([[ -d "${BASEPATH}" ]] || [[ -L "${BASEPATH}" && -d "${BASEPATH}" ]]) && _log_.info "Using BASEPATH: ${BASEPATH}" || \
-  mkdir -p "${BASEPATH}" 1>&2 || _log_.fail "Error creating in BASEPATH: ${BASEPATH}"
+([[ -d "${_LSD__EXTERNAL_HOME}" ]] || [[ -L "${_LSD__EXTERNAL_HOME}" && -d "${_LSD__EXTERNAL_HOME}" ]]) && _log_.info "Using BASEPATH: ${_LSD__EXTERNAL_HOME}" || \
+  mkdir -p "${_LSD__EXTERNAL_HOME}" 1>&2 || _log_.fail "Error creating in BASEPATH: ${_LSD__EXTERNAL_HOME}"

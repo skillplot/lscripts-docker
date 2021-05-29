@@ -27,9 +27,9 @@ function debug_lscripts() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
   source ${LSCRIPTS}/lscripts.config.sh
   
-  _log_.info "BASEDIR is: ${BASEDIR}"
-  _log_.info "DOCKER_DATA_ROOT is: ${DOCKER_DATA_ROOT}"
-  _log_.info "DOCKER_MOBILE_ROOT is: ${DOCKER_MOBILE_ROOT}"
+  _log_.info "BASEDIR is: ${_LSD__HOME}"
+  _log_.info "_LSD__DOCKER_DATA_ROOT is: ${_LSD__DOCKER_DATA_ROOT}"
+  _log_.info "_LSD__DOCKER_MOBILE_ROOT is: ${_LSD__DOCKER_MOBILE_ROOT}"
   _log_.info "DOCKER_ROOT_BASEDIR is: ${DOCKER_ROOT_BASEDIR}"
 
   [[ ! -f ${CUDACFG_FILEPATH} ]] || _log_.ok "CUDACFG_FILEPATH: ${CUDACFG_FILEPATH}"

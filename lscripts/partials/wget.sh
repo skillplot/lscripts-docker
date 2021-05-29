@@ -5,6 +5,6 @@
 ##----------------------------------------------------------
 
 
-[[ ! -f "${DOWNLOAD_PATH}/${FILE}" ]] && (
-  wget -c "${URL}"  -P "${DOWNLOAD_PATH}"
-) || (>&2 echo -e "Not downloading as: ${DOWNLOAD_PATH}/${FILE} already exists!")
+[[ ! -f "${_LSD__DOWNLOADS_HOME}/${FILE}" ]] && (
+  wget -c "${URL}"  -P "${_LSD__DOWNLOADS_HOME}"
+) || (>&2 echo -e "Not downloading as: ${_LSD__DOWNLOADS_HOME}/${FILE} already exists!")

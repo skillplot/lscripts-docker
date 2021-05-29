@@ -3,7 +3,7 @@
 ## Copyright (c) 2021 mangalbhaskar. All Rights Reserved.
 ##__author__ = 'mangalbhaskar'
 ###----------------------------------------------------------
-## test:: for shell script logging module
+## test::shell script utils/argparse.sh
 ###----------------------------------------------------------
 
 
@@ -20,18 +20,24 @@ function ctrlc_handler {
 [[ $0 != "$BASH_SOURCE" ]] && sourced=1 || sourced=0[1]
 
 
-function test-1-case-1-system() {
-  _system_.sudo_restrict_user_cmd_prompt --user='blah' --group='dummy' --scripts_filepath=${_BZO__SCRIPTS}/lscripts-docker/lscripts/tests/test.sh
+function test.argparse.case-1() {
+  source ${LSCRIPTS}/../utils/argparse.sh "$@"
+  echo "Total: $# should be equal to ${#args[@]} and args: ${args[@]}"
+
+  local key
+  for key in "${!args[@]}"; do
+    [[ -n "${args[${key}]+1}" ]] && echo "${key} = ${args[${key}]}" || echo "Key does not exists: ${key}"
+  done
 }
 
 
-function test-1-system() {
+function test.argparse.main() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
   source ${LSCRIPTS}/../lscripts.config.sh
   
   export _LSCRIPTS__LOG_LEVEL_=7 ## DEBUG
-  test-1-case-1-system
+  test.argparse.case-1 --user='blah' --group='dummy' --uid=1111 --gid=0000
 }
 
 
-test-1-system
+test.argparse.main

@@ -30,20 +30,20 @@ local DOCKER_VOLUMES=""
 
 ## Do NOT delete the trailing space
 ###----------------------------------------------------------
-DOCKER_VOLUMES="${DOCKER_VOLUMES} -v ${BASEDIR}:${BASEDIR} "
-DOCKER_VOLUMES="${DOCKER_VOLUMES} -v ${DOCKER_VM_ROOT}:${DOCKER_VM_ROOT} "
-DOCKER_VOLUMES="${DOCKER_VOLUMES} -v ${DOCKER_DATA_ROOT}:${DOCKER_DATA_ROOT} "
-DOCKER_VOLUMES="${DOCKER_VOLUMES} -v ${DOCKER_MOBILE_ROOT}:${DOCKER_MOBILE_ROOT} "
+DOCKER_VOLUMES="${DOCKER_VOLUMES} -v ${_LSD__HOME}:${_LSD__HOME} "
+DOCKER_VOLUMES="${DOCKER_VOLUMES} -v ${_LSD__DOCKER_VM_ROOT}:${_LSD__DOCKER_VM_ROOT} "
+DOCKER_VOLUMES="${DOCKER_VOLUMES} -v ${_LSD__DOCKER_DATA_ROOT}:${_LSD__DOCKER_DATA_ROOT} "
+DOCKER_VOLUMES="${DOCKER_VOLUMES} -v ${_LSD__DOCKER_MOBILE_ROOT}:${_LSD__DOCKER_MOBILE_ROOT} "
 
 ###----------------------------------------------------------
 ## MongoDB Container volume map
 ###----------------------------------------------------------
 local MONGODB_VOLUMES=""
-MONGODB_VOLUMES="${MONGODB_VOLUMES} -v ${DOCKER_DATA_ROOT}/databases/mongodb:/data "
-MONGODB_VOLUMES="${MONGODB_VOLUMES} -v ${DOCKER_DATA_ROOT}/databases/mongodb/db:/data/db "
-MONGODB_VOLUMES="${MONGODB_VOLUMES} -v ${DOCKER_DATA_ROOT}/databases/mongodb/configdb:/data/configdb "
-# MONGODB_VOLUMES="${MONGODB_VOLUMES} -v ${DOCKER_DATA_ROOT}/databases/mongodb/key:/data/key "
-# MONGODB_VOLUMES="${MONGODB_VOLUMES} -v ${DOCKER_DATA_ROOT}/databases/mongodb/logs:/data/logs "
+MONGODB_VOLUMES="${MONGODB_VOLUMES} -v ${_LSD__DOCKER_DATA_ROOT}/databases/mongodb:/data "
+MONGODB_VOLUMES="${MONGODB_VOLUMES} -v ${_LSD__DOCKER_DATA_ROOT}/databases/mongodb/db:/data/db "
+MONGODB_VOLUMES="${MONGODB_VOLUMES} -v ${_LSD__DOCKER_DATA_ROOT}/databases/mongodb/configdb:/data/configdb "
+# MONGODB_VOLUMES="${MONGODB_VOLUMES} -v ${_LSD__DOCKER_DATA_ROOT}/databases/mongodb/key:/data/key "
+# MONGODB_VOLUMES="${MONGODB_VOLUMES} -v ${_LSD__DOCKER_DATA_ROOT}/databases/mongodb/logs:/data/logs "
 
 ## Let the create container script have fine control on volume mapping
 # DOCKER_VOLUMES="${DOCKER_VOLUMES} ${MONGODB_VOLUMES} "

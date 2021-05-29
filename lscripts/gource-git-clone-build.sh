@@ -73,12 +73,12 @@ function __gource-pre_requisite() {
 
 function __gource-build() {
   local DIR="Gource"
-  local PROG_DIR="${BASEPATH}/${DIR}"
+  local PROG_DIR="${_LSD__EXTERNAL_HOME}/${DIR}"
 
   local URL="https://github.com/acaudwell/${DIR}.git"
 
   _log_.info "Number of threads will be used: ${NUMTHREADS}"
-  _log_.info "BASEPATH: ${BASEPATH}"
+  _log_.info "BASEPATH: ${_LSD__EXTERNAL_HOME}"
   _log_.info "URL: ${URL}"
   _log_.info "PROG_DIR: ${PROG_DIR}"
 

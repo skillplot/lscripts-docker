@@ -12,7 +12,7 @@
 local MONGODB_DOCKER_REPO_URL="https://github.com/docker-library/mongo.git"
 
 local MONGODB_DOCKER_PREFIX="${DOCKER_PREFIX}"
-local MONGODB_CONFIG_FILE="${BASEDIR}/config/mongodb/mongod.conf"
+local MONGODB_CONFIG_FILE="${_LSD__HOME}/config/mongodb/mongod.conf"
 
 local MONGODB_DOCKER_IMG="mongouid"
 local MONGODB_DOCKER_CONTAINER_NAME="${MONGODB_DOCKER_PREFIX}-${MONGODB_DOCKER_IMG}"

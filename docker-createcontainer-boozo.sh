@@ -115,8 +115,8 @@ function docker-createcontainer-boozo() {
   local _prog
   # type uuid &>/dev/null || _log_.fail "uuid package not found. Execute...\n sudo apt install uuid"
 
-  _log_.debug "DOCKER_HUB_REPO:${DOCKER_HUB_REPO}: DOCKER_BLD_IMG_TAG:${DOCKER_BLD_IMG_TAG}"
-  local DOCKER_BLD_CONTAINER_IMG="${DOCKER_HUB_REPO}:${DOCKER_BLD_IMG_TAG}"
+  _log_.debug "_LSD__DOCKER_HUB_REPO:${_LSD__DOCKER_HUB_REPO}: DOCKER_BLD_IMG_TAG:${DOCKER_BLD_IMG_TAG}"
+  local DOCKER_BLD_CONTAINER_IMG="${_LSD__DOCKER_HUB_REPO}:${DOCKER_BLD_IMG_TAG}"
 
   _prog="docker-createcontainer-boozo"
 

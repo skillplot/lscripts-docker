@@ -21,7 +21,7 @@ function ctrlc_handler {
 [[ $0 != "$BASH_SOURCE" ]] && sourced=1 || sourced=0[1]
 
 
-function test-cuda_config_supported() {
+function test.cuda_config_supported() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
   source ${LSCRIPTS}/../lscripts.config.sh
 
@@ -71,4 +71,4 @@ function test-cuda_config_supported() {
 
 }
 
-test-cuda_config_supported "$@"
+test.cuda_config_supported "$@"

@@ -23,10 +23,10 @@ _SKILL__CUDA_VERSION="${CUDA_VER}"
 _SKILL__CUDNN_PKG="${CUDNN_PKG}"
 _SKILL__CUDNN_VER="${CUDNN_VER}"
 _SKILL__BASE_IMAGE_NAME="${__NVIDIA_BASE_IMAGE}"
-_SKILL__PY_VENV_PATH="${PY_VENV_PATH}"
+_SKILL__PYVENV_PATH="${PYVENV_PATH}"
 _SKILL__pyVer="${pyVer}"
-_SKILL__PY_VENV_NAME="${PY_VENV_NAME}"
-_SKILL__PY_VENV_NAME_ALIAS="${PY_VENV_NAME_ALIAS}"
+_SKILL__PYVENV_NAME="${PYVENV_NAME}"
+_SKILL__PYVENV_NAME_ALIAS="${PYVENV_NAME_ALIAS}"
 _SKILL__CUDNN_MAJOR_VERSION="${CUDNN_MAJOR_VERSION}"
 _SKILL__TENSORRT_VER="${TENSORRT_VER}"
 _SKILL__LIBNVINFER_PKG="${LIBNVINFER_PKG}"
@@ -86,10 +86,10 @@ function __docker-buildimg-boozo() {
       --build-arg "_SKILL__CUDNN_PKG=${CUDNN_PKG}" \
       --build-arg "_SKILL__CUDNN_VER=${CUDNN_VER}" \
       --build-arg "_SKILL__BASE_IMAGE_NAME=${__NVIDIA_BASE_IMAGE}" \
-      --build-arg "_SKILL__PY_VENV_PATH=${PY_VENV_PATH}" \
+      --build-arg "_SKILL__PYVENV_PATH=${PYVENV_PATH}" \
       --build-arg "_SKILL__pyVer=${pyVer}" \
-      --build-arg "_SKILL__PY_VENV_NAME=${PY_VENV_NAME}" \
-      --build-arg "_SKILL__PY_VENV_NAME_ALIAS=${PY_VENV_NAME_ALIAS}" \
+      --build-arg "_SKILL__PYVENV_NAME=${PYVENV_NAME}" \
+      --build-arg "_SKILL__PYVENV_NAME_ALIAS=${PYVENV_NAME_ALIAS}" \
       --build-arg "_SKILL__CUDNN_MAJOR_VERSION=${CUDNN_MAJOR_VERSION}" \
       --build-arg "_SKILL__TENSORRT_VER=${TENSORRT_VER}" \
       --build-arg "_SKILL__LIBNVINFER_PKG=${LIBNVINFER_PKG}" \
@@ -186,7 +186,7 @@ function docker-buildimg-boozo() {
   local _msg
   local _prog
 
-  local DOCKER_BLD_CONTAINER_IMG="${DOCKER_HUB_REPO}:${DOCKER_BLD_IMG_TAG}"
+  local DOCKER_BLD_CONTAINER_IMG="${_LSD__DOCKER_HUB_REPO}:${DOCKER_BLD_IMG_TAG}"
 
   _prog="docker-buildimg-boozo"
 

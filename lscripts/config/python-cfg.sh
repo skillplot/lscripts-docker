@@ -8,6 +8,6 @@
 ###----------------------------------------------------------
 
 local pyVer=3
-local PY_VENV_NAME="py_${pyVer}_${__TIMESTAMP__}"
+local PYVENV_NAME="py_${pyVer}_${__TIMESTAMP__}"
 local PY_VENV_LINK_NAME="py_${pyVer}"
-local PY_VENV_NAME_ALIAS="py_${pyVer}_bzodev"
+local PYVENV_NAME_ALIAS="py_${pyVer}_bzodev"

@@ -33,7 +33,7 @@ RUN addgroup --gid "${_SKILL__DUSER_GRP_ID}" "${_SKILL__DUSER_GRP}" && \
     /bin/cp -r /etc/skel/. /home/${_SKILL__DUSER} && \
     chown ${_SKILL__DUSER}:${_SKILL__DUSER_GRP} /home/${_SKILL__DUSER} && \
     /bin/ls -ad /home/${_SKILL__DUSER}/.??* | xargs chown -R ${_SKILL__DUSER}:${_SKILL__DUSER_GRP} && \
-  mkdir -p "${_SKILL__PY_VENV_PATH}" "/var/run/sshd" && \
+  mkdir -p "${_SKILL__PYVENV_PATH}" "/var/run/sshd" && \
   mkdir -p "${_SKILL__DOCKER_ROOT_BASEDIR}" \
     "${_SKILL__DOCKER_ROOT_BASEDIR}/installer" \
     "${_SKILL__DOCKER_ROOT_BASEDIR}/logs" \

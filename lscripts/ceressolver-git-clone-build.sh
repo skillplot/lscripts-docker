@@ -57,12 +57,12 @@ function __ceres_solver-build() {
   # local CERES_SOLVER_REL="-1.10.0"
   # local CERES_SOLVER_REL="-1.14.0"
   local DIR="ceres-solver"
-  local PROG_DIR="${BASEPATH}/${DIR}${CERES_SOLVER_REL}"
+  local PROG_DIR="${_LSD__EXTERNAL_HOME}/${DIR}${CERES_SOLVER_REL}"
 
   local URL="https://ceres-solver.googlesource.com/${DIR}"
 
   _log_.info "Number of threads will be used: ${NUMTHREADS}"
-  _log_.info "BASEPATH: ${BASEPATH}"
+  _log_.info "BASEPATH: ${_LSD__EXTERNAL_HOME}"
   _log_.info "URL: ${URL}"
   _log_.info "PROG_DIR: ${PROG_DIR}"
 

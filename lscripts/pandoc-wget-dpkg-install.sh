@@ -17,12 +17,12 @@ function pandoc-wget-dpkg-install() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
   source ${LSCRIPTS}/lscripts.config.sh
 
-  if [ -z "${BASEPATH}" ]; then
+  if [ -z "${_LSD__EXTERNAL_HOME}" ]; then
     local BASEPATH="${HOME}/softwares"
-    echo "Unable to get BASEPATH, using default path#: ${BASEPATH}"
+    echo "Unable to get BASEPATH, using default path#: ${_LSD__EXTERNAL_HOME}"
   fi
 
-  [[ ! -d "${BASEPATH}" ]] && mkdir -p "${BASEPATH}"
+  [[ ! -d "${_LSD__EXTERNAL_HOME}" ]] && mkdir -p "${_LSD__EXTERNAL_HOME}"
 
   if [ -z "${PANDOC_VER}" ]; then
     local PANDOC_VER="2.11.2"
@@ -36,15 +36,15 @@ function pandoc-wget-dpkg-install() {
   local URL="https://github.com/jgm/pandoc/releases/download/${PANDOC_VER}/${FILE}"
 
   echo "Number of threads will be used: ${NUMTHREADS}"
-  echo "BASEPATH: ${BASEPATH}"
+  echo "BASEPATH: ${_LSD__EXTERNAL_HOME}"
   echo "URL: ${URL}"
   echo "PROG_DIR: ${PROG_DIR}"
 
   source ${LSCRIPTS}/partials/wget.sh
 
-  sudo dpkg -i "${DOWNLOAD_PATH}/${FILE}"
+  sudo dpkg -i "${_LSD__DOWNLOADS_HOME}/${FILE}"
 
-  # tar xvzf "${DOWNLOAD_PATH}/${FILE}" --strip-components 1 -C "/usr/local"
+  # tar xvzf "${_LSD__DOWNLOADS_HOME}/${FILE}" --strip-components 1 -C "/usr/local"
 }
 
 pandoc-wget-dpkg-install

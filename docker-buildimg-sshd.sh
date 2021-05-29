@@ -27,9 +27,9 @@ function __docker-buildimg-sshd() {
   local DUSER_GRP_ID=$(id -g ${DUSER})
   local DUSER_HOME="/home/${DUSER}"
 
-  local DOCKER_HUB_REPO="skillplot/boozo"
+  local _LSD__DOCKER_HUB_REPO="skillplot/boozo"
   local DOCKER_BLD_IMG_TAG="ssh"
-  local DOCKER_BLD_CONTAINER_IMG="${DOCKER_HUB_REPO}:${DOCKER_BLD_IMG_TAG}"
+  local DOCKER_BLD_CONTAINER_IMG="${_LSD__DOCKER_HUB_REPO}:${DOCKER_BLD_IMG_TAG}"
 
   local ROOT_BASEDIR="/boozo-hub"
   local DOCKER_ROOT_BASEDIR="${ROOT_BASEDIR}"

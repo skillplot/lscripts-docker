@@ -62,8 +62,8 @@ function _docker_.envvars() {
   envvars="${envvars} -e DUSER_GRP=${DUSER_GRP} "
   envvars="${envvars} -e DUSER_GRP_ID=${DUSER_GRP_ID} "
   envvars="${envvars} -e DUSER_HOME=${DUSER_HOME} "
-  envvars="${envvars} -e PY_VENV_PATH=${PY_VENV_PATH} "
-  envvars="${envvars} -e PY_VENV_NAME=${PY_VENV_NAME} "
+  envvars="${envvars} -e PYVENV_PATH=${PYVENV_PATH} "
+  envvars="${envvars} -e PYVENV_NAME=${PYVENV_NAME} "
   echo "${envvars}"
 }
 
@@ -222,7 +222,7 @@ ulimit -c unlimited
 # function _docker_.bashrc_patch_2() {
 #   echo '
 #   source /usr/local/bin/virtualenvwrapper.sh
-#   export WORKON_HOME=${PY_VENV_PATH}
+#   export WORKON_HOME=${PYVENV_PATH}
 #   ' >> "/home/${HUSER}/.bashrc"
 # }
 

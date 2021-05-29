@@ -12,7 +12,7 @@
 ###----------------------------------------------------------
 
 
-function __lscripts_alias__() {
+function lscripts.alias.main() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
   ##
   alias lt='ls -lrth'
@@ -20,22 +20,31 @@ function __lscripts_alias__() {
   alias lpwd='ls -d -1 ${PWD}/*'
   alias lpwdf='ls -d -1 ${PWD}/*.*'
   ##
-  ## create--pyenv::source it or it does not work
-  alias create--pyenv="source ${LSCRIPTS}/python-virtualenvwrapper-install.sh"
+  alias lsd.python.create.virtualenv="source ${LSCRIPTS}/python-virtualenvwrapper-install.sh"
   ##
-  alias get--gpu-info="bash ${LSCRIPTS}/exec_cmd.sh cmd=_nvidia_.get__driver_info"
-  alias get--cuda_vers="bash ${LSCRIPTS}/exec_cmd.sh cmd=_nvidia_.get__cuda_vers"
-  alias get--cuda_vers_avail="bash ${LSCRIPTS}/exec_cmd.sh cmd=_nvidia_.get__cuda_vers_avail"
-  alias get--nvidia_driver_avail="bash ${LSCRIPTS}/exec_cmd.sh cmd=_nvidia_.get__driver_avail"
-  alias get--gpu-stats="bash ${LSCRIPTS}/exec_cmd.sh cmd=_nvidia_.get__gpu_stats $1"
+  alias lsd.nvidia.gpu.info="bash ${LSCRIPTS}/exec_cmd.sh cmd=_nvidia_.get__driver_info"
+  alias lsd.nvidia.gpu.stats="bash ${LSCRIPTS}/exec_cmd.sh cmd=_nvidia_.get__gpu_stats $1"
+  alias lsd.nvidia.cuda.vers="bash ${LSCRIPTS}/exec_cmd.sh cmd=_nvidia_.get__cuda_vers"
+  alias lsd.nvidia.cuda.avail="bash ${LSCRIPTS}/exec_cmd.sh cmd=_nvidia_.get__cuda_vers_avail"
+  alias lsd.nvidia.driver.avail="bash ${LSCRIPTS}/exec_cmd.sh cmd=_nvidia_.get__driver_avail"
   ##
-  alias select--cuda="bash ${LSCRIPTS}/exec_cmd.sh cmd=_system_.select__cuda"
-  alias select--gcc="bash ${LSCRIPTS}/exec_cmd.sh cmd=_system_.select__gcc"
-  alias select--bazel="bash ${LSCRIPTS}/exec_cmd.sh cmd=_system_.select__bazel"
+  alias lsd.select.cuda="bash ${LSCRIPTS}/exec_cmd.sh cmd=_system_.select__cuda"
+  alias lsd.select.gcc="bash ${LSCRIPTS}/exec_cmd.sh cmd=_system_.select__gcc"
+  alias lsd.select.bazel="bash ${LSCRIPTS}/exec_cmd.sh cmd=_system_.select__bazel"
   ##
-  alias get--ts="bash ${LSCRIPTS}/exec_cmd.sh cmd=_system_.get__timestamp"
-  alias get--ip="bash ${LSCRIPTS}/exec_cmd.sh cmd=_system_.get__ip"
+  alias lsd.date.timestamp="bash ${LSCRIPTS}/exec_cmd.sh cmd=_date_.get__timestamp"
+  alias lsd.date.timestamp.millisec="bash ${LSCRIPTS}/exec_cmd.sh cmd=_date_.get__timestamp_millisec"
+  alias lsd.date.timestamp.microsec="bash ${LSCRIPTS}/exec_cmd.sh cmd=_date_.get__timestamp_microsec"
+  alias lsd.date.timestamp.nanosec="bash ${LSCRIPTS}/exec_cmd.sh cmd=_date_.get__timestamp_nanosec"
+  ##
+  alias lsd.system.cpu.cores="bash ${LSCRIPTS}/exec_cmd.sh cmd=_system_.get__cpu_cores"
+  alias lsd.system.cpu.threads="bash ${LSCRIPTS}/exec_cmd.sh cmd=_system_.get__numthreads"
+  alias lsd.system.ip="bash ${LSCRIPTS}/exec_cmd.sh cmd=_system_.get__ip"
+  alias lsd.system.df.json="bash ${LSCRIPTS}/exec_cmd.sh cmd=_system_.df_json"
+  alias lsd.system.osinfo="bash ${LSCRIPTS}/exec_cmd.sh cmd=_system_.get__osinfo"
+  ##
+  alias lsd.docker.osvers="bash ${LSCRIPTS}/exec_cmd.sh cmd=_docker_.get__os_vers_avail"
 }
 
 
-__lscripts_alias__
+lscripts.alias.main

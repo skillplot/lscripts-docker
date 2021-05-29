@@ -3,7 +3,7 @@
 ## Copyright (c) 2021 mangalbhaskar. All Rights Reserved.
 ##__author__ = 'mangalbhaskar'
 ###----------------------------------------------------------
-## test for shell script logging module
+## test::shell script utils/_dir_.sh module
 ###----------------------------------------------------------
 
 
@@ -20,20 +20,32 @@ function ctrlc_handler {
 [[ $0 != "$BASH_SOURCE" ]] && sourced=1 || sourced=0[1]
 
 
-function test-1-case-1-fio() {
-  _fio_.yes_or_no_loop "Are you infected" && _log_.echo "Yes" || _log_.echo "No"
-  _fio_.yesno_yes "Are you sure" && _log_.echo "Yes" || _log_.echo "No"
-  _fio_.yesno_no "Think once again, are you sure" && _log_.echo "Yes" || _log_.echo "No"
+function test._dir_.case-1() {
+  declare -a _lsd_data_dirs_paths=($(_dir_.get_lsd_data_dirs_paths))
+  local i
+  for i in ${!_lsd_data_dirs_paths[*]}; do
+    _log_.echo "${gre}${_lsd_data_dirs_paths[$i]}"
+  done
 }
 
 
-function test-1-fio() {
+function test._dir_.case-2() {
+  declare -a _lsd_os_dirs_paths=($(_dir_.get_lsd_os_dirs_paths))
+  local i
+  for i in ${!_lsd_os_dirs_paths[*]}; do
+    _log_.echo "${_lsd_os_dirs_paths[$i]}"
+  done
+}
+
+
+function test._dir_.main() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
   source ${LSCRIPTS}/../lscripts.config.sh
   
-  export _fio__LEVEL_=7 ## DEBUG
-  test-1-case-1-fio
+  export _LSCRIPTS__LOG_LEVEL_=7 ## DEBUG
+  test._dir_.case-1
+  test._dir_.case-2
 }
 
 
-test-1-fio
+test._dir_.main

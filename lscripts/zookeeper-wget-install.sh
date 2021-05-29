@@ -29,9 +29,9 @@ function zookeeper-uninstall() {
 function zookeeper-config() {
   _log_.info "_prog: ${_prog}-config"
 
-  [[ ! -L ${BASEPATH}/${PROG} ]] && ln -s ${PROG_DIR} ${BASEPATH}/${PROG}
+  [[ ! -L ${_LSD__EXTERNAL_HOME}/${PROG} ]] && ln -s ${PROG_DIR} ${_LSD__EXTERNAL_HOME}/${PROG}
 
-  ls -l ${BASEPATH}/${PROG} || _log_.fail "Installation does not exists: ${BASEPATH}/${PROG}"
+  ls -l ${_LSD__EXTERNAL_HOME}/${PROG} || _log_.fail "Installation does not exists: ${_LSD__EXTERNAL_HOME}/${PROG}"
 
   _log_.info " username=${ZOOKEEPER_USERNAME} groupname=${ZOOKEEPER_GROUPNAME}"
   _system_.create_nologin_user --username=${ZOOKEEPER_USERNAME} --groupname=${ZOOKEEPER_GROUPNAME}
@@ -39,14 +39,14 @@ function zookeeper-config() {
 
   sudo chown -R ${ZOOKEEPER_USERNAME}:${ZOOKEEPER_GROUPNAME} ${PROG_DIR}
   ## -h flag to change the ownership of the link itself. Not specifying -h changes the ownership of the target of the link, which you explicitly did in the previous step.
-  sudo chown -h ${ZOOKEEPER_USERNAME}:${ZOOKEEPER_GROUPNAME} ${BASEPATH}/${PROG}
+  sudo chown -h ${ZOOKEEPER_USERNAME}:${ZOOKEEPER_GROUPNAME} ${_LSD__EXTERNAL_HOME}/${PROG}
 }
 
 
 function __zookeeper-install() {
   _log_.info "_prog: ${_prog}-install"
   echo "Number of threads will be used: ${NUMTHREADS}"
-  echo "BASEPATH: ${BASEPATH}"
+  echo "BASEPATH: ${_LSD__EXTERNAL_HOME}"
   echo "URL: ${URL}"
   echo "PROG_DIR: ${PROG_DIR}"
 
@@ -82,7 +82,7 @@ function zookeeper-wget-install() {
 
   local PROG=${_prog}
   local DIR="apache-${PROG}-${ZOOKEEPER_VER}-bin"
-  local PROG_DIR="${BASEPATH}/${DIR}"
+  local PROG_DIR="${_LSD__EXTERNAL_HOME}/${DIR}"
   local FILE="${DIR}.tar.gz"
 
   ## local URL=https://mirrors.estointernet.in/apache/zookeeper/zookeeper-3.6.1/apache-zookeeper-3.6.1-bin.tar.gz
@@ -93,7 +93,7 @@ function zookeeper-wget-install() {
 
   local ZOOKEEPER_USERNAME=zk
   local ZOOKEEPER_GROUPNAME=zk
-  local ZOOKEEPER_HOME=${BASEPATH}/${_prog}
+  local ZOOKEEPER_HOME=${_LSD__EXTERNAL_HOME}/${_prog}
 
   _que="Install ${_prog} now"
   _msg="Skipping ${_prog} installation!"

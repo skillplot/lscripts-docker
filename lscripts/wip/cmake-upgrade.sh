@@ -22,9 +22,9 @@ function cmake-upgrade() {
 
   cmake --version
 
-  if [ -z "${BASEPATH}" ]; then
+  if [ -z "${_LSD__EXTERNAL_HOME}" ]; then
     local BASEPATH="${HOME}/softwares"
-    echo "Unable to get BASEPATH, using default path#: ${BASEPATH}"
+    echo "Unable to get BASEPATH, using default path#: ${_LSD__EXTERNAL_HOME}"
   fi
 
   if [ -z "${CMAKE_VER}" ]; then
@@ -35,13 +35,13 @@ function cmake-upgrade() {
   fi
 
   local DIR="cmake-${CMAKE_REL}"
-  local PROG_DIR="${BASEPATH}/${DIR}"
+  local PROG_DIR="${_LSD__EXTERNAL_HOME}/${DIR}"
   local FILE="${DIR}.tar.gz"
 
   local URL="https://cmake.org/files/v${CMAKE_VER}/${FILE}"
 
   echo "Number of threads will be used: ${NUMTHREADS}"
-  echo "BASEPATH: ${BASEPATH}"
+  echo "BASEPATH: ${_LSD__EXTERNAL_HOME}"
   echo "URL: ${URL}"
   echo "PROG_DIR: ${PROG_DIR}"
 
@@ -53,8 +53,8 @@ function cmake-upgrade() {
   fi
 
   if [ ! -d ${PROG_DIR} ]; then
-    # tar xvfz ${HOME}/Downloads/${FILE} -C ${BASEPATH} #verbose
-    tar xfz ${HOME}/Downloads/${FILE} -C ${BASEPATH} #silent mode
+    # tar xvfz ${HOME}/Downloads/${FILE} -C ${_LSD__EXTERNAL_HOME} #verbose
+    tar xfz ${HOME}/Downloads/${FILE} -C ${_LSD__EXTERNAL_HOME} #silent mode
     echo "Extracting File: ${HOME}/Downloads/${FILE} here: ${PROG_DIR}"
     echo "Extracting...DONE!"
   else

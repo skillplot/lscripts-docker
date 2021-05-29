@@ -20,22 +20,22 @@ function redis-wget-make-install() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
   source ${LSCRIPTS}/lscripts.config.sh
 
-  if [ -z "${BASEPATH}" ]; then
+  if [ -z "${_LSD__EXTERNAL_HOME}" ]; then
     local BASEPATH="${HOME}/softwares"
-    echo "Unable to get BASEPATH, using default path#: ${BASEPATH}"
+    echo "Unable to get BASEPATH, using default path#: ${_LSD__EXTERNAL_HOME}"
   fi
 
-  [[ ! -d "${BASEPATH}" ]] && mkdir -p "${BASEPATH}"
+  [[ ! -d "${_LSD__EXTERNAL_HOME}" ]] && mkdir -p "${_LSD__EXTERNAL_HOME}"
 
   local PROG='redis-stable'
   local DIR=${PROG}
-  local PROG_DIR="${BASEPATH}/${PROG}"
+  local PROG_DIR="${_LSD__EXTERNAL_HOME}/${PROG}"
   local FILE="${PROG}.tar.gz"
 
   local URL="http://download.redis.io/${FILE}"
 
   echo "Number of threads will be used: ${NUMTHREADS}"
-  echo "BASEPATH: ${BASEPATH}"
+  echo "BASEPATH: ${_LSD__EXTERNAL_HOME}"
   echo "URL: ${URL}"
   echo "PROG_DIR: ${PROG_DIR}"
 

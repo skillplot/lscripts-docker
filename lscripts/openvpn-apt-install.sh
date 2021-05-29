@@ -14,7 +14,7 @@ function openvpn-apt-install() {
   sudo apt -y install openvpn
 
   # local FILE=TODO.ovpn
-  # sudo openvpn --config ${DOWNLOAD_PATH}/${FILE}
+  # sudo openvpn --config ${_LSD__DOWNLOADS_HOME}/${FILE}
 }
 
 openvpn-apt-install
