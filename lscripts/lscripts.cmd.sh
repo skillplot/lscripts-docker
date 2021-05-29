@@ -13,7 +13,7 @@
 
 function lsd.prog.ids() { [[ ! -z $1 ]] && (>&2 echo -e $(pgrep -f $1)); }
 function lsd.prog.kill() { [[ ! -z $1 ]] && sudo kill -9 $(pgrep -f $1); }
-# function lsd.py.kill() { sudo kill -9 $(pgrep -f python); }
+# function lsd.python.kill() { sudo kill -9 $(pgrep -f python); }
 function lsd.python.kill() { lsd.prog.kill python; }
 ## __pycache__ egg-info
 function lsd.ls.pycache() { find ${PWD}/ -iname __pycache__ -type d | xargs -n 1 bash -c 'ls -dl "$0"'; }
@@ -28,7 +28,6 @@ function lsd.image.resize() { for file in *.${1:-'jpg'}; do convert ${file} -res
 function lsd.image.pdf() { gm convert *.${1:-'jpg'} $(date -d now +'%d%m%y_%H%M%S').pdf; }
 #
 ## function lsd.junk() { for item in "$@" ; do echo "Trashing: $item" ; mv "$item" ${HOME}/.Trash/; done }
-## Todo: date formatting different types
 function lsd.date.get() { echo $(date +"%d-%b-%Y, %A"); }
 function lsd.system.info() { type inxi &>/dev/null && inxi -Fxzd; }
 

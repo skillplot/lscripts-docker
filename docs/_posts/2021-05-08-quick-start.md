@@ -11,15 +11,58 @@ categories: quick-start
 
 1. Clone the repo
 2. Put the following in the end of the `~/.bashrc` file. Change the path where you cloned the repo:
-    ```bash
-    export LSCRIPTS_DOCKER="/path/to/lscripts-docker"
-    [ -f ${LSCRIPTS_DOCKER}/lscripts/lscripts.env.sh ] && source ${LSCRIPTS_DOCKER}/lscripts/lscripts.env.sh
-    ```
-3. Quick test
+  ```bash
+  export LSCRIPTS_DOCKER="/path/to/lscripts-docker"
+  [ -f ${LSCRIPTS_DOCKER}/lscripts/lscripts.env.sh ] && source ${LSCRIPTS_DOCKER}/lscripts/lscripts.env.sh
+  ```
+3. Quick Commands available at the disposal with namespace: `lsd.`
+  ```bash
+  lsd.prog.ids
+  lsd.prog.kill
+  ##
+  lsd.python.kill
+  lsd.python.create.virtualenv
+  ##
+  lsd.ls.pycache
+  lsd.ls.egg
+  lsd.ls.mod
+  ##
+  lsd.rm.pycache
+  lsd.rm.egg
+  ##
+  lsd.image.resize
+  lsd.image.pdf
+  ##
+  lsd.nvidia.gpu.info
+  lsd.nvidia.gpu.stats
+  lsd.nvidia.cuda.vers
+  lsd.nvidia.cuda.avail
+  lsd.nvidia.driver.avail
+  ##
+  lsd.select.cuda
+  lsd.select.gcc
+  lsd.select.bazel
+  ##
+  lsd.date.get
+  lsd.date.timestamp
+  lsd.date.timestamp.millisec
+  lsd.date.timestamp.microsec
+  lsd.date.timestamp.nanosec
+  ##
+  lsd.system.info
+  lsd.system.cpu.cores
+  lsd.system.cpu.threads
+  lsd.system.ip
+  lsd.system.df.json
+  lsd.system.osinfo
+  ##
+  lsd.docker.osvers
+  ```
+4. Quick test
   ```bash
   ## Test cases for different modules (currently not available as execution command )
-  bash lscripts/tests/test-1-fio.sh
-  bash lscripts/tests/test-1-log.sh
+  bash lscripts/tests/test._fio_.sh
+  bash lscripts/tests/test._log_.sh
   ```
 
 ## Execute any lscripts functions as a command
