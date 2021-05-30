@@ -90,4 +90,4 @@ function apache2-install() {
     || _log_.echo "${_msg}"
 }
 
-apache2-install
+apache2-install "$@"

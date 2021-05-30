@@ -7,7 +7,7 @@
 ###----------------------------------------------------------
 
 
-function openvpn-apt-install() {
+function openvpn-apt-install.main() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
   source ${LSCRIPTS}/lscripts.config.sh
 
@@ -17,4 +17,4 @@ function openvpn-apt-install() {
   # sudo openvpn --config ${_LSD__DOWNLOADS_HOME}/${FILE}
 }
 
-openvpn-apt-install
+openvpn-apt-install.main "$@"

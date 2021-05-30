@@ -12,7 +12,11 @@
 ###----------------------------------------------------------
 
 
-## sudo apt -y install python-pip python-dev
-sudo apt -y install libpq-dev postgresql postgresql-contrib pgadmin3
-sudo apt -y install postgis
-sudo apt -y install postgresql-server-dev-all
+function postgres-postgis-apt-install.main() {
+  ## sudo apt -y install python-pip python-dev
+  sudo apt -y install libpq-dev postgresql postgresql-contrib pgadmin3
+  sudo apt -y install postgis
+  sudo apt -y install postgresql-server-dev-all
+}
+
+postgres-postgis-apt-install.main "$@"

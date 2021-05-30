@@ -128,7 +128,7 @@ function __gource-build() {
 }
 
 
-function gource-install() {
+function gource-install.main() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
   source ${LSCRIPTS}/lscripts.config.sh
   
@@ -156,5 +156,4 @@ function gource-install() {
 
 }
 
-gource-install
-
+gource-install.main "$@"

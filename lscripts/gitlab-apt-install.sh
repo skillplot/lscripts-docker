@@ -17,7 +17,7 @@
 ###----------------------------------------------------------
 
 
-function gitlab_install() {
+function gitlab-apt-install.main() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
   source ${LSCRIPTS}/lscripts.config.sh
 
@@ -33,4 +33,4 @@ function gitlab_install() {
   sudo apt -y install gitlab-ce
 }
 
-gitlab_install
+gitlab-apt-install.main "$@"

@@ -46,7 +46,7 @@ function __prerequisite-pcl-install() {
 }
 
 
-function prerequisite-pcl-install() {
+function prerequisite-pcl-install.main() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
   source ${LSCRIPTS}/lscripts.config.sh
 
@@ -73,4 +73,4 @@ function prerequisite-pcl-install() {
 
 }
 
-prerequisite-pcl-install
+prerequisite-pcl-install.main "$@"

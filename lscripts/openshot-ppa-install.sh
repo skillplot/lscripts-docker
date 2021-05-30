@@ -12,6 +12,10 @@
 ###----------------------------------------------------------
 
 
-sudo add-apt-repository -y ppa:openshot.developers/ppa
-sudo apt -y update
-sudo apt -y install openshot-qt
+function openshot-ppa-install.main() {
+  sudo add-apt-repository -y ppa:openshot.developers/ppa
+  sudo apt -y update
+  sudo apt -y install openshot-qt
+}
+
+openshot-ppa-install.main

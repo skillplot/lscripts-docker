@@ -34,7 +34,7 @@ function __nvidia-driver-install() {
   _log_.info "###----------------------------------------------------------"
 }
 
-function nvidia-driver-install() {
+function nvidia-driver-install.main() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
   source ${LSCRIPTS}/lscripts.config.sh
   
@@ -109,4 +109,4 @@ function nvidia-driver-install() {
     }
 }
 
-nvidia-driver-install
+nvidia-driver-install.main "$@"

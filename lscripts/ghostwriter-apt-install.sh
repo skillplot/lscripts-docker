@@ -12,7 +12,7 @@
 ###----------------------------------------------------------
 
 
-function ghostwriter-apt-install() {
+function ghostwriter-apt-install.main() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
   source ${LSCRIPTS}/lscripts.config.sh
 
@@ -27,4 +27,4 @@ function ghostwriter-apt-install() {
   sudo apt -y install ghostwriter
 }
 
-ghostwriter-apt-install
+ghostwriter-apt-install.main "$@"

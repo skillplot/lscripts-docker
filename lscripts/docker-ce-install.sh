@@ -103,7 +103,7 @@ function docker-ce-configure() {
 }
 
 
-function docker-ce-install() {
+function docker-ce-install.main() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
   source ${LSCRIPTS}/lscripts.config.sh
   
@@ -165,4 +165,4 @@ function docker-ce-install() {
     || _log_.echo "${_msg}"
 }
 
-docker-ce-install
+docker-ce-install.main "$@"

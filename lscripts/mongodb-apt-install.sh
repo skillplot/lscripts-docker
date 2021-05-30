@@ -12,7 +12,7 @@
 ###----------------------------------------------------------
 
 
-function mongodb-database-install() {
+function mongodb-database-install.main() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
   source ${LSCRIPTS}/lscripts.config.sh
 
@@ -62,4 +62,4 @@ function mongodb-database-install() {
 
 }
 
-mongodb-database-install
+mongodb-database-install.main "$@"

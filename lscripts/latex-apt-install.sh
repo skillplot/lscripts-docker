@@ -17,7 +17,7 @@
 ##----------------------------------------------------------
 
 
-function latex-apt-install() {
+function latex-apt-install.main() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
   source ${LSCRIPTS}/lscripts.config.sh
 
@@ -39,4 +39,4 @@ function latex-apt-install() {
   # source ${LSCRIPTS}/latex-editors-apt-install.sh
 }
 
-latex-apt-install
+latex-apt-install.main "$@"

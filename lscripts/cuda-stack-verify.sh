@@ -7,7 +7,7 @@
 ###----------------------------------------------------------
 
 
-function cuda-stack-verify() {
+function cuda-stack-verify.main() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
   source ${LSCRIPTS}/lscripts.config.sh
   
@@ -42,4 +42,4 @@ function cuda-stack-verify() {
 
 }
 
-cuda-stack-verify
+cuda-stack-verify.main

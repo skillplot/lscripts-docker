@@ -11,7 +11,7 @@
 ###----------------------------------------------------------
 
 
-function scribus-apt-install() {
+function scribus-apt-install.main() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
   source ${LSCRIPTS}/lscripts.config.sh
 
@@ -26,4 +26,4 @@ function scribus-apt-install() {
   fi
 }
 
-scribus-apt-install
+scribus-apt-install.main "$@"

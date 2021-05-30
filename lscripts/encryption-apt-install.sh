@@ -18,5 +18,9 @@
 ###----------------------------------------------------------
 
 
-##sudo apt -y update
-sudo apt -y install cryptsetup
+function encryption-apt-install.main() {
+  ##sudo apt -y update
+  sudo apt -y install cryptsetup
+}
+
+encryption-apt-install.main "$@"

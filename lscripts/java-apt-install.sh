@@ -18,7 +18,7 @@
 ###----------------------------------------------------------
 
 
-function java-apt-install() {
+function java-apt-install.main() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
   source ${LSCRIPTS}/lscripts.config.sh
 
@@ -40,4 +40,4 @@ function java-apt-install() {
   source ${LSCRIPTS}/java-config.sh
 }
 
-java-apt-install
+java-apt-install.main "$@"

@@ -15,11 +15,11 @@
 ###----------------------------------------------------------
 
 
-function prerequisite_lite-install() {
+function prerequisite_lite-install.main() {
   local LSCRIPTS="$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )"
   source ${LSCRIPTS}/lscripts.config.sh
 
   sudo apt -y install tcl-dev tk-dev python-tk python3-tk
 }
 
-prerequisite_lite-install
+prerequisite_lite-install.main "$@"

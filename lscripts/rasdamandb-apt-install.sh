@@ -76,7 +76,7 @@ function rasdamandb-addrepo() {
 }
 
 
-function __rasdamandb-install() {
+function __rasdamandb-install.main() {
   sudo apt -y install rasdaman
   source /etc/profile.d/rasdaman.sh
 
@@ -146,7 +146,7 @@ function __rasdamandb-install() {
 }
 
 
-function rasdamandb-install() {
+function rasdamandb-install.main() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
   source ${LSCRIPTS}/lscripts.config.sh
   
@@ -181,4 +181,4 @@ function rasdamandb-install() {
 }
 
 
-rasdamandb-install
+rasdamandb-install.main "$@"

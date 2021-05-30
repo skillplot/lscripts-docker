@@ -34,4 +34,4 @@ function balenaetcher-apt-install() {
   # wget -c https://downloads.raspberrypi.org/raspbian_full/images/raspbian_full-2019-09-30/2019-09-26-raspbian-buster-full.zip
 }
 
-balenaetcher-apt-install
+balenaetcher-apt-install "$@"

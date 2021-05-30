@@ -27,7 +27,7 @@ function python-uninstall() {
   return -1
 }
 
-function __python-install() {
+function __python-install.main() {
   _log_.info "By default, both python2 and python3 are installed."
 
   _log_.info "Installing python 2 and 3 along with other important packages"
@@ -120,7 +120,7 @@ function python-config() {
   done
 }
 
-function python-install() {
+function python-install.main() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
   source ${LSCRIPTS}/lscripts.config.sh
   
@@ -153,4 +153,4 @@ function python-install() {
     || _log_.echo "${_msg}"
 }
 
-python-install
+python-install.main "$@"

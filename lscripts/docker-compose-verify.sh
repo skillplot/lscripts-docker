@@ -11,7 +11,7 @@
 ###----------------------------------------------------------
 
 
-function docker-compose-verify() {
+function docker-compose-verify.main() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
   source ${LSCRIPTS}/lscripts.config.sh
   
@@ -30,4 +30,4 @@ function docker-compose-verify() {
 
 }
 
-docker-compose-verify
+docker-compose-verify.main

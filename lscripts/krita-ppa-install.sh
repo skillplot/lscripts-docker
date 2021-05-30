@@ -11,7 +11,7 @@
 ###----------------------------------------------------------
 
 
-function krita-ppa-install() {
+function krita-ppa-install.main() {
   sudo add-apt-repository -y ppa:kritalime/ppa
   sudo apt -y update
   sudo apt -y install krita
@@ -20,4 +20,4 @@ function krita-ppa-install() {
   # sudo apt -y install krita-l10n
 }
 
-krita-ppa-install
+krita-ppa-install.main "$@"

@@ -13,7 +13,7 @@
 ###----------------------------------------------------------
 
 
-function sublimemerge-apt-install() {
+function sublimemerge-apt-install.main() {
   #sudo add-apt-repository -y ppa:webupd8team/sublime-text-3
   #sudo apt -y update
   #sudo apt -y install sublime-text-installer
@@ -31,4 +31,4 @@ function sublimemerge-apt-install() {
   # smerge
 }
 
-sublimemerge-apt-install
+sublimemerge-apt-install.main "$@"

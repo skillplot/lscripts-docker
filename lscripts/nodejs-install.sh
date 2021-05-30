@@ -118,7 +118,7 @@ function __nodejs-install() {
 }
 
 
-function nodejs-install() {
+function nodejs-install.main() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
   source ${LSCRIPTS}/lscripts.config.sh
 
@@ -156,4 +156,4 @@ function nodejs-install() {
     || _log_.echo "${_msg}"
 }
 
-nodejs-install
+nodejs-install.main "$@"

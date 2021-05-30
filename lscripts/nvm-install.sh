@@ -80,7 +80,7 @@ function __nvm-install() {
 }
 
 
-function nvm-install() {
+function nvm-install.main() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
   source ${LSCRIPTS}/lscripts.config.sh
   
@@ -105,4 +105,4 @@ function nvm-install() {
 }
 
 
-nvm-install
+nvm-install.main "$@"

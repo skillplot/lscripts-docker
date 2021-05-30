@@ -15,7 +15,7 @@
 ###----------------------------------------------------------
 source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/system-cfg.sh
 source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/basepath-cfg.sh
-source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/versions.sh
+source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/versions-cfg.sh
 source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/nvidia-cfg.sh
 source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/docker-cfg.sh
 source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/python-cfg.sh

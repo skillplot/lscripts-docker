@@ -42,7 +42,7 @@ function __gcc-install() {
 }
 
 
-function gcc-install() {
+function gcc-install.main() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
   source ${LSCRIPTS}/lscripts.config.sh
   
@@ -73,5 +73,4 @@ function gcc-install() {
   } || _log_.echo "${_msg}"
 }
 
-
-gcc-install
+gcc-install.main "$@"

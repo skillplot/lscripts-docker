@@ -12,7 +12,7 @@
 ###----------------------------------------------------------
 
 
-function epub-editors-apt-install() {
+function epub-editors-apt-install.main() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
   source ${LSCRIPTS}/lscripts.config.sh
 
@@ -21,4 +21,4 @@ function epub-editors-apt-install() {
 
 }
 
-epub-editors-apt-install
+epub-editors-apt-install.main "$@"

@@ -11,10 +11,10 @@
 ###----------------------------------------------------------
 
 
-function librecad-ppa-install() {
+function librecad-ppa-install.main() {
   sudo add-apt-repository -y ppa:librecad-dev/librecad-stable
   sudo apt -y update
   sudo apt -y install librecad
 }
 
-librecad-ppa-install
+librecad-ppa-install.main "$@"

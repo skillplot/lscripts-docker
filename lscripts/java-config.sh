@@ -6,7 +6,7 @@
 ###----------------------------------------------------------
 
 
-function java-config() {
+function java-config.main() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
   source ${LSCRIPTS}/lscripts.config.sh
 
@@ -41,4 +41,4 @@ function java-config() {
   #export TOMCAT_HOME=/usr/share/tomcat5
 }
 
-java-config
+java-config.main "$@"

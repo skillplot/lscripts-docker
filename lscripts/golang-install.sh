@@ -12,10 +12,14 @@
 ###----------------------------------------------------------
 
 
-## 1. Install Go using Golang installer
+function golang-install.main() {
+  ## 1. Install Go using Golang installer
 
-## 2. Install Go from Ubuntu repostiory - Preferred
-sudo apt -y install golang
-go version
+  ## 2. Install Go from Ubuntu repostiory - Preferred
+  sudo apt -y install golang
+  go version
 
-## 3. Install Go using snap
+  ## 3. Install Go using snap
+}
+
+golang-install.main "$@"

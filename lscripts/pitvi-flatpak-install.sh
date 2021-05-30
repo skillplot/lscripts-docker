@@ -11,7 +11,7 @@
 ###----------------------------------------------------------
 
 
-function pitivi-flatpak-install() {
+function pitivi-flatpak-install.main() {
   # local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
   # source ${LSCRIPTS}/lscripts.config.sh
 
@@ -29,4 +29,4 @@ function pitivi-flatpak-install() {
   #flatpak --user uninstall org.pitivi.Pitivi stable
 }
 
-pitivi-flatpak-install
+pitivi-flatpak-install.main "$@"

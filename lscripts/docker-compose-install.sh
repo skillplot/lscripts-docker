@@ -30,7 +30,7 @@ function __docker-compose-install() {
 }
 
 
-function docker-compose-install() {
+function docker-compose-install.main() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
   source ${LSCRIPTS}/lscripts.config.sh
 
@@ -66,4 +66,4 @@ function docker-compose-install() {
 
 }
 
-docker-compose-install
+docker-compose-install.main "$@"

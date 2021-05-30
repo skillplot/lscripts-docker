@@ -83,7 +83,7 @@ function __php_composer-install() {
 }
 
 
-function php-install() {
+function php-install.main() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
   source ${LSCRIPTS}/lscripts.config.sh
 
@@ -119,4 +119,4 @@ function php-install() {
     }
 }
 
-php-install
+php-install.main "$@"

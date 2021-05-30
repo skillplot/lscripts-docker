@@ -13,10 +13,10 @@
 ###----------------------------------------------------------
 
 
-function handbrake-ppa-install() {
+function handbrake-ppa-install.main() {
   sudo add-apt-repository -y ppa:stebbins/handbrake-releases
   sudo apt -y update
   sudo apt -y install handbrake handbrake-gtk handbrake-cli
 }
 
-handbrake-ppa-install
+handbrake-ppa-install.main "$@"

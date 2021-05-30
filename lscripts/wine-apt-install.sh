@@ -19,10 +19,9 @@
 ###----------------------------------------------------------
 
 
-function wine-apt-install() {
+function wine-apt-install.main() {
   sudo apt -y install wine64
   wine --version
 }
 
-wine-apt-install
-
+wine-apt-install.main "$@"

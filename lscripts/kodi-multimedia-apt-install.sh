@@ -23,7 +23,7 @@ function ctrlc_handler {
 }
 
 
-function kodi-multimedia-apt-install() {
+function kodi-multimedia-apt-install.main() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
   source ${LSCRIPTS}/lscripts.config.sh
 
@@ -34,4 +34,4 @@ function kodi-multimedia-apt-install() {
 
 }
 
-kodi-multimedia-apt-install
+kodi-multimedia-apt-install.main "$@"

@@ -11,7 +11,7 @@
 ###----------------------------------------------------------
 
 
-function gimp-graphics-apt-install() {
+function gimp-graphics-apt-install.main() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
   source ${LSCRIPTS}/lscripts.config.sh
 
@@ -27,4 +27,4 @@ function gimp-graphics-apt-install() {
   sudo apt -y install gimp
 }
 
-gimp-graphics-apt-install
+gimp-graphics-apt-install.main "$@"

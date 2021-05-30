@@ -11,11 +11,11 @@
 ###----------------------------------------------------------
 
 
-function pycharm-snap-install() {
+function pycharm-snap-install.main() {
   ##sudo apt -y update
   # sudo snap remove pycharm-community
   snap install pycharm-community --classic
   # snap install pycharm-professional --classic
 }
 
-pycharm-snap-install
+pycharm-snap-install.main "$@"

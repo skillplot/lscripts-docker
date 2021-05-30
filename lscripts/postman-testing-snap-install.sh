@@ -13,7 +13,7 @@
 ###----------------------------------------------------------
 
 
-function postman-testing-snap-install() {
+function postman-testing-snap-install.main() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
   source ${LSCRIPTS}/lscripts.config.sh
 
@@ -23,4 +23,4 @@ function postman-testing-snap-install() {
   sudo snap install postman
 }
 
-postman-testing-snap-install
+postman-testing-snap-install.main "$@"

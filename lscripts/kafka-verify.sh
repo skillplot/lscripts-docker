@@ -9,7 +9,7 @@
 ###----------------------------------------------------------
 
 
-function kafka-verify() {
+function kafka-verify.main() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
   source ${LSCRIPTS}/lscripts.config.sh
   source ${LSCRIPTS}/kafka-utils.sh
@@ -57,4 +57,4 @@ function kafka-verify() {
   }
 }
 
-kafka-verify "$@"
+kafka-verify.main "$@"

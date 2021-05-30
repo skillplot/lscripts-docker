@@ -12,7 +12,7 @@
 ##----------------------------------------------------------
 
 
-function makehuman3d-ppa-install() {
+function makehuman3d-ppa-install.main() {
   sudo add-apt-repository ppa:makehuman-official/makehuman-community
   sudo apt -y update
 
@@ -22,4 +22,4 @@ function makehuman3d-ppa-install() {
   sudo apt -y install makehuman-community
 }
 
-makehuman3d-ppa-install
+makehuman3d-ppa-install.main "$@"

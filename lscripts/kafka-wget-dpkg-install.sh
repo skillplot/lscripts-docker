@@ -57,7 +57,7 @@ function __kafka-install() {
 }
 
 
-function kafka-wget-install() {
+function kafka-wget-install.main() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
   source ${LSCRIPTS}/lscripts.config.sh
   
@@ -138,4 +138,4 @@ function kafka-wget-install() {
     } || _log_.echo "${_msg}"
 }
 
-kafka-wget-install
+kafka-wget-install.main "$@"

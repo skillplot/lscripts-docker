@@ -16,7 +16,7 @@
 ###----------------------------------------------------------
 
 
-function redis-wget-make-install() {
+function redis-wget-make-install.main() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
   source ${LSCRIPTS}/lscripts.config.sh
 
@@ -50,4 +50,4 @@ function redis-wget-make-install() {
   cd ${LSCRIPTS}
 }
 
-redis-wget-make-install
+redis-wget-make-install.main "$@"

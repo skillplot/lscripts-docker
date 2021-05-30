@@ -19,7 +19,7 @@
 ##----------------------------------------------------------
 
 
-function ros_install() {
+function ros-apt-install.main() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
   source ${LSCRIPTS}/lscripts.config.sh
 
@@ -64,4 +64,4 @@ function ros_install() {
 
 }
 
-ros_install
+ros-apt-install.main "$@"

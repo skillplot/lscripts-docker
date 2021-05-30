@@ -11,7 +11,7 @@
 ###----------------------------------------------------------
 
 
-function xnview-install() {
+function xnview-wget-install.main() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
   source ${LSCRIPTS}/lscripts.config.sh
 
@@ -23,4 +23,4 @@ function xnview-install() {
 
 }
 
-xnview-install
+xnview-wget-install.main "$@"

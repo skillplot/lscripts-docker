@@ -60,7 +60,7 @@ function __prerequisite-opencv-install() {
 }
 
 
-function prerequisite-opencv-install() {
+function prerequisite-opencv-install.main() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
   source ${LSCRIPTS}/lscripts.config.sh
 
@@ -87,4 +87,4 @@ function prerequisite-opencv-install() {
 
 }
 
-prerequisite-opencv-install
+prerequisite-opencv-install.main "$@"

@@ -12,7 +12,7 @@
 ###----------------------------------------------------------
 
 
-function epub-readers-apt-install() {
+function epub-readers-apt-install.main() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
   source ${LSCRIPTS}/lscripts.config.sh
 
@@ -42,4 +42,4 @@ function epub-readers-apt-install() {
   # sudo snap install foliate
 }
 
-epub-readers-apt-install
+epub-readers-apt-install.main

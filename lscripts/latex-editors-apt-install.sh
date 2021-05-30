@@ -12,7 +12,7 @@
 ##----------------------------------------------------------
 
 
-function latex-editors-apt-install() {
+function latex-editors-apt-install.main() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
   source ${LSCRIPTS}/lscripts.config.sh
 
@@ -26,4 +26,4 @@ function latex-editors-apt-install() {
   sudo apt -y install texworks
 }
 
-latex-editors-apt-install
+latex-editors-apt-install.main "$@"

@@ -11,7 +11,7 @@
 ###----------------------------------------------------------
 
 
-function haroopad-wget-dpkg-install() {
+function haroopad-wget-dpkg-install.main() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
   source ${LSCRIPTS}/lscripts.config.sh
 
@@ -44,4 +44,4 @@ function haroopad-wget-dpkg-install() {
   sudo dpkg -i "${_LSD__DOWNLOADS_HOME}/${FILE}"
 }
 
-haroopad-wget-dpkg-install
+haroopad-wget-dpkg-install.main "$@"

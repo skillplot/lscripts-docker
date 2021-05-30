@@ -11,7 +11,7 @@
 ###----------------------------------------------------------
 
 
-function inkscape-graphics-apt-install() {
+function inkscape-graphics-apt-install.main() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
   source ${LSCRIPTS}/lscripts.config.sh
 
@@ -23,4 +23,4 @@ function inkscape-graphics-apt-install() {
   sudo apt -y install inkscape
 }
 
-inkscape-graphics-apt-install
+inkscape-graphics-apt-install.main "$@"

@@ -12,7 +12,7 @@
 ###----------------------------------------------------------
 
 
-function docker-ce-verify() {
+function docker-ce-verify.main() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
   source ${LSCRIPTS}/lscripts.config.sh
   
@@ -30,4 +30,4 @@ function docker-ce-verify() {
 
 }
 
-docker-ce-verify
+docker-ce-verify.main

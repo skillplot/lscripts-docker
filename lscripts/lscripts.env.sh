@@ -13,6 +13,7 @@ function __lscripts_env__() {
   ##
   ## Todo: for full configuration
   # source "${LSCRIPTS}/lscripts.export.sh"
+  source "${LSCRIPTS}/lscripts.install.sh"
   source "${LSCRIPTS}/lscripts.cmd.sh"
   source "${LSCRIPTS}/lscripts.alias.sh"
   # (>&2 echo -e "lscripts updated...")

@@ -30,8 +30,7 @@
 ###----------------------------------------------------------
 
 
-
-function gcc-update-alternatives() {
+function gcc-update-alternatives.main() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
   source ${LSCRIPTS}/lscripts.config.sh
   
@@ -49,4 +48,4 @@ function gcc-update-alternatives() {
   sudo update-alternatives --config gcc
 }
 
-gcc-update-alternatives
+gcc-update-alternatives.main "$@"

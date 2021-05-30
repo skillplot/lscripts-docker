@@ -11,4 +11,8 @@
 ###----------------------------------------------------------
 
 
-sudo snap install --classic heroku
+function heroku-cli-snap-install.main() {
+  sudo snap install --classic heroku
+}
+
+heroku-cli-snap-install.main "$@"

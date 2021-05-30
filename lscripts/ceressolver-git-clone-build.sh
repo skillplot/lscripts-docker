@@ -132,4 +132,4 @@ function ceres_solver-install() {
 
 }
 
-ceres_solver-install
+ceres_solver-install "$@"

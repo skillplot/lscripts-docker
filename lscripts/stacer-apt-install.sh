@@ -21,7 +21,7 @@ function ctrlc_handler {
 }
 
 
-function stacer-apt-install() {
+function stacer-apt-install.main() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
   source ${LSCRIPTS}/lscripts.config.sh
 
@@ -31,4 +31,4 @@ function stacer-apt-install() {
 
 }
 
-stacer-apt-install
+stacer-apt-install.main "$@"

@@ -14,10 +14,10 @@
 ###----------------------------------------------------------
 
 
-function openscad-ppa-install() {
+function openscad-ppa-install.main() {
   sudo add-apt-repository -y ppa:openscad/releases
   sudo apt -y update
   sudo apt -y install openscad
 }
 
-openscad-ppa-install
+openscad-ppa-install.main "$@"

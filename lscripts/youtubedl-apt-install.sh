@@ -11,7 +11,10 @@
 ###----------------------------------------------------------
 
 
-sudo apt -y install youtube-dl
+function youtubedl-apt-install.main() {
+  sudo apt -y install youtube-dl
+  ## not yet available for Ubuntu 18.04 LTS
+  sudo apt -y install ytd-gtk
+}
 
-## not yet available for Ubuntu 18.04 LTS
-sudo apt -y install ytd-gtk
+youtubedl-apt-install.main "$@"

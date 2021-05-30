@@ -13,7 +13,7 @@
 ###----------------------------------------------------------
 
 
-function pandoc-wget-dpkg-install() {
+function pandoc-wget-dpkg-install.main() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
   source ${LSCRIPTS}/lscripts.config.sh
 
@@ -47,4 +47,4 @@ function pandoc-wget-dpkg-install() {
   # tar xvzf "${_LSD__DOWNLOADS_HOME}/${FILE}" --strip-components 1 -C "/usr/local"
 }
 
-pandoc-wget-dpkg-install
+pandoc-wget-dpkg-install.main "$@"

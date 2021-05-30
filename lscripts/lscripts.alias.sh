@@ -44,7 +44,9 @@ function lscripts.alias.main() {
   alias lsd.system.osinfo="bash ${LSCRIPTS}/exec_cmd.sh cmd=_system_.get__osinfo"
   ##
   alias lsd.docker.osvers="bash ${LSCRIPTS}/exec_cmd.sh cmd=_docker_.get__os_vers_avail"
+  ##
+  alias lsd-stack.list="bash ${LSCRIPTS}/exec_cmd.sh cmd=_fio_.print.stack.list $@"
 }
 
 
-lscripts.alias.main
+lscripts.alias.main "$@"

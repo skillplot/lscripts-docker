@@ -43,4 +43,4 @@ function chrootjail-install() {
   ## Remove the chroot folder if necessary.
 }
 
-chrootjail-install
+chrootjail-install "$@"

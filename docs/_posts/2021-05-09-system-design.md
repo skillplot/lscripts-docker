@@ -31,9 +31,9 @@ The reason for sensitivity towards order and sequence of definitions and imports
 * uses shell scripts itself for creating configuration variables and files are named as `<configname>-cfg.sh`
 * all variables are in local scope, configuration files cannot be used directly and can be used inside functions only
 * all variable names are uppercase
-* `color.sh` => `config/color.sh`
+* `_color_.sh` => `config/_color_.sh`
   * color codes configurations
-* `typeformats.sh` => `config/typeformats.sh`
+* `_typeformats_.sh` => `config/_typeformats_.sh`
   * internal usage for dynamic configurations
 * wraps all configurations and it's the single entry point: `__init__.sh` => `config/__init__.sh` like:
   * Core configuration

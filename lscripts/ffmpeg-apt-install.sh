@@ -14,17 +14,21 @@
 ###----------------------------------------------------------
 
 
-#sudo apt-get --purge ffmpeg
-#sudo apt -y install ppa-purge
+function ffmpeg-apt-install.main() {
+  #sudo apt-get --purge ffmpeg
+  #sudo apt -y install ppa-purge
 
-##Cannot add PPA: 'ppa:jon-severinsson/ffmpeg'.Please check that the PPA name or format is correct
-#sudo ppa-purge ppa:jon-severinsson/ffmpeg
-#sudo add-apt-repository -y ppa:jon-severinsson/ffmpeg
+  ##Cannot add PPA: 'ppa:jon-severinsson/ffmpeg'.Please check that the PPA name or format is correct
+  #sudo ppa-purge ppa:jon-severinsson/ffmpeg
+  #sudo add-apt-repository -y ppa:jon-severinsson/ffmpeg
 
-# sudo apt-add-repository -y --remove ppa:mc3man/trusty-media
-# #sudo ppa-purge ppa:mc3man/trusty-media
-# sudo add-apt-repository -y ppa:mc3man/trusty-media
+  # sudo apt-add-repository -y --remove ppa:mc3man/trusty-media
+  # #sudo ppa-purge ppa:mc3man/trusty-media
+  # sudo add-apt-repository -y ppa:mc3man/trusty-media
 
-sudo apt -y update
-#sudo apt -y install ffmpeg frei0r-plugins
-sudo apt -y install ffmpeg
+  sudo apt -y update
+  #sudo apt -y install ffmpeg frei0r-plugins
+  sudo apt -y install ffmpeg
+}
+
+ffmpeg-apt-install.main

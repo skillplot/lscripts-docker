@@ -21,4 +21,4 @@ function audacity-apt-install() {
   sudo apt -y install audacity audacity-data
 }
 
-audacity-apt-install
+audacity-apt-install "$@"

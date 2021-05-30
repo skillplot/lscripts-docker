@@ -11,6 +11,10 @@
 ###----------------------------------------------------------
 
 
-#sudo apt-get -y update
-#sudo apt-get -q -y remove vim vim-gtk && sudo apt-get -y autoremove
-sudo apt install -y webhttrack
+function httrack-apt-install.main() {
+  #sudo apt-get -y update
+  #sudo apt-get -q -y remove vim vim-gtk && sudo apt-get -y autoremove
+  sudo apt install -y webhttrack
+}
+
+httrack-apt-install.main "$@"

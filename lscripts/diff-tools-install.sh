@@ -19,5 +19,10 @@
 ## * tkdiff
 ###----------------------------------------------------------
 
-sudo apt -y install tkcvs
-sudo apt -y install meld
+
+function diff-tools-install.main() {
+  sudo apt -y install tkcvs
+  sudo apt -y install meld
+}
+
+diff-tools-install.main "$@"

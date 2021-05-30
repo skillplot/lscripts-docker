@@ -3,7 +3,7 @@
 ## Copyright (c) 2021 mangalbhaskar. All Rights Reserved.
 ##__author__ = 'mangalbhaskar'
 ###----------------------------------------------------------
-## Install Lscripts editors softwares
+## Install Lscripts utilities softwares
 ###----------------------------------------------------------
 
 
@@ -15,38 +15,26 @@ function ctrlc_handler {
   exit
 }
 
-function stack-setup-editors() {
+function stack-setup-prerequisite.main() {
   local LSCRIPTS="$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )"
-  source "${LSCRIPTS}/lscripts/_common_.sh"
-
-  declare -a _stack_install=(
-    ###----------------------------------------------------------    
-    ## "stack-setup-editors"
-    ###----------------------------------------------------------
-    "vim-apt"
-    "vim-plug"
-    "sublime-apt"
-    "atom-wget-dpkg"
-  )
-
-  # declare -a _stack_verify=()
+  source "${LSCRIPTS}/_common_.sh"
 
   _log_.warn "Install ${FUNCNAME[0]}; sudo access is required!"
   _fio_.yesno_no "Continue" && {
     local item
-    for item in "${_stack_install[@]}";do
+    for item in "${_stack_install_prerequisite[@]}";do
       _log_.info ${item}
-      local _item_filepath="${LSCRIPTS}/lscripts/${item}-install.sh"
+      local _item_filepath="${LSCRIPTS}/${item}-install.sh"
 
       _log_.echo "Checking for installer..." && \
       ls -1 "${_item_filepath}" 2>/dev/null && {
         _fio_.yesno_no "Install ${item}" && {
           _log_.ok "Executing installer... ${_item_filepath}" && \
-          source "${_item_filepath}" || _log_.error "${_item_filepath}"
+          source "${_item_filepath} $@" || _log_.error "${_item_filepath}"
         } || _log_.echo "Skipping ${item} installation!"
       } || _log_.error "Installer not found: ${item}!"
     done
   } || _log_.echo "Skipping ${FUNCNAME[0]} installation!"
 }
 
-stack-setup-editors
+stack-setup-prerequisite.main "$@"

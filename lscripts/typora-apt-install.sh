@@ -11,7 +11,7 @@
 ##----------------------------------------------------------
 
 
-function typora-apt-install() {
+function typora-apt-install.main() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
   source ${LSCRIPTS}/lscripts.config.sh
 
@@ -29,4 +29,4 @@ function typora-apt-install() {
 
 }
 
-typora-apt-install
+typora-apt-install.main "$@"

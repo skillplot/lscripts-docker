@@ -11,10 +11,10 @@
 ###----------------------------------------------------------
 
 
-function slowmovideo-ppa-install() {
+function slowmovideo-ppa-install.main() {
   sudo add-apt-repository -y ppa:brousselle/slowmovideo
   sudo apt -y update
   sudo apt -y install slowmovideo
 }
 
-slowmovideo-ppa-install
+slowmovideo-ppa-install.main "$@"

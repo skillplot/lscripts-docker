@@ -14,4 +14,8 @@
 ###----------------------------------------------------------
 
 
-sudo apt -y install inotify-tools
+function inotifytools-apt-install.main() {
+  sudo apt -y install inotify-tools
+}
+
+inotifytools-apt-install.main

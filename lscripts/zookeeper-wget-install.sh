@@ -55,7 +55,7 @@ function __zookeeper-install() {
 }
 
 
-function zookeeper-wget-install() {
+function zookeeper-wget-install.main() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
   source ${LSCRIPTS}/lscripts.config.sh
   
@@ -119,4 +119,4 @@ function zookeeper-wget-install() {
     } || _log_.echo "${_msg}"
 }
 
-zookeeper-wget-install
+zookeeper-wget-install.main "$@"

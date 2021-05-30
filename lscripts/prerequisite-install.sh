@@ -12,7 +12,7 @@
 ###----------------------------------------------------------
 
 
-function stack-setup-prerequisite() {
+function prerequisite-install.main() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
   source ${LSCRIPTS}/lscripts.config.sh
 
@@ -53,4 +53,4 @@ function stack-setup-prerequisite() {
   # sudo apt -y install libssl-dev libffi-dev libsasl2-dev libldap2-dev  
 }
 
-stack-setup-prerequisite
+prerequisite-install.main "$@"

@@ -7,7 +7,11 @@
 ###----------------------------------------------------------
 
 
-sudo apt -y install feh
-sudo apt -y install geeqie
-sudo apt -y install fbi
-sudo apt -y install mirage
+function imageviewer-cmdline-apt-install.main() {
+  sudo apt -y install feh
+  sudo apt -y install geeqie
+  sudo apt -y install fbi
+  sudo apt -y install mirage
+}
+
+imageviewer-cmdline-apt-install.main "$@"

@@ -11,7 +11,7 @@
 ###----------------------------------------------------------
 
 
-function monitoring_system_sensors-apt-install() {
+function monitoring_system_sensors-apt-install.main() {
   #sudo apt -y update
 
   ## System Sensor monitors - temperature
@@ -32,4 +32,4 @@ function monitoring_system_sensors-apt-install() {
   # cat /proc/meminfo
 }
 
-monitoring_system_sensors-apt-install
+monitoring_system_sensors-apt-install.main "$@"

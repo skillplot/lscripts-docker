@@ -7,4 +7,8 @@
 ###----------------------------------------------------------
 
 
-sudo apt -y install octave
+function octave-apt-install.main() {
+  sudo apt -y install octave
+}
+
+octave-apt-install.main "$@"

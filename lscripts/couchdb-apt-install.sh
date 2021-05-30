@@ -42,7 +42,7 @@ function __couchdb-install() {
 }
 
 
-function couchdb-apt-install() {
+function couchdb-apt-install.main() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
   source ${LSCRIPTS}/lscripts.config.sh
 
@@ -88,4 +88,4 @@ function couchdb-apt-install() {
 
 }
 
-couchdb-apt-install
+couchdb-apt-install.main "$@"

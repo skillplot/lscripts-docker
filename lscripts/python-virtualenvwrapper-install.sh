@@ -172,7 +172,7 @@ function __python-virtualenvwrapper-install() {
     sudo chown ${USR}:${GRP} ${VM_HOME} &>/dev/null || _log_.fail "Unable to set permission VM_HOME: ${VM_HOME}"
 }
 
-function python-virtualenvwrapper-install() {
+function python-virtualenvwrapper-install.main() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
   source ${LSCRIPTS}/lscripts.config.sh
   
@@ -220,4 +220,4 @@ function python-virtualenvwrapper-install() {
 
 }
 
-python-virtualenvwrapper-install $1
+python-virtualenvwrapper-install.main "$@"

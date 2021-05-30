@@ -45,4 +45,4 @@ function atom-wget-dpkg-install() {
   sudo dpkg -i "${_LSD__DOWNLOADS_HOME}/${FILE}" 2>/dev/null
 }
 
-atom-wget-dpkg-install
+atom-wget-dpkg-install "$@"

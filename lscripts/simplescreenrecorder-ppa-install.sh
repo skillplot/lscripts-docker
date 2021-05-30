@@ -11,7 +11,7 @@
 ###----------------------------------------------------------
 
 
-function simplescreenrecorder-ppa-install() {
+function simplescreenrecorder-ppa-install.main() {
   sudo add-apt-repository -y ppa:maarten-baert/simplescreenrecorder
   sudo apt -y update
   sudo apt -y install simplescreenrecorder
@@ -20,4 +20,4 @@ function simplescreenrecorder-ppa-install() {
   #sudo apt-get install simplescreenrecorder-lib:i386
 }
 
-simplescreenrecorder-ppa-install
+simplescreenrecorder-ppa-install.main "$@"

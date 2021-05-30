@@ -11,10 +11,14 @@
 ###----------------------------------------------------------
 
 
-## Don't remove image magic - imagemagick may be a dependency for other pieces of software run
-## sudo apt remove --purge imagemagick
-apt-cache showpkg imagemagick
-sudo apt -y update
-sudo apt -y install imagemagick
-## for php
-sudo apt -y install php-imagick
+function imagemagic-graphics-apt-install.main() {
+  ## Don't remove image magic - imagemagick may be a dependency for other pieces of software run
+  ## sudo apt remove --purge imagemagick
+  apt-cache showpkg imagemagick
+  sudo apt -y update
+  sudo apt -y install imagemagick
+  ## for php
+  sudo apt -y install php-imagick
+}
+
+imagemagic-graphics-apt-install.main "$@"

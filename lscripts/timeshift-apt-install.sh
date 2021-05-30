@@ -22,7 +22,7 @@ function ctrlc_handler {
 }
 
 
-function timeshift-apt-install() {
+function timeshift-apt-install.main() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
   source ${LSCRIPTS}/lscripts.config.sh
 
@@ -32,4 +32,4 @@ function timeshift-apt-install() {
 
 }
 
-timeshift-apt-install
+timeshift-apt-install.main "$@"

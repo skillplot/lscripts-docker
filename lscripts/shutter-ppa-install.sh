@@ -14,7 +14,7 @@
 ###----------------------------------------------------------
 
 
-function shutter-ppa-install() {
+function shutter-ppa-install.main() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
   source ${LSCRIPTS}/lscripts.config.sh
 
@@ -38,4 +38,4 @@ function shutter-ppa-install() {
   # sudo apt -y install scrot screengrab
 }
 
-shutter-ppa-install
+shutter-ppa-install.main "$@"

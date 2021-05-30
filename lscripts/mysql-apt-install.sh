@@ -11,5 +11,9 @@
 ###----------------------------------------------------------
 
 
-# sudo apt -y update
-sudo apt -y install mysql-server
+function mysql-apt-install.main() {
+  # sudo apt -y update
+  sudo apt -y install mysql-server
+}
+
+mysql-apt-install.main "$@"

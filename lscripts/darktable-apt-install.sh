@@ -7,8 +7,8 @@
 ###----------------------------------------------------------
 
 
-function darktable-apt-install() {
+function darktable-apt-install.main() {
   sudo apt -y install darktable
 }
 
-darktable-apt-install
+darktable-apt-install.main

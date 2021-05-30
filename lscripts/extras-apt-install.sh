@@ -7,7 +7,11 @@
 ###----------------------------------------------------------
 
 
-sudo apt -y install redshift
+function extras-apt-install.main() {
+  sudo apt -y install redshift
 
-# https://linuxconfig.org/how-to-fix-missing-plugin-gstreamer-on-ubuntu-18-04-bionic-beaver-linux
-# sudo apt -y install ubuntu-restricted-extras
+  # https://linuxconfig.org/how-to-fix-missing-plugin-gstreamer-on-ubuntu-18-04-bionic-beaver-linux
+  # sudo apt -y install ubuntu-restricted-extras
+}
+
+extras-apt-install.main "$@"

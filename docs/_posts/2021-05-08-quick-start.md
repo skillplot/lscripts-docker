@@ -11,80 +11,98 @@ categories: quick-start
 
 1. Clone the repo
 2. Put the following in the end of the `~/.bashrc` file. Change the path where you cloned the repo:
-  ```bash
-  export LSCRIPTS_DOCKER="/path/to/lscripts-docker"
-  [ -f ${LSCRIPTS_DOCKER}/lscripts/lscripts.env.sh ] && source ${LSCRIPTS_DOCKER}/lscripts/lscripts.env.sh
-  ```
+    ```bash
+    export LSCRIPTS_DOCKER="/path/to/lscripts-docker"
+    [ -f ${LSCRIPTS_DOCKER}/lscripts/lscripts.env.sh ] && source ${LSCRIPTS_DOCKER}/lscripts/lscripts.env.sh
+    ```
 3. Quick Commands available at the disposal with namespace: `lsd.`
-  ```bash
-  lsd.prog.ids
-  lsd.prog.kill
-  ##
-  lsd.python.kill
-  lsd.python.create.virtualenv
-  ##
-  lsd.ls.pycache
-  lsd.ls.egg
-  lsd.ls.mod
-  ##
-  lsd.rm.pycache
-  lsd.rm.egg
-  ##
-  lsd.image.resize
-  lsd.image.pdf
-  ##
-  lsd.nvidia.gpu.info
-  lsd.nvidia.gpu.stats
-  lsd.nvidia.cuda.vers
-  lsd.nvidia.cuda.avail
-  lsd.nvidia.driver.avail
-  ##
-  lsd.select.cuda
-  lsd.select.gcc
-  lsd.select.bazel
-  ##
-  lsd.date.get
-  lsd.date.timestamp
-  lsd.date.timestamp.millisec
-  lsd.date.timestamp.microsec
-  lsd.date.timestamp.nanosec
-  ##
-  lsd.system.info
-  lsd.system.cpu.cores
-  lsd.system.cpu.threads
-  lsd.system.ip
-  lsd.system.df.json
-  lsd.system.osinfo
-  ##
-  lsd.docker.osvers
-  ```
+    ```bash
+    lsd.prog.ids
+    lsd.prog.kill
+    ##
+    lsd.python.kill
+    lsd.python.create.virtualenv
+    ##
+    lsd.ls.pycache
+    lsd.ls.egg
+    lsd.ls.mod
+    ##
+    lsd.rm.pycache
+    lsd.rm.egg
+    ##
+    lsd.image.resize
+    lsd.image.pdf
+    ##
+    lsd.nvidia.gpu.info
+    lsd.nvidia.gpu.stats
+    lsd.nvidia.cuda.vers
+    lsd.nvidia.cuda.avail
+    lsd.nvidia.driver.avail
+    ##
+    lsd.select.cuda
+    lsd.select.gcc
+    lsd.select.bazel
+    ##
+    lsd.date.get
+    lsd.date.timestamp
+    lsd.date.timestamp.millisec
+    lsd.date.timestamp.microsec
+    lsd.date.timestamp.nanosec
+    ##
+    lsd.system.info
+    lsd.system.cpu.cores
+    lsd.system.cpu.threads
+    lsd.system.ip
+    lsd.system.df.json
+    lsd.system.osinfo
+    ##
+    lsd.docker.osvers
+    ```
 4. Quick test
-  ```bash
-  ## Test cases for different modules (currently not available as execution command )
-  bash lscripts/tests/test._fio_.sh
-  bash lscripts/tests/test._log_.sh
-  ```
+    ```bash
+    ## Test cases for different modules (currently not available as execution command )
+    bash lscripts/tests/test._fio_.sh
+    bash lscripts/tests/test._log_.sh
+    ```
+
+
+## Quick Software Installation using software stacks
+
+Software stacks are grouping of logical softwares based on their functionalities. Many softwares depends on each other and their are cyclic dependencies. The sequence of items installed using software stacks is done meticulously and it's recommended if you want to setup a complete multi-functional system stacks for development. These choice of packages are meant from development perspective and hence are not optimized for production installation. It's recommended to be prudent and observe the dependencies being installed or un-installed.
+
+
+* List the all the different software installation stacks grouping
+    ```bash
+    lsd-stack.list
+    ```
+* To install individual software stack item
+    ```bash
+      lsd-stack.list <name_of_the_item>
+    ```
+
 
 ## Execute any lscripts functions as a command
 
+This is used extensively to create alias for different namespace based commands. Though one can execute the script directly.
+
 * **Quick test: `_fio_.exec_cmd_test`**
-  ```bash
-  ## Test for executing any function from the lscripts framework
-  ## key/value parameter passing (valid scenarios)
-  bash lscripts/exec_cmd.sh --cmd=_fio_.exec_cmd_test --name=blah --age=100
-  bash lscripts/exec_cmd.sh cmd=_fio_.exec_cmd_test name=blah --age=100
-  bash lscripts/exec_cmd.sh cmd=_fio_.exec_cmd_test --name=blah --age=100
-  ```
+    ```bash
+    ## Test for executing any function from the lscripts framework
+    ## key/value parameter passing (valid scenarios)
+    bash lscripts/exec_cmd.sh --cmd=_fio_.exec_cmd_test --name=blah --age=100
+    bash lscripts/exec_cmd.sh cmd=_fio_.exec_cmd_test name=blah --age=100
+    bash lscripts/exec_cmd.sh cmd=_fio_.exec_cmd_test --name=blah --age=100
+    ```
 * **Test the Debugger and logger**
-  ```bash
-  ## execute debug module invoked from command line directly
-  bash lscripts/exec_cmd.sh --cmd=_fio_.debug_logger
-  ```
+    ```bash
+    ## execute debug module invoked from command line directly
+    bash lscripts/exec_cmd.sh --cmd=_fio_.debug_logger
+    ```
 * **Utility examples**
-  ```bash
-  ## NVIDIA gpu stats
-  bash lscripts/exec_cmd.sh --cmd=_nvidia_.get__gpu_stats
-  ```
+    ```bash
+    ## NVIDIA gpu stats
+    bash lscripts/exec_cmd.sh --cmd=_nvidia_.get__gpu_stats
+    ```
 
 
 
@@ -113,34 +131,34 @@ Build and setup a system with required software utilities.
 
 This is preferred for first time setup for full stack development build.
 
-* Complete stack
-  ```bash
-  bash stack-setup-all.sh
-  ```
-* Or, Individual stack
-  ```bash
-
-  bash stack-setup-prerequisite.sh
-  bash stack-setup-nvidia-cuda-python-docker.sh
-  bash stack-setup-utils.sh
-  bash stack-setup-sysutils.sh
-  bash stack-setup-editors.sh
-  bash stack-setup-markdowneditors.sh
-  bash stack-setup-programming.sh
-  bash stack-setup-epub.sh
-  bash stack-setup-storage.sh
-  bash stack-setup-graphics.sh
-  bash stack-setup-misc.sh
-  ```
+* **Full-stack**
+    ```bash
+    lsd-stack.all
+    ```
+* **Individual stack item**
+    ```bash
+    lsd-stack.prerequisite
+    lsd-stack.nvidia-cuda-python-docker
+    lsd-stack.utils
+    lsd-stack.sysutils
+    lsd-stack.editors
+    lsd-stack.markdowneditors
+    lsd-stack.programming
+    lsd-stack.epub
+    lsd-stack.storage
+    lsd-stack.multimedia
+    lsd-stack.misc
+    ```
 
 
 ### **b) Item-wise setup**
 
 This is **recommended** for first time setup and gives more control to select what will be installed.
 
-```bash
-bash stack-setup-itemwise.sh
-```
+* **Item-wise stack**
+    ```bash
+    lsd-stack.itemwise
+    ```
 
 ### **c) Custom setup - chose whatever you want**
 
@@ -148,30 +166,29 @@ This is for **advance** usage providing granular control on specific software co
 
 1. Install Nvidia driver
   ```bash
-  bash nvidia-driver-install.sh
+  lsd-install.nvidia-driver
   ```
 2. Install docker, docker-compose
   ```bash
-  bash docker-ce-install.sh
-  bash docker-compose-install.sh
+  lsd-install.docker-ce
+  lsd-install.docker-compose
   ```
 3. Install Nvidia docker
   ```bash
-  bash nvidia-container-toolkit
+  lsd-install.nvidia-container-toolkit
   ```
 4. Install python
   ```bash
   ## installs both python 2 and 3
-  bash python-install.sh
+  lsd-install.python
   ```
 5. Install python's virtualenv, virtualenvwrapper
   ```bash
-  bash python-virtualenvwrapper-install.sh
+  lsd-install.python-virtualenvwrapper
   ```
-6. Install CUDA stack (cuda, cudnn, tensorRT)
+6. Install CUDA stack (cuda, cudnn, tensorRT). supported CUDA: `9.0`, `10.0`, `10.2`, `11.0`.
   ```bash
-  ## supported CUDA: 9.0, 10.0, 10.2, 11.0
-  bash cuda-stack-install.sh 10.0
+  lsd-install.cuda-stack 10.0
   ```
 
 

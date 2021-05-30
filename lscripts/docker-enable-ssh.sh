@@ -7,7 +7,7 @@
 ###----------------------------------------------------------
 
 
-function docker-enable-ssh() {
+function docker-enable-ssh.main() {
   local _SKILL__DUSER="${_SKILL__DUSER}"
   local _SKILL__DUSER="${_SKILL__DUSER}"
 
@@ -50,4 +50,4 @@ function docker-enable-ssh() {
   echo "export VISIBLE=now" >> /etc/profile
 }
 
-docker-enable-ssh
+docker-enable-ssh.main

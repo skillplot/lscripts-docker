@@ -76,7 +76,7 @@ function qgis3-addrepo() {
 }
 
 
-function qgis3-apt-install() {
+function qgis3-apt-install.main() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
   source ${LSCRIPTS}/lscripts.config.sh
 
@@ -181,4 +181,4 @@ function qgis3-apt-install() {
 
 }
 
-qgis3-apt-install
+qgis3-apt-install.main "$@"

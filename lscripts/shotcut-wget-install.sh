@@ -12,7 +12,7 @@
 ###----------------------------------------------------------
 
 
-function shotcut-wget-install() {
+function shotcut-wget-install.main() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
   source ${LSCRIPTS}/lscripts.config.sh
 
@@ -37,4 +37,4 @@ function shotcut-wget-install() {
   ## ${_LSD__EXTERNAL_HOME}/${DIR}/Shotcut.app/shotcut
 }
 
-shotcut-wget-install
+shotcut-wget-install.main "$@"

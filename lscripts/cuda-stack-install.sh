@@ -17,11 +17,13 @@ function ctrlc_handler {
   exit
 }
 
+
 function cuda-stack-addrepo-ubuntu1404() {
   ## Not supported
   _log_.debug "__LINUX_DISTRIBUTION_TR: ${__LINUX_DISTRIBUTION_TR}"
   return -1
 }
+
 
 function cuda-stack-addrepo-ubuntu1604() {
   ###----------------------------------------------------------
@@ -61,6 +63,7 @@ function cuda-stack-addrepo-ubuntu1604() {
 
 }
 
+
 function cuda-stack-addrepo-ubuntu1804() {
   ###----------------------------------------------------------
   ## References:
@@ -90,6 +93,7 @@ function cuda-stack-addrepo-ubuntu1804() {
   } || _log_.fail "Check the URL manually: curl -fsSL  ${CUDA_REPO_KEY_URL}"
 }
 
+
 function cuda-stack-addrepo() {
   local __LINUX_DISTRIBUTION_TR
   _log_.debug "param 1: $1"
@@ -100,9 +104,11 @@ function cuda-stack-addrepo() {
    # &>/dev/null || _log_.fail "Internal Error: cuda-stack-addrepo-${__LINUX_DISTRIBUTION_TR}"
 }
 
+
 function cuda-stack-uninstall() {
   _nvidia_.purge_cuda_stack
 }
+
 
 function __cuda-stack-install() {
     ## For libraries in the cuda-compat-* package: https://docs.nvidia.com/cuda/eula/index.html#attachment-a
@@ -195,6 +201,7 @@ function __cuda-stack-install() {
     export TORCH_CUDA_ARCH_LIST=${__TORCH_CUDA_ARCH_LIST}
 }
 
+
 function cuda-stack-config() {
   ## FYI: not required with boozo stack, as it's pre-configured
 
@@ -219,12 +226,13 @@ function cuda-stack-config() {
   _log_.echo "CUDA_HOME: ${CUDA_HOME}"
 }
 
-function cuda-stack-install() {
+
+function cuda-stack-install.main() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
   source ${LSCRIPTS}/lscripts.config.sh
 
   local scriptname=$(basename ${BASH_SOURCE[0]})
-  _log_.debug "executing script...: ${scriptname}"
+  _log_.debug "executing script...: ${scriptname} with total params: $#"
 
   local _default=yes
   local _que
@@ -327,4 +335,4 @@ function cuda-stack-install() {
 
 }
 
-cuda-stack-install $1
+cuda-stack-install.main "$@"

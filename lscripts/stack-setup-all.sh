@@ -16,30 +16,14 @@ function ctrlc_handler {
 }
 
 
-function fullstack-setup() {
+function stack-setup-all.main() {
   local LSCRIPTS="$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )"
-  source "${LSCRIPTS}/lscripts/_common_.sh"
-
-  declare -a _stack_install=(
-    "prerequisite"
-    "nvidia-cuda-python-docker"
-    "utils"
-    "sysutils"
-    "editors"
-    "markdowneditors"
-    "programming"
-    "epub"
-    "storage"
-    "graphics"
-    "misc"
-  )
-
-  # declare -a _stack_verify=()
+  source "${LSCRIPTS}/_common_.sh"
 
   _log_.warn "Install ${FUNCNAME[0]}; sudo access is required!"
   _fio_.yesno_yes "Continue" && {
       local item
-      for item in "${_stack_install[@]}";do
+      for item in "${_stack_install_items[@]}";do
         _log_.info ${item}
         local _item_filepath="${LSCRIPTS}/stack-setup-${item}.sh"
 
@@ -48,11 +32,11 @@ function fullstack-setup() {
           _fio_.yesno_no "Install ${item}" && {
             _log_.ok "Executing installer... ${_item_filepath}" && \
             _log_.echo "Installing..."
-            source "${_item_filepath}" || _log_.error "${_item_filepath}"
+            source "${_item_filepath} $@" || _log_.error "${_item_filepath}"
           } || _log_.echo "Skipping ${item} installation!"
         } || _log_.error "Installer not found: ${item}!"
       done
     } || _log_.echo "Skipping ${FUNCNAME[0]} installation!"
 }
 
-fullstack-setup
+stack-setup-all.main "$@"

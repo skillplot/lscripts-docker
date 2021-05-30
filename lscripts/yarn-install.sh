@@ -20,7 +20,7 @@ function ctrlc_handler {
 }
 
 
-function yarn-install() {
+function yarn-install.main() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
   source ${LSCRIPTS}/lscripts.config.sh
   
@@ -38,4 +38,4 @@ function yarn-install() {
   _log_.info "yarn version is: $(yarn --version)"
 }
 
-yarn-install
+yarn-install.main "$@"

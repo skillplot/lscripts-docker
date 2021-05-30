@@ -17,7 +17,7 @@
 ###----------------------------------------------------------
 
 
-function debug_lscripts() {
+function _debug_.main() {
   local sourced
   # [[ $_ != $0 ]] && echo "Script is being sourced" || echo "Script is a subshell"
   [[ "${BASH_SOURCE[0]}" != "${0}" ]] && (>&2 echo -e "script ${BASH_SOURCE[0]} is being sourced ...") || (>&2 echo -e "Script is a subshell")
@@ -56,6 +56,6 @@ function debug_lscripts() {
   # _log_.info "Total all_vars: ${#all_vars[@]}"
 }
 
-debug_lscripts
+_debug_.main
 
 

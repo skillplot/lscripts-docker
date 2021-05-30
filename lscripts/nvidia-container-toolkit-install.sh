@@ -88,7 +88,7 @@ function nvidia-container-toolkit-addrepo() {
   sudo apt -y update
 }
 
-function nvidia-container-toolkit-install() {
+function nvidia-container-toolkit-install.main() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
   source ${LSCRIPTS}/lscripts.config.sh
 
@@ -135,4 +135,4 @@ function nvidia-container-toolkit-install() {
     || _log_.echo "${_msg}"
 }
 
-nvidia-container-toolkit-install
+nvidia-container-toolkit-install.main "$@"

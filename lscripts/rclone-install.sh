@@ -27,7 +27,7 @@
 ###----------------------------------------------------------
 
 
-function rclone-install() {
+function rclone-install.main() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
   # source ${LSCRIPTS}/lscripts.config.sh
 
@@ -45,4 +45,4 @@ function rclone-install() {
 	# cd ${LSCRIPTS}
 }
 
-rclone-install
+rclone-install.main "$@"

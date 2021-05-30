@@ -7,8 +7,8 @@
 ###----------------------------------------------------------
 
 
-function digikam-apt-install() {
+function digikam-apt-install.main() {
   sudo apt -y install digikam
 }
 
-digikam-apt-install
+digikam-apt-install.main "$@"
