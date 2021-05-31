@@ -7,7 +7,9 @@
 ## Virtual Machines, Containers, Python virtual environments
 ###----------------------------------------------------------
 
-local pyVer=3
-local PYVENV_NAME="py_${pyVer}_${__TIMESTAMP__}"
-local PY_VENV_LINK_NAME="py_${pyVer}"
-local PYVENV_NAME_ALIAS="py_${pyVer}_bzodev"
+
+local _LSD__PYVER=3
+local _LSD__PYVENV_NAME="py_${_LSD__PYVER}_${__TIMESTAMP__}"
+local _LSD__PY_VENV_LINK_NAME="py_${_LSD__PYVER}"
+local _LSD__PYVENV_NAME_ALIAS="py_${_LSD__PYVER}_bzodev"
+local _LSD__PY_VIRTUALENVWRAPPER='virtualenvwrapper.sh'

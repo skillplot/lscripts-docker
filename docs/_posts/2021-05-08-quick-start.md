@@ -10,6 +10,9 @@ categories: quick-start
 
 
 1. Clone the repo
+    ```bash
+    git clone https://github.com/skillplot/lscripts-docker.git
+    ```
 2. Put the following in the end of the `~/.bashrc` file. Change the path where you cloned the repo:
     ```bash
     export LSCRIPTS_DOCKER="/path/to/lscripts-docker"
@@ -165,31 +168,38 @@ This is **recommended** for first time setup and gives more control to select wh
 This is for **advance** usage providing granular control on specific software component that is to be installed.
 
 1. Install Nvidia driver
-  ```bash
-  lsd-install.nvidia-driver
-  ```
+    ```bash
+    lsd-install.nvidia-driver
+    ```
 2. Install docker, docker-compose
-  ```bash
-  lsd-install.docker-ce
-  lsd-install.docker-compose
-  ```
+    ```bash
+    lsd-install.docker-ce
+    lsd-install.docker-compose
+    ```
 3. Install Nvidia docker
-  ```bash
-  lsd-install.nvidia-container-toolkit
-  ```
+    ```bash
+    lsd-install.nvidia-container-toolkit
+    ```
 4. Install python
-  ```bash
-  ## installs both python 2 and 3
-  lsd-install.python
-  ```
+    ```bash
+    ## installs both python 2 and 3
+    lsd-install.python
+    ```
 5. Install python's virtualenv, virtualenvwrapper
-  ```bash
-  lsd-install.python-virtualenvwrapper
-  ```
+  * Python to be installed before installing `python-virtualenvwrapper`
+  * Configure the environment variables for `python-virtualenvwrapper` installer by `export` in the terminal or put this in `~/.bashrc` file. Replcae the text `<absolute_path_to_virtualmachines>` with actual directory path.
+    ```bash
+    export LSCRIPTS__VMHOME="<absolute_path_to_virtualmachines>"
+    export LSCRIPTS__PYVENV_PATH="${LSCRIPTS__VMHOME}/virtualenvs"
+    ```
+  * Execute the installer:
+      ```bash
+      lsd-install.python-virtualenvwrapper
+      ```
 6. Install CUDA stack (cuda, cudnn, tensorRT). supported CUDA: `9.0`, `10.0`, `10.2`, `11.0`.
-  ```bash
-  lsd-install.cuda-stack 10.0
-  ```
+    ```bash
+    lsd-install.cuda-stack 10.0
+    ```
 
 
 ### Build Nvidia CUDA Docker Images
@@ -200,25 +210,131 @@ These provides complete development stack for deep learning docker environments.
 
 
 * **Build CUDA 10.0 Nvidia image**
-  ```bash
-  printf "y" | bash docker-buildimg-cuda.sh 10.0
-  ```
+    ```bash
+    printf "y" | bash docker-buildimg-cuda.sh 10.0
+    ```
 * **Python dependencies for specific CUDA versions**
-  ```bash
-  pip install -U -r lscripts/config/ubuntu18.04/python.requirements-ai-cuda-9.0.txt
-  pip install -U -r lscripts/config/ubuntu18.04/python.requirements-ai-cuda-10.0.txt
-  pip install -U -r lscripts/config/ubuntu18.04/python.requirements-ai-cuda-10.2.txt
-  #
-  pip install -U -r lscripts/config/ubuntu18.04/python.requirements-ai-cuda-11.0.txt
-  ```
+    ```bash
+    pip install -U -r lscripts/config/ubuntu18.04/python.requirements-ai-cuda-9.0.txt
+    pip install -U -r lscripts/config/ubuntu18.04/python.requirements-ai-cuda-10.0.txt
+    pip install -U -r lscripts/config/ubuntu18.04/python.requirements-ai-cuda-10.2.txt
+    #
+    pip install -U -r lscripts/config/ubuntu18.04/python.requirements-ai-cuda-11.0.txt
+    ```
 * **Docker container tips**
   * Re-start host docker service if Internet access is not there inside container;
+      ```bash
+      sudo service docker stop
+      sudo service docker start
+      #
+      bash start.bzohub-170820_051654.sh
+      #
+      docker exec -u $(id -u):$(id -g) -it c1c80473e63c /bin/bash && xhost -local:root 1>/dev/null 2>&1
+      docker exec -u $(id -u):$(id -g) -it bzohub-170820_051654 /bin/bash && xhost -local:root 1>/dev/null 2>&1
+      ```
+
+## Configure Environment Variables
+
+* Configure the environment variables for `python-virtualenvwrapper` installer by `export` in the terminal or put this in `~/.bashrc` file. Replcae the text `<absolute_path_to_virtualmachines>` with actual directory path.
+  ```bash
+  export LSCRIPTS__VMHOME="<absolute_path_to_virtualmachines>"
+  export LSCRIPTS__PYVENV_PATH="${LSCRIPTS__VMHOME}/virtualenvs"
+  ```
+
+## Compelete List of Individual installer
+
+* `lsd-install.<name_of_package>` is used to install individual software components. Here are currently available options:
     ```bash
-    sudo service docker stop
-    sudo service docker start
-    #
-    bash start.bzohub-170820_051654.sh
-    #
-    docker exec -u $(id -u):$(id -g) -it c1c80473e63c /bin/bash && xhost -local:root 1>/dev/null 2>&1
-    docker exec -u $(id -u):$(id -g) -it bzohub-170820_051654 /bin/bash && xhost -local:root 1>/dev/null 2>&1
+    lsd-install.apache2
+    lsd-install.atom-wget-dpkg
+    lsd-install.audacity-apt
+    lsd-install.balenaetcher-apt
+    lsd-install.core-apt
+    lsd-install.couchdb-apt
+    lsd-install.cuda-stack
+    lsd-install.darktable-apt
+    lsd-install.diff-tools
+    lsd-install.digikam-apt
+    lsd-install.docker-ce
+    lsd-install.docker-compose
+    lsd-install.encryption-apt
+    lsd-install.epub-editors-apt
+    lsd-install.epub-readers-apt
+    lsd-install.essentials-apt
+    lsd-install.extras-apt
+    lsd-install.ffmpeg-apt
+    lsd-install.freecad-ppa
+    lsd-install.gcc-apt
+    lsd-install.ghostwriter-apt
+    lsd-install.gimp-graphics-apt
+    lsd-install.gitlab-apt
+    lsd-install.golang
+    lsd-install.handbrake-ppa
+    lsd-install.haroopad-wget-dpkg
+    lsd-install.heroku-cli-snap
+    lsd-install.httrack-apt
+    lsd-install.imagemagic-graphics-apt
+    lsd-install.imageviewer-cmdline-apt
+    lsd-install.inkscape-graphics-apt
+    lsd-install.inotifytools-apt
+    lsd-install.java-apt
+    lsd-install.kafka-wget-dpkg
+    lsd-install.kodi-multimedia-apt
+    lsd-install.krita-ppa
+    lsd-install.latex-apt
+    lsd-install.latex-editors-apt
+    lsd-install.librecad-ppa
+    lsd-install.lyx-ppa
+    lsd-install.makehuman3d-ppa
+    lsd-install.mongodb-apt
+    lsd-install.mysql-apt
+    lsd-install.nginx-apt
+    lsd-install.nodejs
+    lsd-install.nvidia-container-toolkit
+    lsd-install.nvidia-driver
+    lsd-install.nvm
+    lsd-install.obsstudio-ppa
+    lsd-install.octave-apt
+    lsd-install.openscad-ppa
+    lsd-install.openshot-ppa
+    lsd-install.openvpn-apt
+    lsd-install.pandoc-wget-dpkg
+    lsd-install.php
+    lsd-install.pitvi-flatpak
+    lsd-install.postgres-postgis-apt
+    lsd-install.postman-testing-snap
+    lsd-install.prerequisite
+    lsd-install.prerequisite-opencv
+    lsd-install.prerequisite-pcl
+    lsd-install.pycharm-snap
+    lsd-install.python
+    lsd-install.python-virtualenvwrapper
+    lsd-install.qgis3-apt
+    lsd-install.rasdamandb-apt
+    lsd-install.rclone
+    lsd-install.redis-wget-make
+    lsd-install.ros-apt
+    lsd-install.ruby_rails_jekyll
+    lsd-install.scribus-apt
+    lsd-install.shotcut-wget
+    lsd-install.shutter-ppa
+    lsd-install.simplescreenrecorder-ppa
+    lsd-install.slowmovideo-ppa
+    lsd-install.stacer-apt
+    lsd-install.sublime-apt
+    lsd-install.sublimemerge-apt
+    lsd-install.systemsensors-apt
+    lsd-install.timeshift-apt
+    lsd-install.typora-apt
+    lsd-install.videofix-apt
+    lsd-install.vim-apt
+    lsd-install.vim-plug
+    lsd-install.vlc-apt
+    lsd-install.vokoscreen-ppa
+    lsd-install.vulkansdk-apt
+    lsd-install.wine-apt
+    lsd-install.xnview-wget
+    lsd-install.yarn
+    lsd-install.youtubedl-apt
+    lsd-install.zookeeper-wget
     ```

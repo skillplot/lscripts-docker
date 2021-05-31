@@ -29,11 +29,11 @@ function python-virtualenvwrapper-uninstall() {
 
 function __python-virtualenvwrapper-getconfig_file() {
   local __PY_VIRTUALENVWRAPPER
-  _log_.debug "/usr/local/bin/${PY_VIRTUALENVWRAPPER}"
+  _log_.debug "/usr/local/bin/${_LSD__PY_VIRTUALENVWRAPPER}"
   {
-    ls -1 "/usr/local/bin/${PY_VIRTUALENVWRAPPER}" &>/dev/null && __PY_VIRTUALENVWRAPPER="/usr/local/bin/${PY_VIRTUALENVWRAPPER}"
+    ls -1 "/usr/local/bin/${_LSD__PY_VIRTUALENVWRAPPER}" &>/dev/null && __PY_VIRTUALENVWRAPPER="/usr/local/bin/${_LSD__PY_VIRTUALENVWRAPPER}"
   } || {
-    ls -1 "${HOME}/.local/bin/${PY_VIRTUALENVWRAPPER}" &>/dev/null && __PY_VIRTUALENVWRAPPER="${HOME}/.local/bin/${PY_VIRTUALENVWRAPPER}"
+    ls -1 "${HOME}/.local/bin/${_LSD__PY_VIRTUALENVWRAPPER}" &>/dev/null && __PY_VIRTUALENVWRAPPER="${HOME}/.local/bin/${_LSD__PY_VIRTUALENVWRAPPER}"
   }
   _log_.debug "__PY_VIRTUALENVWRAPPER: ${__PY_VIRTUALENVWRAPPER}"
 
@@ -54,26 +54,26 @@ function python-virtualenvwrapper-test() {
   local py_env_name="test_${__pyVer}_$(date -d now +'%d%m%y_%H%M%S')"
   _log_.debug "Creating...py_env_name: ${py_env_name}"
 
-  _log_.debug "PY_VENV_PATH: ${PY_VENV_PATH}"
-  [[ -d ${PY_VENV_PATH} ]] || {
-    _log_.info "PY_VENV_PATH Does not exists: ${PY_VENV_PATH}"
+  _log_.debug "_LSD__PYVENV_PATH: ${_LSD__PYVENV_PATH}"
+  [[ -d ${_LSD__PYVENV_PATH} ]] || {
+    _log_.info "_LSD__PYVENV_PATH Does not exists: ${_LSD__PYVENV_PATH}"
 
-    local _que="Do you want to Create PY_VENV_PATH: ${PY_VENV_PATH}"
-    local _msg="Skipping PY_VENV_PATH creation!"
+    local _que="Do you want to Create _LSD__PYVENV_PATH: ${_LSD__PYVENV_PATH}"
+    local _msg="Skipping _LSD__PYVENV_PATH creation!"
     _fio_.yesno_yes "${_que}" && {
-      _log_.echo "Creating PY_VENV_PATH..."
-      mkdir -p ${PY_VENV_PATH}
+      _log_.echo "Creating _LSD__PYVENV_PATH..."
+      mkdir -p ${_LSD__PYVENV_PATH}
     } || _log_.echo "${_msg}"
   }
 
-  [[ -d ${PY_VENV_PATH} ]] && {
-    export WORKON_HOME=${PY_VENV_PATH}
+  [[ -d ${_LSD__PYVENV_PATH} ]] && {
+    export WORKON_HOME=${_LSD__PYVENV_PATH}
     __PY_VIRTUALENVWRAPPER=$(__python-virtualenvwrapper-getconfig_file)
     _log_.debug "__PY_VIRTUALENVWRAPPER: ${__PY_VIRTUALENVWRAPPER}"
     source "${__PY_VIRTUALENVWRAPPER}"
 
-    _log_.info "Creating py_env_name: ${py_env_name} folder inside: ${PY_VENV_PATH}"
-    ## creates the my_project folder inside ${PY_VENV_PATH}
+    _log_.info "Creating py_env_name: ${py_env_name} folder inside: ${_LSD__PYVENV_PATH}"
+    ## creates the my_project folder inside ${_LSD__PYVENV_PATH}
     mkvirtualenv -p $(which ${PYTHON}) ${py_env_name} &>/dev/null && {
       _log_.info "lsvirtualenv: ## List all of the environments."
       lsvirtualenv
@@ -105,7 +105,7 @@ function python-virtualenvwrapper-test() {
       _log_.info "rmvirtualenv new_<py_env_name>: ## Removes the virtualenv environment."
       rmvirtualenv new_${py_env_name}
     } || _log_.error "python virtualenvwrapper is not installed / configured properly. check: WORKON_HOME: ${WORKON_HOME}"
-  } || _log_.error "PY_VENV_PATH does not exists: ${PY_VENV_PATH}"
+  } || _log_.error "_LSD__PYVENV_PATH does not exists: ${_LSD__PYVENV_PATH}"
 }
 
 
@@ -120,18 +120,24 @@ function python-virtualenvwrapper-create() {
   local py_env_name="py_${__pyVer}_$(date -d now +'%d%m%y_%H%M%S')"
   _log_.debug "Creating...py_env_name: ${py_env_name}"
 
-  _log_.debug "PY_VENV_PATH: ${PY_VENV_PATH}"
-  [[ -d ${PY_VENV_PATH} ]] || _log_.fail "Does not exists PY_VENV_PATH: ${PY_VENV_PATH}"
+  _log_.debug "_LSD__PYVENV_PATH: ${_LSD__PYVENV_PATH}"
+  [[ -d ${_LSD__PYVENV_PATH} ]] || _log_.fail "Does not exists _LSD__PYVENV_PATH: ${_LSD__PYVENV_PATH}"
 
-  export WORKON_HOME=${PY_VENV_PATH}
+  export WORKON_HOME=${_LSD__PYVENV_PATH}
   __PY_VIRTUALENVWRAPPER=$(__python-virtualenvwrapper-getconfig_file)
   _log_.debug "__PY_VIRTUALENVWRAPPER: ${__PY_VIRTUALENVWRAPPER}"
   source "${__PY_VIRTUALENVWRAPPER}"
 
-  lsvirtualenv | grep ${py_env_name}
-  [[ $? -eq 0 ]] || {
-    _log_.warn "Creating: ${py_env_name} folder inside: ${PY_VENV_PATH}"
-    mkvirtualenv -p $(which ${PYTHON}) ${py_env_name} &>/dev/null && workon ${py_env_name} || _log_.error "Internal _log_.error in mkvirtualenv!"
+  local _cmd='lsvirtualenv'
+  type ${_cmd} &>/dev/null && {
+    lsvirtualenv | grep ${py_env_name}
+    [[ $? -eq 0 ]] || {
+      _log_.warn "Creating: ${py_env_name} folder inside: ${_LSD__PYVENV_PATH}"
+      mkvirtualenv -p $(which ${PYTHON}) ${py_env_name} &>/dev/null && workon ${py_env_name} || _log_.error "Internal _log_.error in mkvirtualenv!"
+    }
+  } 1>&2 || {
+    _log_.error "${_cmd} not installed or corrupted!"
+    return -1
   }
 }
 
@@ -139,7 +145,7 @@ function python-virtualenvwrapper-config() {
   [[ -f ${USER_BASHRC_FILE} ]] || _log_.fail "File does not exits,USER_BASHRC_FILE: ${USER_BASHRC_FILE}"
 
   local LINE
-  LINE="export WORKON_HOME=${PY_VENV_PATH}"
+  LINE="export WORKON_HOME=${_LSD__PYVENV_PATH}"
   _fio_.inject_in_file --file="${USER_BASHRC_FILE}" --line="${LINE}"
 
   __PY_VIRTUALENVWRAPPER=$(__python-virtualenvwrapper-getconfig_file)
@@ -164,12 +170,12 @@ function __python-virtualenvwrapper-install() {
 
   ${PYTHON} -m virtualenv --version
 
-  _log_.info "Creating VM_HOME: ${VM_HOME} and PY_VENV_PATH: ${PY_VENV_PATH}"
+  _log_.info "Creating _LSD__VM_HOME: ${_LSD__VM_HOME} and _LSD__PYVENV_PATH: ${_LSD__PYVENV_PATH}"
 
-  [[ ! -z ${VM_HOME} ]] && sudo mkdir -p ${VM_HOME} &>/dev/null  || _log_.fail "Unable to create VM_HOME: ${VM_HOME}"
+  [[ ! -z ${_LSD__VM_HOME} ]] && sudo mkdir -p ${_LSD__VM_HOME} &>/dev/null  || _log_.fail "Unable to create _LSD__VM_HOME: ${_LSD__VM_HOME}"
 
   [[ ! -z ${USR} ]] && [[ ! -z ${GRP} ]] && \
-    sudo chown ${USR}:${GRP} ${VM_HOME} &>/dev/null || _log_.fail "Unable to set permission VM_HOME: ${VM_HOME}"
+    sudo chown ${USR}:${GRP} ${_LSD__VM_HOME} &>/dev/null || _log_.fail "Unable to set permission _LSD__VM_HOME: ${_LSD__VM_HOME}"
 }
 
 function python-virtualenvwrapper-install.main() {
