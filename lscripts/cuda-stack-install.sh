@@ -6,6 +6,10 @@
 ## Install Cuda Stack - cuda, cudnn, nccl, tensorrt
 ## also provides environment variables for configuring
 ## CUDA inside docker container
+#
+## References:
+## * https://developer.download.nvidia.com/compute/machine-learning/repos
+## * https://developer.download.nvidia.com/compute/cuda/repos
 ###----------------------------------------------------------
 
 
@@ -36,10 +40,10 @@ function cuda-stack-addrepo-ubuntu1604() {
   ## sha256sum: WARNING: 1 computed checksum did NOT match
   ###----------------------------------------------------------
 
-  local NVIDIA_REPO_BASEURL="https://developer.download.nvidia.com/compute"
+  # local NVIDIA_REPO_BASEURL="https://developer.download.nvidia.com/compute"
   local __LINUX_DISTRIBUTION_TR="ubuntu1604"
-  local OS_ARCH="x86_64"
-  local NVIDIA_CUDA_REPO_KEY="7fa2af80.pub"
+  # local NVIDIA_OS_ARCH="x86_64"
+  # local NVIDIA_CUDA_REPO_KEY="7fa2af80.pub"
   # local NVIDIA_GPGKEY_SUM="d1be581509378368edeec8c1eb2958702feedf3bc3d17011adbf24efacce4ab5"
   # local NVIDIA_GPGKEY_FPR="ae09fe4bbd223a84b2ccfce3f60f4b3d7fa2af80"
   _log_.debug "__LINUX_DISTRIBUTION_TR: ${__LINUX_DISTRIBUTION_TR}"
@@ -54,9 +58,9 @@ function cuda-stack-addrepo-ubuntu1604() {
     curl \
     software-properties-common 2>/dev/null
 
-  curl -fsSL ${NVIDIA_REPO_BASEURL}/cuda/repos/${__LINUX_DISTRIBUTION_TR}/${OS_ARCH}/${NVIDIA_CUDA_REPO_KEY} | sudo apt-key add - &>/dev/null && {
-    echo "deb ${NVIDIA_REPO_BASEURL}/cuda/repos/${__LINUX_DISTRIBUTION_TR}/${OS_ARCH} /" | sudo tee /etc/apt/sources.list.d/cuda.list && \
-    echo "deb ${NVIDIA_REPO_BASEURL}/machine-learning/repos/${__LINUX_DISTRIBUTION_TR}/${OS_ARCH} /" | sudo tee /etc/apt/sources.list.d/nvidia-ml.list
+  curl -fsSL ${NVIDIA_REPO_BASEURL}/cuda/repos/${__LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH}/${NVIDIA_CUDA_REPO_KEY} | sudo apt-key add - &>/dev/null && {
+    echo "deb ${NVIDIA_REPO_BASEURL}/cuda/repos/${__LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH} /" | sudo tee /etc/apt/sources.list.d/cuda.list && \
+    echo "deb ${NVIDIA_REPO_BASEURL}/machine-learning/repos/${__LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH} /" | sudo tee /etc/apt/sources.list.d/nvidia-ml.list
 
     sudo apt -y update
   } || _log_.fail "Check the URL manually: curl -fsSL  ${CUDA_REPO_KEY_URL}"
@@ -70,11 +74,11 @@ function cuda-stack-addrepo-ubuntu1804() {
   ##  - cuda/dist/ubuntu18.04/10.0/base/Dockerfile
   ###----------------------------------------------------------
   sudo apt-get -y update
-  local NVIDIA_REPO_BASEURL="https://developer.download.nvidia.com/compute"
+  # local NVIDIA_REPO_BASEURL="https://developer.download.nvidia.com/compute"
   local __LINUX_DISTRIBUTION_TR="ubuntu1804"
-  local OS_ARCH="x86_64"
-  local NVIDIA_CUDA_REPO_KEY="7fa2af80.pub"
-  local CUDA_REPO_KEY_URL="${NVIDIA_REPO_BASEURL}/cuda/repos/${__LINUX_DISTRIBUTION_TR}/${OS_ARCH}/${NVIDIA_CUDA_REPO_KEY}"
+  # local NVIDIA_OS_ARCH="x86_64"
+  # local NVIDIA_CUDA_REPO_KEY="7fa2af80.pub"
+  local CUDA_REPO_KEY_URL="${NVIDIA_REPO_BASEURL}/cuda/repos/${__LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH}/${NVIDIA_CUDA_REPO_KEY}"
   _log_.debug "__LINUX_DISTRIBUTION_TR: ${__LINUX_DISTRIBUTION_TR}"
   _log_.debug "CUDA_REPO_KEY_URL: ${CUDA_REPO_KEY_URL}"
 
@@ -86,8 +90,38 @@ function cuda-stack-addrepo-ubuntu1804() {
     software-properties-common 2>/dev/null
 
   curl -fsSL ${CUDA_REPO_KEY_URL} | sudo apt-key add - &>/dev/null && {
-    echo "deb ${NVIDIA_REPO_BASEURL}/cuda/repos/${__LINUX_DISTRIBUTION_TR}/${OS_ARCH} /" | sudo tee /etc/apt/sources.list.d/cuda.list && \
-    echo "deb ${NVIDIA_REPO_BASEURL}/machine-learning/repos/${__LINUX_DISTRIBUTION_TR}/${OS_ARCH} /" | sudo tee /etc/apt/sources.list.d/nvidia-ml.list
+    echo "deb ${NVIDIA_REPO_BASEURL}/cuda/repos/${__LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH} /" | sudo tee /etc/apt/sources.list.d/cuda.list && \
+    echo "deb ${NVIDIA_REPO_BASEURL}/machine-learning/repos/${__LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH} /" | sudo tee /etc/apt/sources.list.d/nvidia-ml.list
+
+    sudo apt -y update
+  } || _log_.fail "Check the URL manually: curl -fsSL  ${CUDA_REPO_KEY_URL}"
+}
+
+
+function cuda-stack-addrepo-ubuntu2004() {
+  ###----------------------------------------------------------
+  ## References:
+  ##  - cuda/dist/ubuntu18.04/10.0/base/Dockerfile
+  ###----------------------------------------------------------
+  sudo apt-get -y update
+  # local NVIDIA_REPO_BASEURL="https://developer.download.nvidia.com/compute"
+  local __LINUX_DISTRIBUTION_TR="ubuntu2004"
+  # local NVIDIA_OS_ARCH="x86_64"
+  # local NVIDIA_CUDA_REPO_KEY="7fa2af80.pub"
+  local CUDA_REPO_KEY_URL="${NVIDIA_REPO_BASEURL}/cuda/repos/${__LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH}/${NVIDIA_CUDA_REPO_KEY}"
+  _log_.debug "__LINUX_DISTRIBUTION_TR: ${__LINUX_DISTRIBUTION_TR}"
+  _log_.debug "CUDA_REPO_KEY_URL: ${CUDA_REPO_KEY_URL}"
+
+  sudo apt-get install -y --no-install-recommends \
+    apt-transport-https \
+    ca-certificates \
+    gnupg2 \
+    curl \
+    software-properties-common 2>/dev/null
+
+  curl -fsSL ${CUDA_REPO_KEY_URL} | sudo apt-key add - &>/dev/null && {
+    echo "deb ${NVIDIA_REPO_BASEURL}/cuda/repos/${__LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH} /" | sudo tee /etc/apt/sources.list.d/cuda.list && \
+    echo "deb ${NVIDIA_REPO_BASEURL}/machine-learning/repos/${__LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH} /" | sudo tee /etc/apt/sources.list.d/nvidia-ml.list
 
     sudo apt -y update
   } || _log_.fail "Check the URL manually: curl -fsSL  ${CUDA_REPO_KEY_URL}"
@@ -299,39 +333,44 @@ function cuda-stack-install.main() {
 
   _que="Add ${_prog} repo"
   _msg="Skipping adding ${_prog} repo!"
-  _fio_.yesno_${_default} "${_que}" && \
-      _log_.echo "Adding ${_prog} repo..." && \
-      ${_prog}-addrepo ${CUDA_OS_REL} \
-    || _log_.echo "${_msg}"
+  _fio_.yesno_${_default} "${_que}" && {
+    _log_.echo "Adding ${_prog} repo..."
+    ${_prog}-addrepo ${CUDA_OS_REL}
+  } || _log_.echo "${_msg}"
 
   _que="Install ${_prog} now"
   _msg="Skipping ${_prog} installation!"
-  _fio_.yesno_${_default} "${_que}" && \
-      _log_.echo "Installing..." && \
-      __${_prog}-install ${BUILD_FOR_CUDA_VER} && _default=yes || {
-      _log_.echo "${_msg}" && _default=no
-    }
+  _fio_.yesno_${_default} "${_que}" && {
+    _log_.echo "Installing..."
+    __${_prog}-install ${BUILD_FOR_CUDA_VER} && _default=yes
+  } || {
+    _log_.echo "${_msg}" && _default=no
+  }
 
   _que="Configure ${_prog} now"
   _msg="Skipping ${_prog} configuration!"
-  _fio_.yesno_${_default} "${_que}" && \
-      _log_.echo "Configuring..." && \
-      ${_prog}-config \
-    || {
-      _log_.echo "${_msg}" && _default=no
-    }
+  _fio_.yesno_${_default} "${_que}" && {
+    _log_.echo "Configuring..."
+    ${_prog}-config
+  } || {
+    _log_.echo "${_msg}" && _default=no
+  }
 
   _que="Configure multiple cuda now"
   _msg="Skipping multiple cuda configuration!"
-  _fio_.yesno_${_default} "${_que}" && \
-      _log_.echo "Configuring..." &&  _nvidia_.update_alternatives_cuda || _log_.echo "${_msg}"
+  _fio_.yesno_${_default} "${_que}" && {
+    _log_.echo "Configuring..."
+    _nvidia_.update_alternatives_cuda
+  } || {
+    _log_.echo "${_msg}" && _default=no
+  }
 
   _que="Verify ${_prog} now"
   _msg="Skipping ${_prog} verification!"
-  _fio_.yesno_${_default} "${_que}" && \
-      _log_.echo "Verifying..." && \
-      source "${LSCRIPTS}/${_prog}-verify.sh" \
-    || _log_.echo "${_msg}"
+  _fio_.yesno_${_default} "${_que}" && {
+    _log_.echo "Verifying..."
+    source "${LSCRIPTS}/${_prog}-verify.sh"
+  }  || _log_.echo "${_msg}"
 
 }
 

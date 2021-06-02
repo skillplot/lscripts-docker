@@ -41,6 +41,12 @@ local NODE_NVM_VER=v0.35.3
 local NODE_NVM_VER=v0.38.0
 #
 ##----------------------------------------------------------
+## Yarn
+##----------------------------------------------------------
+local YARN_REPO_URL="https://dl.yarnpkg.com/debian"
+local YARN_KEY_URL="${YARN_REPO_URL}/pubkey.gpg"
+#
+##----------------------------------------------------------
 ## JAVA JDK version
 ##----------------------------------------------------------
 local JAVA_JDK_VER="8"
