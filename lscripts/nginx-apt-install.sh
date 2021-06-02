@@ -20,4 +20,4 @@ function nginx-apt-install.main() {
   # sudo systemctl start nginx
 }
 
-nginx-apt-install.main
+nginx-apt-install.main "$@"

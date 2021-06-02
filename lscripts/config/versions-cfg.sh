@@ -10,6 +10,11 @@
 ###----------------------------------------------------------
 
 
+local __LINUX_VERSION
+type lsb_release &>/dev/null && __LINUX_VERSION="$(lsb_release -sr)" || {
+  __LINUX_VERSION=$(. /etc/os-release;echo ${VERSION_ID})
+}
+#
 local CMAKE_VER="3.11"
 local CMAKE_BUILD="0"
 #
@@ -24,8 +29,11 @@ local CMAKE_REL="${CMAKE_VER}.${CMAKE_BUILD}"
 local PHP_VER="7.0"
 local PHP_VER="7.1"
 local PHP_VER="7.2"
+[[ "${__LINUX_VERSION}" == "18.04" ]] && PHP_VER="7.2"
+[[ "${__LINUX_VERSION}" == "20.04" ]] && PHP_VER="7.4"
+
 ## for ubuntu 20.04 LTS
-#local PHP_VER="7.4"
+#local 
 #
 ##----------------------------------------------------------
 ## Node JS, NVM version

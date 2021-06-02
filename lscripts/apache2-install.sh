@@ -79,7 +79,7 @@ function apache2-install() {
   _msg="Skipping modules installation."
   _fio_.yesno_no "${_que}" && \
       _log_.echo "Installing modules..." && \
-      ${_prog}-install-modules \
+      ${_prog}-modules \
     || _log_.echo "${_msg}"
 
   _que="Configure ${_prog} now (recommended)"

@@ -47,7 +47,9 @@ function prerequisite-install.main() {
   sudo apt -y install autoconf automake libtool curl unzip
   #
   ## ceres-solver dependencies
-  sudo apt -y install libgflags2.2 libgflags-dev python-gflags python3-gflags libgoogle-glog-dev
+  ## Todo: Error fix in Ubuntu 20.04; E: Unable to locate package python-gflags
+  # sudo apt -y install libgflags2.2 libgflags-dev python-gflags python3-gflags libgoogle-glog-dev
+  sudo apt -y install libgflags2.2 libgflags-dev python3-gflags libgoogle-glog-dev
   #
   ## apache superset (visulization tool in python)
   # sudo apt -y install libssl-dev libffi-dev libsasl2-dev libldap2-dev  
