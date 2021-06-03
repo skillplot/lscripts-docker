@@ -22,7 +22,7 @@ function ctrlc_handler {
 
 
 function yarn-addkey() {
-  curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+  # curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
   curl -sS ${YARN_KEY_URL} | sudo apt-key add -
 }
 
@@ -41,7 +41,7 @@ function __yarn-install() {
 }
 
 
-function yarn-install.main() {
+function yarn-apt-install.main() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
   source ${LSCRIPTS}/lscripts.config.sh
 
@@ -80,4 +80,4 @@ function yarn-install.main() {
 
 }
 
-yarn-install.main "$@"
+yarn-apt-install.main "$@"

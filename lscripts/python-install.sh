@@ -22,10 +22,12 @@ function ctrlc_handler {
   exit
 }
 
+
 function python-uninstall() {
   _log_.warn "python uninstallion not allowed through this script!"
   return -1
 }
+
 
 function __python-install.main() {
   _log_.info "By default, both python2 and python3 are installed."
@@ -72,6 +74,7 @@ function __python-install.main() {
     python3-scipy
 }
 
+
 function __python-config() {
   local pyVer=$1
   _log_.debug "__python-config::pyVer: ${pyVer}"
@@ -110,6 +113,7 @@ function __python-config() {
   ${PYTHON} -c 'import sys; print(sys.version_info)' 1>&2
 }
 
+
 function python-config() {
   python2 -m pip --version &>/dev/null || _log_.error "While executing: python2 -m pip --version"
   python3 -m pip --version &>/dev/null || _log_.error "While executing: python3 -m pip --version"
@@ -119,6 +123,7 @@ function python-config() {
     __python-config ${pyVer}
   done
 }
+
 
 function python-install.main() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )

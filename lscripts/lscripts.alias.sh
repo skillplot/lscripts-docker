@@ -20,6 +20,8 @@ function lscripts.alias.main() {
   alias lpwd='ls -d -1 ${PWD}/*'
   alias lpwdf='ls -d -1 ${PWD}/*.*'
   ##
+  alias lsd-cd="cd ${LSCRIPTS}"
+  ##
   alias lsd.python.create.virtualenv="source ${LSCRIPTS}/python-virtualenvwrapper-install.sh"
   ##
   alias lsd.nvidia.gpu.info="bash ${LSCRIPTS}/exec_cmd.sh cmd=_nvidia_.get__driver_info"

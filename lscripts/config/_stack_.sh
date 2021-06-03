@@ -47,6 +47,7 @@ declare -a _stack_install_itemwise=(
   "vim-apt"
   "vim-plug"
   "sublime-apt"
+  "vscode-apt"
   "atom-wget-dpkg"
   ###----------------------------------------------------------    
   ## "stack-setup-markdown"
@@ -63,7 +64,7 @@ declare -a _stack_install_itemwise=(
   "nginx-apt"
   "nvm"
   "nodejs"
-  "yarn"
+  "yarn-apt"
   "golang"
   "octave-apt"
   "postman-testing-snap"
