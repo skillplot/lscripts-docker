@@ -11,7 +11,7 @@
 ###----------------------------------------------------------
 
 
-function get_ppa_repo() {
+function ppa.get.repo.main() {
   local OUTFILE="add_ppa_repo.sh"
   local OUTFILE2="remove_ppa_repo.sh"
   #touch "${OUTFILE}"
@@ -38,4 +38,4 @@ function get_ppa_repo() {
   # chmod +x "${OUTFILE2}"
 }
 
-get_ppa_repo
+ppa.get.repo.main

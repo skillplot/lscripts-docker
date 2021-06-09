@@ -41,6 +41,7 @@ declare -a _stack_install_itemwise=(
   "stacer-apt"
   "systemsensors-apt"
   "timeshift-apt"
+  "ftp-apt"
   ###----------------------------------------------------------    
   ## "stack-setup-editors"
   ###----------------------------------------------------------
@@ -226,6 +227,7 @@ declare -a _stack_install_sysutils=(
   "stacer-apt"
   "systemsensors-apt"
   "timeshift-apt"
+  "ftp-apt"
 )
 
 ## stack-setup-editors
@@ -237,6 +239,7 @@ declare -a _stack_install_editors=(
   "vim-plug"
   "sublime-apt"
   "atom-wget-dpkg"
+  "vscode-apt"
 )
 
 declare -a _stack_install_markdowneditors=(

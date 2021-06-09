@@ -65,14 +65,16 @@
 
 
 
-function _exec() {
-  echo "$(date -d now +'%d%m%y_%H%M%S')"
+function git.repoviz._exec() {
+  # echo "$(date -d now +'%d%m%y_%H%M%S')"
+  local _timestamp=$(_date_.get__timestamp_millisec)
+  echo "${_timestamp}"
   gource -s 2 -a 1 ./ -1920x1080 -o - | \
-    ffmpeg -y -r 60 -f image2pipe -vcodec ppm -i - -vcodec libx264 -preset ultrafast -pix_fmt yuv420p -crf 23 -threads 0 -bf 0 gource.mp4
+    ffmpeg -y -r 60 -f image2pipe -vcodec ppm -i - -vcodec libx264 -preset ultrafast -pix_fmt yuv420p -crf 23 -threads 0 -bf 0 gource-${_timestamp}.mp4
 }
 
 
-function git-repo-viz() {
+function git.repoviz.main() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
   source ${LSCRIPTS}/../lscripts.config.sh
   
@@ -84,7 +86,7 @@ function git-repo-viz() {
   _log_.info "Verifying ${_cmd} installation..."
   type ${_cmd} &>/dev/null || _log_.fail "${_cmd} not installed or corrupted!"
 
-  _exec
+  git.repoviz._exec
 }
 
-git-repo-viz
+git.repoviz.main

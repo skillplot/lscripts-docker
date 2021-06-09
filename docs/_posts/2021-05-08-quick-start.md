@@ -18,7 +18,7 @@ categories: quick-start
     export LSCRIPTS_DOCKER="/path/to/lscripts-docker"
     [ -f ${LSCRIPTS_DOCKER}/lscripts/lscripts.env.sh ] && source ${LSCRIPTS_DOCKER}/lscripts/lscripts.env.sh
     ```
-3. Quick Commands available at the disposal with namespace: `lsd.`
+3. Quick Commands available at the disposal with namespace: `lsd.` and `lsd-cmd.`
     ```bash
     lsd.prog.ids
     lsd.prog.kill
@@ -60,12 +60,29 @@ categories: quick-start
     lsd.system.osinfo
     ##
     lsd.docker.osvers
+    ##
+    lsd-cmd.dummy
+    lsd-cmd.git.get.repo-urls
+    lsd-cmd.git.repoviz
+    lsd-cmd.gitlab.get.cert
+    lsd-cmd.menu-navigation
+    lsd-cmd.monitoring-cmds
+    lsd-cmd.mount.smb
+    lsd-cmd.mount.ssh
+    lsd-cmd.pm
+    lsd-cmd.ppa.get.repo
+    lsd-cmd.python.venvname.generate
+    lsd-cmd.python.list.venv
     ```
-4. Quick test
+4. Quick test for different shell modules and functions
     ```bash
-    ## Test cases for different modules (currently not available as execution command )
-    bash lscripts/tests/test._fio_.sh
-    bash lscripts/tests/test._log_.sh
+    lsd-test.argparse
+    lsd-test.cuda_config_supported
+    lsd-test._dir_
+    lsd-test.echo
+    lsd-test._fio_
+    lsd-test._log_
+    lsd-test._system_
     ```
 
 
@@ -264,6 +281,7 @@ These provides complete development stack for deep learning docker environments.
     lsd-install.extras-apt
     lsd-install.ffmpeg-apt
     lsd-install.freecad-ppa
+    lsd-install.ftp-apt
     lsd-install.gcc-apt
     lsd-install.ghostwriter-apt
     lsd-install.gimp-graphics-apt
@@ -331,6 +349,7 @@ These provides complete development stack for deep learning docker environments.
     lsd-install.vim-plug
     lsd-install.vlc-apt
     lsd-install.vokoscreen-ppa
+    lsd-install.vscode-apt
     lsd-install.vulkansdk-apt
     lsd-install.wine-apt
     lsd-install.xnview-wget

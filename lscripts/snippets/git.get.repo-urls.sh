@@ -5,7 +5,7 @@
 ###----------------------------------------------------------
 
 
-function get_git_urls() {
+function git.get.repo-urls.main() {
   ## ls -d $PWD/*
   local dirpath
   echo "Enter the directory path to extract git urls from:"
@@ -40,4 +40,4 @@ function get_git_urls() {
   }
 }
 
-get_git_urls
+git.get.repo-urls.main

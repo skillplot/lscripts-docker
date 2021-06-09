@@ -23,7 +23,7 @@
 ###----------------------------------------------------------
 
 
-function mount_smb() {
+function mount.smb.main() {
   local IP=$1
   local USERNAME=$2
   ## SHARED_DIR_NAME is not the name of the folder on the file system, rather the shared folder name
@@ -46,4 +46,4 @@ function mount_smb() {
   # sudo umount ${MNT_DIR}
 }
 
-mount_smb $1 $2 $3 $4 $5
+mount.smb.main $1 $2 $3 $4 $5

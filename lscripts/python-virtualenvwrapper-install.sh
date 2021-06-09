@@ -117,6 +117,8 @@ function python-virtualenvwrapper-create() {
   PYTHON=python${pyVer}
 
   local __pyVer=$(${PYTHON} -c 'import sys; print("-".join(map(str, sys.version_info[:3])))')
+  # local _timestamp=$(_date_.get__timestamp)
+  # local _timestamp="$(date -d now +'%d%m%y_%H%M%S')"
   local py_env_name="py_${__pyVer}_$(date -d now +'%d%m%y_%H%M%S')"
   _log_.debug "Creating...py_env_name: ${py_env_name}"
 

@@ -48,6 +48,28 @@ function lscripts.alias.main() {
   alias lsd.docker.osvers="bash ${LSCRIPTS}/exec_cmd.sh cmd=_docker_.get__os_vers_avail"
   ##
   alias lsd-stack.list="bash ${LSCRIPTS}/exec_cmd.sh cmd=_fio_.print.stack.list $@"
+  ## snippet alias
+  alias lsd-cmd.dummy="bash ${LSCRIPTS}/snippets/dummy.sh"
+  alias lsd-cmd.git.get.repo-urls="bash ${LSCRIPTS}/snippets/git.get.repo-urls.sh"
+  alias lsd-cmd.git.repoviz="bash ${LSCRIPTS}/snippets/git.repoviz.sh"
+  alias lsd-cmd.gitlab.get.cert="bash ${LSCRIPTS}/snippets/gitlab.get.cert.sh"
+  alias lsd-cmd.menu-navigation="bash ${LSCRIPTS}/snippets/menu-navigation.sh"
+  alias lsd-cmd.monitoring-cmds="bash ${LSCRIPTS}/snippets/monitoring-cmds.sh"
+  alias lsd-cmd.mount.smb="bash ${LSCRIPTS}/snippets/mount.smb.sh"
+  alias lsd-cmd.mount.ssh="bash ${LSCRIPTS}/snippets/mount.ssh.sh"
+  alias lsd-cmd.pm="bash ${LSCRIPTS}/snippets/pm.sh"
+  alias lsd-cmd.ppa.get.repo="bash ${LSCRIPTS}/snippets/ppa.get.repo.sh"
+  alias lsd-cmd.python.venvname.generate="bash ${LSCRIPTS}/snippets/python.venvname.generate.sh"
+  alias lsd-cmd.python.list.venv="bash ${LSCRIPTS}/snippets/python.list.venv.sh"
+  ## tests alias
+  # alias lsd-test.all="bash ${LSCRIPTS}/tests/test.all.sh"
+  alias lsd-test.argparse="bash ${LSCRIPTS}/tests/test.argparse.sh"
+  alias lsd-test.cuda_config_supported="bash ${LSCRIPTS}/tests/test.cuda_config_supported.sh"
+  alias lsd-test._dir_="bash ${LSCRIPTS}/tests/test._dir_.sh"
+  alias lsd-test.echo="bash ${LSCRIPTS}/tests/test.echo.sh"
+  alias lsd-test._fio_="bash ${LSCRIPTS}/tests/test._fio_.sh"
+  alias lsd-test._log_="bash ${LSCRIPTS}/tests/test._log_.sh"
+  alias lsd-test._system_="bash ${LSCRIPTS}/tests/test._system_.sh"
 }
 
 

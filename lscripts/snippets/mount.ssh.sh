@@ -16,7 +16,7 @@
 ###----------------------------------------------------------
 
 
-function mount_remote_on_local() {
+function mount.ssh.main() {
   local remote_ip
   local remote_user
   echo "Enter the REMOTE system IP:"
@@ -52,4 +52,4 @@ function mount_remote_on_local() {
 
 }
 
-mount_remote_on_local
+mount.ssh.main

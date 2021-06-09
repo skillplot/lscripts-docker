@@ -7,7 +7,7 @@
 ###----------------------------------------------------------
 
 
-function lsv() {
+function python.list.venv.main() {
   local gre='\e[0;32m';
   local nocolor='\e[0m'    # text reset
   local biyel='\e[1;93m';
@@ -20,4 +20,4 @@ function lsv() {
   for pyenv in ${pyenvs[@]}; do echo -e "${gre}${pyenv}${nocolor}"; done 
 }
 
-lsv
+python.list.venv.main
