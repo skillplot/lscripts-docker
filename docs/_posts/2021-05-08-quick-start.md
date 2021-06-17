@@ -6,7 +6,7 @@ categories: quick-start
 ---
 
 
-## Quick start
+## Installation
 
 
 1. Clone the repo
