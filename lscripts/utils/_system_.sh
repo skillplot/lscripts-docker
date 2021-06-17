@@ -7,6 +7,24 @@
 ###----------------------------------------------------------
 
 
+function _system_.get__vars() {
+  _log_.echo "NUMTHREADS: \e[1;32m${NUMTHREADS}"
+  _log_.echo "MACHINE_ARCH: \e[1;32m${MACHINE_ARCH}"
+  _log_.echo "USER_ID: \e[1;32m${USER_ID}"
+  _log_.echo "GRP_ID: \e[1;32m${GRP_ID}"
+  _log_.echo "USR: \e[1;32m${USR}"
+  _log_.echo "GRP: \e[1;32m${GRP}"
+  _log_.echo "LOCAL_HOST: \e[1;32m${LOCAL_HOST}"
+  _log_.echo "OSTYPE: \e[1;32m${OSTYPE}"
+  _log_.echo "OS_ARCH: \e[1;32m${OS_ARCH}"
+  _log_.echo "OS_ARCH_BIT: \e[1;32m${OS_ARCH_BIT}"
+  _log_.echo "LINUX_VERSION: \e[1;32m${LINUX_VERSION}"
+  _log_.echo "LINUX_ID: \e[1;32m${LINUX_ID}"
+  _log_.echo "LINUX_DISTRIBUTION: \e[1;32m${LINUX_DISTRIBUTION}"
+  _log_.echo "LINUX_DISTRIBUTION_TR: \e[1;32m${LINUX_DISTRIBUTION_TR}"
+}
+
+
 function _system_.get__info() {
   type inxi &>/dev/null && inxi -Fxzd;
 }

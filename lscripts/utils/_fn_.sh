@@ -9,6 +9,8 @@
 
 
 source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/_date_.sh
+source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/_color_.sh
+source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/_typeformats_.sh
 source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/_system_.sh
 source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/_fio_.sh
 source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/_dir_.sh

@@ -13,12 +13,15 @@
 ###----------------------------------------------------------
 ## Core configuration
 ###----------------------------------------------------------
+source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/color-cfg.sh
+source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/typeformats-cfg.sh
 source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/system-cfg.sh
 source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/basepath-cfg.sh
 source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/versions-cfg.sh
 source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/nvidia-cfg.sh
 source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/docker-cfg.sh
 source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/python-cfg.sh
+source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/stack-cfg.sh
 
 ###----------------------------------------------------------
 ## Users configuration

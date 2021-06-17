@@ -10,14 +10,7 @@
 
 
 ###----------------------------------------------------------
-## constants
-###----------------------------------------------------------
-source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/config/_color_.sh
-source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/config/_typeformats_.sh
-source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/config/_stack_.sh
-
-###----------------------------------------------------------
-## log constants and then functions
+## logger and then functions
 ###----------------------------------------------------------
 source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/utils/_log_.sh
 source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/utils/_fn_.sh

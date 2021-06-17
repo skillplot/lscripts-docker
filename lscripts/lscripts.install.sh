@@ -55,6 +55,7 @@ function lscripts.install.stack-setup() {
 
 function lscripts.install.main() {
   local LSCRIPTS="$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )"
+  source "${LSCRIPTS}/config/stack-cfg.sh"
   source "${LSCRIPTS}/_common_.sh"
   # _log_.warn "Create installer alias ${FUNCNAME[0]}!"
 

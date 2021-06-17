@@ -18,7 +18,39 @@ categories: quick-start
     export LSCRIPTS_DOCKER="/path/to/lscripts-docker"
     [ -f ${LSCRIPTS_DOCKER}/lscripts/lscripts.env.sh ] && source ${LSCRIPTS_DOCKER}/lscripts/lscripts.env.sh
     ```
-3. Quick Commands available at the disposal with namespace: `lsd.` and `lsd-cmd.`
+
+
+## Verify Installation
+
+* To quickly test for different shell modules and functions, check through testing module:
+    ```bash
+    lsd-test.argparse
+    lsd-test.cuda_config_supported
+    lsd-test._dir_
+    lsd-test.echo
+    lsd-test._fio_
+    lsd-test._log_
+    lsd-test._system_
+    ```
+
+
+## Lscripts Commands
+
+* Lscripts commands available at the disposal with prefix `lsd.` or `lsd-`. All th namespaces are:
+    * `lsd.`
+    * `lsd-cmd.`
+    * `lsd-cfg.`
+    * `lsd-install.`
+    * `lsd-stack.`
+    * `lsd-test.`
+* `lsd-cd` - change to the cloned directory `${LSCRIPTS_DOCKER}/lscripts` directory.
+* Lscripts configuration variables: `lsd-cfg.`
+    ```bash
+    lsd-cfg.color
+    lsd-cfg.system
+    lsd-cfg.typeformats
+    ```
+* Quick Commands with namespaces: `lsd.` and `lsd-cmd.`
     ```bash
     lsd.prog.ids
     lsd.prog.kill
@@ -74,15 +106,12 @@ categories: quick-start
     lsd-cmd.python.venvname.generate
     lsd-cmd.python.list.venv
     ```
-4. Quick test for different shell modules and functions
+* One can combine the output of above commands with other system commands/utilities, example:
+    * To parse the `json` output to human readable format using `jq`
     ```bash
-    lsd-test.argparse
-    lsd-test.cuda_config_supported
-    lsd-test._dir_
-    lsd-test.echo
-    lsd-test._fio_
-    lsd-test._log_
-    lsd-test._system_
+    ## install jq - command line json parser util
+    # sudo apt -y install jq
+    lsd.system.df.json | jq
     ```
 
 
@@ -136,6 +165,7 @@ Build and setup a system with required software utilities.
   * Lower cuda version to be installed first; if you need multiple cuda installation; downgrades are not possible
   * When more then one cuda is installed; when prompted, should select yes to configure multiple-cuda in order to select the appropriate cuda being installed before verifying it
   * The sequencing of the installation is carefully crafted to build the full stack host system with maximum functionality from the compiled software suites
+  * If utilities are already installed, **they will be upgraded** if latest packages are available.
 * **Supported CUDA version per system**
   * ubuntu18.04: 9.0, 10.0, 10.2, 11.0
   * ubuntu16.04: 8.0, 9.0, 10.0

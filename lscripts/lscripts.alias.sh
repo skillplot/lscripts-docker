@@ -45,6 +45,10 @@ function lscripts.alias.main() {
   alias lsd.system.df.json="bash ${LSCRIPTS}/exec_cmd.sh cmd=_system_.df_json"
   alias lsd.system.osinfo="bash ${LSCRIPTS}/exec_cmd.sh cmd=_system_.get__osinfo"
   ##
+  alias lsd-cfg.system="bash ${LSCRIPTS}/exec_cmd.sh cmd=_system_.get__vars"
+  alias lsd-cfg.color="bash ${LSCRIPTS}/exec_cmd.sh cmd=_color_.get__vars"
+  alias lsd-cfg.typeformats="bash ${LSCRIPTS}/exec_cmd.sh cmd=_typeformats_.get__vars"
+  ##
   alias lsd.docker.osvers="bash ${LSCRIPTS}/exec_cmd.sh cmd=_docker_.get__os_vers_avail"
   ##
   alias lsd-stack.list="bash ${LSCRIPTS}/exec_cmd.sh cmd=_fio_.print.stack.list $@"

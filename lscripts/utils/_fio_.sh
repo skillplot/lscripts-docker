@@ -4,7 +4,8 @@
 ##__author__ = 'mangalbhaskar'
 ###----------------------------------------------------------
 ## I/O utility functions
-## From _color_.sh, following colors being used for keeping without external dependency
+#
+## From ../config/color-cfg.sh, following colors being used for keeping without external dependency
 ## local bcya='\e[1;36m'
 ## local bwhi='\e[1;37m'
 ## local byel='\e[1;33m'
