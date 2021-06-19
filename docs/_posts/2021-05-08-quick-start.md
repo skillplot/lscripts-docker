@@ -36,11 +36,20 @@ categories: quick-start
 
 ## Lscripts Commands
 
-* Lscripts commands available at the disposal with prefix `lsd.` or `lsd-`. All th namespaces are:
-    * `lsd.`
+* Lscripts commands available at the disposal with prefix `lsd-`. All th namespaces are:
     * `lsd-cmd.`
     * `lsd-cfg.`
+    * `lsd-date.`
+    * `lsd-docker.`
+    * `lsd-image.`
     * `lsd-install.`
+    * `lsd-ls.`
+    * `lsd-nvidia.`
+    * `lsd-python.`
+    * `lsd-prog.`
+    * `lsd-rm.`
+    * `lsd-select.`
+    * `lsd-system.`
     * `lsd-stack.`
     * `lsd-test.`
 * `lsd-cd` - change to the cloned directory `${LSCRIPTS_DOCKER}/lscripts` directory.
@@ -50,48 +59,54 @@ categories: quick-start
     lsd-cfg.system
     lsd-cfg.typeformats
     ```
-* Quick Commands with namespaces: `lsd.` and `lsd-cmd.`
+* Quick Commands:
     ```bash
-    lsd.prog.ids
-    lsd.prog.kill
+    lsd-prog.ids
+    lsd-prog.kill
     ##
-    lsd.python.kill
-    lsd.python.create.virtualenv
+    lsd-python.kill
+    lsd-python.create.virtualenv
     ##
-    lsd.ls.pycache
-    lsd.ls.egg
-    lsd.ls.mod
+    lsd-ls
+    lsd-ls.pycache
+    lsd-ls.egg
     ##
-    lsd.rm.pycache
-    lsd.rm.egg
+    lsd-rm.pycache
+    lsd-rm.egg
     ##
-    lsd.image.resize
-    lsd.image.pdf
+    lsd-image.resize
+    lsd-image.pdf
     ##
-    lsd.nvidia.gpu.info
-    lsd.nvidia.gpu.stats
-    lsd.nvidia.cuda.vers
-    lsd.nvidia.cuda.avail
-    lsd.nvidia.driver.avail
+    lsd-nvidia.gpu.info
+    lsd-nvidia.gpu.stats
+    lsd-nvidia.cuda.vers
+    lsd-nvidia.cuda.avail
+    lsd-nvidia.driver.avail
     ##
-    lsd.select.cuda
-    lsd.select.gcc
-    lsd.select.bazel
+    lsd-select.cuda
+    lsd-select.gcc
+    lsd-select.bazel
     ##
-    lsd.date.get
-    lsd.date.timestamp
-    lsd.date.timestamp.millisec
-    lsd.date.timestamp.microsec
-    lsd.date.timestamp.nanosec
+    lsd-date.get
+    lsd-date.timestamp
+    lsd-date.timestamp.millisec
+    lsd-date.timestamp.microsec
+    lsd-date.timestamp.nanosec
     ##
-    lsd.system.info
-    lsd.system.cpu.cores
-    lsd.system.cpu.threads
-    lsd.system.ip
-    lsd.system.df.json
-    lsd.system.osinfo
+    lsd-system.info
+    lsd-system.cpu.cores
+    lsd-system.cpu.threads
+    lsd-system.ip
+    lsd-system.df.json
+    lsd-system.osinfo
     ##
-    lsd.docker.osvers
+    lsd-docker.osvers
+    lsd-docker.container.delete-byimage
+    lsd-docker.container.delete-all
+    lsd-docker.container.stop-all
+    lsd-docker.container.list-ids-all
+    lsd-docker.container.list-ids
+    lsd-docker.container.test
     ##
     lsd-cmd.dummy
     lsd-cmd.git.get.repo-urls
@@ -111,7 +126,7 @@ categories: quick-start
     ```bash
     ## install jq - command line json parser util
     # sudo apt -y install jq
-    lsd.system.df.json | jq
+    lsd-system.df.json | jq
     ```
 
 

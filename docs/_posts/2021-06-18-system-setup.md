@@ -30,7 +30,7 @@ Build and setup a system with required software utilities.
 
 ## Pre-requites
 
-* Install and Configure Lscripts
+* Install and Configure Lscript - [quick-start](2021-05-08-quick-start.md)
 
 
 ## Additional Configurations
