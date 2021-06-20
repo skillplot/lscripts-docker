@@ -167,9 +167,9 @@ function _docker_.userfix() {
     ###----------------------------------------------------------
 
     ${DOCKER_CMD} exec ${DOCKER_CONTAINER_NAME} /bin/bash -c "export DEBIAN_FRONTEND=noninteractive && \
-      addgroup --gid ${HUSER_GRP_ID} ${HUSER_GRP} && \
-      useradd -ms /bin/bash ${DUSER} --uid ${DUSER_ID} --gid ${DUSER_GRP_ID} && \
-      /bin/echo ${DUSER}:${DUSER} | chpasswd
+      sudo addgroup --gid ${HUSER_GRP_ID} ${HUSER_GRP} && \
+      sudo useradd -ms /bin/bash ${DUSER} --uid ${DUSER_ID} --gid ${DUSER_GRP_ID} && \
+      sudo /bin/echo ${DUSER}:${DUSER} | chpasswd
     "
 
     ${DOCKER_CMD} exec ${DOCKER_CONTAINER_NAME} /bin/bash -c "/bin/cp -r /etc/skel/. /home/${DUSER} && \
@@ -252,11 +252,6 @@ function _docker_.adduser() {
 
 
 function _docker_.list_container_ids_all {
-  ## References:
-  ## https://www.unix.com/unix-for-beginners-questions-and-answers/282491-how-convert-any-shell-command-output-json-format.html
-  ## https://stackoverflow.com/questions/38860529/create-json-using-jq-from-pipe-separated-keys-and-values-in-bash/38862221#38862221
-  ## https://stackoverflow.com/questions/44656515/how-to-remove-double-quotes-in-jq-output-for-parsing-json-files-in-bash
-
   declare -a cids=$(echo $(docker container ps -a --format "table {{.ID}},{{.Image}},{{.Names}}" | jq -nR '[ 
       ( input | split(",") ) as $keys | 
       ( inputs | split(",") ) as $vals | 
@@ -266,6 +261,47 @@ function _docker_.list_container_ids_all {
       from_entries ]') | jq -c '.[]' | jq -rc '.["CONTAINER ID"]')
 
   echo "${cids[@]}"
+}
+
+
+function _docker_.list_container_all {
+  # declare -a cids=$(echo $(docker container ps -a --format "table {{.ID}}\t{{.Image}}\t{{.Names}}"))
+  # echo "${cids[@]}"
+  docker container ps -a --format "table {{.ID}}\t{{.Image}}\t{{.Names}}\t{{.Status}}"
+}
+
+
+function _docker_.list_container_exec {
+  : ${1?
+    "Usage:
+    bash $0 <DOCKER_CONTAINER_NAME>"
+  }
+
+  local DOCKER_CONTAINER_NAME=$1
+  [[ ! -z $(docker container ps -a --format "{{.Names}}" | grep ${DOCKER_CONTAINER_NAME}) ]] && {
+    docker exec -u $(id -u):$(id -g) -it ${DOCKER_CONTAINER_NAME} /bin/bash && xhost -local:root 1>/dev/null 2>&1
+    [[ $? -ne 0 ]] && _log_.error "Unable execute container with name: ${DOCKER_CONTAINER_NAME}" || _log_.ok "Bye from ${DOCKER_CONTAINER_NAME}!"
+  } || _log_.error "Container name not found or not started: ${DOCKER_CONTAINER_NAME}"
+}
+
+
+function _docker_.list_container_status {
+  # https://gist.github.com/paulosalgado/91bd74c284e262a4806524b0dde126ba
+  : ${1?
+    "Usage:
+    bash $0 <DOCKER_CONTAINER_NAME>"
+  }
+
+  local DOCKER_CONTAINER_NAME=$1
+  local RUNNING=$(docker inspect --format="{{.State.Running}}" ${DOCKER_CONTAINER_NAME} 2> /dev/null)
+  local RESTARTING=$(docker inspect --format="{{.State.Restarting}}" ${DOCKER_CONTAINER_NAME})
+  local STARTED=$(docker inspect --format="{{.State.StartedAt}}" ${DOCKER_CONTAINER_NAME})
+  local NETWORK=$(docker inspect --format="{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}" ${DOCKER_CONTAINER_NAME})
+
+  _log_.echo "RUNNING: \e[1;32m${RUNNING}"
+  _log_.echo "RESTARTING: \e[1;32m${RESTARTING}"
+  _log_.echo "STARTED: \e[1;32m${STARTED}"
+  _log_.echo "NETWORK: \e[1;32m${NETWORK}"
 }
 
 

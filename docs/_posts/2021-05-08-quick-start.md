@@ -43,7 +43,6 @@ categories: quick-start
     * `lsd-docker.`
     * `lsd-image.`
     * `lsd-install.`
-    * `lsd-ls.`
     * `lsd-nvidia.`
     * `lsd-python.`
     * `lsd-prog.`
@@ -53,6 +52,7 @@ categories: quick-start
     * `lsd-stack.`
     * `lsd-test.`
 * `lsd-cd` - change to the cloned directory `${LSCRIPTS_DOCKER}/lscripts` directory.
+* `lsd-ls` - It is at core `ls -ltr` plus with numeric permission value added as the first column i.e. `644 -rw-r--r--`
 * Lscripts configuration variables: `lsd-cfg.`
     ```bash
     lsd-cfg.color
@@ -99,14 +99,6 @@ categories: quick-start
     lsd-system.ip
     lsd-system.df.json
     lsd-system.osinfo
-    ##
-    lsd-docker.osvers
-    lsd-docker.container.delete-byimage
-    lsd-docker.container.delete-all
-    lsd-docker.container.stop-all
-    lsd-docker.container.list-ids-all
-    lsd-docker.container.list-ids
-    lsd-docker.container.test
     ##
     lsd-cmd.dummy
     lsd-cmd.git.get.repo-urls

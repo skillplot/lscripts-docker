@@ -52,15 +52,15 @@ theme: minima
 plugins:
   - jekyll-feed
   - jekyll-seo-tag
-  - jekyll-relative-links
+  # - jekyll-relative-links
   # - jekyll-paginate
   # - jekyll-sitemap
   # - jekyll-gist
   # - jekyll-archives
 
-relative_links:
-  enabled:     true
-  collections: false
+# relative_links:
+#   enabled:     true
+#   collections: false
 
 
 words_per_minute: 200
