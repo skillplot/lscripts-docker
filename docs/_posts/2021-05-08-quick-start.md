@@ -51,6 +51,7 @@ categories: quick-start
     * `lsd-system.`
     * `lsd-stack.`
     * `lsd-test.`
+    * `lsd-util.`
 * `lsd-cd` - change to the cloned directory `${LSCRIPTS_DOCKER}/lscripts` directory.
 * `lsd-ls` - It is at core `ls -ltr` plus with numeric permission value added as the first column i.e. `644 -rw-r--r--`
 * Lscripts configuration variables: `lsd-cfg.`
@@ -61,45 +62,6 @@ categories: quick-start
     ```
 * Quick Commands:
     ```bash
-    lsd-prog.ids
-    lsd-prog.kill
-    ##
-    lsd-python.kill
-    lsd-python.create.virtualenv
-    ##
-    lsd-ls
-    lsd-ls.pycache
-    lsd-ls.egg
-    ##
-    lsd-rm.pycache
-    lsd-rm.egg
-    ##
-    lsd-image.resize
-    lsd-image.pdf
-    ##
-    lsd-nvidia.gpu.info
-    lsd-nvidia.gpu.stats
-    lsd-nvidia.cuda.vers
-    lsd-nvidia.cuda.avail
-    lsd-nvidia.driver.avail
-    ##
-    lsd-select.cuda
-    lsd-select.gcc
-    lsd-select.bazel
-    ##
-    lsd-date.get
-    lsd-date.timestamp
-    lsd-date.timestamp.millisec
-    lsd-date.timestamp.microsec
-    lsd-date.timestamp.nanosec
-    ##
-    lsd-system.info
-    lsd-system.cpu.cores
-    lsd-system.cpu.threads
-    lsd-system.ip
-    lsd-system.df.json
-    lsd-system.osinfo
-    ##
     lsd-cmd.dummy
     lsd-cmd.git.get.repo-urls
     lsd-cmd.git.repoviz
@@ -112,6 +74,49 @@ categories: quick-start
     lsd-cmd.ppa.get.repo
     lsd-cmd.python.venvname.generate
     lsd-cmd.python.list.venv
+    ##
+    lsd-date.get
+    lsd-date.timestamp
+    lsd-date.timestamp.millisec
+    lsd-date.timestamp.microsec
+    lsd-date.timestamp.nanosec
+    ##
+    lsd-image.resize
+    lsd-image.pdf
+    ##
+    lsd-ls
+    lsd-ls.pycache
+    lsd-ls.egg
+    ##
+    lsd-prog.ids
+    lsd-prog.kill
+    ##
+    lsd-python.kill
+    lsd-python.create.virtualenv
+    ##
+    lsd-rm.pycache
+    lsd-rm.egg
+    ##
+    lsd-nvidia.gpu.info
+    lsd-nvidia.gpu.stats
+    lsd-nvidia.cuda.vers
+    lsd-nvidia.cuda.avail
+    lsd-nvidia.driver.avail
+    ##
+    lsd-select.cuda
+    lsd-select.gcc
+    lsd-select.bazel
+    ##
+    lsd-system.info
+    lsd-system.cpu.cores
+    lsd-system.cpu.threads
+    lsd-system.ip
+    lsd-system.df.json
+    lsd-system.osinfo
+    ##
+    lsd-util.salt
+    lsd-util.uuid
+    ##
     ```
 * One can combine the output of above commands with other system commands/utilities, example:
     * To parse the `json` output to human readable format using `jq`
