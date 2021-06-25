@@ -27,19 +27,19 @@ function __docker-createcontainer-boozo() {
 
   _log_.warn "Published ports are discarded when using host network mode!"
 
-  ${DOCKER_CMD} run -d -it \
-    --user $(id -un):$(id -gn) \
-    --name ${DOCKER_CONTAINER_NAME} \
-    $(_docker_.enable_nvidia_gpu) \
-    $(_docker_.envvars) \
-    $(_docker_.local_volumes) \
-    $(_docker_.restart_policy) \
-    --net host \
-    --add-host ${LOCAL_HOST}:127.0.0.1 \
-    --add-host ${DOCKER_LOCAL_HOST}:127.0.0.1 \
-    --hostname ${DOCKER_LOCAL_HOST} \
-    --shm-size ${SHM_SIZE_8GB} \
-    ${DOCKER_BLD_CONTAINER_IMG}
+  echo "${DOCKER_CMD} run -d -it \
+      --user $(id -un):$(id -gn) \
+      --name ${DOCKER_CONTAINER_NAME} \
+      $(_docker_.enable_nvidia_gpu) \
+      $(_docker_.envvars) \
+      $(_docker_.local_volumes) \
+      $(_docker_.restart_policy) \
+      --net host \
+      --add-host ${LOCAL_HOST}:127.0.0.1 \
+      --add-host ${DOCKER_LOCAL_HOST}:127.0.0.1 \
+      --hostname ${DOCKER_LOCAL_HOST} \
+      --shm-size ${SHM_SIZE_8GB} \
+      ${DOCKER_BLD_CONTAINER_IMG}"
 
   [[ $? -eq 0 ]] || _log_.fail "Internal Error: Failed to create docker container!"
 
@@ -52,9 +52,11 @@ function __docker-createcontainer-boozo() {
   _log_.echo "bash lscripts/exec_cmd.sh --cmd=_docker_.exec_container --name=${DOCKER_CONTAINER_NAME}\n"
 
   _log_.info "Or simple execution:\n ${DOCKER_CMD} exec -it ${DOCKER_CONTAINER_NAME}\n"
+  echo ${DOCKER_CONTAINER_NAME}
 }
 
-function docker-createcontainer-boozo() {
+
+function docker-createcontainer-boozo.main() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
   source ${LSCRIPTS}/lscripts/lscripts.config.sh
 
@@ -113,6 +115,7 @@ function docker-createcontainer-boozo() {
   local _que
   local _msg
   local _prog
+  local docker_container_name
   # type uuid &>/dev/null || _log_.fail "uuid package not found. Execute...\n sudo apt install uuid"
 
   _log_.debug "_LSD__DOCKER_HUB_REPO:${_LSD__DOCKER_HUB_REPO}: DOCKER_BLD_IMG_TAG:${DOCKER_BLD_IMG_TAG}"
@@ -133,17 +136,17 @@ function docker-createcontainer-boozo() {
 
   _que="Create container using ${_prog} now"
   _msg="Skipping ${_prog} container creation!"
-  _fio_.yesno_${_default} "${_que}" && \
-      _log_.echo "Creating container..." && \
-      __${_prog} ${DOCKER_BLD_CONTAINER_IMG} \
-    || _log_.echo "${_msg}"
+  _fio_.yesno_${_default} "${_que}" && {
+    _log_.echo "Creating container..."
+    docker_container_name=$(__${_prog} ${DOCKER_BLD_CONTAINER_IMG})
+  } || _log_.echo "${_msg}"
 
   _que="Execute userfix for docker container"
   _msg="Skipping userfix for container!"
-  _fio_.yesno_no "${_que}" && \
-      _log_.echo "Executing userfix..." && \
-      _docker_.userfix \
-    || _log_.echo "${_msg}"
+  _fio_.yesno_no "${_que}" && {
+    _log_.echo "Executing userfix for container: ${docker_container_name}"
+    _docker_.userfix --name="${docker_container_name}"
+  } || _log_.echo "${_msg}"
 }
 
-docker-createcontainer-boozo "$@"
+docker-createcontainer-boozo.main "$@"

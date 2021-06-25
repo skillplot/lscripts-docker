@@ -9,10 +9,19 @@
 ##  - https://stackoverflow.com/a/63204661/748469
 ###----------------------------------------------------------
 
+
+local _LSD__DOCKER_VOLUMES="${LSCRIPTS_DOCKER_VOLUMES}"
+local _LSD__DOCKER_VOLUMES_UUID=$(od -x /dev/urandom | head -1 | awk '{OFS="-"; print $2$3,$4,$5,$6,$7$8$9}')
 ## DOCKER_VOLUMES provides for mapping of enitre code, vm, data and mobile dirs
 ## inside the container, making it completely stateless. Even python virtual env created
 ## inside container are locally stored, hence save safe, inreases the usability & mnodularity
 local DOCKER_VOLUMES=""
+[[ ! -z "${_LSD__DOCKER_VOLUMES}" ]] && \
+  [[ -d "${_LSD__DOCKER_VOLUMES}" ]] &&  \
+  [[ "${_LSD__DOCKER_VOLUMES}" != "/" ]] && {
+  DOCKER_VOLUMES="${DOCKER_VOLUMES} -v ${_LSD__DOCKER_VOLUMES_UUID}/${_LSD__DOCKER_VOLUMES}:${_LSD__DOCKER_VOLUMES} "
+}
+
 
 ###----------------------------------------------------------
 ## NOTE:

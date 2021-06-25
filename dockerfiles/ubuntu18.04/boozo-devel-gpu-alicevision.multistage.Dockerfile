@@ -3,6 +3,9 @@
 
 ARG _SKILL__LINUX_DISTRIBUTION="${_SKILL__LINUX_DISTRIBUTION}"
 ARG _SKILL__CUDA_VERSION="${_SKILL__CUDA_VERSION}"
+# ARG AV_VERSION="2.2.8.develop"
+ARG AV_VERSION
+
 # FROM nvidia/cuda:${_SKILL__CUDA_VERSION}-devel-${_SKILL__LINUX_DISTRIBUTION} AS nvidia-cuda
 FROM skillplot/boozo:${_SKILL__CUDA_VERSION}-devel-${_SKILL__LINUX_DISTRIBUTION} AS skillplot-cuda
 
@@ -115,8 +118,6 @@ RUN cmake --build . -j "$(nproc)" && \
 
 # https://github.com/alicevision/AliceVision/blob/develop/docker/Dockerfile_ubuntu
 
-# ARG AV_VERSION="2.2.8.develop"
-ARG AV_VERSION
 FROM alicevision/alicevision-deps:${AV_VERSION}-${_SKILL__LINUX_DISTRIBUTION}-cuda${_SKILL__CUDA_VERSION}
 
 # use CUDA_VERSION to select the image version to use

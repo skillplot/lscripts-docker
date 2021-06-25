@@ -14,7 +14,7 @@ categories: color-codes
     ```bash
     lsd-cfg.color
     ```
-![ALT lsd configuration colors](images/lsd-cfg.color.png)
+![ALT lsd configuration colors]({{site.url}}/images/lsd-cfg.color.png)
 
 
 ## Logger Color Codes
@@ -23,7 +23,7 @@ categories: color-codes
 * The log module is: `${LSCRIPTS_DOCKER}/lscripts/utils/_log_.sh` 
 * Total `8` color codes are there one for each log levels.
 * In the give image there are illustration for `6` color codes for respective log levels. There're two additional for `stacktrace` and `fail` log levels.
-![ALT lsd configuration colors](images/lsd-test._log_.png)
+![ALT lsd configuration colors]({{site.url}}/images/lsd-test._log_.png)
 * All the color codes for can be visualized from running the logger module test as:
     ```bash
     lsd-test._log_

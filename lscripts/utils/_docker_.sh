@@ -48,6 +48,7 @@ function _docker_.port_maps() {
   echo "${docker_ports}"
 }
 
+
 function _docker_.envvars() {
   local envvars="${DOCKER_ENVVARS} "
   envvars="${envvars} -e DOCKER_IMG=${DOCKER_IMG} "
@@ -67,17 +68,20 @@ function _docker_.envvars() {
   echo "${envvars}"
 }
 
+
 function _docker_.restart_policy() {
   local restart=""
   restart="--restart always"
   echo "${restart}"
 }
 
+
 function _docker_.enable_nvidia_gpu() {
   local gpus=""
   gpus="--gpus all"
   echo "${gpus}"
 }
+
 
 function _docker_.exec_container() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
@@ -95,6 +99,7 @@ function _docker_.exec_container() {
       /bin/bash
   xhost -local:root 1>/dev/null 2>&1
 }
+
 
 function _docker_.build_img() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
@@ -122,18 +127,6 @@ function _docker_.build_img() {
   } || _log_.fail "File does not exists: ${args['dockerfile']}"
 }
 
-function _docker_.container_delete_all() {
-  docker stop $(docker ps -a -q) && docker rm $(docker ps -a -q)
-  _log_.info "All containers are deleted!"
-  docker ps -a
-}
-
-function _docker_.container_test() {
-  local DOCKER_BLD_CONTAINER_IMG
-  [[ ! -z "$1" ]] && DOCKER_BLD_CONTAINER_IMG="$1" || _log_.fail "Empty DOCKER_BLD_CONTAINER_IMG: ${DOCKER_BLD_CONTAINER_IMG}"
-  _log_.info "Creating self-destructing test container using image: ${DOCKER_BLD_CONTAINER_IMG}"
-  ${DOCKER_CMD} run --name $(uuid) --user $(id -u):$(id -u) --gpus all --rm -it "${DOCKER_BLD_CONTAINER_IMG}" bash
-}
 
 function _docker_.adduser_to_sudoer() {
   ## This assumes user already exists and `apt install sudo` is already installed
@@ -154,6 +147,7 @@ function _docker_.adduser_to_sudoer() {
   fi
 }
 
+
 function _docker_.userfix() {
   ## WARNING: This function is not re-entrant, and multiple entries in bashrc will be created
   ## Todo; make it re-entrant function
@@ -173,9 +167,9 @@ function _docker_.userfix() {
     ###----------------------------------------------------------
 
     ${DOCKER_CMD} exec ${DOCKER_CONTAINER_NAME} /bin/bash -c "export DEBIAN_FRONTEND=noninteractive && \
-      addgroup --gid ${HUSER_GRP_ID} ${HUSER_GRP} && \
-      useradd -ms /bin/bash ${DUSER} --uid ${DUSER_ID} --gid ${DUSER_GRP_ID} && \
-      /bin/echo ${DUSER}:${DUSER} | chpasswd
+      sudo addgroup --gid ${HUSER_GRP_ID} ${HUSER_GRP} && \
+      sudo useradd -ms /bin/bash ${DUSER} --uid ${DUSER_ID} --gid ${DUSER_GRP_ID} && \
+      sudo /bin/echo ${DUSER}:${DUSER} | chpasswd
     "
 
     ${DOCKER_CMD} exec ${DOCKER_CONTAINER_NAME} /bin/bash -c "/bin/cp -r /etc/skel/. /home/${DUSER} && \
@@ -257,6 +251,60 @@ function _docker_.adduser() {
 }
 
 
+function _docker_.list_container_ids_all {
+  declare -a cids=$(echo $(docker container ps -a --format "table {{.ID}},{{.Image}},{{.Names}}" | jq -nR '[ 
+      ( input | split(",") ) as $keys | 
+      ( inputs | split(",") ) as $vals | 
+      [ [$keys, $vals] | 
+      transpose[] | 
+      {key:.[0],value:.[1]} ] | 
+      from_entries ]') | jq -c '.[]' | jq -rc '.["CONTAINER ID"]')
+
+  echo "${cids[@]}"
+}
+
+
+function _docker_.list_container_all {
+  # declare -a cids=$(echo $(docker container ps -a --format "table {{.ID}}\t{{.Image}}\t{{.Names}}"))
+  # echo "${cids[@]}"
+  docker container ps -a --format "table {{.ID}}\t{{.Image}}\t{{.Names}}\t{{.Status}}"
+}
+
+
+function _docker_.list_container_exec {
+  : ${1?
+    "Usage:
+    bash $0 <DOCKER_CONTAINER_NAME>"
+  }
+
+  local DOCKER_CONTAINER_NAME=$1
+  [[ ! -z $(docker container ps -a --format "{{.Names}}" | grep ${DOCKER_CONTAINER_NAME}) ]] && {
+    docker exec -u $(id -u):$(id -g) -it ${DOCKER_CONTAINER_NAME} /bin/bash && xhost -local:root 1>/dev/null 2>&1
+    [[ $? -ne 0 ]] && _log_.error "Unable execute container with name: ${DOCKER_CONTAINER_NAME}" || _log_.ok "Bye from ${DOCKER_CONTAINER_NAME}!"
+  } || _log_.error "Container name not found or not started: ${DOCKER_CONTAINER_NAME}"
+}
+
+
+function _docker_.list_container_status {
+  # https://gist.github.com/paulosalgado/91bd74c284e262a4806524b0dde126ba
+  : ${1?
+    "Usage:
+    bash $0 <DOCKER_CONTAINER_NAME>"
+  }
+
+  local DOCKER_CONTAINER_NAME=$1
+  local RUNNING=$(docker inspect --format="{{.State.Running}}" ${DOCKER_CONTAINER_NAME} 2> /dev/null)
+  local RESTARTING=$(docker inspect --format="{{.State.Restarting}}" ${DOCKER_CONTAINER_NAME})
+  local STARTED=$(docker inspect --format="{{.State.StartedAt}}" ${DOCKER_CONTAINER_NAME})
+  local NETWORK=$(docker inspect --format="{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}" ${DOCKER_CONTAINER_NAME})
+
+  _log_.echo "RUNNING: \e[1;32m${RUNNING}"
+  _log_.echo "RESTARTING: \e[1;32m${RESTARTING}"
+  _log_.echo "STARTED: \e[1;32m${STARTED}"
+  _log_.echo "NETWORK: \e[1;32m${NETWORK}"
+}
+
+
 function _docker_.list_container_ids {
   ## References:
   ## https://www.unix.com/unix-for-beginners-questions-and-answers/282491-how-convert-any-shell-command-output-json-format.html
@@ -278,15 +326,6 @@ function _docker_.list_container_ids {
 }
 
 
-function _docker_.container_delete_byimage {
-  declare -a cids=$(_docker_.list_container_ids $1)
-  echo "cids:${cids[@]}"
-  docker stop ${cids[@]} && docker rm ${cids[@]}
-  _log_.info "All containers with the cids are deleted!"
-  docker ps -a
-}
-
-
 function _docker_.get__os_vers_avail() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
   declare -a cuda_linux_distributions=(`echo $(basename -a ${LSCRIPTS}/ubuntu*)`)
@@ -294,4 +333,47 @@ function _docker_.get__os_vers_avail() {
   # (>&2 echo -e "Total cuda_linux_distributions: ${#cuda_linux_distributions[@]}\n cuda_linux_distributions: ${cuda_linux_distributions[@]}")
   # (for distribution in "${cuda_linux_distributions[@]}"; do (>&2 echo -e "distributions => ${distribution}"); done)
   echo "${cuda_linux_distributions[@]}"
+}
+
+
+
+function _docker_.container_stop_all() {
+  docker stop $(docker ps -a -q) && _log_.info "All containers stopped!"
+  docker ps -a
+}
+
+
+function _docker_.container_delete_all() {
+  local _que="Are you sure you want to delete all containers"
+  local _msg="Skipping deleting all containers!"
+  _fio_.yesno_no "${_que}" && {
+    docker stop $(docker ps -a -q) && docker rm $(docker ps -a -q)
+    _log_.info "All containers are deleted!"
+    docker ps -a
+  } || _log_.echo "${_msg}"
+}
+
+
+function _docker_.container_delete_byimage {
+  local DOCKER_IMAGE_NAME=$1
+  [[ -z ${DOCKER_IMAGE_NAME} ]] && DOCKER_IMAGE_NAME="hello-world"
+
+  local _que="Are you sure you want to delete all containers of image: ${DOCKER_IMAGE_NAME}"
+  local _msg="Skipping deleting all containers  of image: ${DOCKER_IMAGE_NAME}!"
+  _fio_.yesno_no "${_que}" && {
+    declare -a cids=$(_docker_.list_container_ids ${DOCKER_IMAGE_NAME})
+    echo "cids:${cids[@]}"
+    ## Todo:: if array is empty condition
+    docker stop ${cids[@]} && docker rm ${cids[@]}
+    _log_.info "All containers with image: ${DOCKER_IMAGE_NAME} cids are deleted!"
+    docker ps -a
+  } || _log_.echo "${_msg}"
+}
+
+
+function _docker_.container_test() {
+  local DOCKER_BLD_CONTAINER_IMG
+  [[ ! -z "$1" ]] && DOCKER_BLD_CONTAINER_IMG="$1" || _log_.fail "Empty DOCKER_BLD_CONTAINER_IMG: ${DOCKER_BLD_CONTAINER_IMG}"
+  _log_.info "Creating self-destructing test container using image: ${DOCKER_BLD_CONTAINER_IMG}"
+  ${DOCKER_CMD} run --name $(uuid) --user $(id -u):$(id -u) --gpus all --rm -it "${DOCKER_BLD_CONTAINER_IMG}" bash
 }

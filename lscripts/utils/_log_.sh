@@ -70,8 +70,16 @@ function _log_.__failure() {
 function _log_.fail() {
   ## failure is critical _log_.error and results script termination - hard stop
   type bc &>/dev/null && {
-    _log_.__failure "$1\n$(_log_.get_print_time_msg)"
-  } || _log_.__failure "$1"
+    # _log_.__failure "$1\n$(_log_.get_print_time_msg)"
+    [[ ! -z ${_LSCRIPTS__LOG_LEVEL_} ]] && \
+      [[ ${_LSCRIPTS__LOG_LEVEL_} -ge 1 ]] && \
+      (>&2 echo -e "[${on_ired}FAIL    - $(date -d now)${nocolor}]:${bwhi}[Line# ${BASH_LINENO}]:${nocolor}${on_ired}$*${nocolor}\n$(_log_.get_print_time_msg)")
+  # } || _log_.__failure "$1"
+  } || {
+    [[ ! -z ${_LSCRIPTS__LOG_LEVEL_} ]] && \
+      [[ ${_LSCRIPTS__LOG_LEVEL_} -ge 1 ]] && \
+      (>&2 echo -e "[${on_ired}FAIL    - $(date -d now)${nocolor}]:${bwhi}[Line# ${BASH_LINENO}]:${nocolor}${on_ired}$*${nocolor}")
+  }
   exit -1
 }
 
