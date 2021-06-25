@@ -8,6 +8,7 @@
 ## - Do not change the order of scripts being sourced or variable initialized.
 ###----------------------------------------------------------
 
+source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/config/__init__.sh
 
 ###----------------------------------------------------------
 ## logger and then functions

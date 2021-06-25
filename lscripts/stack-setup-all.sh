@@ -19,9 +19,11 @@ function ctrlc_handler {
 function stack-setup-all.main() {
   local LSCRIPTS="$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )"
   source "${LSCRIPTS}/_common_.sh"
+  source "${LSCRIPTS}/config/stack-cfg.sh"
 
   _log_.warn "Install ${FUNCNAME[0]}; sudo access is required!"
   _fio_.yesno_yes "Continue" && {
+      _log_.echo "${_stack_install_items[@]}"
       local item
       for item in "${_stack_install_items[@]}";do
         _log_.info ${item}
@@ -32,7 +34,7 @@ function stack-setup-all.main() {
           _fio_.yesno_no "Install ${item}" && {
             _log_.ok "Executing installer... ${_item_filepath}" && \
             _log_.echo "Installing..."
-            source "${_item_filepath} $@" || _log_.error "${_item_filepath}"
+            # source "${_item_filepath} $@" || _log_.error "${_item_filepath}"
           } || _log_.echo "Skipping ${item} installation!"
         } || _log_.error "Installer not found: ${item}!"
       done

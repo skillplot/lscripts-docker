@@ -40,6 +40,8 @@ function gitlab.get.cert.main() {
     # export GIT_SSL_NO_VERIFY=1
     # #or
     # git config --global http.sslverify false
+
+    # openssl s_client -showcerts -servername www.github.com -connect www.github.com:443
   }
 }
 
