@@ -3,7 +3,7 @@
 ## Copyright (c) 2021 mangalbhaskar. All Rights Reserved.
 ##__author__ = 'mangalbhaskar'
 ###----------------------------------------------------------
-## Install docker-stack: docker-ce, docker-compose
+## Install docker_stack: docker-ce, docker-compose
 ###----------------------------------------------------------
 
 
@@ -17,14 +17,14 @@
 # }
 
 
-function stack-setup-docker.main() {
+function stack-setup-docker_stack.main() {
   local LSCRIPTS="$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )"
   source "${LSCRIPTS}/_common_.sh"
 
   _log_.warn "Install ${FUNCNAME[0]}; sudo access is required!"
   _fio_.yesno_yes "Continue" && {
     local item
-    for item in "${_stack_install_docker[@]}";do
+    for item in "${_stack_install_docker_stack[@]}";do
       _log_.info ${item}
       local _item_filepath="${LSCRIPTS}/${item}-install.sh"
 
@@ -40,4 +40,4 @@ function stack-setup-docker.main() {
   } || _log_.echo "Skipping ${FUNCNAME[0]} installation!"
 }
 
-stack-setup-docker.main "$@"
+stack-setup-docker_stack.main "$@"

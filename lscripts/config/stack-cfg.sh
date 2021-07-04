@@ -172,6 +172,7 @@ declare -a _stack_install_items=(
   "editors"
   "markdowneditors"
   "python_stack"
+  "docker_stack"
   "programming"
   "epub"
   "storage"
@@ -262,13 +263,13 @@ declare -a _stack_install_markdowneditors=(
 )
 
 ## _stack-setup-docker
-declare -a _stack_install_docker=(
+declare -a _stack_install_docker_stack=(
   "docker-ce"
   "docker-compose"
 )
 
 
-declare -a _stack_verify_docker=(
+declare -a _stack_verify_docker_stack=(
   "docker-ce"
   "docker-compose"
 )

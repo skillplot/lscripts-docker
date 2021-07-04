@@ -22,6 +22,7 @@ source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/nvidia-cfg.sh
 source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/docker-cfg.sh
 source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/python-cfg.sh
 source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/stack-cfg.sh
+source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/menu-cfg.sh
 
 ###----------------------------------------------------------
 ## Users configuration

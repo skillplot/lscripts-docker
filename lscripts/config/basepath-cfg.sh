@@ -30,8 +30,8 @@
 ###----------------------------------------------------------
 
 
-local _LSD__BASENAME="${LSCRIPTS_BASENAME}"
-local _LSD__ROOT="${LSCRIPTS_ROOT}"
+local _LSD__BASENAME="${LSCRIPTS__BASENAME}"
+local _LSD__ROOT="${LSCRIPTS__ROOT}"
 declare -A _LSD__ENVVARS=()
 ##----
 [[ ! -z "${_LSD__BASENAME}" ]] || _LSD__BASENAME="lscripts"

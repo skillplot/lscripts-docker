@@ -48,8 +48,8 @@ categories: quick-start
     * `lsd-prog.`
     * `lsd-rm.`
     * `lsd-select.`
-    * `lsd-system.`
     * `lsd-stack.`
+    * `lsd-system.`
     * `lsd-test.`
     * `lsd-util.`
 * `lsd-cd` - change to the cloned directory `${LSCRIPTS_DOCKER}/lscripts` directory.

@@ -52,6 +52,41 @@ function lscripts.install.stack-setup() {
   } || _log_.error "Installer not found: ${_item}!"
 }
 
+function lscripts.install.menu() {
+  local _item
+
+  PS3="Choose (1-${_menu_items[@]}):"
+  _log_.echo "Lscripts command options."
+  select _item in "${_menu_items[@]}"
+  do
+    break
+  done
+  _log_.echo "_item: ${_item}"
+  # [[ ${_item} -neq "" ]] & {
+  #   _log_.echo "_item: ${_item}"
+  # } || _log_.info "Select an option"
+
+
+  # local _item_filepath
+  # for _item in "${_menu_items[@]}";do
+  #   # _log_.info ${_item}
+  #   _item_filepath="${LSCRIPTS}/stack-setup-${_item}.sh"
+  #   # _log_.echo "Checking for installer..." && \
+  #   ls -1 "${_item_filepath}" &>/dev/null && {
+  #     ## create alias
+  #     alias lsd-stack.${_item}="source ${_item_filepath} $@"
+  #   } || _log_.error "Installer not found: ${_item}!"
+  # done
+
+  # ## For 'all' stack:
+  # _item='all'
+  # _item_filepath="${LSCRIPTS}/stack-setup-${_item}.sh"
+  # ls -1 "${_item_filepath}" &>/dev/null && {
+  #   ## create alias
+  #   alias lsd-stack.${_item}="source ${_item_filepath} $@"
+  # } || _log_.error "Installer not found: ${_item}!"
+}
+
 
 function lscripts.install.main() {
   local LSCRIPTS="$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )"
@@ -61,6 +96,7 @@ function lscripts.install.main() {
 
   lscripts.install.stack-setup
   lscripts.install.itemwise
+  # lscripts.install.menu
 }
 
 lscripts.install.main
