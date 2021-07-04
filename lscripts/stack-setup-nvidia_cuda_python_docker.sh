@@ -22,16 +22,16 @@
 ###----------------------------------------------------------
 
 
-trap ctrlc_handler INT
+# trap ctrlc_handler INT
 
-## trap 'exit 0' INT or simply trap INT 
-function ctrlc_handler {
-  (>&2 echo -e "\e[0;101m CTRL-C pressed; Terminating..!\e[0m\n")
-  exit
-}
+# ## trap 'exit 0' INT or simply trap INT 
+# function ctrlc_handler {
+#   (>&2 echo -e "\e[0;101m CTRL-C pressed; Terminating..!\e[0m\n")
+#   exit
+# }
 
 
-function stack-setup-nvidia-cuda-python-docker.main() {
+function stack-setup-nvidia_cuda_python_docker.main() {
   local LSCRIPTS="$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )"
   source "${LSCRIPTS}/_common_.sh"
 
@@ -47,11 +47,11 @@ function stack-setup-nvidia-cuda-python-docker.main() {
         _fio_.yesno_no "Install ${item}" && {
           _log_.ok "Executing installer... ${_item_filepath}" && \
           _log_.echo "Installing..."
-          source "${_item_filepath} $@" || _log_.error "${_item_filepath}"
+          source ${_item_filepath} "$@"
         } || _log_.echo "Skipping ${item} installation!"
       } || _log_.error "Installer not found: ${item}!"
     done
   } || _log_.echo "Skipping ${FUNCNAME[0]} installation!"
 }
 
-stack-setup-nvidia-cuda-python-docker.main "$@"
+stack-setup-nvidia_cuda_python_docker.main "$@"

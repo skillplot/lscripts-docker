@@ -3,7 +3,7 @@
 ## Copyright (c) 2021 mangalbhaskar. All Rights Reserved.
 ##__author__ = 'mangalbhaskar'
 ###----------------------------------------------------------
-## Install multimedia softwares
+## Install Lscripts systen utilis softwares
 ###----------------------------------------------------------
 
 
@@ -16,14 +16,14 @@
 # }
 
 
-function stack-setup-multimedia.main() {
+function stack-setup-python_stack.main() {
   local LSCRIPTS="$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )"
   source "${LSCRIPTS}/_common_.sh"
 
   _log_.warn "Install ${FUNCNAME[0]}; sudo access is required!"
   _fio_.yesno_yes "Continue" && {
     local item
-    for item in "${_stack_install_multimedia[@]}";do
+    for item in "${_stack_install_python_stack[@]}";do
       _log_.info ${item}
       local _item_filepath="${LSCRIPTS}/${item}-install.sh"
 
@@ -39,4 +39,4 @@ function stack-setup-multimedia.main() {
   } || _log_.echo "Skipping ${FUNCNAME[0]} installation!"
 }
 
-stack-setup-multimedia.main "$@"
+stack-setup-python_stack.main "$@"

@@ -9,14 +9,14 @@
 
 declare -a _stack_install_itemwise=(
   ###----------------------------------------------------------    
-  ## "stack-setup-prerequisite"
+  ## "_stack-setup-prerequisite"
   ###----------------------------------------------------------    
   # "prerequisite_lite"
   "prerequisite"
   "prerequisite-pcl"
   "prerequisite-opencv"
   ###----------------------------------------------------------
-  ## "stack-setup-nvidia-cuda-python-docker"
+  ## "_stack-setup-nvidia-cuda-python-docker"
   ###----------------------------------------------------------
   "nvidia-driver"
   "docker-ce"
@@ -26,7 +26,7 @@ declare -a _stack_install_itemwise=(
   "python-virtualenvwrapper"
   "cuda-stack"
   ###----------------------------------------------------------
-  ## "stack-setup-utils"
+  ## "_stack-setup-utils"
   ###----------------------------------------------------------
   "core-apt"
   "extras-apt"
@@ -34,7 +34,7 @@ declare -a _stack_install_itemwise=(
   "diff-tools"
   "encryption-apt"
   ###----------------------------------------------------------    
-  ## "stack-setup-sysutils"
+  ## "_stack-setup-sysutils"
   ###----------------------------------------------------------    
   "rclone"
   "inotifytools-apt"
@@ -43,7 +43,7 @@ declare -a _stack_install_itemwise=(
   "timeshift-apt"
   "ftp-apt"
   ###----------------------------------------------------------    
-  ## "stack-setup-editors"
+  ## "_stack-setup-editors"
   ###----------------------------------------------------------
   "vim-apt"
   "vim-plug"
@@ -51,13 +51,13 @@ declare -a _stack_install_itemwise=(
   "vscode-apt"
   "atom-wget-dpkg"
   ###----------------------------------------------------------    
-  ## "stack-setup-markdown"
+  ## "_stack-setup-markdown"
   ###----------------------------------------------------------
   "haroopad-wget-dpkg"
   "typora-apt"
   "ghostwriter-apt"
   ###----------------------------------------------------------    
-  ## "stack-setup-programming"
+  ## "_stack-setup-programming"
   ###----------------------------------------------------------
   "java-apt"
   "php"
@@ -72,7 +72,7 @@ declare -a _stack_install_itemwise=(
   "ruby_rails_jekyll"
   "gcc-apt"
   ###----------------------------------------------------------    
-  ## "stack-setup-epub"
+  ## "_stack-setup-epub"
   ###----------------------------------------------------------
   "latex-apt"
   "pandoc-wget-dpkg"
@@ -82,7 +82,7 @@ declare -a _stack_install_itemwise=(
   "epub-readers-apt"
   "scribus-apt"
   ###----------------------------------------------------------    
-  ## "stack-setup-storage"
+  ## "_stack-setup-storage"
   ###----------------------------------------------------------
   "redis-wget-make"
   "postgres-postgis-apt"
@@ -94,7 +94,7 @@ declare -a _stack_install_itemwise=(
   "zookeeper-wget"
   "kafka-wget-dpkg"
   ###----------------------------------------------------------    
-  ## "stack-setup-graphics"
+  ## "_stack-setup-graphics"
   ###----------------------------------------------------------
   "vlc-apt"
   "ffmpeg-apt"
@@ -142,7 +142,7 @@ declare -a _stack_install_itemwise=(
   "openscad-ppa"
   "makehuman3d-ppa"
   ###----------------------------------------------------------    
-  ## "stack-setup-misc"
+  ## "_stack-setup-misc"
   ###----------------------------------------------------------
   "balenaetcher-apt"
   "httrack-apt"
@@ -163,14 +163,15 @@ declare -a _stack_install_itemwise=(
   "qgis3-apt"
 )
 
-## stack-setup-all
+## _stack-setup-all
 declare -a _stack_install_items=(
   "prerequisite"
-  "nvidia-cuda-python-docker"
+  "nvidia_cuda_python_docker"
   "utils"
   "sysutils"
   "editors"
   "markdowneditors"
+  "python_stack"
   "programming"
   "epub"
   "storage"
@@ -179,7 +180,7 @@ declare -a _stack_install_items=(
 )
 
 
-## stack-setup-prerequisite
+## _stack-setup-prerequisite
 declare -a _stack_install_prerequisite=(
   "prerequisite"
   "prerequisite-pcl"
@@ -187,10 +188,19 @@ declare -a _stack_install_prerequisite=(
 )
 
 
-## stack-setup-nvidia-cuda-python-docker
+## _stack_install_python_stack
+declare -a _stack_install_python_stack=(
+  ###----------------------------------------------------------
+  ## _stack_install_python_stack
+  ###---------------------------------------------------------- 
+  "python"
+  "python-virtualenvwrapper"
+)
+
+## _stack_install_nvidia_cuda_python_docker
 declare -a _stack_install_nvidia_cuda_python_docker=(
   ###----------------------------------------------------------
-  ## stack-setup-nvidia-cuda-python-docker
+  ## _stack_install_nvidia_cuda_python_docker
   ###---------------------------------------------------------- 
   "nvidia-driver"
   "docker-ce"
@@ -209,7 +219,7 @@ declare -a _stack_verify_nvidia_cuda_python_docker=(
 
 declare -a _stack_install_utils=(
   ###----------------------------------------------------------
-  ## stack-setup-utils
+  ## _stack-setup-utils
   ###---------------------------------------------------------- 
   "core-apt"
   "essentials-apt"
@@ -220,7 +230,7 @@ declare -a _stack_install_utils=(
 
 declare -a _stack_install_sysutils=(
   ###----------------------------------------------------------
-  ## stack-setup-sysutils
+  ## _stack-setup-sysutils
   ###---------------------------------------------------------- 
   "rclone"
   "inotifytools-apt"
@@ -230,10 +240,10 @@ declare -a _stack_install_sysutils=(
   "ftp-apt"
 )
 
-## stack-setup-editors
+## _stack-setup-editors
 declare -a _stack_install_editors=(
   ###----------------------------------------------------------    
-  ## "stack-setup-editors"
+  ## "_stack-setup-editors"
   ###----------------------------------------------------------
   "vim-apt"
   "vim-plug"
@@ -244,14 +254,14 @@ declare -a _stack_install_editors=(
 
 declare -a _stack_install_markdowneditors=(
   ###----------------------------------------------------------    
-  ## "stack-setup-markdown"
+  ## "_stack-setup-markdown"
   ###----------------------------------------------------------
   "haroopad-wget-dpkg"
   "typora-apt"
   "ghostwriter-apt"
 )
 
-## stack-setup-docker
+## _stack-setup-docker
 declare -a _stack_install_docker=(
   "docker-ce"
   "docker-compose"
@@ -264,7 +274,7 @@ declare -a _stack_verify_docker=(
 )
 
 
-## stack-setup-programming
+## _stack-setup-programming
 declare -a _stack_install_programming=(
   "java-apt"
   "php"
@@ -283,7 +293,7 @@ declare -a _stack_install_programming=(
 
 declare -a _stack_install_epub=(
   ###----------------------------------------------------------    
-  ## "stack-setup-epub"
+  ## "_stack-setup-epub"
   ###----------------------------------------------------------
   "latex-apt"
   "pandoc-wget-dpkg"
@@ -297,7 +307,7 @@ declare -a _stack_install_epub=(
 
 declare -a _stack_install_storage=(
   ###----------------------------------------------------------
-  ## stack-setup-storage
+  ## _stack-setup-storage
   ###----------------------------------------------------------
   "redis-wget-make"
   "postgres-postgis-apt"
@@ -313,7 +323,7 @@ declare -a _stack_install_storage=(
 
 declare -a _stack_install_multimedia=(
   ###----------------------------------------------------------    
-  ## "stack-setup-multimedia"
+  ## "_stack-setup-multimedia"
   ###----------------------------------------------------------
   "vlc-apt"
   "ffmpeg-apt"
@@ -365,7 +375,7 @@ declare -a _stack_install_multimedia=(
 
 declare -a _stack_install_misc=(
   ###----------------------------------------------------------    
-  ## "stack-setup-misc"
+  ## "_stack-setup-misc"
   ###----------------------------------------------------------
   "balenaetcher-apt"
   "httrack-apt"
