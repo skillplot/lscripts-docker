@@ -220,3 +220,10 @@ local ZOOKEEPER_VER="3.5.8"
 local KAFKA_REL="2.5.0"
 local KAFKA_VER="2.13"
 ##----------------------------------------------------------
+declare -a GCC_VERS=(9 8 7 6 5 4.8)
+##----------------------------------------------------------
+## enterprise edition
+local GITLAB_INSTALLER_EE_URL=https://packages.gitlab.com/install/repositories/gitlab/gitlab-ee/script.deb.sh
+## community edition
+local GITLAB_INSTALLER_CE_URL=https://packages.gitlab.com/install/repositories/gitlab/gitlab-ce/script.deb.sh
+local GITLAB_INSTALLER_URL=${GITLAB_INSTALLER_CE_URL}

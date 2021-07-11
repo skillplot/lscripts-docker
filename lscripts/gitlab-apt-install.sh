@@ -17,7 +17,7 @@
 ###----------------------------------------------------------
 
 
-function gitlab-apt-install.main() {
+function __gitlab-install() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
   source ${LSCRIPTS}/lscripts.config.sh
 
@@ -28,9 +28,36 @@ function gitlab-apt-install.main() {
 
   local filepath="$(mktemp /tmp/gitlab-ce.install-$(date +"%d%m%y_%H%M%S-XXXXXX").sh)"
   echo "filepath: ${filepath}"
-  curl https://packages.gitlab.com/install/repositories/gitlab/gitlab-ee/script.deb.sh > ${filepath}
+  # curl https://packages.gitlab.com/install/repositories/gitlab/gitlab-ee/script.deb.sh > ${filepath}
+  curl ${GITLAB_INSTALLER_URL} > ${filepath}
   sudo bash ${filepath}
   sudo apt -y install gitlab-ce
+  # sudo apt -y install gitlab-ee
+}
+
+
+function gitlab-apt-install.main() {
+  local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
+  source ${LSCRIPTS}/lscripts.config.sh
+  
+  local scriptname=$(basename ${BASH_SOURCE[0]})
+  _log_.debug "executing script...: ${scriptname}"
+
+  local _prog="gitlab"
+
+  _log_.info "Install ${_prog}..."
+  _log_.warn "sudo access is required!"
+
+  local _default=no
+  local _que
+  local _msg
+
+  _que="Install ${_prog} now"
+  _msg="Skipping ${_prog} installation!"
+  _fio_.yesno_${_default} "${_que}" && {
+      _log_.echo "Installing..."
+      __${_prog}-install "$@"
+  } || _log_.echo "${_msg}"
 }
 
 gitlab-apt-install.main "$@"

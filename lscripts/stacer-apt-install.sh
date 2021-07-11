@@ -12,13 +12,13 @@
 ###----------------------------------------------------------
 
 
-trap ctrlc_handler INT
+# trap ctrlc_handler INT
 
-## trap 'exit 0' INT or simply trap INT 
-function ctrlc_handler {
-  (>&2 echo -e "\e[0;101m CTRL-C pressed; Terminating..!\e[0m\n")
-  exit
-}
+# ## trap 'exit 0' INT or simply trap INT 
+# function ctrlc_handler {
+#   (>&2 echo -e "\e[0;101m CTRL-C pressed; Terminating..!\e[0m\n")
+#   exit
+# }
 
 
 function stacer-apt-install.main() {
@@ -26,8 +26,8 @@ function stacer-apt-install.main() {
   source ${LSCRIPTS}/lscripts.config.sh
 
   sudo add-apt-repository -y ppa:oguzhaninan/stacer
-  sudo apt-get -y update
-  sudo apt-get -y install stacer
+  sudo apt -y update
+  sudo apt -y install stacer
 
 }
 
