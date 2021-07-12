@@ -44,6 +44,11 @@ These provides complete development stack for deep learning docker environments.
     * Nvidia runtime
 * **Build CUDA 10.0 Nvidia image**
     ```bash
+    ## create the external directory, inside this clone the official nividia container file repo
+    mkidr -p external
+    cd external
+    git clone https://gitlab.com/nvidia/container-images/cuda.git
+    ##
     printf "y" | bash docker-buildimg-cuda.sh 10.0
     ```
 * **Python dependencies for specific CUDA versions**
