@@ -11,6 +11,7 @@
 ## * http://tipsonubuntu.com/2015/04/13/install-the-latest-shutter-screenshot-tool-in-ubuntu/
 ## * http://lightscreen.com.ar/
 ## * http://ubuntuhandbook.org/index.php/2018/10/how-to-install-shutter-screenshot-tool-in-ubuntu-18-10/
+## * https://www.tecmint.com/install-shutter-in-ubuntu/
 ###----------------------------------------------------------
 
 
@@ -20,14 +21,19 @@ function shutter-ppa-install.main() {
 
   if [[ ${LINUX_VERSION} == "16.04" ]]; then
     sudo add-apt-repository -y ppa:shutter/ppa
-    sudo apt -y update
-    sudo apt -y install shutter
   fi
 
   if [[ ${LINUX_VERSION} == "18.04" ]]; then
     sudo add-apt-repository -y ppa:ubuntuhandbook1/shutter
-    sudo apt -y install shutter
   fi
+
+
+  if [[ ${LINUX_VERSION} == "20.04" ]]; then
+    sudo add-apt-repository -y ppa:linuxuprising/shutter
+  fi
+
+  sudo apt -y update
+  sudo apt -y install shutter
 
   ## To uninstall
   # sudo -E apt remove --autoremove shutter
