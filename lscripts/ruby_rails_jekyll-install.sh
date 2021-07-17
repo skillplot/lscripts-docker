@@ -20,6 +20,9 @@ function ruby_rails_jekyll-install.main() {
   # sudo gem install jekyll -v 2.4.0
   sudo gem install bundler jekyll
   gem -v
+
+  ## To allow non-sudo user to install to the RubyGems
+  bundle config set --local path 'vendor/bundle'
 }
 
 ruby_rails_jekyll-install.main "$@"

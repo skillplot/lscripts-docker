@@ -17,5 +17,4 @@ local __LSCRIPTS_HOME__=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
 local __LSCRIPTS_LOG_BASEDIR__="${__LSCRIPTS_HOME__}/logs"
 mkdir -p "${__LSCRIPTS_LOG_BASEDIR__}"
 
-source "${__LSCRIPTS_HOME__}/config/__init__.sh"
 source "${__LSCRIPTS_HOME__}/_common_.sh"

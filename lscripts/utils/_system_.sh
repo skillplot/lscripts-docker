@@ -19,6 +19,7 @@ function _system_.get__vars() {
   _log_.echo "OS_ARCH: \e[1;32m${OS_ARCH}"
   _log_.echo "OS_ARCH_BIT: \e[1;32m${OS_ARCH_BIT}"
   _log_.echo "LINUX_VERSION: \e[1;32m${LINUX_VERSION}"
+  _log_.echo "LINUX_CODE_NAME: \e[1;32m${LINUX_CODE_NAME}"
   _log_.echo "LINUX_ID: \e[1;32m${LINUX_ID}"
   _log_.echo "LINUX_DISTRIBUTION: \e[1;32m${LINUX_DISTRIBUTION}"
   _log_.echo "LINUX_DISTRIBUTION_TR: \e[1;32m${LINUX_DISTRIBUTION_TR}"

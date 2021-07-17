@@ -34,6 +34,10 @@ function lscripts.alias.main() {
   alias lsd-select.gcc="bash ${LSCRIPTS}/exec_cmd.sh cmd=_system_.select__gcc"
   alias lsd-select.bazel="bash ${LSCRIPTS}/exec_cmd.sh cmd=_system_.select__bazel"
   ##
+  alias lsd-apt.search="bash ${LSCRIPTS}/exec_cmd.sh cmd=_apt_.search"
+  alias lsd-apt.guess="bash ${LSCRIPTS}/exec_cmd.sh cmd=_apt_.guess"
+  alias lsd-apt.add-repo="bash ${LSCRIPTS}/exec_cmd.sh cmd=_apt_.add-repo"
+  ##
   alias lsd-date.timestamp="bash ${LSCRIPTS}/exec_cmd.sh cmd=_date_.get__timestamp"
   alias lsd-date.timestamp.millisec="bash ${LSCRIPTS}/exec_cmd.sh cmd=_date_.get__timestamp_millisec"
   alias lsd-date.timestamp.microsec="bash ${LSCRIPTS}/exec_cmd.sh cmd=_date_.get__timestamp_microsec"
@@ -59,7 +63,7 @@ function lscripts.alias.main() {
   alias lsd-docker.container.status="bash ${LSCRIPTS}/exec_cmd.sh cmd=_docker_.list_container_status"
   alias lsd-docker.container.test="bash ${LSCRIPTS}/exec_cmd.sh cmd=_docker_.container_test"
   ##
-  alias lsd-stack.list="bash ${LSCRIPTS}/exec_cmd.sh cmd=_fio_.print.stack.list $@"
+  alias lsd-stack.list="bash ${LSCRIPTS}/exec_cmd.sh cmd=_stack_.list $@"
   ## snippet alias
   alias lsd-cmd.dummy="bash ${LSCRIPTS}/snippets/dummy.sh"
   alias lsd-cmd.git.get.repo-urls="bash ${LSCRIPTS}/snippets/git.get.repo-urls.sh"
@@ -78,7 +82,7 @@ function lscripts.alias.main() {
   alias lsd-test.argparse="bash ${LSCRIPTS}/tests/test.argparse.sh"
   alias lsd-test.cuda_config_supported="bash ${LSCRIPTS}/tests/test.cuda_config_supported.sh"
   alias lsd-test._dir_="bash ${LSCRIPTS}/tests/test._dir_.sh"
-  alias lsd-test.echo="bash ${LSCRIPTS}/tests/test.echo.sh"
+  alias lsd-test.echo="bash ${LSCRIPTS}/tests/test.echo.sh Namaste "
   alias lsd-test._fio_="bash ${LSCRIPTS}/tests/test._fio_.sh"
   alias lsd-test._log_="bash ${LSCRIPTS}/tests/test._log_.sh"
   alias lsd-test._system_="bash ${LSCRIPTS}/tests/test._system_.sh"
