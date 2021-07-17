@@ -20,6 +20,7 @@
 !*.adoc
 !*.html
 !*.yml
+!*.yaml
 !*.sh
 !*.txt
 !*.py
@@ -36,6 +37,42 @@
 !lscripts/
 !pyscripts/
 
+## AI weights to be excluded
+**/*.pt
+**/*.pth
+**/*.onnx
+**/*.mlmodel
+**/*.torchscript
+**/*.npy
+**/*.t7
+**/*.weights
+**/*.h5
+**/*.ckpt.*
+**/*.tflite
+**/*-lock.*
+**/*.lock
+
+## PDF, Images, audios, videos are excluded
+**/*.pdf
+**/*.bmp
+**/*.png
+**/*.jpg
+**/*.jpeg
+**/*.tif
+**/*.tiff
+**/*.dng
+**/*.gif
+**/*.mp3
+**/*.mov
+**/*.avi
+**/*.mp4
+**/*.mpg
+**/*.mpeg
+**/*.m4v
+**/*.wmv
+**/*.mkv
+**/*.webm
+**/*.flv
 
 ## disallow some specific files in the allowed list
 **/*~
@@ -50,12 +87,13 @@
 **/cache
 **/_site
 **/tmp
-# **/config
+**/config
 **/*-config
 **/data
 **/*-data
 **/logs
 **/virtualenvs
+**/venv
 **/mobile
 **/*-mobile
 
@@ -63,34 +101,54 @@
 **/.local
 **/*.local
 **/*.local.*
-**/*-lock.*
-**/*.lock
 
 **/README.html
 **/node_modules
 **/*.pyc
 **/*__pycache__
+# **/*.py[cod]
+# **/*$py.class
 **/*.ipynb_checkpoints
+**/*.python-version
 **/*.pytest_cache
+**/*.mypy_cache
 **/*.py.*
-# **/*.mp4
-# **/*.mp3
-
 **/gradle
 **/captures
 **/screenshot
 
 **/.vscode
 **/.gradle
+**/.cache
+**/-cache
 **/.idea
 **/.externalNativeBuild
 **/*.iml
 **/.DS_Store
+**/.tox
 **/build
 **/dist
 **/bin
+**/.Trashes
+
+**/Thumbs.db
+**/Desktop.ini
+**/Spotlight-V100
+**/._*
+
+## Jekyll
+**/.sass-cache/
+**/.jekyll-cache/
+**/.jekyll-metadata
+# **/vendor
+**/bundle
+# **/.vendor
+# **/.bundle
 
 ## Python egg metadata, regenerated from source files by setuptools.
 **/*.egg-info
 **/*.egg
+**/*.whl
 
+## disallow C extensions
+*.so
