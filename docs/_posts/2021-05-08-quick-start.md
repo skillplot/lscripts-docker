@@ -37,23 +37,26 @@ categories: quick-start
 ## Lscripts Commands
 
 * Lscripts commands available at the disposal with prefix `lsd-`. All th namespaces are:
-    * `lsd-cmd.`
-    * `lsd-cfg.`
-    * `lsd-date.`
-    * `lsd-docker.`
-    * `lsd-image.`
-    * `lsd-install.`
-    * `lsd-nvidia.`
-    * `lsd-python.`
-    * `lsd-prog.`
-    * `lsd-rm.`
-    * `lsd-select.`
-    * `lsd-stack.`
-    * `lsd-system.`
-    * `lsd-test.`
-    * `lsd-util.`
-* `lsd-cd` - change to the cloned directory `${LSCRIPTS_DOCKER}/lscripts` directory.
-* `lsd-ls` - It is at core `ls -ltr` plus with numeric permission value added as the first column i.e. `644 -rw-r--r--`
+    * `lsd-apt`
+    * `lsd-cd`
+    * `lsd-cmd`
+    * `lsd-date`
+    * `lsd-docker`
+    * `lsd-id`
+    * `lsd-image`
+    * `lsd-install`
+    * `lsd-ls`
+    * `lsd-nvidia`
+    * `lsd-python`
+    * `lsd-prog`
+    * `lsd-rm`
+    * `lsd-select`
+    * `lsd-stack`
+    * `lsd-system`
+    * `lsd-test`
+    * `lsd-trash`
+* `lsd-cd` - change to the cloned directory`${LSCRIPTS_DOCKER}/lscripts` directory.
+* `lsd-ls` - It is at core `ls -ltr` plus wit numeric permission value added as the first column i.e. `644 -rw-r--r--`
 * Lscripts configuration variables: `lsd-cfg.`
     ```bash
     lsd-cfg.color
@@ -62,24 +65,29 @@ categories: quick-start
     ```
 * Quick Commands:
     ```bash
-    lsd-cmd.dummy
-    lsd-cmd.git.get.repo-urls
-    lsd-cmd.git.repoviz
-    lsd-cmd.gitlab.get.cert
-    lsd-cmd.menu-navigation
-    lsd-cmd.monitoring-cmds
-    lsd-cmd.mount.smb
-    lsd-cmd.mount.ssh
-    lsd-cmd.pm
-    lsd-cmd.ppa.get.repo
+    lsd-cd
+    lsd-cmd.dummy                   
+    lsd-cmd.git.get.repo-urls       
+    lsd-cmd.gitlab.get.cert         
+    lsd-cmd.git.repoviz             
+    lsd-cmd.menu-navigation         
+    lsd-cmd.monitoring-cmds         
+    lsd-cmd.mount.smb               
+    lsd-cmd.mount.ssh               
+    lsd-cmd.pm                      
+    lsd-cmd.ppa.get.repo            
+    lsd-cmd.python.list.venv        
     lsd-cmd.python.venvname.generate
-    lsd-cmd.python.list.venv
     ##
     lsd-date.get
     lsd-date.timestamp
     lsd-date.timestamp.millisec
     lsd-date.timestamp.microsec
     lsd-date.timestamp.nanosec
+    ##
+    lsd-id.get
+    lsd-id.salt
+    lsd-id.uuid
     ##
     lsd-image.resize
     lsd-image.pdf
@@ -102,21 +110,32 @@ categories: quick-start
     lsd-nvidia.cuda.vers
     lsd-nvidia.cuda.avail
     lsd-nvidia.driver.avail
+    lsd-nvidia.cuda.avail
+    lsd-nvidia.cuda.vers
+    lsd-nvidia.driver.avail
+    lsd-nvidia.gpu.info
+    lsd-nvidia.gpu.stats
     ##
+    lsd-select.bazel
     lsd-select.cuda
     lsd-select.gcc
-    lsd-select.bazel
     ##
-    lsd-system.info
     lsd-system.cpu.cores
     lsd-system.cpu.threads
-    lsd-system.ip
     lsd-system.df.json
+    lsd-system.info
+    lsd-system.ip
     lsd-system.osinfo
     ##
-    lsd-util.salt
-    lsd-util.uuid
+    lsd-test.argparse
+    lsd-test.cuda_config_supported
+    lsd-test._dir_
+    lsd-test.echo
+    lsd-test._fio_
+    lsd-test._log_
+    lsd-test._system_
     ##
+    lsd-trash
     ```
 * One can combine the output of above commands with other system commands/utilities, example:
     * To parse the `json` output to human readable format using `jq`

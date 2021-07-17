@@ -11,27 +11,85 @@
 ###----------------------------------------------------------
 
 
-function lsd-prog.ids() { [[ ! -z $1 ]] && (>&2 echo -e $(pgrep -f $1)); }
-function lsd-prog.kill() { [[ ! -z $1 ]] && sudo kill -9 $(pgrep -f $1); }
-# function lsd-python.kill() { sudo kill -9 $(pgrep -f python); }
-function lsd-python.kill() { lsd.prog.kill python; }
+function lsd-prog.ids() {
+  [[ ! -z $1 ]] && (>&2 echo -e $(pgrep -f $1));
+}
+
+function lsd-prog.kill() {
+  [[ ! -z $1 ]] && sudo kill -9 $(pgrep -f $1);
+}
+
+## function lsd-python.kill() { sudo kill -9 $(pgrep -f python); }
+function lsd-python.kill() {
+  lsd.prog.kill python;
+}
+
 ## __pycache__ egg-info
-function lsd-ls.pycache() { find ${PWD}/ -iname __pycache__ -type d | xargs -n 1 bash -c 'ls -dl "$0"'; }
-function lsd-rm.pycache() { find ${PWD}/ -iname __pycache__ -type d | xargs -n 1 bash -c 'rm -rf "$0"'; }
-function lsd-ls.egg() { find ${PWD}/ -iname *.egg-info -type d | xargs -n 1 bash -c 'ls -dl "$0"'; }
-function lsd-rm.egg() { find ${PWD}/ -iname *.egg-info -type d | xargs -n 1 bash -c 'rm -rf "$0"'; }
+function lsd-ls.pycache() {
+  find ${PWD}/ -iname __pycache__ -type d | xargs -n 1 bash -c 'ls -dl "$0"';
+}
+
+function lsd-rm.pycache() {
+  find ${PWD}/ -iname __pycache__ -type d | xargs -n 1 bash -c 'rm -rf "$0"';
+}
+
 ##
-function lsd-ls() { ls -lrth | awk '{k=0;for(i=0;i<=8;i++)k+=((substr($1,i+2,1)~/[rwx]/) *2^(8-i));if(k)printf("%0o ",k);print}'; }
-## Image utilities
-function lsd-image.resize() { for file in *.${1:-'jpg'}; do convert ${file} -resize ${2:-'50'}% $(date -d now +'%d%m%y_%H%M%S')---${file}; done }
-#
-function lsd-image.pdf() { gm convert *.${1:-'jpg'} $(date -d now +'%d%m%y_%H%M%S').pdf; }
-#
-## function lsd.junk() { for item in "$@" ; do echo "Trashing: $item" ; mv "$item" ${HOME}/.Trash/; done }
-function lsd-date.get() { echo $(date +"%d-%b-%Y, %A"); }
-function lsd-system.info() { type inxi &>/dev/null && inxi -Fxzd; }
-#
-function lsd-util.salt() {
+function lsd-ls.egg() {
+  find ${PWD}/ -iname *.egg-info -type d | xargs -n 1 bash -c 'ls -dl "$0"';
+}
+
+function lsd-rm.egg() {
+  find ${PWD}/ -iname *.egg-info -type d | xargs -n 1 bash -c 'rm -rf "$0"';
+}
+
+##
+function lsd-ls() {
+  ls -lrth | awk '{k=0;for(i=0;i<=8;i++)k+=((substr($1,i+2,1)~/[rwx]/) *2^(8-i));if(k)printf("%0o ",k);print}';
+}
+
+##
+function lsd-trash() {
+  for item in "$@" ; do echo "Trashing: $item" ; mv "$item" ${HOME}/.Trash/; done
+}
+
+###----------------------------------------------------------
+## lsd-image Image utilities
+###----------------------------------------------------------
+
+function lsd-image.resize() {
+  for file in *.${1:-'jpg'}; do convert ${file} -resize ${2:-'50'}% $(date -d now +'%d%m%y_%H%M%S')---${file}; done
+}
+
+
+function lsd-image.pdf() {
+  gm convert *.${1:-'jpg'} $(date -d now +'%d%m%y_%H%M%S').pdf;
+}
+
+
+###----------------------------------------------------------
+## lsd-date
+###----------------------------------------------------------
+
+function lsd-date.get() {
+  echo $(date +"%d-%b-%Y, %A");
+}
+
+
+###----------------------------------------------------------
+## lsd-system
+###----------------------------------------------------------
+
+function lsd-system.info() {
+  type inxi &>/dev/null && inxi -Fxzd;
+}
+
+
+
+###----------------------------------------------------------
+## lsd-id
+###----------------------------------------------------------
+
+function lsd-id.salt() {
   ###----------------------------------------------------------
   ## To generate security keys and salts
   ###----------------------------------------------------------
@@ -48,7 +106,12 @@ function lsd-util.salt() {
 }
 
 
-function lsd-util.uuid() {
+function lsd-id.get() {
+  echo $(uname -a && date) | md5sum | cut -f1 -d" " | head -c ${1:-33}
+}
+
+
+function lsd-id.uuid() {
   ###----------------------------------------------------------
   ## generate uuid without `uuid` apt utility package
   ###----------------------------------------------------------
@@ -71,6 +134,7 @@ function lsd-util.uuid() {
   # echo $(head -c24 < <(tr -dc '\041-\176' < /dev/urandom)()
   # # Slight update to prevent password containing single quotes, making it easier to quote a variable containing the password.
   # echo $(head -c24 < <(tr --delete --complement '\041-\046\048-\176' < /dev/urandom)()
+
 
   ## Credit: https://gist.github.com/sergeyklay
   ## Generate UUID-like strings: c8521ea3-0f42-4e36-aba7-6de2d7c20725

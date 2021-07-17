@@ -9,9 +9,4 @@
 ###----------------------------------------------------------
 
 source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/config/__init__.sh
-
-###----------------------------------------------------------
-## logger and then functions
-###----------------------------------------------------------
-source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/utils/_log_.sh
-source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/utils/_fn_.sh
+source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/utils/__init__.sh

@@ -9,11 +9,13 @@
 
 function __lscripts_env__() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
-  source "${LSCRIPTS}/utils/ps1.sh"
+  source "${LSCRIPTS}/config/ps1.sh"
   ##
   ## Todo: for full configuration
   # source "${LSCRIPTS}/lscripts.export.sh"
   source "${LSCRIPTS}/lscripts.install.sh"
+  lscripts.install.main
+
   source "${LSCRIPTS}/lscripts.cmd.sh"
   source "${LSCRIPTS}/lscripts.alias.sh"
   # (>&2 echo -e "lscripts updated...")

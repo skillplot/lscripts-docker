@@ -2,12 +2,19 @@
 
 ## Copyright (c) 2021 mangalbhaskar. All Rights Reserved.
 ##__author__ = 'mangalbhaskar'
+##----------------------------------------------------------
+## common configurations
+#
+## NOTE:
+## - Do not change the order of scripts being sourced or variable initialized.
+#
+##----------------------------------------------------------
+
 ###----------------------------------------------------------
-## Utility functions
-## CAUTION: DO NOT CHANGE THE ORDER OF EXECUTION
+## Core configuration
 ###----------------------------------------------------------
 
-
+source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/_log_.sh
 source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/_date_.sh
 source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/_color_.sh
 source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/_typeformats_.sh

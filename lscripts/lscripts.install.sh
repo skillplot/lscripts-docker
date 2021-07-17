@@ -98,5 +98,3 @@ function lscripts.install.main() {
   lscripts.install.itemwise
   # lscripts.install.menu
 }
-
-lscripts.install.main

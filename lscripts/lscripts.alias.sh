@@ -36,7 +36,9 @@ function lscripts.alias.main() {
   ##
   alias lsd-apt.search="bash ${LSCRIPTS}/exec_cmd.sh cmd=_apt_.search"
   alias lsd-apt.guess="bash ${LSCRIPTS}/exec_cmd.sh cmd=_apt_.guess"
-  alias lsd-apt.add-repo="bash ${LSCRIPTS}/exec_cmd.sh cmd=_apt_.add-repo"
+  alias lsd-apt.ppa-add="bash ${LSCRIPTS}/exec_cmd.sh cmd=_apt_.add-repo"
+  alias lsd-apt.ppa-list="bash ${LSCRIPTS}/exec_cmd.sh cmd=_apt_.get-repo ls"
+  alias lsd-apt.ppa-remove="bash ${LSCRIPTS}/exec_cmd.sh cmd=_apt_.get-repo rm"
   ##
   alias lsd-date.timestamp="bash ${LSCRIPTS}/exec_cmd.sh cmd=_date_.get__timestamp"
   alias lsd-date.timestamp.millisec="bash ${LSCRIPTS}/exec_cmd.sh cmd=_date_.get__timestamp_millisec"
