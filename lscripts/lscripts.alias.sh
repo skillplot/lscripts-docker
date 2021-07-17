@@ -65,6 +65,9 @@ function lscripts.alias.main() {
   alias lsd-docker.container.status="bash ${LSCRIPTS}/exec_cmd.sh cmd=_docker_.list_container_status"
   alias lsd-docker.container.test="bash ${LSCRIPTS}/exec_cmd.sh cmd=_docker_.container_test"
   ##
+  alias lsd-id.filename="bash ${LSCRIPTS}/exec_cmd.sh cmd=_fio_.filename"
+  alias lsd-id.filename-tmp="bash ${LSCRIPTS}/exec_cmd.sh cmd=_fio_.filename-tmp"
+  ##
   alias lsd-stack.list="bash ${LSCRIPTS}/exec_cmd.sh cmd=_stack_.list $@"
   ## snippet alias
   alias lsd-cmd.dummy="bash ${LSCRIPTS}/snippets/dummy.sh"

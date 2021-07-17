@@ -245,6 +245,23 @@ function _fio_.image_to_pdf() {
 }
 
 
+function _fio_.filename() {
+  local dirpath
+  _log_.echo "Enter the directory path [ Press Enter for default: /tmp]:"
+  read dirpath
+
+  [[ -d "${dirpath}" ]] && dirpath=${dirpath%/} || dirpath="/tmp"
+  _log_.echo "Using directory path: ${dirpath}"
+  local _filename="${dirpath}/$(basename "${dirpath}")-$(date -d now +'%d%m%y_%H%M%S')"
+  echo ${_filename}
+}
+
+function _fio_.filename-tmp() {
+  local dirpath="/tmp"
+  echo "${dirpath}/$(basename "${dirpath}")-$(date -d now +'%d%m%y_%H%M%S').log"
+}
+
+
 function _fio_.image_to_pdf_prompt() {
   local dirpath
   echo "Enter the directory path containing images to be converted to pdf:"
