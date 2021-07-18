@@ -34,7 +34,7 @@ The reason for sensitivity towards order and sequence of definitions and imports
 * Color codes configurations
   * `_color_.sh` => `config/_color_.sh`
 * Internal usage for dynamic configurations
-  * `lsd-mod.typeformats.sh` => `config/lsd-mod.typeformats.sh`
+  * `_typeformats_.sh` => `config/_typeformats_.sh`
 * Wraps all configurations and it's the single entry point: `__init__.sh` => `config/__init__.sh` like:
   * Core configuration
     * system
@@ -50,18 +50,38 @@ The reason for sensitivity towards order and sequence of definitions and imports
 
 ### Core Modules: `lscripts/core`
 
-* Logger:`lsd-mod.log.sh`:
+All the Code modules are loaded from: => `lscipts/core/__init__.sh`. Here they are mentioned in the same order in which they are imported, their import orders should not be changed. There are two types of modules:
+1. wrapper modules - they only prints configuration currently
+2. functional modules - they additionally adds more functionalities
+
+
+* log
   * log module
-    * `lscripts/core/lsd-mod.log.sh`
-* Code modules: => `lscipts/core/__init__.sh`
-  * system module
-    * `lsd-mod.system.sh` => `lscripts/core/lsd-mod.system.sh`
-  * I/O module
-   * `lsd-mod.fio.sh` => `lscripts/core/lsd-mod.fio.sh`
-  * nvidia gpu and cuda stack module
-    * `_nvidia_.sh` => `lscripts/core/_nvidia_.sh`
-  * docker module
-    * `_docker_.sh` => `lscripts/core/_docker_.sh`
+    * `lscripts/core/_log_.sh`
+* utils module
+  * `_utils_.sh` => `lscripts/core/_utils_.sh`
+* date module
+  * `_date_.sh` => `lscripts/core/_date_.sh`
+* color wrapper module
+  * `_color_.sh` => `lscripts/core/_color_.sh`
+* typeformats wrapper module
+  * `_typeformats_.sh` => `lscripts/core/_typeformats_.sh`
+* system module
+  * `_system_.sh` => `lscripts/core/_system_.sh`
+* file I/O module
+ * `_fio_.sh` => `lscripts/core/_fio_.sh`
+* Stack wrapper module
+ * `_stack_.sh` => `lscripts/core/_stack_.sh`
+* dir module
+  * `_dir_.sh` => `lscripts/core/_dir_.sh`
+* apt module
+  * `_apt_.sh` => `lscripts/core/_apt_.sh`
+* nvidia gpu and cuda stack module
+  * `_nvidia_.sh` => `lscripts/core/_nvidia_.sh`
+* docker module
+  * `_docker_.sh` => `lscripts/core/_docker_.sh`
+* mongodb wrapper module
+  * `_mongodb_.sh` => `lscripts/core/_mongodb_.sh`
 
 
 ### Common Module
@@ -80,16 +100,16 @@ The reason for sensitivity towards order and sequence of definitions and imports
       * use this as prefix for custom environment variables
       * or use this as a variable names withing scripts when using `lscripts` as library module
         * as a convention, use uppercase is they are coming from environment variables, constant values or non-function global variables, otherwise use lowercase for variables in local scope, function names 
-    * `_LSCRIPTS__`: Environment variables namespace prefix
+    * `LSCRIPTS__`: Environment variables namespace prefix
     * `<modulename>.<function_name>`: all module functions follow this pattern
   * `_<SOME_NAME>` i.e. starting with single `_` underscore
     * these are reserved variable names
-    * function names are tucked under module name eg: `lsd-mod.log.debug` where module name is `lsd-mod.log.sh`
+    * function names are tucked under module name eg: `lsd-mod.log.debug` where module name is `_log_.sh`
   * `__<SOME_NAME>` i.e. starting with double `__` underscores
     * these are reserved variable names
     * strictly private scope, overriding these has unexpected impact
     * function names are tucked under module name.
-      * These should not be invoked directly and instead their wrapper function to be used eg: `lsd-mod.log.__failure` where module name is `lsd-mod.log.sh` is a expected to private, so instead use it's wrapper: `lsd-mod.log.fail`
+      * These should not be invoked directly and instead their wrapper function to be used eg: `lsd-mod.log.__failure` where module name is `_log_.sh` is a expected to private, so instead use it's wrapper: `lsd-mod.log.fail`
   * Environment variables
     * All environment variables that are expected to be customized by user defined values:
-      * namespace prefix: `_LSCRIPTS__`
+      * namespace prefix: `LSCRIPTS__`

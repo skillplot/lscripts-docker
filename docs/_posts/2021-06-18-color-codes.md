@@ -26,6 +26,6 @@ categories: color-codes
 ![ALT lsd configuration colors]({{site.url}}/images/lsd-test.lsd-mod.log.png)
 * All the color codes for can be visualized from running the logger module test as:
     ```bash
-    lsd-test._log_
+    lsd-test.log
     ```
 
