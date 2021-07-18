@@ -99,15 +99,15 @@ function ftp-install() {
   source ${LSCRIPTS}/lscripts.config.sh
   
   local scriptname=$(basename ${BASH_SOURCE[0]})
-  _log_.debug "executing script...: ${scriptname}"
+  lsd-mod.log.debug "executing script...: ${scriptname}"
   
-  _log_.info "Recommended: DOCKER_VERSION < 19.03.1. This is for providing nvidia/cuda container compatibility"
-  ## local _default=$(_fio_.get_yesno_default)
+  lsd-mod.log.info "Recommended: DOCKER_VERSION < 19.03.1. This is for providing nvidia/cuda container compatibility"
+  ## local _default=$(lsd-mod.fio.get_yesno_default)
 
   local _prog="ftp"
 
-  _log_.info "Install ${_prog}..."
-  _log_.warn "sudo access is required!"
+  lsd-mod.log.info "Install ${_prog}..."
+  lsd-mod.log.warn "sudo access is required!"
 
   local _default=yes
   local _que
@@ -115,31 +115,31 @@ function ftp-install() {
 
   _que="Uninstall previous ${_prog} installation"
   _msg="Skipping ${_prog} uninstall!"
-  _fio_.yesno_${_default} "${_que}" && \
-      _log_.echo "Uninstalling..." && \
+  lsd-mod.fio.yesno_${_default} "${_que}" && \
+      lsd-mod.log.echo "Uninstalling..." && \
       ${_prog}-uninstall \
-    || _log_.echo "${_msg}"
+    || lsd-mod.log.echo "${_msg}"
 
   _que="Install ${_prog} now"
   _msg="Skipping ${_prog} installation!"
-  _fio_.yesno_${_default} "${_que}" && \
-      _log_.echo "Installing..." && \
+  lsd-mod.fio.yesno_${_default} "${_que}" && \
+      lsd-mod.log.echo "Installing..." && \
       __${_prog}-install \
-    || _log_.echo "${_msg}"
+    || lsd-mod.log.echo "${_msg}"
 
   _que="Configure ${_prog} to run without sudo (recommended)"
   _msg="Skipping ${_prog} configuration!"
-  _fio_.yesno_${_default} "${_que}" && \
-      _log_.echo "Configuring..." && \
+  lsd-mod.fio.yesno_${_default} "${_que}" && \
+      lsd-mod.log.echo "Configuring..." && \
       ${_prog}-configure \
-    || _log_.echo "${_msg}"
+    || lsd-mod.log.echo "${_msg}"
 
   _que="Re-boot is essential. Do you want to reboot sytem"
   _msg="Re-boot you system later to complete the installation. Further installation will break is not rebooted."
-  _fio_.yes_or_no_loop "${_que}" && \
-      _log_.echo "Rebooting system..." && \
+  lsd-mod.fio.yes_or_no_loop "${_que}" && \
+      lsd-mod.log.echo "Rebooting system..." && \
       sudo reboot \
-    || _log_.echo "${_msg}"
+    || lsd-mod.log.echo "${_msg}"
 }
 
 ftp-install

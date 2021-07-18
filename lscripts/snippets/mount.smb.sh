@@ -12,12 +12,12 @@
 #
 ## References
 ## * https://serverfault.com/questions/414074/mount-cifs-host-is-down
-## if `vers=1.0` is not provided in `Ubuntu 18.04 LTS` it throws _log_.error `host is down`
+## if `vers=1.0` is not provided in `Ubuntu 18.04 LTS` it throws lsd-mod.log.error `host is down`
 #
 ## * https://unix.stackexchange.com/questions/68079/mount-cifs-network-drive-write-permissions-and-chown
 ## sudo mount -t cifs //server-address/folder /mount/path/on/ubuntu -o username=${USER},password=${PASSWORD},uid=$(id -u),gid=$(id -g)
 #
-## TBD: mount _log_.error handling
+## TBD: mount lsd-mod.log.error handling
 ## mount error(16): Device or resource busy
 ## * https://stackoverflow.com/questions/30078281/raise-error-in-a-bash-script
 ###----------------------------------------------------------

@@ -17,12 +17,12 @@
 
 
 function apache2-uninstall() {
-  _log_.warn "apache2 will be uninstalled and configuration will be removed!"
+  lsd-mod.log.warn "apache2 will be uninstalled and configuration will be removed!"
 
-  # _log_.info "remove the package and retain the configuration files."
+  # lsd-mod.log.info "remove the package and retain the configuration files."
   # sudo apt remove apache2
 
-  _log_.warn "uninstalling the package and remove the configuration files associated with it."
+  lsd-mod.log.warn "uninstalling the package and remove the configuration files associated with it."
   sudo apt purge apache2 apache2-data apache2-utils apache2.2-bin apache2-common
 }
 
@@ -57,12 +57,12 @@ function apache2-install() {
   source ${LSCRIPTS}/lscripts.config.sh
   
   local scriptname=$(basename ${BASH_SOURCE[0]})
-  _log_.debug "executing script...: ${scriptname}"
+  lsd-mod.log.debug "executing script...: ${scriptname}"
 
   local _prog="apache2"
 
-  _log_.info "Install ${_prog}..."
-  _log_.warn "sudo access is required!"
+  lsd-mod.log.info "Install ${_prog}..."
+  lsd-mod.log.warn "sudo access is required!"
 
   local _default=no
   local _que
@@ -70,24 +70,24 @@ function apache2-install() {
 
   _que="Install ${_prog} now"
   _msg="Skipping ${_prog} installation!"
-  _fio_.yesno_${_default} "${_que}" && \
-      _log_.echo "Installing..." && \
+  lsd-mod.fio.yesno_${_default} "${_que}" && \
+      lsd-mod.log.echo "Installing..." && \
       __${_prog}-install \
-    || _log_.echo "${_msg}"
+    || lsd-mod.log.echo "${_msg}"
 
   _que="Install modules for ${_prog}"
   _msg="Skipping modules installation."
-  _fio_.yesno_no "${_que}" && \
-      _log_.echo "Installing modules..." && \
+  lsd-mod.fio.yesno_no "${_que}" && \
+      lsd-mod.log.echo "Installing modules..." && \
       ${_prog}-modules \
-    || _log_.echo "${_msg}"
+    || lsd-mod.log.echo "${_msg}"
 
   _que="Configure ${_prog} now (recommended)"
   _msg="Skipping ${_prog} configuration. This is critical for proper python environment working!"
-  _fio_.yesno_no "${_que}" && \
-      _log_.echo "Configuring..." && \
+  lsd-mod.fio.yesno_no "${_que}" && \
+      lsd-mod.log.echo "Configuring..." && \
       ${_prog}-config \
-    || _log_.echo "${_msg}"
+    || lsd-mod.log.echo "${_msg}"
 }
 
 apache2-install "$@"

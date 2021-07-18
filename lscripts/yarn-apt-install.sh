@@ -37,7 +37,7 @@ function __yarn-install() {
   sudo apt -y update
   sudo apt -y install --no-install-recommends yarn
   ## export PATH="${PATH}:/opt/yarn-[version]/bin"
-  _log_.info "yarn version is: $(yarn --version)"
+  lsd-mod.log.info "yarn version is: $(yarn --version)"
 }
 
 
@@ -46,12 +46,12 @@ function yarn-apt-install.main() {
   source ${LSCRIPTS}/lscripts.config.sh
 
   local scriptname=$(basename ${BASH_SOURCE[0]})
-  _log_.debug "executing script...: ${scriptname}"
+  lsd-mod.log.debug "executing script...: ${scriptname}"
 
   local _prog="yarn"
 
-  _log_.info "Install ${_prog}..."
-  _log_.warn "sudo access is required!"
+  lsd-mod.log.info "Install ${_prog}..."
+  lsd-mod.log.warn "sudo access is required!"
 
   local _default=no
   local _que
@@ -59,24 +59,24 @@ function yarn-apt-install.main() {
 
   _que="Add/Update ${_prog} repo key"
   _msg="Skipping adding/updating ${_prog} repo key!"
-  _fio_.yesno_${_default} "${_que}" && {
-    _log_.echo "Adding/updating ${_prog} repo key..."
+  lsd-mod.fio.yesno_${_default} "${_que}" && {
+    lsd-mod.log.echo "Adding/updating ${_prog} repo key..."
     ${_prog}-addkey
-  } || _log_.echo "${_msg}"
+  } || lsd-mod.log.echo "${_msg}"
 
   _que="Add ${_prog} repo"
   _msg="Skipping adding ${_prog} repo!"
-  _fio_.yesno_${_default} "${_que}" && {
-    _log_.echo "Adding ${_prog} repo..."
+  lsd-mod.fio.yesno_${_default} "${_que}" && {
+    lsd-mod.log.echo "Adding ${_prog} repo..."
     ${_prog}-addrepo
-  } || _log_.echo "${_msg}"
+  } || lsd-mod.log.echo "${_msg}"
 
   _que="Install ${_prog} now"
   _msg="Skipping ${_prog} installation!"
-  _fio_.yesno_${_default} "${_que}" && {
-    _log_.echo "Installing..."
+  lsd-mod.fio.yesno_${_default} "${_que}" && {
+    lsd-mod.log.echo "Installing..."
     __${_prog}-install
-  } || _log_.echo "${_msg}"
+  } || lsd-mod.log.echo "${_msg}"
 
 }
 

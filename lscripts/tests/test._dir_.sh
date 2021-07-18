@@ -3,7 +3,7 @@
 ## Copyright (c) 2021 mangalbhaskar. All Rights Reserved.
 ##__author__ = 'mangalbhaskar'
 ###----------------------------------------------------------
-## test::shell script core/_dir_.sh module
+## test::shell script core/lsd-mod.dir.sh module
 ###----------------------------------------------------------
 
 
@@ -20,32 +20,32 @@
 [[ $0 != "$BASH_SOURCE" ]] && sourced=1 || sourced=0[1]
 
 
-function test._dir_.case-1() {
-  declare -a _lsd_data_dirs_paths=($(_dir_.get_lsd_data_dirs_paths))
+function test.lsd-mod.dir.case-1() {
+  declare -a _lsd_data_dirs_paths=($(lsd-mod.dir.get-datadirs-paths))
   local i
   for i in ${!_lsd_data_dirs_paths[*]}; do
-    _log_.echo "${gre}${_lsd_data_dirs_paths[$i]}"
+    lsd-mod.log.echo "${gre}${_lsd_data_dirs_paths[$i]}"
   done
 }
 
 
-function test._dir_.case-2() {
-  declare -a _lsd_os_dirs_paths=($(_dir_.get_lsd_os_dirs_paths))
+function test.lsd-mod.dir.case-2() {
+  declare -a _lsd_os_dirs_paths=($(lsd-mod.dir.get-osdirs-paths))
   local i
   for i in ${!_lsd_os_dirs_paths[*]}; do
-    _log_.echo "${_lsd_os_dirs_paths[$i]}"
+    lsd-mod.log.echo "${_lsd_os_dirs_paths[$i]}"
   done
 }
 
 
-function test._dir_.main() {
+function test.lsd-mod.dir.main() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
   source ${LSCRIPTS}/../lscripts.config.sh
   
-  export _LSCRIPTS__LOG_LEVEL_=7 ## DEBUG
-  test._dir_.case-1
-  test._dir_.case-2
+  export LSCRIPTS__LOG_LEVEL=7 ## DEBUG
+  test.lsd-mod.dir.case-1
+  test.lsd-mod.dir.case-2
 }
 
 
-test._dir_.main
+test.lsd-mod.dir.main

@@ -65,7 +65,7 @@ function prerequisite-opencv-install.main() {
   source ${LSCRIPTS}/lscripts.config.sh
 
   local scriptname=$(basename ${BASH_SOURCE[0]})
-  _log_.debug "executing script...: ${scriptname}"
+  lsd-mod.log.debug "executing script...: ${scriptname}"
 
   local _default=no
   local _que
@@ -74,15 +74,15 @@ function prerequisite-opencv-install.main() {
 
   _prog="prerequisite-opencv"
 
-  _log_.info "Install ${_prog}..."
-  _log_.warn "sudo access is required!"
+  lsd-mod.log.info "Install ${_prog}..."
+  lsd-mod.log.warn "sudo access is required!"
 
   _que="Install ${_prog} now"
   _msg="Skipping ${_prog} installation!"
-  _fio_.yesno_${_default} "${_que}" && \
-      _log_.echo "Installing..." && \
+  lsd-mod.fio.yesno_${_default} "${_que}" && \
+      lsd-mod.log.echo "Installing..." && \
       __${_prog}-install || {
-      _log_.echo "${_msg}"
+      lsd-mod.log.echo "${_msg}"
     }
 
 }

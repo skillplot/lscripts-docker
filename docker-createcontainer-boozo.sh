@@ -25,7 +25,7 @@ function __docker-createcontainer-boozo() {
 
   # ${DOCKER_CMD} start ${DOCKER_CONTAINER_NAME} 1>/dev/null
 
-  _log_.warn "Published ports are discarded when using host network mode!"
+  lsd-mod.log.warn "Published ports are discarded when using host network mode!"
 
   echo "${DOCKER_CMD} run -d -it \
       --user $(id -un):$(id -gn) \
@@ -41,17 +41,17 @@ function __docker-createcontainer-boozo() {
       --shm-size ${SHM_SIZE_8GB} \
       ${DOCKER_BLD_CONTAINER_IMG}"
 
-  [[ $? -eq 0 ]] || _log_.fail "Internal Error: Failed to create docker container!"
+  [[ $? -eq 0 ]] || lsd-mod.log.fail "Internal Error: Failed to create docker container!"
 
   ## Grant docker access to host X server to show images
   xhost +local:`${DOCKER_CMD} inspect --format='{{ .Config.Hostname }}' ${DOCKER_CONTAINER_NAME}`
 
-  _log_.echo "Finished setting up ${DOCKER_CONTAINER_NAME} docker environment."
-  _log_.ok "Enjoy!"
-  _log_.info "Execute container..."
-  _log_.echo "bash lscripts/exec_cmd.sh --cmd=_docker_.container.exec --name=${DOCKER_CONTAINER_NAME}\n"
+  lsd-mod.log.echo "Finished setting up ${DOCKER_CONTAINER_NAME} docker environment."
+  lsd-mod.log.ok "Enjoy!"
+  lsd-mod.log.info "Execute container..."
+  lsd-mod.log.echo "bash lscripts/exec_cmd.sh --cmd=_docker_.container.exec --name=${DOCKER_CONTAINER_NAME}\n"
 
-  _log_.info "Or simple execution:\n ${DOCKER_CMD} exec -it ${DOCKER_CONTAINER_NAME}\n"
+  lsd-mod.log.info "Or simple execution:\n ${DOCKER_CMD} exec -it ${DOCKER_CONTAINER_NAME}\n"
   echo ${DOCKER_CONTAINER_NAME}
 }
 
@@ -61,21 +61,21 @@ function docker-createcontainer-boozo.main() {
   source ${LSCRIPTS}/lscripts/lscripts.config.sh
 
   local scriptname=$(basename ${BASH_SOURCE[0]})
-  _log_.debug "executing script...: ${scriptname}"
+  lsd-mod.log.debug "executing script...: ${scriptname}"
 
   source "${LSCRIPTS}/lscripts/docker-ce-verify.sh" &>/dev/null \
-    || _log_.fail "Dependency docker-ce-verify is not installed!\n Execute installer:\n\
+    || lsd-mod.log.fail "Dependency docker-ce-verify is not installed!\n Execute installer:\n\
             source ${LSCRIPTS}/lscripts/docker-ce-verify.sh"
 
   type nvidia-container-toolkit &>/dev/null \
-    || _log_.fail "Dependency nvidia-container-toolkit is not installed!\n Execute installer:\n\
+    || lsd-mod.log.fail "Dependency nvidia-container-toolkit is not installed!\n Execute installer:\n\
             source ${LSCRIPTS}/lscripts/nvidia-container-toolkit-install.sh"
 
   declare -a cuda_vers=($(_nvidia_.get__cuda_vers))
   local vers="${cuda_vers[@]}";
   vers=$(echo "${vers// / | }")
 
-  [[ ${_LSCRIPTS__DEBUG_} -eq 0 ]] || {
+  [[ ${LSCRIPTS__DEBUG} -eq 0 ]] || {
     (>&2 echo -e "Total cuda_vers: ${#cuda_vers[@]}\n cuda_vers: ${cuda_vers[@]}")
     (for ver in "${cuda_vers[@]}"; do (>&2 echo -e "ver => ${ver}"); done)
   }
@@ -85,16 +85,16 @@ function docker-createcontainer-boozo.main() {
     bash $0 <cudaversion> [ ${vers} ]"
   }
 
-  _fio_.find_in_array "$1" "${cuda_vers[@]}" &>/dev/null \
-    || _log_.fail "Invalid or not supported CUDA version: $1"
+  lsd-mod.fio.find_in_array "$1" "${cuda_vers[@]}" &>/dev/null \
+    || lsd-mod.log.fail "Invalid or not supported CUDA version: $1"
 
   local BUILD_FOR_CUDA_VER="$1"
-  _log_.info "Using CUDA version: ${BUILD_FOR_CUDA_VER}"
+  lsd-mod.log.info "Using CUDA version: ${BUILD_FOR_CUDA_VER}"
 
   local CUDACFG_FILEPATH="${LSCRIPTS}/lscripts/config/${LINUX_DISTRIBUTION}/cuda-cfg-${BUILD_FOR_CUDA_VER}.sh"
-  _log_.debug "CUDACFG_FILEPATH: ${CUDACFG_FILEPATH}"
+  lsd-mod.log.debug "CUDACFG_FILEPATH: ${CUDACFG_FILEPATH}"
 
-  ls -1 ${CUDACFG_FILEPATH} &>/dev/null || _log_.fail "config file does not exists: ${CUDACFG_FILEPATH}"
+  ls -1 ${CUDACFG_FILEPATH} &>/dev/null || lsd-mod.log.fail "config file does not exists: ${CUDACFG_FILEPATH}"
   ## Only for reference, not used here
   ## local AI_PYCUDA_FILE=${LSCRIPTS}/lscripts/config/${LINUX_DISTRIBUTION}/python.requirements-ai-cuda-${BUILD_FOR_CUDA_VER}.txt
   ## echo "CUDACFG_FILEPATH: ${AI_PYCUDA_FILE}"
@@ -103,50 +103,50 @@ function docker-createcontainer-boozo.main() {
   source ${CUDACFG_FILEPATH}
   echo -e "###----------------------------------------------------------"
   source ${LSCRIPTS}/lscripts/cuda-echo.sh 1>${__CUDA_LOG_FILEPATH} 2>&1
-  _log_.ok "Verify cuda-stack versions: ${__CUDA_LOG_FILEPATH}"
+  lsd-mod.log.ok "Verify cuda-stack versions: ${__CUDA_LOG_FILEPATH}"
   echo -e "###----------------------------------------------------------"
 
-  _log_.debug "OS: ${OS}"
-  _log_.debug "CUDA_OS_REL: ${CUDA_OS_REL}"
-  _log_.debug "LINUX_DISTRIBUTION_TR: ${LINUX_DISTRIBUTION_TR}"
-  _log_.debug "CUDA_VER: ${CUDA_VER}"
+  lsd-mod.log.debug "OS: ${OS}"
+  lsd-mod.log.debug "CUDA_OS_REL: ${CUDA_OS_REL}"
+  lsd-mod.log.debug "LINUX_DISTRIBUTION_TR: ${LINUX_DISTRIBUTION_TR}"
+  lsd-mod.log.debug "CUDA_VER: ${CUDA_VER}"
 
   local _default=yes
   local _que
   local _msg
   local _prog
   local docker_container_name
-  # type uuid &>/dev/null || _log_.fail "uuid package not found. Execute...\n sudo apt install uuid"
+  # type uuid &>/dev/null || lsd-mod.log.fail "uuid package not found. Execute...\n sudo apt install uuid"
 
-  _log_.debug "_LSD__DOCKER_HUB_REPO:${_LSD__DOCKER_HUB_REPO}: DOCKER_BLD_IMG_TAG:${DOCKER_BLD_IMG_TAG}"
+  lsd-mod.log.debug "_LSD__DOCKER_HUB_REPO:${_LSD__DOCKER_HUB_REPO}: DOCKER_BLD_IMG_TAG:${DOCKER_BLD_IMG_TAG}"
   local DOCKER_BLD_CONTAINER_IMG="${_LSD__DOCKER_HUB_REPO}:${DOCKER_BLD_IMG_TAG}"
 
   _prog="docker-createcontainer-boozo"
 
   _que="Create test container"
   _msg="Skipping creating test container!"
-  _fio_.yesno_no "${_que}" && {
-    _log_.echo "Testing..."
+  lsd-mod.fio.yesno_no "${_que}" && {
+    lsd-mod.log.echo "Testing..."
     _docker_.container_test "${DOCKER_BLD_CONTAINER_IMG}"
   } || {
-    _log_.echo "${_msg}"
-    _log_.info "You can manually test container creation by executing:"
-    _log_.echo "${DOCKER_CMD} run --name $(uuid) --user $(id -un):$(id -gn) --gpus all --rm -it ${DOCKER_BLD_CONTAINER_IMG} bash"
+    lsd-mod.log.echo "${_msg}"
+    lsd-mod.log.info "You can manually test container creation by executing:"
+    lsd-mod.log.echo "${DOCKER_CMD} run --name $(uuid) --user $(id -un):$(id -gn) --gpus all --rm -it ${DOCKER_BLD_CONTAINER_IMG} bash"
   }
 
   _que="Create container using ${_prog} now"
   _msg="Skipping ${_prog} container creation!"
-  _fio_.yesno_${_default} "${_que}" && {
-    _log_.echo "Creating container..."
+  lsd-mod.fio.yesno_${_default} "${_que}" && {
+    lsd-mod.log.echo "Creating container..."
     docker_container_name=$(__${_prog} ${DOCKER_BLD_CONTAINER_IMG})
-  } || _log_.echo "${_msg}"
+  } || lsd-mod.log.echo "${_msg}"
 
   _que="Execute userfix for docker container"
   _msg="Skipping userfix for container!"
-  _fio_.yesno_no "${_que}" && {
-    _log_.echo "Executing userfix for container: ${docker_container_name}"
+  lsd-mod.fio.yesno_no "${_que}" && {
+    lsd-mod.log.echo "Executing userfix for container: ${docker_container_name}"
     _docker_.userfix --name="${docker_container_name}"
-  } || _log_.echo "${_msg}"
+  } || lsd-mod.log.echo "${_msg}"
 }
 
 docker-createcontainer-boozo.main "$@"

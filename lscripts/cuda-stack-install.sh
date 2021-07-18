@@ -24,7 +24,7 @@
 
 function cuda-stack-addrepo-ubuntu1404() {
   ## Not supported
-  _log_.debug "__LINUX_DISTRIBUTION_TR: ${__LINUX_DISTRIBUTION_TR}"
+  lsd-mod.log.debug "__LINUX_DISTRIBUTION_TR: ${__LINUX_DISTRIBUTION_TR}"
   return -1
 }
 
@@ -46,7 +46,7 @@ function cuda-stack-addrepo-ubuntu1604() {
   # local NVIDIA_CUDA_REPO_KEY="7fa2af80.pub"
   # local NVIDIA_GPGKEY_SUM="d1be581509378368edeec8c1eb2958702feedf3bc3d17011adbf24efacce4ab5"
   # local NVIDIA_GPGKEY_FPR="ae09fe4bbd223a84b2ccfce3f60f4b3d7fa2af80"
-  _log_.debug "__LINUX_DISTRIBUTION_TR: ${__LINUX_DISTRIBUTION_TR}"
+  lsd-mod.log.debug "__LINUX_DISTRIBUTION_TR: ${__LINUX_DISTRIBUTION_TR}"
 
   sudo apt-get -y update
 
@@ -63,7 +63,7 @@ function cuda-stack-addrepo-ubuntu1604() {
     echo "deb ${NVIDIA_REPO_BASEURL}/machine-learning/repos/${__LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH} /" | sudo tee /etc/apt/sources.list.d/nvidia-ml.list
 
     sudo apt -y update
-  } || _log_.fail "Check the URL manually: curl -fsSL  ${CUDA_REPO_KEY_URL}"
+  } || lsd-mod.log.fail "Check the URL manually: curl -fsSL  ${CUDA_REPO_KEY_URL}"
 
 }
 
@@ -79,8 +79,8 @@ function cuda-stack-addrepo-ubuntu1804() {
   # local NVIDIA_OS_ARCH="x86_64"
   # local NVIDIA_CUDA_REPO_KEY="7fa2af80.pub"
   local CUDA_REPO_KEY_URL="${NVIDIA_REPO_BASEURL}/cuda/repos/${__LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH}/${NVIDIA_CUDA_REPO_KEY}"
-  _log_.debug "__LINUX_DISTRIBUTION_TR: ${__LINUX_DISTRIBUTION_TR}"
-  _log_.debug "CUDA_REPO_KEY_URL: ${CUDA_REPO_KEY_URL}"
+  lsd-mod.log.debug "__LINUX_DISTRIBUTION_TR: ${__LINUX_DISTRIBUTION_TR}"
+  lsd-mod.log.debug "CUDA_REPO_KEY_URL: ${CUDA_REPO_KEY_URL}"
 
   sudo apt-get install -y --no-install-recommends \
     apt-transport-https \
@@ -94,7 +94,7 @@ function cuda-stack-addrepo-ubuntu1804() {
     echo "deb ${NVIDIA_REPO_BASEURL}/machine-learning/repos/${__LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH} /" | sudo tee /etc/apt/sources.list.d/nvidia-ml.list
 
     sudo apt -y update
-  } || _log_.fail "Check the URL manually: curl -fsSL  ${CUDA_REPO_KEY_URL}"
+  } || lsd-mod.log.fail "Check the URL manually: curl -fsSL  ${CUDA_REPO_KEY_URL}"
 }
 
 
@@ -109,8 +109,8 @@ function cuda-stack-addrepo-ubuntu2004() {
   # local NVIDIA_OS_ARCH="x86_64"
   # local NVIDIA_CUDA_REPO_KEY="7fa2af80.pub"
   local CUDA_REPO_KEY_URL="${NVIDIA_REPO_BASEURL}/cuda/repos/${__LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH}/${NVIDIA_CUDA_REPO_KEY}"
-  _log_.debug "__LINUX_DISTRIBUTION_TR: ${__LINUX_DISTRIBUTION_TR}"
-  _log_.debug "CUDA_REPO_KEY_URL: ${CUDA_REPO_KEY_URL}"
+  lsd-mod.log.debug "__LINUX_DISTRIBUTION_TR: ${__LINUX_DISTRIBUTION_TR}"
+  lsd-mod.log.debug "CUDA_REPO_KEY_URL: ${CUDA_REPO_KEY_URL}"
 
   sudo apt-get install -y --no-install-recommends \
     apt-transport-https \
@@ -124,23 +124,23 @@ function cuda-stack-addrepo-ubuntu2004() {
     echo "deb ${NVIDIA_REPO_BASEURL}/machine-learning/repos/${__LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH} /" | sudo tee /etc/apt/sources.list.d/nvidia-ml.list
 
     sudo apt -y update
-  } || _log_.fail "Check the URL manually: curl -fsSL  ${CUDA_REPO_KEY_URL}"
+  } || lsd-mod.log.fail "Check the URL manually: curl -fsSL  ${CUDA_REPO_KEY_URL}"
 }
 
 
 function cuda-stack-addrepo() {
   local __LINUX_DISTRIBUTION_TR
-  _log_.debug "param 1: $1"
+  lsd-mod.log.debug "param 1: $1"
   [[ ! -z $1 ]] && __LINUX_DISTRIBUTION_TR=$1 || __LINUX_DISTRIBUTION_TR=${LINUX_DISTRIBUTION_TR}
-  _log_.debug "__LINUX_DISTRIBUTION_TR: ${__LINUX_DISTRIBUTION_TR}"
+  lsd-mod.log.debug "__LINUX_DISTRIBUTION_TR: ${__LINUX_DISTRIBUTION_TR}"
 
   cuda-stack-addrepo-${__LINUX_DISTRIBUTION_TR}
-   # &>/dev/null || _log_.fail "Internal Error: cuda-stack-addrepo-${__LINUX_DISTRIBUTION_TR}"
+   # &>/dev/null || lsd-mod.log.fail "Internal Error: cuda-stack-addrepo-${__LINUX_DISTRIBUTION_TR}"
 }
 
 
 function cuda-stack-uninstall() {
-  _nvidia_.purge_cuda_stack
+  lsd-mod.nvidia.purge_cuda_stack
 }
 
 
@@ -239,11 +239,11 @@ function __cuda-stack-install() {
 function cuda-stack-config() {
   ## FYI: not required with boozo stack, as it's pre-configured
 
-  [[ -f ${USER_BASHRC_FILE} ]] || _log_.fail "File does not exits,USER_BASHRC_FILE: ${USER_BASHRC_FILE}"
+  [[ -f ${USER_BASHRC_FILE} ]] || lsd-mod.log.fail "File does not exits,USER_BASHRC_FILE: ${USER_BASHRC_FILE}"
 
   local LINE
   local FILE=${USER_BASHRC_FILE}
-  _log_.warn "Modifying file: USER_BASHRC_FILE: ${USER_BASHRC_FILE}"
+  lsd-mod.log.warn "Modifying file: USER_BASHRC_FILE: ${USER_BASHRC_FILE}"
 
   LINE='export CUDA_HOME="/usr/local/cuda"'
   grep -qF "$LINE" "$FILE" || echo "$LINE" >> "$FILE"
@@ -256,8 +256,8 @@ function cuda-stack-config() {
 
   source ${FILE}
 
-  _log_.info "Checking...CUDA_HOME..."
-  _log_.echo "CUDA_HOME: ${CUDA_HOME}"
+  lsd-mod.log.info "Checking...CUDA_HOME..."
+  lsd-mod.log.echo "CUDA_HOME: ${CUDA_HOME}"
 }
 
 
@@ -266,7 +266,7 @@ function cuda-stack-install.main() {
   source ${LSCRIPTS}/lscripts.config.sh
 
   local scriptname=$(basename ${BASH_SOURCE[0]})
-  _log_.debug "executing script...: ${scriptname} with total params: $#"
+  lsd-mod.log.debug "executing script...: ${scriptname} with total params: $#"
 
   local _default=yes
   local _que
@@ -274,15 +274,15 @@ function cuda-stack-install.main() {
   local _prog
 
   type nvidia-smi &>/dev/null \
-    || _log_.fail "Nvidia driver: nvidia-smi is not installed!\n Execute installer:\n\
+    || lsd-mod.log.fail "Nvidia driver: nvidia-smi is not installed!\n Execute installer:\n\
             source ${LSCRIPTS}/nvidia-driver-install.sh"
 
 
-  declare -a cuda_vers=($(_nvidia_.get__cuda_vers))
+  declare -a cuda_vers=($(lsd-mod.nvidia.get__cuda_vers))
   local vers="${cuda_vers[@]}";
   vers=$(echo "${vers// / | }")
 
-  [[ ${_LSCRIPTS__DEBUG_} -eq 0 ]] || {
+  [[ ${LSCRIPTS__DEBUG} -eq 0 ]] || {
     (>&2 echo -e "Total cuda_vers: ${#cuda_vers[@]}\n cuda_vers: ${cuda_vers[@]}")
     (for ver in "${cuda_vers[@]}"; do (>&2 echo -e "ver => ${ver}"); done)
   }
@@ -292,29 +292,29 @@ function cuda-stack-install.main() {
     bash $0 <cudaversion> [ ${vers} ]"
   }
 
-  _fio_.find_in_array "$1" "${cuda_vers[@]}" &>/dev/null \
-    || _log_.fail "Invalid or not supported CUDA version: $1"
+  lsd-mod.fio.find_in_array "$1" "${cuda_vers[@]}" &>/dev/null \
+    || lsd-mod.log.fail "Invalid or not supported CUDA version: $1"
 
   _prog="cuda-stack"
 
-  _log_.info "Install ${_prog}..."
-  _log_.warn "sudo access is required!"
+  lsd-mod.log.info "Install ${_prog}..."
+  lsd-mod.log.warn "sudo access is required!"
 
   _que="Uninstall previous ${_prog} installation"
   _msg="Skipping ${_prog} uninstall!"
-  _fio_.yesno_no "${_que}" && \
-      _log_.echo "Uninstalling..." && \
+  lsd-mod.fio.yesno_no "${_que}" && \
+      lsd-mod.log.echo "Uninstalling..." && \
       ${_prog}-uninstall \
-    || _log_.echo "${_msg}"
+    || lsd-mod.log.echo "${_msg}"
 
 
   local BUILD_FOR_CUDA_VER=$1
-  _log_.info "Using CUDA version: ${BUILD_FOR_CUDA_VER}"
+  lsd-mod.log.info "Using CUDA version: ${BUILD_FOR_CUDA_VER}"
 
   local CUDACFG_FILEPATH="${LSCRIPTS}/config/${LINUX_DISTRIBUTION}/cuda-cfg-${BUILD_FOR_CUDA_VER}.sh"
-  _log_.debug "CUDACFG_FILEPATH: ${CUDACFG_FILEPATH}"
+  lsd-mod.log.debug "CUDACFG_FILEPATH: ${CUDACFG_FILEPATH}"
 
-  ls -1 ${CUDACFG_FILEPATH} &>/dev/null || _log_.fail "config file does not exists: ${CUDACFG_FILEPATH}"
+  ls -1 ${CUDACFG_FILEPATH} &>/dev/null || lsd-mod.log.fail "config file does not exists: ${CUDACFG_FILEPATH}"
   ## Only for reference, not used here
   ## local AI_PYCUDA_FILE=${LSCRIPTS}/config/${LINUX_DISTRIBUTION}/python.requirements-ai-cuda-${BUILD_FOR_CUDA_VER}.txt
   ## echo "CUDACFG_FILEPATH: ${AI_PYCUDA_FILE}"
@@ -323,54 +323,54 @@ function cuda-stack-install.main() {
   source ${CUDACFG_FILEPATH}
   echo -e "###----------------------------------------------------------"
   source ${LSCRIPTS}/cuda-echo.sh 1>${__CUDA_LOG_FILEPATH} 2>&1
-  _log_.ok "Verify cuda-stack versions: ${__CUDA_LOG_FILEPATH}"
+  lsd-mod.log.ok "Verify cuda-stack versions: ${__CUDA_LOG_FILEPATH}"
   echo -e "###----------------------------------------------------------"
 
-  _log_.debug "OS: ${OS}"
-  _log_.debug "CUDA_OS_REL: ${CUDA_OS_REL}"
-  _log_.debug "LINUX_DISTRIBUTION_TR: ${LINUX_DISTRIBUTION_TR}"
-  _log_.debug "CUDA_VER: ${CUDA_VER}"
+  lsd-mod.log.debug "OS: ${OS}"
+  lsd-mod.log.debug "CUDA_OS_REL: ${CUDA_OS_REL}"
+  lsd-mod.log.debug "LINUX_DISTRIBUTION_TR: ${LINUX_DISTRIBUTION_TR}"
+  lsd-mod.log.debug "CUDA_VER: ${CUDA_VER}"
 
   _que="Add ${_prog} repo"
   _msg="Skipping adding ${_prog} repo!"
-  _fio_.yesno_${_default} "${_que}" && {
-    _log_.echo "Adding ${_prog} repo..."
+  lsd-mod.fio.yesno_${_default} "${_que}" && {
+    lsd-mod.log.echo "Adding ${_prog} repo..."
     ${_prog}-addrepo ${CUDA_OS_REL}
-  } || _log_.echo "${_msg}"
+  } || lsd-mod.log.echo "${_msg}"
 
   _que="Install ${_prog} now"
   _msg="Skipping ${_prog} installation!"
-  _fio_.yesno_${_default} "${_que}" && {
-    _log_.echo "Installing..."
+  lsd-mod.fio.yesno_${_default} "${_que}" && {
+    lsd-mod.log.echo "Installing..."
     __${_prog}-install ${BUILD_FOR_CUDA_VER} && _default=yes
   } || {
-    _log_.echo "${_msg}" && _default=no
+    lsd-mod.log.echo "${_msg}" && _default=no
   }
 
   _que="Configure ${_prog} now"
   _msg="Skipping ${_prog} configuration!"
-  _fio_.yesno_${_default} "${_que}" && {
-    _log_.echo "Configuring..."
+  lsd-mod.fio.yesno_${_default} "${_que}" && {
+    lsd-mod.log.echo "Configuring..."
     ${_prog}-config
   } || {
-    _log_.echo "${_msg}" && _default=no
+    lsd-mod.log.echo "${_msg}" && _default=no
   }
 
   _que="Configure multiple cuda now"
   _msg="Skipping multiple cuda configuration!"
-  _fio_.yesno_${_default} "${_que}" && {
-    _log_.echo "Configuring..."
-    _nvidia_.update_alternatives_cuda
+  lsd-mod.fio.yesno_${_default} "${_que}" && {
+    lsd-mod.log.echo "Configuring..."
+    lsd-mod.nvidia.update_alternatives_cuda
   } || {
-    _log_.echo "${_msg}" && _default=no
+    lsd-mod.log.echo "${_msg}" && _default=no
   }
 
   _que="Verify ${_prog} now"
   _msg="Skipping ${_prog} verification!"
-  _fio_.yesno_${_default} "${_que}" && {
-    _log_.echo "Verifying..."
+  lsd-mod.fio.yesno_${_default} "${_que}" && {
+    lsd-mod.log.echo "Verifying..."
     source "${LSCRIPTS}/${_prog}-verify.sh"
-  }  || _log_.echo "${_msg}"
+  }  || lsd-mod.log.echo "${_msg}"
 
 }
 

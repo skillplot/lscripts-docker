@@ -54,7 +54,7 @@ function __docker-createcontainer() {
 
   # ${DOCKER_CMD} start ${DOCKER_CONTAINER_NAME} 1>/dev/null
 
-  _log_.warn "Published ports are discarded when using host network mode!"
+  lsd-mod.log.warn "Published ports are discarded when using host network mode!"
 
   ## Todo:
   ## 1) static name for docker container
@@ -76,17 +76,17 @@ function __docker-createcontainer() {
     --shm-size ${SHM_SIZE_2GB} \
     ${DOCKER_BLD_CONTAINER_IMG} &>/dev/null
 
-  [[ $? -eq 0 ]] || _log_.fail "Internal Error: Failed to create docker container!"
+  [[ $? -eq 0 ]] || lsd-mod.log.fail "Internal Error: Failed to create docker container!"
 
   ## Grant docker access to host X server to show images
   xhost +local:`${DOCKER_CMD} inspect --format='{{ .Config.Hostname }}' ${DOCKER_CONTAINER_NAME}`
 
-  _log_.echo "Finished setting up ${DOCKER_CONTAINER_NAME} docker environment."
-  _log_.ok "Enjoy!"
-  _log_.info "Execute container..."
-  _log_.echo "bash lscripts/exec_cmd.sh --cmd=_docker_.container.exec --name=${DOCKER_CONTAINER_NAME}\n"
+  lsd-mod.log.echo "Finished setting up ${DOCKER_CONTAINER_NAME} docker environment."
+  lsd-mod.log.ok "Enjoy!"
+  lsd-mod.log.info "Execute container..."
+  lsd-mod.log.echo "bash lscripts/exec_cmd.sh --cmd=_docker_.container.exec --name=${DOCKER_CONTAINER_NAME}\n"
 
-  _log_.info "Or simple execution:\n ${DOCKER_CMD} exec -it ${DOCKER_CONTAINER_NAME}\n"
+  lsd-mod.log.info "Or simple execution:\n ${DOCKER_CMD} exec -it ${DOCKER_CONTAINER_NAME}\n"
 }
 
 function __docker-pull() {
@@ -99,10 +99,10 @@ function docker-createcontainer() {
   source ${LSCRIPTS}/lscripts/lscripts.config.sh
 
   local scriptname=$(basename ${BASH_SOURCE[0]})
-  _log_.debug "executing script...: ${scriptname}"
+  lsd-mod.log.debug "executing script...: ${scriptname}"
 
   source "${LSCRIPTS}/lscripts/docker-ce-verify.sh" &>/dev/null \
-    || _log_.fail "Dependency docker-ce-verify is not installed!\n Execute installer:\n\
+    || lsd-mod.log.fail "Dependency docker-ce-verify is not installed!\n Execute installer:\n\
             source ${LSCRIPTS}/lscripts/docker-ce-verify.sh"
 
 
@@ -114,8 +114,8 @@ function docker-createcontainer() {
 
   source ${LSCRIPTS}/lscripts/core/argparse.sh "$@"
 
-  [[ "$#" -lt "1" ]] && _log_.fail "Invalid number of paramerters: required --image [--container] given $#"
-  [[ -n "${args['image']+1}" ]] || _log_.fail "Required params: --image=<imageName> [--container=<containerName>]"
+  [[ "$#" -lt "1" ]] && lsd-mod.log.fail "Invalid number of paramerters: required --image [--container] given $#"
+  [[ -n "${args['image']+1}" ]] || lsd-mod.log.fail "Required params: --image=<imageName> [--container=<containerName>]"
 
   local DOCKER_BLD_CONTAINER_IMG=${args['image']}
   local DOCKER_CONTAINER_NAME
@@ -124,10 +124,10 @@ function docker-createcontainer() {
 
 
   # local DOCKER_BLD_CONTAINER_IMG="$1"
-  _log_.info "Using DOCKER_BLD_CONTAINER_IMG: ${DOCKER_BLD_CONTAINER_IMG}"
+  lsd-mod.log.info "Using DOCKER_BLD_CONTAINER_IMG: ${DOCKER_BLD_CONTAINER_IMG}"
 
   # local DOCKER_CONTAINER_NAME=${DOCKER_PREFIX}-$(date -d now +'%d%m%y_%H%M%S')
-  _log_.info "Using DOCKER_CONTAINER_NAME: ${DOCKER_CONTAINER_NAME}"
+  lsd-mod.log.info "Using DOCKER_CONTAINER_NAME: ${DOCKER_CONTAINER_NAME}"
 
   local _default=yes
   local _que
@@ -138,35 +138,35 @@ function docker-createcontainer() {
 
   _que="Pull docker image before creating the container"
   _msg="Skipping pulling docker image. It must already exists before you continue further!"
-  _fio_.yes_or_no_loop "${_que}" && {
-      _log_.echo "Pulling image from dockerhub..."
+  lsd-mod.fio.yes_or_no_loop "${_que}" && {
+      lsd-mod.log.echo "Pulling image from dockerhub..."
       __${_prog}-pull ${DOCKER_BLD_CONTAINER_IMG}
-    } || _log_.echo "${_msg}"
+    } || lsd-mod.log.echo "${_msg}"
 
   _que="Create container using ${_prog} now"
   _msg="Skipping ${_prog} container creation!"
-  _fio_.yesno_${_default} "${_que}" && {
-      _log_.echo "Creating container..."
+  lsd-mod.fio.yesno_${_default} "${_que}" && {
+      lsd-mod.log.echo "Creating container..."
       __${_prog}-createcontainer ${DOCKER_BLD_CONTAINER_IMG} ${DOCKER_CONTAINER_NAME}
-    } || _log_.echo "${_msg}"
+    } || lsd-mod.log.echo "${_msg}"
 
 
-  _log_.info "Execute container..."
-  _log_.echo "bash lscripts/exec_cmd.sh --cmd=_docker_.container.exec --name=${DOCKER_CONTAINER_NAME}\n"
+  lsd-mod.log.info "Execute container..."
+  lsd-mod.log.echo "bash lscripts/exec_cmd.sh --cmd=_docker_.container.exec --name=${DOCKER_CONTAINER_NAME}\n"
 
   _que="Create Host user inside container"
   _msg="Skipping host user creation!"
-  _fio_.yesno_${_default} "${_que}" && {
-      _log_.echo "Creating Host user..."
+  lsd-mod.fio.yesno_${_default} "${_que}" && {
+      lsd-mod.log.echo "Creating Host user..."
       __${_prog}-userfix ${DOCKER_CONTAINER_NAME}
-    } || _log_.echo "${_msg}"
+    } || lsd-mod.log.echo "${_msg}"
 
   _que="Add Docker user inside container to sudoer"
   _msg="Skipping adding docker user to sudoer!"
-  _fio_.yesno_${_default} "${_que}" && {
-      _log_.echo "Adding to sudoer..."
+  lsd-mod.fio.yesno_${_default} "${_que}" && {
+      lsd-mod.log.echo "Adding to sudoer..."
       __${_prog}-adduser_to_sudoer ${DOCKER_CONTAINER_NAME}
-    } || _log_.echo "${_msg}"
+    } || lsd-mod.log.echo "${_msg}"
 }
 
 docker-createcontainer "$@"

@@ -24,19 +24,19 @@
 
 
 function kafka-uninstall() {
-  _log_.info "_prog: ${_prog}-uninstall"
+  lsd-mod.log.info "_prog: ${_prog}-uninstall"
 }
 
 
 function kafka-config() {
-  _log_.info "_prog: ${_prog}-config"
+  lsd-mod.log.info "_prog: ${_prog}-config"
 
   [[ ! -L ${_LSD__EXTERNAL_HOME}/${PROG} ]] && ln -s ${PROG_DIR} ${_LSD__EXTERNAL_HOME}/${PROG}
 
-  ls -l ${_LSD__EXTERNAL_HOME}/${PROG} || _log_.fail "Installation does not exists: ${_LSD__EXTERNAL_HOME}/${PROG}"
+  ls -l ${_LSD__EXTERNAL_HOME}/${PROG} || lsd-mod.log.fail "Installation does not exists: ${_LSD__EXTERNAL_HOME}/${PROG}"
 
-  _log_.info " username=${KAFKA_USERNAME} groupname=${KAFKA_GROUPNAME}"
-  _system_.create_nologin_user --username=${KAFKA_USERNAME} --groupname=${KAFKA_GROUPNAME}
+  lsd-mod.log.info " username=${KAFKA_USERNAME} groupname=${KAFKA_GROUPNAME}"
+  lsd-mod.system.create_nologin_user --username=${KAFKA_USERNAME} --groupname=${KAFKA_GROUPNAME}
   # su -l ${KAFKA_USERNAME}
 
   sudo chown -R ${KAFKA_USERNAME}:${KAFKA_GROUPNAME} ${PROG_DIR}
@@ -46,7 +46,7 @@ function kafka-config() {
 
 
 function __kafka-install() {
-  _log_.info "_prog: ${_prog}-install"
+  lsd-mod.log.info "_prog: ${_prog}-install"
   echo "Number of threads will be used: ${NUMTHREADS}"
   echo "BASEPATH: ${_LSD__EXTERNAL_HOME}"
   echo "URL: ${URL}"
@@ -62,14 +62,14 @@ function kafka-wget-install.main() {
   source ${LSCRIPTS}/lscripts.config.sh
   
   local scriptname=$(basename ${BASH_SOURCE[0]})
-  _log_.debug "executing script...: ${scriptname}"
+  lsd-mod.log.debug "executing script...: ${scriptname}"
 
   source ${LSCRIPTS}/partials/basepath.sh
 
   local _prog="kafka"
 
-  _log_.info "Install ${_prog}..."
-  _log_.warn "sudo access is required!"
+  lsd-mod.log.info "Install ${_prog}..."
+  lsd-mod.log.warn "sudo access is required!"
 
   local _default=no
   local _que
@@ -101,41 +101,41 @@ function kafka-wget-install.main() {
   __ENVVARS['CFGFILE']=${KAFKA_GROUPNAME}
 
   function create_env_file() {
-    _log_.info "create env"
+    lsd-mod.log.info "create env"
     local env_file=${__ENVVARS['CFGFILE']}
     local env
     local _line
     
-    _log_.info "env_file: ${env_file}"
+    lsd-mod.log.info "env_file: ${env_file}"
     for env in "${!__ENVVARS[@]}"; do
       _line="${env}"=${__ENVVARS[${env}]}
-      _log_.info ${_line}
+      lsd-mod.log.info ${_line}
       echo "${_line}" >> ${env_file}
     done
   }
 
   _que="Install ${_prog} now"
   _msg="Skipping ${_prog} installation!"
-  _fio_.yesno_${_default} "${_que}" && \
-      _log_.echo "Installing..." && \
+  lsd-mod.fio.yesno_${_default} "${_que}" && \
+      lsd-mod.log.echo "Installing..." && \
       __${_prog}-install \
-    || _log_.echo "${_msg}"
+    || lsd-mod.log.echo "${_msg}"
 
 
   _que="Configure ${_prog} now (recommended)"
   _msg="Skipping ${_prog} configuration. This is critical for proper python environment working!"
-  _fio_.yesno_no "${_que}" && \
-      _log_.echo "Configuring..." && \
+  lsd-mod.fio.yesno_no "${_que}" && \
+      lsd-mod.log.echo "Configuring..." && \
       ${_prog}-config \
-    || _log_.echo "${_msg}"
+    || lsd-mod.log.echo "${_msg}"
 
 
   _que="Verify ${_prog} now"
   _msg="Skipping ${_prog} verification!"
-  _fio_.yesno_${_default} "${_que}" && {
-      _log_.echo "Verifying..."
+  lsd-mod.fio.yesno_${_default} "${_que}" && {
+      lsd-mod.log.echo "Verifying..."
       source "${LSCRIPTS}/${_prog}-verify.sh" --home=${KAFKA_HOME} --username=${KAFKA_USERNAME}
-    } || _log_.echo "${_msg}"
+    } || lsd-mod.log.echo "${_msg}"
 }
 
 kafka-wget-install.main "$@"

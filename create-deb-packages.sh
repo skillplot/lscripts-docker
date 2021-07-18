@@ -22,7 +22,7 @@ function _create-deb-package() {
   # export ${DEBEMAIL} ${DEBFULLNAME}
 
   local package_name=$(basename ${LSCRIPTS})
-  _log_.info "package_name: ${package_name}"
+  lsd-mod.log.info "package_name: ${package_name}"
 
   dh_make --indep --createorig --packagename ${package_name}
   # dh_make --indep --createorig

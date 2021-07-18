@@ -34,7 +34,7 @@ The reason for sensitivity towards order and sequence of definitions and imports
 * Color codes configurations
   * `_color_.sh` => `config/_color_.sh`
 * Internal usage for dynamic configurations
-  * `_typeformats_.sh` => `config/_typeformats_.sh`
+  * `lsd-mod.typeformats.sh` => `config/lsd-mod.typeformats.sh`
 * Wraps all configurations and it's the single entry point: `__init__.sh` => `config/__init__.sh` like:
   * Core configuration
     * system
@@ -50,14 +50,14 @@ The reason for sensitivity towards order and sequence of definitions and imports
 
 ### Core Modules: `lscripts/core`
 
-* Logger:`_log_.sh`:
+* Logger:`lsd-mod.log.sh`:
   * log module
-    * `lscripts/core/_log_.sh`
+    * `lscripts/core/lsd-mod.log.sh`
 * Code modules: => `lscipts/core/__init__.sh`
   * system module
-    * `_system_.sh` => `lscripts/core/_system_.sh`
+    * `lsd-mod.system.sh` => `lscripts/core/lsd-mod.system.sh`
   * I/O module
-   * `_fio_.sh` => `lscripts/core/_fio_.sh`
+   * `lsd-mod.fio.sh` => `lscripts/core/lsd-mod.fio.sh`
   * nvidia gpu and cuda stack module
     * `_nvidia_.sh` => `lscripts/core/_nvidia_.sh`
   * docker module
@@ -84,12 +84,12 @@ The reason for sensitivity towards order and sequence of definitions and imports
     * `<modulename>.<function_name>`: all module functions follow this pattern
   * `_<SOME_NAME>` i.e. starting with single `_` underscore
     * these are reserved variable names
-    * function names are tucked under module name eg: `_log_.debug` where module name is `_log_.sh`
+    * function names are tucked under module name eg: `lsd-mod.log.debug` where module name is `lsd-mod.log.sh`
   * `__<SOME_NAME>` i.e. starting with double `__` underscores
     * these are reserved variable names
     * strictly private scope, overriding these has unexpected impact
     * function names are tucked under module name.
-      * These should not be invoked directly and instead their wrapper function to be used eg: `_log_.__failure` where module name is `_log_.sh` is a expected to private, so instead use it's wrapper: `_log_.fail`
+      * These should not be invoked directly and instead their wrapper function to be used eg: `lsd-mod.log.__failure` where module name is `lsd-mod.log.sh` is a expected to private, so instead use it's wrapper: `lsd-mod.log.fail`
   * Environment variables
     * All environment variables that are expected to be customized by user defined values:
       * namespace prefix: `_LSCRIPTS__`

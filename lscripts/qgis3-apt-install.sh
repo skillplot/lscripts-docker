@@ -94,44 +94,49 @@ function __qgis3-install() {
 function qgis3-apt-install.main() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
   source ${LSCRIPTS}/lscripts.config.sh
+  
+  local scriptname=$(basename ${BASH_SOURCE[0]})
+  lsd-mod.log.debug "executing script...: ${scriptname}"
+
+  local _prog="qgis3"
+
+  lsd-mod.log.info "Install ${_prog}..."
+  lsd-mod.log.warn "sudo access is required!"
 
   local _default=no
   local _que
   local _msg
-  local _prog
 
-  _prog="qgis3"
-
-  _log_.info "Install ${_prog}..."
-  _log_.warn "sudo access is required!"
+  lsd-mod.log.info "Install ${_prog}..."
+  lsd-mod.log.warn "sudo access is required!"
 
   _que="Uninstall previous ${_prog} installation"
   _msg="Skipping ${_prog} uninstall!"
-  _fio_.yesno_${_default} "${_que}" && \
-      _log_.echo "Uninstalling..." && \
+  lsd-mod.fio.yesno_${_default} "${_que}" && \
+      lsd-mod.log.echo "Uninstalling..." && \
           ${_prog}-uninstall \
-    || _log_.echo "${_msg}"
+    || lsd-mod.log.echo "${_msg}"
 
   _que="Add ${_prog} repo"
   _msg="Skipping adding ${_prog} repo!"
-  _fio_.yesno_${_default} "${_que}" && \
-      _log_.echo "Adding ${_prog} repo..." && \
+  lsd-mod.fio.yesno_${_default} "${_que}" && \
+      lsd-mod.log.echo "Adding ${_prog} repo..." && \
           ${_prog}-addrepo \
-    || _log_.echo "${_msg}"
+    || lsd-mod.log.echo "${_msg}"
 
   _que="Add/Update ${_prog} repo Key"
   _msg="Skipping adding/updating ${_prog} repo!"
-  _fio_.yesno_${_default} "${_que}" && \
-      _log_.echo "Adding/Updating ${_prog} repo key..." && \
+  lsd-mod.fio.yesno_${_default} "${_que}" && \
+      lsd-mod.log.echo "Adding/Updating ${_prog} repo key..." && \
           ${_prog}-addrepo-key \
-    || _log_.echo "${_msg}"
+    || lsd-mod.log.echo "${_msg}"
 
   _que="Install ${_prog} now"
   _msg="Skipping ${_prog} installation!"
-  _fio_.yesno_${_default} "${_que}" && \
-    _log_.echo "Installing..." && \
+  lsd-mod.fio.yesno_${_default} "${_que}" && \
+    lsd-mod.log.echo "Installing..." && \
     __${_prog}-install \
-    || _log_.echo "${_msg}"
+    || lsd-mod.log.echo "${_msg}"
 }
 
 qgis3-apt-install.main "$@"

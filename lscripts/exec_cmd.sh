@@ -28,20 +28,20 @@ function __execute_lscripts_fn__() {
   source ${LSCRIPTS}/lscripts.config.sh
   source ${LSCRIPTS}/core/argparse.sh "$@"
 
-  [[ "$#" -lt "1" ]] && _log_.fail "Invalid number of paramerters: minimum required 1 parameter but given: $#"
-  [[ -n "${args['cmd']+1}" ]] || _log_.fail "Required paramerter missing (--cmd)!"
+  [[ "$#" -lt "1" ]] && lsd-mod.log.fail "Invalid number of paramerters: minimum required 1 parameter but given: $#"
+  [[ -n "${args['cmd']+1}" ]] || lsd-mod.log.fail "Required paramerter missing (--cmd)!"
   
-  # _log_.debug "${FUNCNAME[0]}:: Total args: ${#args[@]}; Options: ${args[@]}"
-  # _log_.info "Total args: ${#args[@]}; Options: ${args[@]}"
-  # _log_.stacktrace "Total args: ${#args[@]}; Options: ${args[@]}"
+  # lsd-mod.log.debug "${FUNCNAME[0]}:: Total args: ${#args[@]}; Options: ${args[@]}"
+  # lsd-mod.log.info "Total args: ${#args[@]}; Options: ${args[@]}"
+  # lsd-mod.log.stacktrace "Total args: ${#args[@]}; Options: ${args[@]}"
 
   local __cmd__=${args['cmd']}
-  # _log_.debug "cmd: ${__cmd__}, Total param: $(("$#" - 1))"
+  # lsd-mod.log.debug "cmd: ${__cmd__}, Total param: $(("$#" - 1))"
 
   [[ "${__cmd__}" != ${FUNCNAME[0]} ]] && {
     [[ "$#" > "0" ]] && shift
     ${__cmd__} "$@"
-  } || _log_.error "Error in script execution or you tried invoking itself: ${FUNCNAME[0]}"
+  } || lsd-mod.log.error "Error in script execution or you tried invoking itself: ${FUNCNAME[0]}"
 }
 
 

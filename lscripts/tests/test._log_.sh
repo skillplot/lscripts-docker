@@ -3,7 +3,7 @@
 ## Copyright (c) 2021 mangalbhaskar. All Rights Reserved.
 ##__author__ = 'mangalbhaskar'
 ###----------------------------------------------------------
-## test::shell script core/_log_.sh module
+## test::shell script core/lsd-mod.log.sh module
 ###----------------------------------------------------------
 
 
@@ -20,50 +20,50 @@
 [[ $0 != "$BASH_SOURCE" ]] && sourced=1 || sourced=0[1]
 
 
-function test._log_.case-1() {
+function test.lsd-mod.log.case-1() {
   local ll
   ##local N=8
   local N=${#_logger_[@]}
   for ll in $(seq ${N} -1 1); do
     ## Enable the loglevel
-    export _LSCRIPTS__LOG_LEVEL_=${ll}
+    export LSCRIPTS__LOG_LEVEL=${ll}
 
-    # (>&2 echo -e "_LSCRIPTS__LOG_LEVEL_: ${_LSCRIPTS__LOG_LEVEL_}")
-    (>&2 echo -e "${on_pur}Logger Initialized with _LSCRIPTS__LOG_LEVEL_: ${_LSCRIPTS__LOG_LEVEL_} or ${_logger_[${_LSCRIPTS__LOG_LEVEL_}]}${nocolor}")
+    # (>&2 echo -e "LSCRIPTS__LOG_LEVEL: ${LSCRIPTS__LOG_LEVEL}")
+    (>&2 echo -e "${on_pur}Logger Initialized with LSCRIPTS__LOG_LEVEL: ${LSCRIPTS__LOG_LEVEL} or ${_logger_[${LSCRIPTS__LOG_LEVEL}]}${nocolor}")
 
     sleep 0.5s
-    _log_.stacktrace "stacktrace"
+    lsd-mod.log.stacktrace "stacktrace"
     sleep 0.5s
-    _log_.debug "debug"
+    lsd-mod.log.debug "debug"
     sleep 0.5s
-    _log_.success "success"
+    lsd-mod.log.success "success"
     sleep 0.5s
-    _log_.ok "ok"
+    lsd-mod.log.ok "ok"
     sleep 0.5s
-    _log_.info "info"
+    lsd-mod.log.info "info"
     sleep 0.5s
-    _log_.warn "warn"
+    lsd-mod.log.warn "warn"
     sleep 0.5s
-    _log_.error "error"
+    lsd-mod.log.error "error"
     sleep 0.5s
   done
 }
 
 
-function test._log_.case-2() {
-  _log_.fail "fail"
+function test.lsd-mod.log.case-2() {
+  lsd-mod.log.fail "fail"
   echo "## This line and anything below should printed or executed!"
   echo "I never get's to see the Helllllllllll!"
 }
 
 
-function test._log_.main() {
+function test.lsd-mod.log.main() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
   source ${LSCRIPTS}/../lscripts.config.sh
   
-  test._log_.case-1
-  test._log_.case-2
+  test.lsd-mod.log.case-1
+  test.lsd-mod.log.case-2
 }
 
 
-test._log_.main
+test.lsd-mod.log.main

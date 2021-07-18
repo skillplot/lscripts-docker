@@ -32,7 +32,7 @@
 
 
 function nodejs-install-packages() {
-  _log_.info "nodejs-install-packages"
+  lsd-mod.log.info "nodejs-install-packages"
   ls -l ${LSCRIPTS}/config/${LINUX_DISTRIBUTION}/nodejs.requirements.sh
   source ${LSCRIPTS}/config/${LINUX_DISTRIBUTION}/nodejs.requirements.sh
 }
@@ -56,7 +56,7 @@ function __nvm-install() {
   # curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
   # curl -sL https://raw.githubusercontent.com/creationix/nvm/v0.38.0/install.sh -o install_nvm.sh
 
-  _log_.debug "If environment variable XDG_CONFIG_HOME is present, it will place the nvm files there: ${XDG_CONFIG_HOME}"
+  lsd-mod.log.debug "If environment variable XDG_CONFIG_HOME is present, it will place the nvm files there: ${XDG_CONFIG_HOME}"
   ## You can customize the install source, directory, profile, and version using the NVM_SOURCE, NVM_DIR, PROFILE, and NODE_VERSION variables. Eg: curl ... | NVM_DIR="path/to/nvm". Ensure that the NVM_DIR does not contain a trailing slash.
 
   wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/${NODE_NVM_VER}/install.sh | bash
@@ -85,12 +85,12 @@ function nvm-install.main() {
   source ${LSCRIPTS}/lscripts.config.sh
   
   local scriptname=$(basename ${BASH_SOURCE[0]})
-  _log_.debug "executing script...: ${scriptname}"
+  lsd-mod.log.debug "executing script...: ${scriptname}"
 
   local _prog="nvm"
 
-  _log_.info "Install ${_prog}..."
-  _log_.warn "sudo access is required!"
+  lsd-mod.log.info "Install ${_prog}..."
+  lsd-mod.log.warn "sudo access is required!"
 
   local _default=no
   local _que
@@ -98,10 +98,10 @@ function nvm-install.main() {
 
   _que="Install ${_prog} now"
   _msg="Skipping ${_prog} installation!"
-  _fio_.yesno_${_default} "${_que}" {
-      _log_.echo "Installing..."
+  lsd-mod.fio.yesno_${_default} "${_que}" {
+      lsd-mod.log.echo "Installing..."
       __${_prog}-install
-  } || _log_.echo "${_msg}"
+  } || lsd-mod.log.echo "${_msg}"
 }
 
 

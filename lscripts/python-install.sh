@@ -24,15 +24,15 @@
 
 
 function python-uninstall() {
-  _log_.warn "python uninstallion not allowed through this script!"
+  lsd-mod.log.warn "python uninstallion not allowed through this script!"
   return -1
 }
 
 
 function __python-install.main() {
-  _log_.info "By default, both python2 and python3 are installed."
+  lsd-mod.log.info "By default, both python2 and python3 are installed."
 
-  _log_.info "Installing python 2 and 3 along with other important packages"
+  lsd-mod.log.info "Installing python 2 and 3 along with other important packages"
 
   sudo apt -y update
 
@@ -77,7 +77,7 @@ function __python-install.main() {
 
 function __python-config() {
   local pyVer=$1
-  _log_.debug "__python-config::pyVer: ${pyVer}"
+  lsd-mod.log.debug "__python-config::pyVer: ${pyVer}"
 
   local PYTHON
   local PIP
@@ -90,33 +90,33 @@ function __python-config() {
   piplink="/usr/bin/pip"
 
   [[ -L "${pylink}" ]] && {
-    _log_.warn "removing existing link...: ${pylink}"
+    lsd-mod.log.warn "removing existing link...: ${pylink}"
     ls -l ${pylink}
     sudo rm -f ${pylink}
 
   }
 
   [[ -L "${piplink}" ]] && {
-    _log_.warn "removing existing link...: ${piplink}"
+    lsd-mod.log.warn "removing existing link...: ${piplink}"
     ls -l ${piplink}
     sudo rm -f ${piplink}
   }
 
-  _log_.info "re-creating link: ${pylink}"
-  sudo ln -s $(which ${PYTHON}) ${pylink} &>/dev/null || _log_.error "File exists: ${piplink}"
-  ls -l ${pylink} &>/dev/null || _log_.error "re-linking ${pylink}"
+  lsd-mod.log.info "re-creating link: ${pylink}"
+  sudo ln -s $(which ${PYTHON}) ${pylink} &>/dev/null || lsd-mod.log.error "File exists: ${piplink}"
+  ls -l ${pylink} &>/dev/null || lsd-mod.log.error "re-linking ${pylink}"
 
-  _log_.info "re-creating link: ${piplink}"
-  sudo ln -s $(which ${PIP}) ${piplink} &>/dev/null || _log_.error "File exists: ${piplink}"
-  ls -l ${piplink} &>/dev/null || _log_.error "re-linking ${piplink}"
+  lsd-mod.log.info "re-creating link: ${piplink}"
+  sudo ln -s $(which ${PIP}) ${piplink} &>/dev/null || lsd-mod.log.error "File exists: ${piplink}"
+  ls -l ${piplink} &>/dev/null || lsd-mod.log.error "re-linking ${piplink}"
 
   ${PYTHON} -c 'import sys; print(sys.version_info)' 1>&2
 }
 
 
 function python-config() {
-  python2 -m pip --version &>/dev/null || _log_.error "While executing: python2 -m pip --version"
-  python3 -m pip --version &>/dev/null || _log_.error "While executing: python3 -m pip --version"
+  python2 -m pip --version &>/dev/null || lsd-mod.log.error "While executing: python2 -m pip --version"
+  python3 -m pip --version &>/dev/null || lsd-mod.log.error "While executing: python3 -m pip --version"
 
   local pyVer
   for pyVer in 2 3; do
@@ -130,12 +130,12 @@ function python-install.main() {
   source ${LSCRIPTS}/lscripts.config.sh
   
   local scriptname=$(basename ${BASH_SOURCE[0]})
-  _log_.debug "executing script...: ${scriptname}"
+  lsd-mod.log.debug "executing script...: ${scriptname}"
 
   local _prog="python"
 
-  _log_.info "Install ${_prog}..."
-  _log_.warn "sudo access is required!"
+  lsd-mod.log.info "Install ${_prog}..."
+  lsd-mod.log.warn "sudo access is required!"
 
   local _default=no
   local _que
@@ -143,19 +143,19 @@ function python-install.main() {
 
   _que="Install ${_prog} now"
   _msg="Skipping ${_prog} installation!"
-  _fio_.yesno_${_default} "${_que}" && \
-      _log_.echo "Installing..." && \
+  lsd-mod.fio.yesno_${_default} "${_que}" && \
+      lsd-mod.log.echo "Installing..." && \
       __${_prog}-install \
-    || _log_.echo "${_msg}"
+    || lsd-mod.log.echo "${_msg}"
 
-  _log_.info "Read regarding pip: https://github.com/pypa/pip/issues/5599"
+  lsd-mod.log.info "Read regarding pip: https://github.com/pypa/pip/issues/5599"
 
   _que="Configure ${_prog} now (recommended)"
   _msg="Skipping ${_prog} configuration. This is critical for proper python environment working!"
-  _fio_.yesno_yes "${_que}" && \
-      _log_.echo "Configuring..." && \
+  lsd-mod.fio.yesno_yes "${_que}" && \
+      lsd-mod.log.echo "Configuring..." && \
       ${_prog}-config \
-    || _log_.echo "${_msg}"
+    || lsd-mod.log.echo "${_msg}"
 }
 
 python-install.main "$@"

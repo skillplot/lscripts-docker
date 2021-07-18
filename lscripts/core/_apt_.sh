@@ -7,21 +7,21 @@
 ###----------------------------------------------------------
 
 
-function _apt_.get__vars() {
-  _log_.echo "Nothing here yet!"
+function lsd-mod.apt.get__vars() {
+  lsd-mod.log.echo "Nothing here yet!"
 }
 
 
-function _apt_.search() {
+function lsd-mod.apt.search() {
   local __error_msg="
   Usage:
-    _apt_.search <search-phrase>
+    lsd-mod.apt.search <search-phrase>
   "
   local _str=${1? "${__error_msg}" }
-  [[ "$#" -ne "1" ]] && _log_.error "Invalid number of parameters: required 1 given $#\n ${__error_msg}"
+  [[ "$#" -ne "1" ]] && lsd-mod.log.error "Invalid number of parameters: required 1 given $#\n ${__error_msg}"
 
   # local _str=$1
-  _log_.echo "Searching apt-cache for: ${_str}\n"
+  lsd-mod.log.echo "Searching apt-cache for: ${_str}\n"
 
   local output=$(apt-cache search ${_str} | cut -d' ' -f1 | tr '\n' ' ')
   apt-cache policy ${output}
@@ -29,16 +29,16 @@ function _apt_.search() {
 }
 
 
-function _apt_.guess() {
+function lsd-mod.apt.guess() {
   local __error_msg="
   Usage:
-    _apt_.guess <search-phrase>
+    lsd-mod.apt.guess <search-phrase>
   "
   local _str=${1? "${__error_msg}" }
 
-  [[ "$#" -ne "1" ]] && _log_.error "Invalid number of parameters: required 1 given $#\n ${__error_msg}"
+  [[ "$#" -ne "1" ]] && lsd-mod.log.error "Invalid number of parameters: required 1 given $#\n ${__error_msg}"
 
-  _log_.echo "Searching apt-cache for: ${_str}"
+  lsd-mod.log.echo "Searching apt-cache for: ${_str}"
 
   local __msg="Because...Installing blidfold is risky\n
     You can install it with the following command.\n
@@ -47,17 +47,17 @@ function _apt_.guess() {
     packages available.\n
     lsd-apt.search <search-phrase>
     "
-  _log_.echo ${__msg}
+  lsd-mod.log.echo ${__msg}
 
-  local output=$(_apt_.search ${_str})
+  local output=$(lsd-mod.apt.search ${_str})
   output=$( echo "${output}" | grep -e"^${_str}" | tr ':\n' ' ' | tr -s ' ');
-  _log_.echo "${bgre}sudo apt -y install ${output}${nocolor}"
+  lsd-mod.log.echo "${bgre}sudo apt -y install ${output}${nocolor}"
 }
 
 
-function _apt_.get-repo() {
+function lsd-mod.apt.get-repo() {
   local _type=${1:-'ls'}
-  ## _log_.debug "_type: ${_type}"
+  ## lsd-mod.log.debug "_type: ${_type}"
   local _aptfile
   local _entry
   local _user
@@ -74,15 +74,15 @@ function _apt_.get-repo() {
 }
 
 
-function _apt_.add-repo() {
+function lsd-mod.apt.add-repo() {
   local __error_msg="
   Utility to add PPA repositories in your debian machine
 
   Usage:
-    _apt_.add-repo ppa:user/ppa-name
+    lsd-mod.apt.add-repo ppa:user/ppa-name
   "
   local _ppa=${1? "${__error_msg}" }
-  [[ "$#" -ne "1" ]] && _log_.error "Invalid number of parameters: required 1 given $#\n ${__error_msg}"
+  [[ "$#" -ne "1" ]] && lsd-mod.log.error "Invalid number of parameters: required 1 given $#\n ${__error_msg}"
 
   local _nm=$(uname -a && date)
   local _name=$(echo ${_nm} | md5sum | cut -f1 -d" ")
@@ -90,9 +90,9 @@ function _apt_.add-repo() {
   
   # local _name=$(echo $(uname -a && date) | md5sum | cut -f1 -d" ")
 
-  _log_.echo "_nm: ${_nm}"
-  _log_.echo "_name: ${_name}"
-  _log_.echo "_ppa_name: ${_ppa_name}"
+  lsd-mod.log.echo "_nm: ${_nm}"
+  lsd-mod.log.echo "_name: ${_name}"
+  lsd-mod.log.echo "_ppa_name: ${_ppa_name}"
 
   [[ ! -z "${_ppa_name}" ]] && {
     echo "deb http://ppa.launchpad.net/${_ppa_name}/ubuntu lucid main" >> /etc/apt/sources.list
@@ -104,31 +104,31 @@ function _apt_.add-repo() {
     apt-key adv --keyserver keyserver.ubuntu.com --recv-keys ${_key}
     rm -rf /tmp/${_name}_apt_add_key.txt
   } || {
-    _log_.error "PPA name not found"
-    _log_.echo "Utility to add PPA repositories in your debian machine"
-    _log_.echo "ppa:user/ppa-name"
+    lsd-mod.log.error "PPA name not found"
+    lsd-mod.log.echo "Utility to add PPA repositories in your debian machine"
+    lsd-mod.log.echo "ppa:user/ppa-name"
   }
 }
 
 
-function _apt_.deprecated.add-repo() {
+function lsd-mod.apt.deprecated.add-repo() {
   local __error_msg="
   Usage:
-    _apt_.add-repo <url> <file>
+    lsd-mod.apt.add-repo <url> <file>
 
   Example:
-  _apt_.add-repo 'deb https://qgis.org/debian' qgis3.list
+  lsd-mod.apt.add-repo 'deb https://qgis.org/debian' qgis3.list
   "
   local _url=${1? "${__error_msg}" }
   local _file=${2? "${__error_msg}" }
 
-  [[ "$#" -ne "2" ]] && _log_.error "Invalid number of parameters: required 2 given $#\n ${__error_msg}"
+  [[ "$#" -ne "2" ]] && lsd-mod.log.error "Invalid number of parameters: required 2 given $#\n ${__error_msg}"
 
-  _log_.echo "_url: ${_url}"
-  _log_.echo "_file: ${_file}"
-  _log_.echo "LINUX_CODE_NAME: ${LINUX_CODE_NAME}"
+  lsd-mod.log.echo "_url: ${_url}"
+  lsd-mod.log.echo "_file: ${_file}"
+  lsd-mod.log.echo "LINUX_CODE_NAME: ${LINUX_CODE_NAME}"
 
   ls -1 "/etc/apt/sources.list.d/${_file}" &>/dev/null && {
     sudo sh -c 'echo "${_url} ${LINUX_CODE_NAME} main" > /etc/apt/sources.list.d/"${_file}"'
-  } || _log_.error "File does not exists: /etc/apt/sources.list.d/${_file}"
+  } || lsd-mod.log.error "File does not exists: /etc/apt/sources.list.d/${_file}"
 }

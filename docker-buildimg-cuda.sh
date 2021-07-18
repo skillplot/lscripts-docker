@@ -21,7 +21,7 @@ function __docker-buildimg-cuda() {
   local vers="${cuda_vers[@]}";
   vers=$(echo "${vers// / | }")
 
-  [[ ${_LSCRIPTS__DEBUG_} -eq 0 ]] || {
+  [[ ${LSCRIPTS__DEBUG} -eq 0 ]] || {
     (>&2 echo -e "Total: ${#cuda_vers[@]}, Supported cuda_vers: ${cuda_vers[@]}")
     # (for ver in "${cuda_vers[@]}"; do (>&2 echo -e "ver => ${ver}"); done)
   }
@@ -31,21 +31,21 @@ function __docker-buildimg-cuda() {
     bash $0 <cudaversion> [ ${vers} ]"
   }
 
-  _fio_.find_in_array "$1" "${cuda_vers[@]}" &>/dev/null && {
+  lsd-mod.fio.find_in_array "$1" "${cuda_vers[@]}" &>/dev/null && {
     local BUILD_FOR_CUDA_VER=$1
-    _log_.info "Using CUDA version: ${BUILD_FOR_CUDA_VER}"
+    lsd-mod.log.info "Using CUDA version: ${BUILD_FOR_CUDA_VER}"
 
     local CUDACFG_FILEPATH="${LSCRIPTS}/lscripts/config/${LINUX_DISTRIBUTION}/cuda-cfg-${BUILD_FOR_CUDA_VER}.sh"
-    _log_.debug "CUDACFG_FILEPATH: ${CUDACFG_FILEPATH}"
+    lsd-mod.log.debug "CUDACFG_FILEPATH: ${CUDACFG_FILEPATH}"
 
-    ls -1 ${CUDACFG_FILEPATH} &>/dev/null || _log_.fail "config file does not exists: ${CUDACFG_FILEPATH}"
+    ls -1 ${CUDACFG_FILEPATH} &>/dev/null || lsd-mod.log.fail "config file does not exists: ${CUDACFG_FILEPATH}"
     # ## echo "CUDACFG_FILEPATH: ${CUDACFG_FILEPATH}"
     # ## local AI_PYCUDA_FILE=${LSCRIPTS}/lscripts/config/${LINUX_DISTRIBUTION}/python.requirements-ai-cuda-${BUILD_FOR_CUDA_VER}.txt
     # ## echo "CUDACFG_FILEPATH: ${AI_PYCUDA_FILE}"
 
     source ${CUDACFG_FILEPATH}
     local DOCKERFILE_BASEPATH="${LSCRIPTS}/external/cuda/dist/${OS}/${CUDA_VERSION}"
-    _log_.debug "DOCKERFILE_BASEPATH: ${DOCKERFILE_BASEPATH}"
+    lsd-mod.log.debug "DOCKERFILE_BASEPATH: ${DOCKERFILE_BASEPATH}"
 
     local _default=no
     local _que
@@ -54,28 +54,28 @@ function __docker-buildimg-cuda() {
     ## build base, runtime and devel
     _que="Build Image ${NVIDIA_CUDA_IMAGE_NAME}:${CUDA_VERSION}-base-${OS} now"
     _msg="Skipping build image!"
-    _fio_.yesno_${_default} "${_que}" && \
-        _log_.echo "Executing..." && \
+    lsd-mod.fio.yesno_${_default} "${_que}" && \
+        lsd-mod.log.echo "Executing..." && \
         docker build -t "${NVIDIA_CUDA_IMAGE_NAME}:${CUDA_VERSION}-base-${OS}" "${DOCKERFILE_BASEPATH}/base" && \
         docker run --gpus all --rm "${NVIDIA_CUDA_IMAGE_NAME}:${CUDA_VERSION}-base-${OS}" nvidia-smi \
-      || _log_.echo "${_msg}"
+      || lsd-mod.log.echo "${_msg}"
 
     _que="Build Image ${NVIDIA_CUDA_IMAGE_NAME}:${CUDA_VERSION}-runtime-${OS} now"
     _msg="Skipping build image!"
-    _fio_.yesno_${_default} "${_que}" && \
-        _log_.echo "Executing..." && \
+    lsd-mod.fio.yesno_${_default} "${_que}" && \
+        lsd-mod.log.echo "Executing..." && \
         docker build -t "${NVIDIA_CUDA_IMAGE_NAME}:${CUDA_VERSION}-runtime-${OS}" --build-arg "IMAGE_NAME=${NVIDIA_CUDA_IMAGE_NAME}" "${DOCKERFILE_BASEPATH}/runtime" && \
         docker run --gpus all --rm "${NVIDIA_CUDA_IMAGE_NAME}:${CUDA_VERSION}-runtime-${OS}" nvidia-smi \
-      || _log_.echo "${_msg}"
+      || lsd-mod.log.echo "${_msg}"
 
     _que="Build Image ${NVIDIA_CUDA_IMAGE_NAME}:${CUDA_VERSION}-devel-${OS} now"
     _msg="Skipping build image!"
-    _fio_.yesno_${_default} "${_que}" && \
-        _log_.echo "Executing..." && \
+    lsd-mod.fio.yesno_${_default} "${_que}" && \
+        lsd-mod.log.echo "Executing..." && \
         docker build -t "${NVIDIA_CUDA_IMAGE_NAME}:${CUDA_VERSION}-devel-${OS}" --build-arg "IMAGE_NAME=${NVIDIA_CUDA_IMAGE_NAME}" "${DOCKERFILE_BASEPATH}/devel" && \
         docker run --gpus all --rm "${NVIDIA_CUDA_IMAGE_NAME}:${CUDA_VERSION}-devel-${OS}" nvidia-smi \
-      || _log_.echo "${_msg}"
-  } 1>&2 || _log_.fail "Invalid or not supported CUDA version: $1"
+      || lsd-mod.log.echo "${_msg}"
+  } 1>&2 || lsd-mod.log.fail "Invalid or not supported CUDA version: $1"
 }
 
 function docker-buildimg-cuda() {
@@ -88,23 +88,23 @@ function docker-buildimg-cuda() {
   local _prog
 
   source "${LSCRIPTS}/lscripts/docker-ce-verify.sh" &>/dev/null \
-    || _log_.fail "Dependency docker-ce-verify is not installed!\n Execute installer:\n\
+    || lsd-mod.log.fail "Dependency docker-ce-verify is not installed!\n Execute installer:\n\
             source ${LSCRIPTS}/lscripts/docker-ce-verify.sh"
 
   type nvidia-container-toolkit &>/dev/null \
-    || _log_.fail "Dependency nvidia-container-toolkit is not installed!\n Execute installer:\n\
+    || lsd-mod.log.fail "Dependency nvidia-container-toolkit is not installed!\n Execute installer:\n\
             source ${LSCRIPTS}/lscripts/nvidia-container-toolkit-install.sh"
 
-  # type uuid &>/dev/null || _log_.fail "uuid package not found. Execute...\n sudo apt install uuid"
+  # type uuid &>/dev/null || lsd-mod.log.fail "uuid package not found. Execute...\n sudo apt install uuid"
 
   _prog="docker-buildimg-cuda"
 
   _que="Executing ${_prog} now"
   _msg="Skipping ${_prog} execution!"
-  _fio_.yesno_${_default} "${_que}" && \
-      _log_.echo "Executing..." && \
+  lsd-mod.fio.yesno_${_default} "${_que}" && \
+      lsd-mod.log.echo "Executing..." && \
       __${_prog} $1 \
-    || _log_.echo "${_msg}"
+    || lsd-mod.log.echo "${_msg}"
 
 }
 

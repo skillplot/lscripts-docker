@@ -20,31 +20,31 @@ function stack-setup-utils.main() {
   local LSCRIPTS="$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )"
   source "${LSCRIPTS}/_common_.sh"
 
-  _log_.warn "Install ${FUNCNAME[0]}; sudo access is required!"
-  _fio_.yesno_no "Continue" && {
+  lsd-mod.log.warn "Install ${FUNCNAME[0]}; sudo access is required!"
+  lsd-mod.fio.yesno_no "Continue" && {
     local item
     for item in "${_stack_install_utils[@]}";do
-      _log_.info ${item}
+      lsd-mod.log.info ${item}
       local _item_filepath="${LSCRIPTS}/${item}-install.sh"
 
       ## Logic one
-      # _fio_.yesno_no "Install ${item}" && {
-      #   _log_.ok "Executing installer... ${_item_filepath}"
+      # lsd-mod.fio.yesno_no "Install ${item}" && {
+      #   lsd-mod.log.ok "Executing installer... ${_item_filepath}"
       #   source ${_item_filepath} "$@"
-      # } || _log_.echo "Skipping:${FUNCNAME[0]}::${item} installation!"
+      # } || lsd-mod.log.echo "Skipping:${FUNCNAME[0]}::${item} installation!"
 
 
       ## Logic second
-      _log_.echo "Checking for installer..." && \
+      lsd-mod.log.echo "Checking for installer..." && \
       ls -1 "${_item_filepath}" 2>/dev/null && {
-        _fio_.yesno_no "Install ${item}" && {
-          _log_.ok "Executing installer... ${_item_filepath}" && \
-          _log_.echo "Installing..."
+        lsd-mod.fio.yesno_no "Install ${item}" && {
+          lsd-mod.log.ok "Executing installer... ${_item_filepath}" && \
+          lsd-mod.log.echo "Installing..."
           source ${_item_filepath} "$@"
-        } || _log_.echo "Skipping ${item} installation!"
-      } || _log_.error "Installer not found: ${item}!"
+        } || lsd-mod.log.echo "Skipping ${item} installation!"
+      } || lsd-mod.log.error "Installer not found: ${item}!"
     done
-  } || _log_.echo "Skipping ${FUNCNAME[0]} installation!"
+  } || lsd-mod.log.echo "Skipping ${FUNCNAME[0]} installation!"
 }
 
 stack-setup-utils.main "$@"

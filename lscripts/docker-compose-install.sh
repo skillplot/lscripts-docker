@@ -36,8 +36,8 @@ function docker-compose-install.main() {
 
   local _prog="docker-compose"
 
-  _log_.info "Install ${_prog}..."
-  _log_.warn "sudo access is required!"
+  lsd-mod.log.info "Install ${_prog}..."
+  lsd-mod.log.warn "sudo access is required!"
 
   local _default=yes
   local _que
@@ -45,24 +45,24 @@ function docker-compose-install.main() {
 
   _que="Uninstall previous ${_prog} installation"
   _msg="Skipping ${_prog} uninstall!"
-  _fio_.yesno_${_default} "${_que}" && \
-      _log_.echo "Uninstalling..." && \
+  lsd-mod.fio.yesno_${_default} "${_que}" && \
+      lsd-mod.log.echo "Uninstalling..." && \
           ${_prog}-uninstall \
-    || _log_.echo "${_msg}"
+    || lsd-mod.log.echo "${_msg}"
 
   _que="Install ${_prog} now"
   _msg="Skipping ${_prog} installation!"
-  _fio_.yesno_${_default} "${_que}" && \
-    _log_.echo "Installing..." && \
+  lsd-mod.fio.yesno_${_default} "${_que}" && \
+    lsd-mod.log.echo "Installing..." && \
     __${_prog}-install \
-    || _log_.echo "${_msg}"
+    || lsd-mod.log.echo "${_msg}"
 
   _que="Verify ${_prog} now"
   _msg="Skipping ${_prog} verification!"
-  _fio_.yesno_${_default} "${_que}" && \
-      _log_.echo "Verifying..." && \
+  lsd-mod.fio.yesno_${_default} "${_que}" && \
+      lsd-mod.log.echo "Verifying..." && \
       source "${LSCRIPTS}/${_prog}-verify.sh" \
-    || _log_.echo "${_msg}"
+    || lsd-mod.log.echo "${_msg}"
 
 }
 

@@ -48,7 +48,7 @@ function virtualbox-addrepo-key() {
 
 
 function virtualbox-addrepo() {
-  _log_.echo "LINUX_CODE_NAME: ${LINUX_CODE_NAME}"
+  lsd-mod.log.echo "LINUX_CODE_NAME: ${LINUX_CODE_NAME}"
   sudo apt -y update
   ## Install packages to allow apt to use a repository over HTTPS:
   sudo apt -y install \
@@ -58,7 +58,7 @@ function virtualbox-addrepo() {
       software-properties-common
 
   # local VIRTUALBOX_REPO_URL="http://download.virtualbox.org/virtualbox/debian"
-  _log_.debug "VIRTUALBOX_REPO_URL: ${VIRTUALBOX_REPO_URL}"
+  lsd-mod.log.debug "VIRTUALBOX_REPO_URL: ${VIRTUALBOX_REPO_URL}"
 
   ## Todo: arch hardcoding to be parameterized
   ## Todo: give user option to select docker version for installation
@@ -100,7 +100,7 @@ function virtualbox-configure() {
   #
   ## References:
   ###----------------------------------------------------------
-  _log_.debug "no configuration steps yet"
+  lsd-mod.log.debug "no configuration steps yet"
 }
 
 
@@ -117,37 +117,37 @@ function virtualbox-apt-install.main() {
 
   _prog="virtualbox"
 
-  _log_.info "Install ${_prog}..."
-  _log_.warn "sudo access is required!"
+  lsd-mod.log.info "Install ${_prog}..."
+  lsd-mod.log.warn "sudo access is required!"
 
   _que="Uninstall previous ${_prog} installation"
   _msg="Skipping ${_prog} uninstall!"
-  _fio_.yesno_${_default} "${_que}" && \
-      _log_.echo "Uninstalling..." && \
+  lsd-mod.fio.yesno_${_default} "${_que}" && \
+      lsd-mod.log.echo "Uninstalling..." && \
           ${_prog}-uninstall \
-    || _log_.echo "${_msg}"
+    || lsd-mod.log.echo "${_msg}"
 
 
   _que="Add/Update ${_prog} repo Key"
   _msg="Skipping adding/updating ${_prog} repo!"
-  _fio_.yesno_${_default} "${_que}" && \
-      _log_.echo "Adding/Updating ${_prog} repo key..." && \
+  lsd-mod.fio.yesno_${_default} "${_que}" && \
+      lsd-mod.log.echo "Adding/Updating ${_prog} repo key..." && \
           ${_prog}-addrepo-key \
-    || _log_.echo "${_msg}"
+    || lsd-mod.log.echo "${_msg}"
 
   _que="Add ${_prog} repo"
   _msg="Skipping adding ${_prog} repo!"
-  _fio_.yesno_${_default} "${_que}" && \
-      _log_.echo "Adding ${_prog} repo..." && \
+  lsd-mod.fio.yesno_${_default} "${_que}" && \
+      lsd-mod.log.echo "Adding ${_prog} repo..." && \
           ${_prog}-addrepo \
-    || _log_.echo "${_msg}"
+    || lsd-mod.log.echo "${_msg}"
 
   _que="Install ${_prog} now"
   _msg="Skipping ${_prog} installation!"
-  _fio_.yesno_${_default} "${_que}" && \
-    _log_.echo "Installing..." && \
+  lsd-mod.fio.yesno_${_default} "${_que}" && \
+    lsd-mod.log.echo "Installing..." && \
     __${_prog}-install \
-    || _log_.echo "${_msg}"
+    || lsd-mod.log.echo "${_msg}"
 
 }
 

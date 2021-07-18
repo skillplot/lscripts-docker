@@ -64,7 +64,7 @@ function docker_main() {
       ## $? provide us the execution status of last execute command on prompt.
       ## Value '0' denotes that the command was executed successfuly and '1' is for not success.
       if [ $? -ne 0 ];then
-          _log_.error "Failed to start docker container \"${DOCKER_CONTAINER_NAME}\" based on image: ${DOCKER_CONTAINER_IMG}"
+          lsd-mod.log.error "Failed to start docker container \"${DOCKER_CONTAINER_NAME}\" based on image: ${DOCKER_CONTAINER_IMG}"
           # exit 1
           return
       fi
@@ -87,8 +87,8 @@ function docker_main() {
       #   # done
       # fi
 
-      # _log_.info "MONGODB_USER:MONGODB_USER_ID:: $MONGODB_USER:$MONGODB_USER_ID"
-      # _log_.info "MONGODB_GRP:MONGODB_GRP_ID:: $MONGODB_GRP:$MONGODB_GRP_ID"
+      # lsd-mod.log.info "MONGODB_USER:MONGODB_USER_ID:: $MONGODB_USER:$MONGODB_USER_ID"
+      # lsd-mod.log.info "MONGODB_GRP:MONGODB_GRP_ID:: $MONGODB_GRP:$MONGODB_GRP_ID"
 
       # ${DOCKER_CMD} exec ${DOCKER_CONTAINER_NAME} /bin/bash -c "${SCRIPTS_BASE_PATH}/docker/docker.mongodb.userfix.sh"
 

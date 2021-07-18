@@ -3,7 +3,7 @@
 ## Copyright (c) 2021 mangalbhaskar. All Rights Reserved.
 ##__author__ = 'mangalbhaskar'
 ###----------------------------------------------------------
-## test::shell script core/_system_.sh module
+## test::shell script core/lsd-mod.system.sh module
 ###----------------------------------------------------------
 
 
@@ -20,18 +20,18 @@
 [[ $0 != "$BASH_SOURCE" ]] && sourced=1 || sourced=0[1]
 
 
-function test._system_.case-1() {
-  _system_.sudo_restrict_user_cmd_prompt --user='blah' --group='dummy' --scripts_filepath=${_BZO__SCRIPTS}/lscripts-docker/lscripts/tests/test.echo.sh
+function test.lsd-mod.system.case-1() {
+  lsd-mod.system.sudo_restrict_user_cmd_prompt --user='blah' --group='dummy' --scripts_filepath=${_BZO__SCRIPTS}/lscripts-docker/lscripts/tests/test.echo.sh
 }
 
 
-function test._system_.main() {
+function test.lsd-mod.system.main() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
   source ${LSCRIPTS}/../lscripts.config.sh
   
-  export _LSCRIPTS__LOG_LEVEL_=7 ## DEBUG
-  test._system_.case-1
+  export LSCRIPTS__LOG_LEVEL=7 ## DEBUG
+  test.lsd-mod.system.case-1
 }
 
 
-test._system_.main
+test.lsd-mod.system.main

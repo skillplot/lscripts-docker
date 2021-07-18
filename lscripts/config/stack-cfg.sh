@@ -75,6 +75,7 @@ declare -a _stack_install_itemwise=(
   ## "_stack-setup-epub"
   ###----------------------------------------------------------
   "latex-apt"
+  "asciidoc-clone"
   "pandoc-wget-dpkg"
   "latex-editors-apt"
   "lyx-ppa"
@@ -161,6 +162,7 @@ declare -a _stack_install_itemwise=(
   ## "GIS"
   ###----------------------------------------------------------
   "qgis3-apt"
+  "qgis3-clone"
   ###----------------------------------------------------------    
   ## "virtualization"
   ###----------------------------------------------------------
@@ -301,6 +303,7 @@ declare -a _stack_install_epub=(
   ## "_stack-setup-epub"
   ###----------------------------------------------------------
   "latex-apt"
+  "asciidoc-clone"
   "pandoc-wget-dpkg"
   "latex-editors-apt"
   "lyx-ppa"
@@ -399,6 +402,7 @@ declare -a _stack_install_misc=(
   ## "GIS"
   ###----------------------------------------------------------
   "qgis3-apt"
+  "qgis3-clone"
   ###----------------------------------------------------------    
   ## "virtualization"
   ###----------------------------------------------------------

@@ -32,29 +32,29 @@
 
 
 function nodejs-uninstall() {
-  _log_.warn "nodejs will be uninstalled and configuration will be removed!"
+  lsd-mod.log.warn "nodejs will be uninstalled and configuration will be removed!"
 
-  # _log_.info "remove the package and retain the configuration files."
+  # lsd-mod.log.info "remove the package and retain the configuration files."
   # sudo apt remove nodejs
 
-  _log_.warn "uninstalling the package and remove the configuration files associated with it."
+  lsd-mod.log.warn "uninstalling the package and remove the configuration files associated with it."
   sudo apt purge nodejs
 }
 
 
 function nodejs-uninstall() {
-  _log_.warn "nodejs will be uninstalled and configuration will be removed!"
+  lsd-mod.log.warn "nodejs will be uninstalled and configuration will be removed!"
 
-  _log_.info "remove the package and retain the configuration files."
+  lsd-mod.log.info "remove the package and retain the configuration files."
   sudo apt remove nodejs
 
-  _log_.info "uninstall the package and remove the configuration files associated with it."
+  lsd-mod.log.info "uninstall the package and remove the configuration files associated with it."
   sudo apt purge nodejs
 }
 
 
 function nodejs-config() {
-  _log_.info "nodejs-config"
+  lsd-mod.log.info "nodejs-config"
 
   ## Todo: use lscripts specific config file
   ## Todo: check if line already exists in config file or not
@@ -78,7 +78,7 @@ function nodejs-config() {
 
 
 function nodejs-install-packages() {
-  _log_.info "nodejs-install-packages"
+  lsd-mod.log.info "nodejs-install-packages"
   ls -l ${LSCRIPTS}/config/${LINUX_DISTRIBUTION}/nodejs.requirements.sh
   source ${LSCRIPTS}/config/${LINUX_DISTRIBUTION}/nodejs.requirements.sh
 }
@@ -123,12 +123,12 @@ function nodejs-install.main() {
   source ${LSCRIPTS}/lscripts.config.sh
 
   local scriptname=$(basename ${BASH_SOURCE[0]})
-  _log_.debug "executing script...: ${scriptname}"
+  lsd-mod.log.debug "executing script...: ${scriptname}"
 
   local _prog="nodejs"
 
-  _log_.info "Install ${_prog}..."
-  _log_.warn "sudo access is required!"
+  lsd-mod.log.info "Install ${_prog}..."
+  lsd-mod.log.warn "sudo access is required!"
 
   local _default=no
   local _que
@@ -136,24 +136,24 @@ function nodejs-install.main() {
 
   _que="Install ${_prog} now"
   _msg="Skipping ${_prog} installation!"
-  _fio_.yesno_${_default} "${_que}" && \
-      _log_.echo "Installing..." && \
+  lsd-mod.fio.yesno_${_default} "${_que}" && \
+      lsd-mod.log.echo "Installing..." && \
       __${_prog}-install \
-    || _log_.echo "${_msg}"
+    || lsd-mod.log.echo "${_msg}"
 
   _que="Configure ${_prog} now (recommended)"
   _msg="Skipping ${_prog} configuration. This is critical for proper python environment working!"
-  _fio_.yesno_no "${_que}" && \
-      _log_.echo "Configuring..." && \
+  lsd-mod.fio.yesno_no "${_que}" && \
+      lsd-mod.log.echo "Configuring..." && \
       ${_prog}-config \
-    || _log_.echo "${_msg}"
+    || lsd-mod.log.echo "${_msg}"
 
   _que="Install packages for ${_prog} now (recommended)"
   _msg="Skipping ${_prog} installing packages."
-  _fio_.yesno_no "${_que}" && \
-      _log_.echo "Installing packages..." && \
+  lsd-mod.fio.yesno_no "${_que}" && \
+      lsd-mod.log.echo "Installing packages..." && \
       ${_prog}-install-packages \
-    || _log_.echo "${_msg}"
+    || lsd-mod.log.echo "${_msg}"
 }
 
 nodejs-install.main "$@"

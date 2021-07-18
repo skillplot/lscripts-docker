@@ -27,17 +27,17 @@ function _debug_.main() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
   source ${LSCRIPTS}/lscripts.config.sh
   
-  _log_.info "BASEDIR is: ${_LSD__HOME}"
-  _log_.info "_LSD__DOCKER_DATA_ROOT is: ${_LSD__DOCKER_DATA_ROOT}"
-  _log_.info "_LSD__DOCKER_MOBILE_ROOT is: ${_LSD__DOCKER_MOBILE_ROOT}"
-  _log_.info "DOCKER_ROOT_BASEDIR is: ${DOCKER_ROOT_BASEDIR}"
+  lsd-mod.log.info "BASEDIR is: ${_LSD__HOME}"
+  lsd-mod.log.info "_LSD__DOCKER_DATA_ROOT is: ${_LSD__DOCKER_DATA_ROOT}"
+  lsd-mod.log.info "_LSD__DOCKER_MOBILE_ROOT is: ${_LSD__DOCKER_MOBILE_ROOT}"
+  lsd-mod.log.info "DOCKER_ROOT_BASEDIR is: ${DOCKER_ROOT_BASEDIR}"
 
-  [[ ! -f ${CUDACFG_FILEPATH} ]] || _log_.ok "CUDACFG_FILEPATH: ${CUDACFG_FILEPATH}"
-  [[ ! -f ${AI_PYCUDA_FILE} ]] || _log_.ok "AI_PYCUDA_FILE: ${AI_PYCUDA_FILE}"
+  [[ ! -f ${CUDACFG_FILEPATH} ]] || lsd-mod.log.ok "CUDACFG_FILEPATH: ${CUDACFG_FILEPATH}"
+  [[ ! -f ${AI_PYCUDA_FILE} ]] || lsd-mod.log.ok "AI_PYCUDA_FILE: ${AI_PYCUDA_FILE}"
 
-  _log_.info "USER_BASHRC_FILE: ${USER_BASHRC_FILE}"
+  lsd-mod.log.info "USER_BASHRC_FILE: ${USER_BASHRC_FILE}"
   ## Un-comment for testing 
-  _fio_.debug_logger
+  lsd-mod.fio.debug_logger
 
 
   # declare -p
@@ -52,8 +52,8 @@ function _debug_.main() {
   # echo "$(compgen -A variable | grep CUD)"
 
   # declare -a all_vars=( $(compgen -v) )
-  # _log_.info "all_vars: ${all_vars[@]}"
-  # _log_.info "Total all_vars: ${#all_vars[@]}"
+  # lsd-mod.log.info "all_vars: ${all_vars[@]}"
+  # lsd-mod.log.info "Total all_vars: ${#all_vars[@]}"
 }
 
 _debug_.main

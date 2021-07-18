@@ -43,7 +43,7 @@ EOL
 
 function __docker-buildimg-boozo() {
   local DOCKER_CONTEXT="$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/context/boozo"
-  _log_.info "DOCKER_CONTEXT: ${DOCKER_CONTEXT}"
+  lsd-mod.log.info "DOCKER_CONTEXT: ${DOCKER_CONTEXT}"
 
   rm -r ${DOCKER_CONTEXT} &>/dev/null
 
@@ -56,10 +56,10 @@ function __docker-buildimg-boozo() {
 
   local _build_info_file=${DOCKER_CONTEXT}/logs/$(date -d now +'%d%m%y_%H%M%S').info
   touch ${_build_info_file} &>/dev/null && \
-    _log_.info "build_info_file: ${_build_info_file}" || _log_.fail "Internal Error: Unable to create log!"
+    lsd-mod.log.info "build_info_file: ${_build_info_file}" || lsd-mod.log.fail "Internal Error: Unable to create log!"
 
   local DOCKER_BLD_CONTAINER_IMG="$1"
-  [[ ! -z "${DOCKER_BLD_CONTAINER_IMG}" ]] || _log_.fail "Empty tag: DOCKER_BLD_CONTAINER_IMG: ${DOCKER_BLD_CONTAINER_IMG}"
+  [[ ! -z "${DOCKER_BLD_CONTAINER_IMG}" ]] || lsd-mod.log.fail "Empty tag: DOCKER_BLD_CONTAINER_IMG: ${DOCKER_BLD_CONTAINER_IMG}"
 
   ## Fingerprint
   local __UUID__=$(uuid)
@@ -72,13 +72,13 @@ function __docker-buildimg-boozo() {
 
   cat ${_build_info_file}
 
-  _log_.ok "Building new image from\n \
+  lsd-mod.log.ok "Building new image from\n \
     DOCKERFILE: ${DOCKERFILE}\n \
     DOCKER_BLD_IMG_TAG: ${DOCKER_BLD_IMG_TAG}\n \
     DOCKER_BLD_CONTAINER_IMG: ${DOCKER_BLD_CONTAINER_IMG}"
 
-  _fio_.yesno_yes "About to execute docker build, check config and confirm" && {
-    _log_.echo "Executing... docker build"
+  lsd-mod.fio.yesno_yes "About to execute docker build, check config and confirm" && {
+    lsd-mod.log.echo "Executing... docker build"
     ${DOCKER_CMD} build \
       --build-arg "_SKILL__UUID=${__UUID__}" \
       --build-arg "_SKILL__LINUX_DISTRIBUTION=${BUILD_FOR_LINUX_DISTRIBUTION}" \
@@ -101,8 +101,8 @@ function __docker-buildimg-boozo() {
       --build-arg "_SKILL__MAINTAINER=${DOCKER_BLD_MAINTAINER}" \
       --build-arg "_SKILL__COPYRIGHT=${_COPYRIGHT_}" \
       -t ${DOCKER_BLD_CONTAINER_IMG} \
-      -f ${DOCKERFILE} ${DOCKER_CONTEXT} || _log_.fail "Internal Error: Build image failed! Check the DOCKERFILE: ${DOCKERFILE}"
-  } || _log_.echo "Skipping docker duild at the last moment. Hope to see you soon!"
+      -f ${DOCKERFILE} ${DOCKER_CONTEXT} || lsd-mod.log.fail "Internal Error: Build image failed! Check the DOCKERFILE: ${DOCKERFILE}"
+  } || lsd-mod.log.echo "Skipping docker duild at the last moment. Hope to see you soon!"
 
 }
 
@@ -111,10 +111,10 @@ function docker-buildimg-boozo() {
   source ${LSCRIPTS}/lscripts/lscripts.config.sh
 
   local scriptname=$(basename ${BASH_SOURCE[0]})
-  _log_.debug "executing script...: ${scriptname}"
+  lsd-mod.log.debug "executing script...: ${scriptname}"
 
   source "${LSCRIPTS}/lscripts/docker-ce-verify.sh" &>/dev/null \
-    || _log_.fail "Dependency docker-ce is not installed!\n Execute installer:\n\
+    || lsd-mod.log.fail "Dependency docker-ce is not installed!\n Execute installer:\n\
             source ${LSCRIPTS}/lscripts/docker-ce-install.sh"
 
   declare -a cuda_vers=($(_nvidia_.get__cuda_vers))
@@ -124,7 +124,7 @@ function docker-buildimg-boozo() {
   local distributions="${CUDA_LINUX_DISTRIBUTIONS[@]}"
   distributions=$(echo "${distributions// / | }")
 
-  # [[ ${_LSCRIPTS__DEBUG_} -eq 0 ]] || {
+  # [[ ${LSCRIPTS__DEBUG} -eq 0 ]] || {
   #   (>&2 echo -e "Total cuda_vers: ${#cuda_vers[@]}\n cuda_vers: ${cuda_vers[@]}")
   #   local ver
   #   (for ver in "${cuda_vers[@]}"; do (>&2 echo -e "ver => ${ver}"); done)
@@ -147,24 +147,24 @@ function docker-buildimg-boozo() {
   "
   : ${1? "${__error_msg}" } && : ${2? "${__error_msg}"}
 
-  [[ "$#" -ne "2" ]] && _log_.error "Invalid number of paramerters: required 2 given $#\n ${__error_msg}"
+  [[ "$#" -ne "2" ]] && lsd-mod.log.error "Invalid number of paramerters: required 2 given $#\n ${__error_msg}"
 
 
-  ( _fio_.find_in_array $1 "${cuda_vers[@]}" || _log_.fail "Invalid or unsupported cuda version: $1" ) && \
-    ( _fio_.find_in_array $2 "${CUDA_LINUX_DISTRIBUTIONS[@]}" || _log_.fail "Invalid or unsupported linux distribution: $2" )
+  ( lsd-mod.fio.find_in_array $1 "${cuda_vers[@]}" || lsd-mod.log.fail "Invalid or unsupported cuda version: $1" ) && \
+    ( lsd-mod.fio.find_in_array $2 "${CUDA_LINUX_DISTRIBUTIONS[@]}" || lsd-mod.log.fail "Invalid or unsupported linux distribution: $2" )
 
   local BUILD_FOR_CUDA_VER=$1
   local BUILD_FOR_LINUX_DISTRIBUTION=$2
   local BUILD_FOR_LINUX_DISTRIBUTION_TR=${BUILD_FOR_LINUX_DISTRIBUTION//./}
 
-  _log_.echo "Docker Image will be build for:"
-  _log_.echo "Using CUDA version: ${BUILD_FOR_CUDA_VER}"
-  _log_.echo "Using BUILD_FOR_LINUX_DISTRIBUTION version: ${BUILD_FOR_LINUX_DISTRIBUTION}"
+  lsd-mod.log.echo "Docker Image will be build for:"
+  lsd-mod.log.echo "Using CUDA version: ${BUILD_FOR_CUDA_VER}"
+  lsd-mod.log.echo "Using BUILD_FOR_LINUX_DISTRIBUTION version: ${BUILD_FOR_LINUX_DISTRIBUTION}"
 
   local CUDACFG_FILEPATH="${LSCRIPTS}/lscripts/config/${BUILD_FOR_LINUX_DISTRIBUTION}/cuda-cfg-${BUILD_FOR_CUDA_VER}.sh"
-  _log_.debug "CUDACFG_FILEPATH: ${CUDACFG_FILEPATH}"
+  lsd-mod.log.debug "CUDACFG_FILEPATH: ${CUDACFG_FILEPATH}"
 
-  ls -1 ${CUDACFG_FILEPATH} &>/dev/null || _log_.fail "config file does not exists: ${CUDACFG_FILEPATH}"
+  ls -1 ${CUDACFG_FILEPATH} &>/dev/null || lsd-mod.log.fail "config file does not exists: ${CUDACFG_FILEPATH}"
   ## Only for reference, not used here
   ## local AI_PYCUDA_FILE=${LSCRIPTS}/lscripts/config/${BUILD_FOR_LINUX_DISTRIBUTION}/python.requirements-ai-cuda-${BUILD_FOR_CUDA_VER}.txt
   ## echo "CUDACFG_FILEPATH: ${AI_PYCUDA_FILE}"
@@ -173,13 +173,13 @@ function docker-buildimg-boozo() {
   source ${CUDACFG_FILEPATH}
   echo -e "###----------------------------------------------------------"
   source ${LSCRIPTS}/lscripts/cuda-echo.sh 1>${__CUDA_LOG_FILEPATH} 2>&1
-  _log_.ok "Verify cuda-stack versions: ${__CUDA_LOG_FILEPATH}"
+  lsd-mod.log.ok "Verify cuda-stack versions: ${__CUDA_LOG_FILEPATH}"
   echo -e "###----------------------------------------------------------"
 
-  _log_.debug "OS: ${OS}"
-  _log_.debug "CUDA_OS_REL: ${CUDA_OS_REL}"
-  _log_.debug "BUILD_FOR_LINUX_DISTRIBUTION_TR: ${BUILD_FOR_LINUX_DISTRIBUTION_TR}"
-  _log_.debug "CUDA_VER: ${CUDA_VER}"
+  lsd-mod.log.debug "OS: ${OS}"
+  lsd-mod.log.debug "CUDA_OS_REL: ${CUDA_OS_REL}"
+  lsd-mod.log.debug "BUILD_FOR_LINUX_DISTRIBUTION_TR: ${BUILD_FOR_LINUX_DISTRIBUTION_TR}"
+  lsd-mod.log.debug "CUDA_VER: ${CUDA_VER}"
 
   local _default=yes
   local _que
@@ -192,26 +192,26 @@ function docker-buildimg-boozo() {
 
   _que="Executing ${_prog} now"
   _msg="Skipping ${_prog} execution!"
-  _fio_.yesno_${_default} "${_que}" && \
-      _log_.echo "Executing..." && {
+  lsd-mod.fio.yesno_${_default} "${_que}" && \
+      lsd-mod.log.echo "Executing..." && {
         __${_prog} ${DOCKER_BLD_CONTAINER_IMG}
 
-        _log_.info "Now you can create container:\n \
+        lsd-mod.log.info "Now you can create container:\n \
           source ${LSCRIPTS}/docker-createcontainer-boozo.sh ${DOCKER_BLD_CONTAINER_IMG}"
 
-        _log_.success "Enjoy!"
+        lsd-mod.log.success "Enjoy!"
 
-      } || _log_.echo "${_msg}"
+      } || lsd-mod.log.echo "${_msg}"
 
   _que="Create test container"
   _msg="Skipping creating test container!"
-  _fio_.yesno_${_default} "${_que}" && {
-    _log_.echo "Testing..."
+  lsd-mod.fio.yesno_${_default} "${_que}" && {
+    lsd-mod.log.echo "Testing..."
     _docker_.container_test ${DOCKER_BLD_CONTAINER_IMG}
   } || {
-    _log_.echo "${_msg}"
-    _log_.info "You can manually test container creation by executing:"
-    _log_.echo "${DOCKER_CMD} run --name $(uuid) --user $(id -un):$(id -gn) --gpus all --rm -it ${DOCKER_BLD_CONTAINER_IMG} bash"
+    lsd-mod.log.echo "${_msg}"
+    lsd-mod.log.info "You can manually test container creation by executing:"
+    lsd-mod.log.echo "${DOCKER_CMD} run --name $(uuid) --user $(id -un):$(id -gn) --gpus all --rm -it ${DOCKER_BLD_CONTAINER_IMG} bash"
   }
 }
 

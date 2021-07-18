@@ -21,13 +21,13 @@
 
 
 function test.all.case-0() {
-  # source ${LSCRIPTS}/test._dir_.sh
+  # source ${LSCRIPTS}/test.lsd-mod.dir.sh
   # source ${LSCRIPTS}/test.echo.sh
-  # source ${LSCRIPTS}/test._fio_.sh
-  source ${LSCRIPTS}/test._system_.sh
+  # source ${LSCRIPTS}/test.lsd-mod.fio.sh
+  source ${LSCRIPTS}/test.lsd-mod.system.sh
   # source ${LSCRIPTS}/test.argparse.sh
   # source ${LSCRIPTS}/test.cuda_config_supported.sh
-  # source ${LSCRIPTS}/test._log_.sh
+  # source ${LSCRIPTS}/test.lsd-mod.log.sh
 }
 
 
@@ -35,7 +35,7 @@ function test.all.main() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
   source ${LSCRIPTS}/../lscripts.config.sh
   
-  export _LSCRIPTS__LOG_LEVEL_=7 ## DEBUG
+  export LSCRIPTS__LOG_LEVEL=7 ## DEBUG
   test.all.case-0
 }
 

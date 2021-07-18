@@ -67,7 +67,7 @@ function essentials-apt-install.main() {
     sudo apt -y install evince
     ## Enable network browser in Thunar File Browser
     sudo apt -y install gvfs-backends gvfs-bin gvfs-fuse
-    ## Fix for: _log_.error while loading shared libraries: libgconf-2.so.4: cannot open shared object file: No such file or directory
+    ## Fix for: lsd-mod.log.error while loading shared libraries: libgconf-2.so.4: cannot open shared object file: No such file or directory
     sudo apt -y install libgconf-2-4
   )
 

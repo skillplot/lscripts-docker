@@ -31,7 +31,7 @@ function __docker-buildimg-dummy() {
   local scriptname=$(basename ${BASH_SOURCE[0]})
   local contextname=$(echo "${scriptname%.*}" | cut -d'-' -f3)
 
-  _log_.debug "executing script...: ${scriptname} with contextname: ${contextname}"
+  lsd-mod.log.debug "executing script...: ${scriptname} with contextname: ${contextname}"
 
   local DUSER=${USER}
   local DUSER_ID=$(id -u ${DUSER})
@@ -50,8 +50,8 @@ function __docker-buildimg-dummy() {
 
   local DOCKERFILE="${LSCRIPTS}/dockerfiles/ubuntu18.04/${contextname}.Dockerfile"
   local DOCKER_CONTEXT="${LSCRIPTS}/context/${contextname}"
-  _log_.info "DOCKERFILE: ${DOCKERFILE}"
-  _log_.info "DOCKER_CONTEXT: ${DOCKER_CONTEXT}"
+  lsd-mod.log.info "DOCKERFILE: ${DOCKERFILE}"
+  lsd-mod.log.info "DOCKER_CONTEXT: ${DOCKER_CONTEXT}"
 
   rm -r ${DOCKER_CONTEXT} &>/dev/null
 
@@ -71,9 +71,9 @@ function __docker-buildimg-dummy() {
     --build-arg "_SKILL__MAINTAINER=${DOCKER_BLD_MAINTAINER}" \
     -t ${DOCKER_BLD_CONTAINER_IMG} \
     -f ${DOCKERFILE} ${DOCKER_CONTEXT} && {
-      _log_.echo "docker run -d -P --rm --name test_${contextname} ${_LSD__DOCKER_HUB_REPO}:${contextname} tail -f /dev/null"
-      _log_.echo "docker exec -u $(id -u):$(id -g) -it test_${contextname} /bin/bash && xhost -local:root 1>/dev/null 2>&1"
-    } || _log_.fail "Build failed!"
+      lsd-mod.log.echo "docker run -d -P --rm --name test_${contextname} ${_LSD__DOCKER_HUB_REPO}:${contextname} tail -f /dev/null"
+      lsd-mod.log.echo "docker exec -u $(id -u):$(id -g) -it test_${contextname} /bin/bash && xhost -local:root 1>/dev/null 2>&1"
+    } || lsd-mod.log.fail "Build failed!"
 }
 
 __docker-buildimg-dummy

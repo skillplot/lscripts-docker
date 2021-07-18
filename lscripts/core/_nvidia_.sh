@@ -8,23 +8,23 @@
 ###----------------------------------------------------------
 
 
-function _nvidia_.get__vars() {
-  _log_.echo "NVIDIA_DRIVER_VER: ${bgre}${NVIDIA_DRIVER_VER}${nocolor}"
-  _log_.echo "NVIDIA_OS_ARCH: ${bgre}${NVIDIA_OS_ARCH}${nocolor}"
-  _log_.echo "NVIDIA_CUDA_REPO_KEY: ${bgre}${NVIDIA_CUDA_REPO_KEY}${nocolor}"
-  _log_.echo "NVIDIA_GPGKEY_SUM: ${bgre}${NVIDIA_GPGKEY_SUM}${nocolor}"
-  _log_.echo "NVIDIA_GPGKEY_FPR: ${bgre}${NVIDIA_GPGKEY_FPR}${nocolor}"
-  _log_.echo "NVIDIA_REPO_BASEURL: ${bgre}${NVIDIA_REPO_BASEURL}${nocolor}"
-  _log_.echo "NVIDIA_CUDA_REPO_BASEURL: ${bgre}${NVIDIA_CUDA_REPO_BASEURL}${nocolor}"
-  _log_.echo "NVIDIA_ML_REPO_BASEURL: ${bgre}${NVIDIA_ML_REPO_BASEURL}${nocolor}"
-  _log_.echo "NVIDIA_DRIVER_INSTALLED: ${bgre}${NVIDIA_DRIVER_INSTALLED}${nocolor}"
-  _log_.echo "NVIDIA_DOCKER_CUDA_REPO_URL: ${bgre}${NVIDIA_DOCKER_CUDA_REPO_URL}${nocolor}"
-  _log_.echo "NVIDIA_DOCKER_URL: ${bgre}${NVIDIA_DOCKER_URL}${nocolor}"
-  _log_.echo "NVIDIA_DOCKER_KEY_URL: ${bgre}${NVIDIA_DOCKER_KEY_URL}${nocolor}"
+function lsd-mod.nvidia.get__vars() {
+  lsd-mod.log.echo "NVIDIA_DRIVER_VER: ${bgre}${NVIDIA_DRIVER_VER}${nocolor}"
+  lsd-mod.log.echo "NVIDIA_OS_ARCH: ${bgre}${NVIDIA_OS_ARCH}${nocolor}"
+  lsd-mod.log.echo "NVIDIA_CUDA_REPO_KEY: ${bgre}${NVIDIA_CUDA_REPO_KEY}${nocolor}"
+  lsd-mod.log.echo "NVIDIA_GPGKEY_SUM: ${bgre}${NVIDIA_GPGKEY_SUM}${nocolor}"
+  lsd-mod.log.echo "NVIDIA_GPGKEY_FPR: ${bgre}${NVIDIA_GPGKEY_FPR}${nocolor}"
+  lsd-mod.log.echo "NVIDIA_REPO_BASEURL: ${bgre}${NVIDIA_REPO_BASEURL}${nocolor}"
+  lsd-mod.log.echo "NVIDIA_CUDA_REPO_BASEURL: ${bgre}${NVIDIA_CUDA_REPO_BASEURL}${nocolor}"
+  lsd-mod.log.echo "NVIDIA_ML_REPO_BASEURL: ${bgre}${NVIDIA_ML_REPO_BASEURL}${nocolor}"
+  lsd-mod.log.echo "NVIDIA_DRIVER_INSTALLED: ${bgre}${NVIDIA_DRIVER_INSTALLED}${nocolor}"
+  lsd-mod.log.echo "NVIDIA_DOCKER_CUDA_REPO_URL: ${bgre}${NVIDIA_DOCKER_CUDA_REPO_URL}${nocolor}"
+  lsd-mod.log.echo "NVIDIA_DOCKER_URL: ${bgre}${NVIDIA_DOCKER_URL}${nocolor}"
+  lsd-mod.log.echo "NVIDIA_DOCKER_KEY_URL: ${bgre}${NVIDIA_DOCKER_KEY_URL}${nocolor}"
 }
 
 
-function _nvidia_.get__cuda_vers() {
+function lsd-mod.nvidia.get__cuda_vers() {
   local ver
   declare -a cuda_vers=(`echo $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/../config/${LINUX_DISTRIBUTION}/cuda-cfg-[0-9]*.sh | grep -o -P "(\ *[0-9.]*sh)" | sed -r 's/\.sh//'`)
   # (>&2 echo -e "Total cuda_vers: ${#cuda_vers[@]}\n cuda_vers: ${cuda_vers[@]}")
@@ -35,7 +35,7 @@ function _nvidia_.get__cuda_vers() {
 }
 
 
-function _nvidia_.get__cuda_vers_avail() {
+function lsd-mod.nvidia.get__cuda_vers_avail() {
   local ver
   declare -a cuda_vers_avail=(`echo $(ls -d /usr/local/cuda-* | cut -d'-' -f2)`)
   # (>&2 echo -e "Total cuda_vers: ${#cuda_vers[@]}\n cuda_vers: ${cuda_vers[@]}")
@@ -46,19 +46,19 @@ function _nvidia_.get__cuda_vers_avail() {
 }
 
 
-function _nvidia_.get__driver_avail() {
+function lsd-mod.nvidia.get__driver_avail() {
   declare -a nvidia_driver_avail=($(apt-cache search nvidia-driver | grep -Eo "^nvidia-driver-[0-9]+\s" | cut -d'-' -f3 | sort))
   echo "${nvidia_driver_avail[@]}"
 }
 
 
-function _nvidia_.get__driver_info() {
+function lsd-mod.nvidia.get__driver_info() {
   ###----------------------------------------------------------
   ## After successful Nvidia Driver installation
   ## check version of Driver installed
   ###----------------------------------------------------------
 
-  _log_.info "Checking for version of Driver installed..."
+  lsd-mod.log.info "Checking for version of Driver installed..."
   nvidia-settings -q gpus
 
   # show all attributes
@@ -88,10 +88,10 @@ function _nvidia_.get__driver_info() {
 }
 
 
-function _nvidia_.get__gpu_stats() {
+function lsd-mod.nvidia.get__gpu_stats() {
   local _delay=$1
   [[ ! -z ${_delay} ]] || _delay=5
-  _log_.debug "_delay: ${_delay} seconds"
+  lsd-mod.log.debug "_delay: ${_delay} seconds"
 
   nvidia-smi -L
   # nvidia-smi -L | wc -l
@@ -123,7 +123,7 @@ function _nvidia_.get__gpu_stats() {
   # nvidia-smi -l 1
   # watch -n 1 nvidia-smi
 
-  #function _nvidia_.better-nvidia-smi () {
+  #function lsd-mod.nvidia.better-nvidia-smi () {
   #    nvidia-smi
   #    join -1 1 -2 3 \
   #        <(nvidia-smi --query-compute-apps=pid,used_memory \
@@ -137,7 +137,7 @@ function _nvidia_.get__gpu_stats() {
   #        | column -t
   #}
 
-  #_nvidia_.better-nvidia-smi
+  #lsd-mod.nvidia.better-nvidia-smi
 
 
   ## TBD: log gpustats
@@ -185,7 +185,7 @@ function _nvidia_.get__gpu_stats() {
 
   # >> /dev/null redirects standard output (stdout) to /dev/null, which discards it.
 
-  # 2>&1 redirects standard _log_.error (2) to standard output (1), which then discards it as well since standard output has already been redirected.
+  # 2>&1 redirects standard lsd-mod.log.error (2) to standard output (1), which then discards it as well since standard output has already been redirected.
 
   # & indicates a file descriptor. There are usually 3 file descriptors - standard input, output, and error.
 
@@ -227,11 +227,11 @@ function _nvidia_.get__gpu_stats() {
 }
 
 
-function _nvidia_.purge_cuda_stack() {
+function lsd-mod.nvidia.purge_cuda_stack() {
   local _que="Do you want to purge cuda stack"
-  _fio_.yes_or_no_loop "${_que}" && {
+  lsd-mod.fio.yes_or_no_loop "${_que}" && {
 
-    _log_.warn "purging cuda stack..."
+    lsd-mod.log.warn "purging cuda stack..."
 
     sudo apt -y --allow-change-held-packages remove 'cuda*' \
       'cudnn*' \
@@ -243,23 +243,23 @@ function _nvidia_.purge_cuda_stack() {
     sudo rm -rf /usr/local/cuda \
       /usr/local/cuda* 1>&2
     
-    _log_.ok "purging cuda stack... completed."
-  } || _log_.info "Skipping purging cuda stack."
+    lsd-mod.log.ok "purging cuda stack... completed."
+  } || lsd-mod.log.info "Skipping purging cuda stack."
 }
 
 
-function _nvidia_.purge_nvidia_stack() {
-  _log_.warn "purging nvidia driver and cuda, cudnn, tensorrt stack..."
+function lsd-mod.nvidia.purge_nvidia_stack() {
+  lsd-mod.log.warn "purging nvidia driver and cuda, cudnn, tensorrt stack..."
 
   sudo apt -y --allow-change-held-packages remove 'nvidia-*' \
     'nvidia*' 1>&2
 
-  _nvidia_.purge_cuda_stack
-  _log_.ok "purging nvidia stack... completed"
+  lsd-mod.nvidia.purge_cuda_stack
+  lsd-mod.log.ok "purging nvidia stack... completed"
 }
 
 
-function _nvidia_.update_alternatives_cuda() {
+function lsd-mod.nvidia.update_alternatives_cuda() {
   ###----------------------------------------------------------
   ## cuda multiple version configuration
   ## Alternative to update-alternative options is to create sym link
@@ -287,7 +287,7 @@ function _nvidia_.update_alternatives_cuda() {
   # fi
   ###----------------------------------------------------------
 
-  declare -a cuda_vers=($(_nvidia_.get__cuda_vers))
+  declare -a cuda_vers=($(lsd-mod.nvidia.get__cuda_vers))
   ## Todo: fix error
   # declare -a weights=($(seq 50 50 `echo (( ${#cuda_vers[@]}*100 ))`))
   declare -a weights=($(seq 50 50 500))

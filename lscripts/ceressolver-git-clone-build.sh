@@ -61,10 +61,10 @@ function __ceres_solver-build() {
 
   local URL="https://ceres-solver.googlesource.com/${DIR}"
 
-  _log_.info "Number of threads will be used: ${NUMTHREADS}"
-  _log_.info "BASEPATH: ${_LSD__EXTERNAL_HOME}"
-  _log_.info "URL: ${URL}"
-  _log_.info "PROG_DIR: ${PROG_DIR}"
+  lsd-mod.log.info "Number of threads will be used: ${NUMTHREADS}"
+  lsd-mod.log.info "BASEPATH: ${_LSD__EXTERNAL_HOME}"
+  lsd-mod.log.info "URL: ${URL}"
+  lsd-mod.log.info "PROG_DIR: ${PROG_DIR}"
 
   if [ ! -d ${PROG_DIR} ]; then
     git -C ${PROG_DIR} || git clone ${URL} ${PROG_DIR}
@@ -96,9 +96,9 @@ function __ceres_solver-build() {
   make -j${NUMTHREADS}
 
   [[ $? -eq 0 ]] && {
-    _log_.info "Installing..."
+    lsd-mod.log.info "Installing..."
     sudo make install -j${NUMTHREADS}
-  } || _log_.error "Build failed"
+  } || lsd-mod.log.error "Build failed"
 
   cd -
 }
@@ -109,12 +109,12 @@ function ceres_solver-install() {
   source ${LSCRIPTS}/lscripts.config.sh
   
   local scriptname=$(basename ${BASH_SOURCE[0]})
-  _log_.debug "executing script...: ${scriptname}"
+  lsd-mod.log.debug "executing script...: ${scriptname}"
 
   local _prog="ceres_solver"
 
-  _log_.info "Clone & compile ${_prog}..."
-  _log_.warn "sudo access is required to install the compiled code!"
+  lsd-mod.log.info "Clone & compile ${_prog}..."
+  lsd-mod.log.warn "sudo access is required to install the compiled code!"
 
   local _default=no
   local _que
@@ -122,13 +122,13 @@ function ceres_solver-install() {
 
   _que="Clone & compile ${_prog} now"
   _msg="Skipping ${_prog} clonning & compiling!"
-  _fio_.yesno_${_default} "${_que}" && {
-      _log_.echo "Installing pre-requisites..."
+  lsd-mod.fio.yesno_${_default} "${_que}" && {
+      lsd-mod.log.echo "Installing pre-requisites..."
       __${_prog}-pre_requisite
 
-      _log_.echo "Cloning & compiling..."
+      lsd-mod.log.echo "Cloning & compiling..."
       __${_prog}-build
-    } || _log_.echo "${_msg}"
+    } || lsd-mod.log.echo "${_msg}"
 
 }
 

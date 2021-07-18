@@ -15,7 +15,7 @@ categories: quick-start
   ```
 2. Put the following in the end of the `~/.bashrc` file. Change the path where you cloned the repo:
   ```bash
-  export LSCRIPTS_DOCKER="/<change_this_to_path_absolute_path>/lscripts-docker"
+  export LSCRIPTS_DOCKER="<change_this_to_path_absolute_path>/lscripts-docker"
   [ -f ${LSCRIPTS_DOCKER}/lscripts/lscripts.env.sh ] && source ${LSCRIPTS_DOCKER}/lscripts/lscripts.env.sh
   ```
 
@@ -26,11 +26,11 @@ categories: quick-start
   ```bash
   lsd-test.argparse
   lsd-test.cuda_config_supported
-  lsd-test._dir_
+  lsd-test.dir
   lsd-test.echo
-  lsd-test._fio_
-  lsd-test._log_
-  lsd-test._system_
+  lsd-test.fio
+  lsd-test.log
+  lsd-test.system
   ```
 
 
@@ -111,11 +111,11 @@ categories: quick-start
   ##
   lsd-test.argparse
   lsd-test.cuda_config_supported
-  lsd-test._dir_
+  lsd-test.dir
   lsd-test.echo
-  lsd-test._fio_
-  lsd-test._log_
-  lsd-test._system_
+  lsd-test.fio
+  lsd-test.log
+  lsd-test.system
   ##
   lsd-utils.date.get
   #
@@ -157,21 +157,42 @@ categories: quick-start
 
 This is used extensively to create alias for different namespace based commands. Though one can execute the script directly.
 
-* **Quick test: `_fio_.exec_cmd_test`**
+* **Quick test: `lsd-mod.fio.exec_cmd_test`**
   ```bash
   ## Test for executing any function from the lscripts framework
   ## key/value parameter passing (valid scenarios)
-  bash lscripts/exec_cmd.sh --cmd=_fio_.exec_cmd_test --name=blah --age=100
-  bash lscripts/exec_cmd.sh cmd=_fio_.exec_cmd_test name=blah --age=100
-  bash lscripts/exec_cmd.sh cmd=_fio_.exec_cmd_test --name=blah --age=100
+  bash lscripts/exec_cmd.sh --cmd=lsd-mod.fio.exec_cmd_test --name=blah --age=100
+  bash lscripts/exec_cmd.sh cmd=lsd-mod.fio.exec_cmd_test name=blah --age=100
+  bash lscripts/exec_cmd.sh cmd=lsd-mod.fio.exec_cmd_test --name=blah --age=100
   ```
 * **Test the Debugger and logger**
   ```bash
   ## execute debug module invoked from command line directly
-  bash lscripts/exec_cmd.sh --cmd=_fio_.debug_logger
+  bash lscripts/exec_cmd.sh --cmd=lsd-mod.fio.debug_logger
   ```
 * **Utility examples**
   ```bash
   ## NVIDIA gpu stats
   bash lscripts/exec_cmd.sh --cmd=_nvidia_.get__gpu_stats
+  ```
+
+## Other Configuration through environment variables
+
+
+* You can put the following in the end of the `~/.bashrc` file, to change the behavior of the `lscripts-docker`:
+  ```bash
+  ###True=1; False=0
+  export LSCRIPTS__DEBUG=1
+  ## [1]="CRITICAL"
+  ## [2]="ERROR"
+  ## [3]="WARNING"
+  ## [4]="INFO"
+  ## [5]="OK"
+  ## [6]="SUCCESS"
+  ## [7]="DEBUG"
+  ## [8]="STACKTRACE"
+  export LSCRIPTS__LOG_LEVEL=3
+  ## This is when requiring to build and compile external softwares
+  export LSCRIPTS__BASENAME="lscripts"
+  export LSCRIPTS__ROOT="<change_this_to_path_absolute_path>"
   ```

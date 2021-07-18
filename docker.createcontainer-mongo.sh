@@ -38,7 +38,7 @@ function __docker-createcontainer-mongo() {
 
   # ${DOCKER_CMD} start ${DOCKER_CONTAINER_NAME} 1>/dev/null
 
-  _log_.warn "Published ports are discarded when using host network mode!"
+  lsd-mod.log.warn "Published ports are discarded when using host network mode!"
 
   ${DOCKER_CMD} run -d -it \
     --name ${DOCKER_CONTAINER_NAME} \
@@ -55,8 +55,8 @@ function __docker-createcontainer-mongo() {
 
   xhost +local:`docker inspect --format='{{ .Config.Hostname }}' ${DOCKER_CONTAINER_NAME}`
 
-  _log_.success -e "Finished setting up ${DOCKER_CONTAINER_NAME} docker environment. Now you can enter with:\n source $(pwd)/docker.exec-aidev.sh ${DOCKER_CONTAINER_NAME}"
-  _log_.ok "Enjoy!"
+  lsd-mod.log.success -e "Finished setting up ${DOCKER_CONTAINER_NAME} docker environment. Now you can enter with:\n source $(pwd)/docker.exec-aidev.sh ${DOCKER_CONTAINER_NAME}"
+  lsd-mod.log.ok "Enjoy!"
 }
 
 function docker-createcontainer-mongo() {
@@ -64,10 +64,10 @@ function docker-createcontainer-mongo() {
   source ${LSCRIPTS}/lscripts/lscripts.config.sh
 
   local scriptname=$(basename ${BASH_SOURCE[0]})
-  _log_.debug "executing script...: ${scriptname}"
+  lsd-mod.log.debug "executing script...: ${scriptname}"
 
   source "${LSCRIPTS}/lscripts/docker-ce-verify.sh" &>/dev/null \
-    || _log_.fail "Dependency docker-ce-verify is not installed!\n Execute installer:\n\
+    || lsd-mod.log.fail "Dependency docker-ce-verify is not installed!\n Execute installer:\n\
             source ${LSCRIPTS}/lscripts/docker-ce-verify.sh"
 
   : ${1?
@@ -76,7 +76,7 @@ function docker-createcontainer-mongo() {
   }
 
   local DOCKER_BLD_CONTAINER_IMG="$1"
-  _log_.info "Using DOCKER_BLD_CONTAINER_IMG: ${DOCKER_BLD_CONTAINER_IMG}"
+  lsd-mod.log.info "Using DOCKER_BLD_CONTAINER_IMG: ${DOCKER_BLD_CONTAINER_IMG}"
 
   local _default=yes
   local _que
@@ -87,10 +87,10 @@ function docker-createcontainer-mongo() {
 
   _que="Create container using ${_prog} now"
   _msg="Skipping ${_prog} container creation!"
-  _fio_.yesno_${_default} "${_que}" && \
-      _log_.echo "Creating container..." && \
+  lsd-mod.fio.yesno_${_default} "${_que}" && \
+      lsd-mod.log.echo "Creating container..." && \
       __${_prog} ${DOCKER_BLD_CONTAINER_IMG} \
-    || _log_.echo "${_msg}"
+    || lsd-mod.log.echo "${_msg}"
 }
 
 docker-createcontainer-mongo "$@"

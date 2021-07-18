@@ -22,27 +22,27 @@
 # }
 
 function python-virtualenvwrapper-uninstall() {
-  _log_.warn "python-virtualenvwrapper uninstallion not allowed through this script!"
+  lsd-mod.log.warn "python-virtualenvwrapper uninstallion not allowed through this script!"
   return -1
 }
 
 
 function __python-virtualenvwrapper-getconfig_file() {
   local __PY_VIRTUALENVWRAPPER
-  _log_.debug "/usr/local/bin/${_LSD__PY_VIRTUALENVWRAPPER}"
+  lsd-mod.log.debug "/usr/local/bin/${_LSD__PY_VIRTUALENVWRAPPER}"
   {
     ls -1 "/usr/local/bin/${_LSD__PY_VIRTUALENVWRAPPER}" &>/dev/null && __PY_VIRTUALENVWRAPPER="/usr/local/bin/${_LSD__PY_VIRTUALENVWRAPPER}"
   } || {
     ls -1 "${HOME}/.local/bin/${_LSD__PY_VIRTUALENVWRAPPER}" &>/dev/null && __PY_VIRTUALENVWRAPPER="${HOME}/.local/bin/${_LSD__PY_VIRTUALENVWRAPPER}"
   }
-  _log_.debug "__PY_VIRTUALENVWRAPPER: ${__PY_VIRTUALENVWRAPPER}"
+  lsd-mod.log.debug "__PY_VIRTUALENVWRAPPER: ${__PY_VIRTUALENVWRAPPER}"
 
   echo ${__PY_VIRTUALENVWRAPPER}
 }
 
 
 function python-virtualenvwrapper-test() {
-  _log_.warn "Testing Usage and Installation: "
+  lsd-mod.log.warn "Testing Usage and Installation: "
 
   local pyVer=$1
   local PYTHON
@@ -52,60 +52,60 @@ function python-virtualenvwrapper-test() {
 
   local __pyVer=$(${PYTHON} -c 'import sys; print("-".join(map(str, sys.version_info[:3])))')
   local py_env_name="test_${__pyVer}_$(date -d now +'%d%m%y_%H%M%S')"
-  _log_.debug "Creating...py_env_name: ${py_env_name}"
+  lsd-mod.log.debug "Creating...py_env_name: ${py_env_name}"
 
-  _log_.debug "_LSD__PYVENV_PATH: ${_LSD__PYVENV_PATH}"
+  lsd-mod.log.debug "_LSD__PYVENV_PATH: ${_LSD__PYVENV_PATH}"
   [[ -d ${_LSD__PYVENV_PATH} ]] || {
-    _log_.info "_LSD__PYVENV_PATH Does not exists: ${_LSD__PYVENV_PATH}"
+    lsd-mod.log.info "_LSD__PYVENV_PATH Does not exists: ${_LSD__PYVENV_PATH}"
 
     local _que="Do you want to Create _LSD__PYVENV_PATH: ${_LSD__PYVENV_PATH}"
     local _msg="Skipping _LSD__PYVENV_PATH creation!"
-    _fio_.yesno_yes "${_que}" && {
-      _log_.echo "Creating _LSD__PYVENV_PATH..."
+    lsd-mod.fio.yesno_yes "${_que}" && {
+      lsd-mod.log.echo "Creating _LSD__PYVENV_PATH..."
       mkdir -p ${_LSD__PYVENV_PATH}
-    } || _log_.echo "${_msg}"
+    } || lsd-mod.log.echo "${_msg}"
   }
 
   [[ -d ${_LSD__PYVENV_PATH} ]] && {
     export WORKON_HOME=${_LSD__PYVENV_PATH}
     __PY_VIRTUALENVWRAPPER=$(__python-virtualenvwrapper-getconfig_file)
-    _log_.debug "__PY_VIRTUALENVWRAPPER: ${__PY_VIRTUALENVWRAPPER}"
+    lsd-mod.log.debug "__PY_VIRTUALENVWRAPPER: ${__PY_VIRTUALENVWRAPPER}"
     source "${__PY_VIRTUALENVWRAPPER}"
 
-    _log_.info "Creating py_env_name: ${py_env_name} folder inside: ${_LSD__PYVENV_PATH}"
+    lsd-mod.log.info "Creating py_env_name: ${py_env_name} folder inside: ${_LSD__PYVENV_PATH}"
     ## creates the my_project folder inside ${_LSD__PYVENV_PATH}
     mkvirtualenv -p $(which ${PYTHON}) ${py_env_name} &>/dev/null && {
-      _log_.info "lsvirtualenv: ## List all of the environments."
+      lsd-mod.log.info "lsvirtualenv: ## List all of the environments."
       lsvirtualenv
     
-      _log_.info "cdvirtualenv: ## Navigate into the directory of the currently activated virtual environment, so you can browse its site-packages."
+      lsd-mod.log.info "cdvirtualenv: ## Navigate into the directory of the currently activated virtual environment, so you can browse its site-packages."
       cdvirtualenv
     
-      _log_.info "cdsitepackages: ## Like the above, but directly into site-packages directory."
+      lsd-mod.log.info "cdsitepackages: ## Like the above, but directly into site-packages directory."
       cdsitepackages
     
-      _log_.info "lssitepackages: ## Shows contents of site-packages directory."
+      lsd-mod.log.info "lssitepackages: ## Shows contents of site-packages directory."
       lssitepackages
       #
-      _log_.info "workon <py_env_name>: ## workon also deactivates whatever environment you are currently in, so you can quickly switch between environments."
-      _log_.info "workon ${py_env_name}"
+      lsd-mod.log.info "workon <py_env_name>: ## workon also deactivates whatever environment you are currently in, so you can quickly switch between environments."
+      lsd-mod.log.info "workon ${py_env_name}"
       workon ${py_env_name}
       ##
-      _log_.info "deactivate: ## Deactivates whatever environment you are currently in."
+      lsd-mod.log.info "deactivate: ## Deactivates whatever environment you are currently in."
       deactivate
       #
       ## Rename
       ## https://stackoverflow.com/questions/9540040/rename-an-environment-with-virtualenvwrapper
-      _log_.info "cpvirtualenv <py_env_name> new_<py_env_name>: ## copy the virtualenv environment. Used as workaround for renaming."
+      lsd-mod.log.info "cpvirtualenv <py_env_name> new_<py_env_name>: ## copy the virtualenv environment. Used as workaround for renaming."
       cpvirtualenv ${py_env_name} new_${py_env_name}
       deactivate
       rmvirtualenv ${py_env_name}
     
       ## Remove
-      _log_.info "rmvirtualenv new_<py_env_name>: ## Removes the virtualenv environment."
+      lsd-mod.log.info "rmvirtualenv new_<py_env_name>: ## Removes the virtualenv environment."
       rmvirtualenv new_${py_env_name}
-    } || _log_.error "python virtualenvwrapper is not installed / configured properly. check: WORKON_HOME: ${WORKON_HOME}"
-  } || _log_.error "_LSD__PYVENV_PATH does not exists: ${_LSD__PYVENV_PATH}"
+    } || lsd-mod.log.error "python virtualenvwrapper is not installed / configured properly. check: WORKON_HOME: ${WORKON_HOME}"
+  } || lsd-mod.log.error "_LSD__PYVENV_PATH does not exists: ${_LSD__PYVENV_PATH}"
 }
 
 
@@ -117,67 +117,67 @@ function python-virtualenvwrapper-create() {
   PYTHON=python${pyVer}
 
   local __pyVer=$(${PYTHON} -c 'import sys; print("-".join(map(str, sys.version_info[:3])))')
-  # local _timestamp=$(_date_.get__timestamp)
+  # local _timestamp=$(lsd-mod.date.get__timestamp)
   # local _timestamp="$(date -d now +'%d%m%y_%H%M%S')"
   local py_env_name="py_${__pyVer}_$(date -d now +'%d%m%y_%H%M%S')"
-  _log_.debug "Creating...py_env_name: ${py_env_name}"
+  lsd-mod.log.debug "Creating...py_env_name: ${py_env_name}"
 
-  _log_.debug "_LSD__PYVENV_PATH: ${_LSD__PYVENV_PATH}"
-  [[ -d ${_LSD__PYVENV_PATH} ]] || _log_.fail "Does not exists _LSD__PYVENV_PATH: ${_LSD__PYVENV_PATH}"
+  lsd-mod.log.debug "_LSD__PYVENV_PATH: ${_LSD__PYVENV_PATH}"
+  [[ -d ${_LSD__PYVENV_PATH} ]] || lsd-mod.log.fail "Does not exists _LSD__PYVENV_PATH: ${_LSD__PYVENV_PATH}"
 
   export WORKON_HOME=${_LSD__PYVENV_PATH}
   __PY_VIRTUALENVWRAPPER=$(__python-virtualenvwrapper-getconfig_file)
-  _log_.debug "__PY_VIRTUALENVWRAPPER: ${__PY_VIRTUALENVWRAPPER}"
+  lsd-mod.log.debug "__PY_VIRTUALENVWRAPPER: ${__PY_VIRTUALENVWRAPPER}"
   source "${__PY_VIRTUALENVWRAPPER}"
 
   local _cmd='lsvirtualenv'
   type ${_cmd} &>/dev/null && {
     lsvirtualenv | grep ${py_env_name}
     [[ $? -eq 0 ]] || {
-      _log_.warn "Creating: ${py_env_name} folder inside: ${_LSD__PYVENV_PATH}"
-      mkvirtualenv -p $(which ${PYTHON}) ${py_env_name} &>/dev/null && workon ${py_env_name} || _log_.error "Internal _log_.error in mkvirtualenv!"
+      lsd-mod.log.warn "Creating: ${py_env_name} folder inside: ${_LSD__PYVENV_PATH}"
+      mkvirtualenv -p $(which ${PYTHON}) ${py_env_name} &>/dev/null && workon ${py_env_name} || lsd-mod.log.error "Internal lsd-mod.log.error in mkvirtualenv!"
     }
   } 1>&2 || {
-    _log_.error "${_cmd} not installed or corrupted!"
+    lsd-mod.log.error "${_cmd} not installed or corrupted!"
     return -1
   }
 }
 
 function python-virtualenvwrapper-config() {
-  [[ -f ${USER_BASHRC_FILE} ]] || _log_.fail "File does not exits,USER_BASHRC_FILE: ${USER_BASHRC_FILE}"
+  [[ -f ${USER_BASHRC_FILE} ]] || lsd-mod.log.fail "File does not exits,USER_BASHRC_FILE: ${USER_BASHRC_FILE}"
 
   local LINE
   LINE="export WORKON_HOME=${_LSD__PYVENV_PATH}"
-  _fio_.inject_in_file --file="${USER_BASHRC_FILE}" --line="${LINE}"
+  lsd-mod.fio.inject_in_file --file="${USER_BASHRC_FILE}" --line="${LINE}"
 
   __PY_VIRTUALENVWRAPPER=$(__python-virtualenvwrapper-getconfig_file)
-  _log_.debug "__PY_VIRTUALENVWRAPPER: ${__PY_VIRTUALENVWRAPPER}"
+  lsd-mod.log.debug "__PY_VIRTUALENVWRAPPER: ${__PY_VIRTUALENVWRAPPER}"
   LINE="source ${__PY_VIRTUALENVWRAPPER}"
-  _fio_.inject_in_file --file="${USER_BASHRC_FILE}" --line="${LINE}"
+  lsd-mod.fio.inject_in_file --file="${USER_BASHRC_FILE}" --line="${LINE}"
 
   source ${USER_BASHRC_FILE}
 }
 
 function __python-virtualenvwrapper-install() {
-  [[ -f ${USER_BASHRC_FILE} ]] || _log_.fail "File does not exits,USER_BASHRC_FILE: ${USER_BASHRC_FILE}"
+  [[ -f ${USER_BASHRC_FILE} ]] || lsd-mod.log.fail "File does not exits,USER_BASHRC_FILE: ${USER_BASHRC_FILE}"
 
   local pyVer=$1
   local PYTHON
 
   PYTHON=python${pyVer}
 
-  _log_.info "Installing virtualenv and virtualenvwrapper..."
+  lsd-mod.log.info "Installing virtualenv and virtualenvwrapper..."
   ${PYTHON} -m pip install setuptools wheel
   ${PYTHON} -m pip install virtualenv virtualenvwrapper
 
   ${PYTHON} -m virtualenv --version
 
-  _log_.info "Creating _LSD__VM_HOME: ${_LSD__VM_HOME} and _LSD__PYVENV_PATH: ${_LSD__PYVENV_PATH}"
+  lsd-mod.log.info "Creating _LSD__VM_HOME: ${_LSD__VM_HOME} and _LSD__PYVENV_PATH: ${_LSD__PYVENV_PATH}"
 
-  [[ ! -z ${_LSD__VM_HOME} ]] && sudo mkdir -p ${_LSD__VM_HOME} &>/dev/null  || _log_.fail "Unable to create _LSD__VM_HOME: ${_LSD__VM_HOME}"
+  [[ ! -z ${_LSD__VM_HOME} ]] && sudo mkdir -p ${_LSD__VM_HOME} &>/dev/null  || lsd-mod.log.fail "Unable to create _LSD__VM_HOME: ${_LSD__VM_HOME}"
 
   [[ ! -z ${USR} ]] && [[ ! -z ${GRP} ]] && \
-    sudo chown ${USR}:${GRP} ${_LSD__VM_HOME} &>/dev/null || _log_.fail "Unable to set permission _LSD__VM_HOME: ${_LSD__VM_HOME}"
+    sudo chown ${USR}:${GRP} ${_LSD__VM_HOME} &>/dev/null || lsd-mod.log.fail "Unable to set permission _LSD__VM_HOME: ${_LSD__VM_HOME}"
 }
 
 function python-virtualenvwrapper-install.main() {
@@ -185,46 +185,46 @@ function python-virtualenvwrapper-install.main() {
   source ${LSCRIPTS}/lscripts.config.sh
   
   local scriptname=$(basename ${BASH_SOURCE[0]})
-  _log_.debug "executing script...: ${scriptname}"
+  lsd-mod.log.debug "executing script...: ${scriptname}"
 
   local _prog="python-virtualenvwrapper"
 
-  _log_.info "Install ${_prog}..."
-  _log_.warn "sudo access is required!"
+  lsd-mod.log.info "Install ${_prog}..."
+  lsd-mod.log.warn "sudo access is required!"
 
   local _default=no
   local _que
   local _msg
 
-  [[ ! -z $1 ]] && pyVer=$1 && _log_.info "pyVer: ${pyVer}"
+  [[ ! -z $1 ]] && pyVer=$1 && lsd-mod.log.info "pyVer: ${pyVer}"
 
   _que="Install ${_prog} now"
   _msg="Skipping ${_prog} installation!"
-  _fio_.yesno_${_default} "${_que}" && {
-      _log_.echo "Installing..."
+  lsd-mod.fio.yesno_${_default} "${_que}" && {
+      lsd-mod.log.echo "Installing..."
       __${_prog}-install ${pyVer}
-  } || _log_.echo "${_msg}"
+  } || lsd-mod.log.echo "${_msg}"
 
   _que="Configure ${_prog} now (recommended)"
   _msg="Skipping ${_prog} configuration. This is critical for proper ${_prog} working!"
-  _fio_.yesno_${_default} "${_que}" && {
-      _log_.echo "Configuring..."
+  lsd-mod.fio.yesno_${_default} "${_que}" && {
+      lsd-mod.log.echo "Configuring..."
       ${_prog}-config
-    } || _log_.echo "${_msg}"
+    } || lsd-mod.log.echo "${_msg}"
 
   _que="Test creation of python virtualenv now"
   _msg="Skipping testing!"
-  _fio_.yesno_${_default} "${_que}" && {
-      _log_.echo "Testing..."
+  lsd-mod.fio.yesno_${_default} "${_que}" && {
+      lsd-mod.log.echo "Testing..."
       ${_prog}-test ${pyVer}
-  } || _log_.echo "${_msg}"
+  } || lsd-mod.log.echo "${_msg}"
 
   _que="Create python virtualenv now"
   _msg="Skipping python virtualenv creation!"
-  _fio_.yesno_yes "${_que}" && {
-    _log_.echo "Creating..."
+  lsd-mod.fio.yesno_yes "${_que}" && {
+    lsd-mod.log.echo "Creating..."
     ${_prog}-create ${pyVer}
-  } || _log_.echo "${_msg}"
+  } || lsd-mod.log.echo "${_msg}"
 
 }
 

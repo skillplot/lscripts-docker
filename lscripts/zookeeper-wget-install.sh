@@ -22,19 +22,19 @@
 
 
 function zookeeper-uninstall() {
-  _log_.info "_prog: ${_prog}-uninstall"
+  lsd-mod.log.info "_prog: ${_prog}-uninstall"
 }
 
 
 function zookeeper-config() {
-  _log_.info "_prog: ${_prog}-config"
+  lsd-mod.log.info "_prog: ${_prog}-config"
 
   [[ ! -L ${_LSD__EXTERNAL_HOME}/${PROG} ]] && ln -s ${PROG_DIR} ${_LSD__EXTERNAL_HOME}/${PROG}
 
-  ls -l ${_LSD__EXTERNAL_HOME}/${PROG} || _log_.fail "Installation does not exists: ${_LSD__EXTERNAL_HOME}/${PROG}"
+  ls -l ${_LSD__EXTERNAL_HOME}/${PROG} || lsd-mod.log.fail "Installation does not exists: ${_LSD__EXTERNAL_HOME}/${PROG}"
 
-  _log_.info " username=${ZOOKEEPER_USERNAME} groupname=${ZOOKEEPER_GROUPNAME}"
-  _system_.create_nologin_user --username=${ZOOKEEPER_USERNAME} --groupname=${ZOOKEEPER_GROUPNAME}
+  lsd-mod.log.info " username=${ZOOKEEPER_USERNAME} groupname=${ZOOKEEPER_GROUPNAME}"
+  lsd-mod.system.create_nologin_user --username=${ZOOKEEPER_USERNAME} --groupname=${ZOOKEEPER_GROUPNAME}
   # su -l ${ZOOKEEPER_USERNAME}
 
   sudo chown -R ${ZOOKEEPER_USERNAME}:${ZOOKEEPER_GROUPNAME} ${PROG_DIR}
@@ -44,7 +44,7 @@ function zookeeper-config() {
 
 
 function __zookeeper-install() {
-  _log_.info "_prog: ${_prog}-install"
+  lsd-mod.log.info "_prog: ${_prog}-install"
   echo "Number of threads will be used: ${NUMTHREADS}"
   echo "BASEPATH: ${_LSD__EXTERNAL_HOME}"
   echo "URL: ${URL}"
@@ -60,14 +60,14 @@ function zookeeper-wget-install.main() {
   source ${LSCRIPTS}/lscripts.config.sh
   
   local scriptname=$(basename ${BASH_SOURCE[0]})
-  _log_.debug "executing script...: ${scriptname}"
+  lsd-mod.log.debug "executing script...: ${scriptname}"
 
   source ${LSCRIPTS}/partials/basepath.sh
 
   local _prog="zookeeper"
 
-  _log_.info "Install ${_prog}..."
-  _log_.warn "sudo access is required!"
+  lsd-mod.log.info "Install ${_prog}..."
+  lsd-mod.log.warn "sudo access is required!"
 
   local _default=no
   local _que
@@ -97,26 +97,26 @@ function zookeeper-wget-install.main() {
 
   _que="Install ${_prog} now"
   _msg="Skipping ${_prog} installation!"
-  _fio_.yesno_${_default} "${_que}" && \
-      _log_.echo "Installing..." && \
+  lsd-mod.fio.yesno_${_default} "${_que}" && \
+      lsd-mod.log.echo "Installing..." && \
       __${_prog}-install \
-    || _log_.echo "${_msg}"
+    || lsd-mod.log.echo "${_msg}"
 
 
   _que="Configure ${_prog} now (recommended)"
   _msg="Skipping ${_prog} configuration. This is critical for proper python environment working!"
-  _fio_.yesno_no "${_que}" && \
-      _log_.echo "Configuring..." && \
+  lsd-mod.fio.yesno_no "${_que}" && \
+      lsd-mod.log.echo "Configuring..." && \
       ${_prog}-config \
-    || _log_.echo "${_msg}"
+    || lsd-mod.log.echo "${_msg}"
 
 
   _que="Verify ${_prog} now"
   _msg="Skipping ${_prog} verification!"
-  _fio_.yesno_${_default} "${_que}" && {
-      _log_.echo "Verifying..."
+  lsd-mod.fio.yesno_${_default} "${_que}" && {
+      lsd-mod.log.echo "Verifying..."
       source "${LSCRIPTS}/${_prog}-verify.sh" --home=${ZOOKEEPER_HOME} --username=${ZOOKEEPER_USERNAME}
-    } || _log_.echo "${_msg}"
+    } || lsd-mod.log.echo "${_msg}"
 }
 
 zookeeper-wget-install.main "$@"

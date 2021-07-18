@@ -15,25 +15,25 @@ function kafka-verify.main() {
   source ${LSCRIPTS}/kafka-utils.sh
   source ${LSCRIPTS}/core/argparse.sh "$@"
 
-  [[ "$#" -ne "2" ]] && _log_.fail "Invalid number of paramerters: required 2 given $#"
+  [[ "$#" -ne "2" ]] && lsd-mod.log.fail "Invalid number of paramerters: required 2 given $#"
   [[ -n "${args['home']+1}" ]] && [[ -n "${args['username']+1}" ]] && {
     # (>&2 echo -e "key: 'username' exists")
     local KAFKA_HOME="${args['home']}"
     local KAFKA_USERNAME="${args['username']}"
     local KAFKA_CONFIG=${LSCRIPTS}/config/kafka/server.properties
 
-    _log_.info "KAFKA_HOME: ${KAFKA_HOME}"
-    _log_.info "KAFKA_USERNAME: ${KAFKA_USERNAME}"
-    _log_.info "KAFKA_CONFIG: ${KAFKA_CONFIG}"
+    lsd-mod.log.info "KAFKA_HOME: ${KAFKA_HOME}"
+    lsd-mod.log.info "KAFKA_USERNAME: ${KAFKA_USERNAME}"
+    lsd-mod.log.info "KAFKA_CONFIG: ${KAFKA_CONFIG}"
 
     # su -l ${KAFKA_USERNAME}
 
-    _log_.info "Starting kafka..."
+    lsd-mod.log.info "Starting kafka..."
     __kafka-start ${KAFKA_HOME} ${KAFKA_CONFIG}
 
     [[ -f ${KAFKA_HOME}/bin/kafka-topics.sh ]] || (fail "File does not exists: ${KAFKA_HOME}/bin/kafka-topics.sh" && return -1)
-    # [[ -f ${KAFKA_HOME}/bin/kafka-console-producer.sh ]] || _log_.fail "File does not exists: ${KAFKA_HOME}/bin/kafka-console-producer.sh"
-    # [[ -f ${KAFKA_HOME}/bin/kafka-console-consumer.sh ]] || _log_.fail "File does not exists: ${KAFKA_HOME}/bin/kafka-console-consumer.sh"
+    # [[ -f ${KAFKA_HOME}/bin/kafka-console-producer.sh ]] || lsd-mod.log.fail "File does not exists: ${KAFKA_HOME}/bin/kafka-console-producer.sh"
+    # [[ -f ${KAFKA_HOME}/bin/kafka-console-consumer.sh ]] || lsd-mod.log.fail "File does not exists: ${KAFKA_HOME}/bin/kafka-console-consumer.sh"
 
     ## 1. First, create a topic named TutorialTopic by typing:
     ${KAFKA_HOME}/bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic TutorialTopic
@@ -47,12 +47,12 @@ function kafka-verify.main() {
     ## When you are done testing, press CTRL+C to stop the consumer script. 
     ${KAFKA_HOME}/bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic TutorialTopic --from-beginning
 
-    _log_.info "Stopping kafka..."
+    lsd-mod.log.info "Stopping kafka..."
     __kafka-stop ${KAFKA_HOME}
 
     return 0
   } || {
-    _log_.error "Invalid paramerters!"
+    lsd-mod.log.error "Invalid paramerters!"
     return -1
   }
 }

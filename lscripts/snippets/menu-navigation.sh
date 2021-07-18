@@ -17,7 +17,7 @@ cyan_stop="\033[0m"
 
 #1. Display a menu. 
 #2. Get the user's menu pick. 
-#3. Check that the pick is valid and if not, display an _log_.error message and return to step 1. 
+#3. Check that the pick is valid and if not, display an lsd-mod.log.error message and return to step 1. 
 #4. If the user's menu pick is to exit, then exit. 
 #5. Otherwise, execute the command(s) associated with the menu pick. 
 #6. Loop back to step 1. 

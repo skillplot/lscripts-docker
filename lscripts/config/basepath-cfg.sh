@@ -27,6 +27,9 @@
 # local _LSD__WWW_LOGS=""
 # local _LSD__IS_TIMESTAMP_DATA_DIR=""
 ##
+#
+## References:
+## https://stackoverflow.com/questions/19724531/how-to-remove-all-non-numeric-characters-from-a-string-in-bash
 ###----------------------------------------------------------
 
 
@@ -35,7 +38,14 @@ local _LSD__ROOT="${LSCRIPTS__ROOT}"
 declare -A _LSD__ENVVARS=()
 ##----
 [[ ! -z "${_LSD__BASENAME}" ]] || _LSD__BASENAME="lscripts"
-[[ ! -z "${_LSD__ROOT}" ]] || _LSD__ROOT="/${_LSD__BASENAME}-hub"
+[[ ! -z "${_LSD__ROOT}" ]] || _LSD__ROOT="/codehub"
+# [[ ! -z "${_LSD__ROOT}" ]] || _LSD__ROOT="${HOME}"
+
+## only alpha-numeric values are allowed
+_LSD__BASENAME=$(tr -dc '0-9a-zA-Z' <<< "${_LSD__BASENAME}")
+_LSD__ROOT=${_LSD__ROOT%/}
+_LSD__ROOT="${_LSD__ROOT}/${_LSD__BASENAME}"
+
 ##----
 local _LSD__HOME="${_LSD__ROOT}/${_LSD__BASENAME}"
 ##----
@@ -58,6 +68,13 @@ local _LSD__WWW_HOME="${LSCRIPTS__WWW_HOME}"
 local _LSD__DOWNLOADS_HOME="${LSCRIPTS__DOWNLOADS}"
 local _LSD__EXTERNAL_HOME="${LSCRIPTS__EXTERNAL_HOME}"
 ##----
+local _LSD__BIN_HOME
+local _LSD__CONFIG_HOME
+local _LSD__DATA_HOME
+local _LSD__LOGS_HOME
+local _LSD__MOBILE_HOME
+local _LSD__TMP_HOME
+#
 [[ ! -z "${_LSD__BIN_HOME}" ]] || _LSD__BIN_HOME="${_LSD__HOME}/bin"
 [[ ! -z "${_LSD__CONFIG_HOME}" ]] || _LSD__CONFIG_HOME="${_LSD__HOME}/config"
 [[ ! -z "${_LSD__DATA_HOME}" ]] || _LSD__DATA_HOME="${_LSD__HOME}/data"
@@ -179,12 +196,14 @@ declare -a _LSD__OS_DIRS=(
   "lib"
   "src"
   "doc"
+  "external"
   "locale"
   "include"
   "home"
   "dev"
   "mnt"
   "tmp"
+  ".trash"
   "bin"
   "etc"
   "share"
@@ -192,6 +211,7 @@ declare -a _LSD__OS_DIRS=(
   "cache"
   "crash"
   "lock"
+  "spool"
   "spool"
 )
 

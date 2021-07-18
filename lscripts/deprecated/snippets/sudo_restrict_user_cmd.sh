@@ -29,7 +29,7 @@ function sudo_restrict_user_cmd() {
 
   local key
   for key in "${!args[@]}"; do
-    [[ -n "${args[${key}]+1}" ]] && _log_.echo "${key} = ${args[${key}]}" || _log_.error "Key does not exists: ${key}"
+    [[ -n "${args[${key}]+1}" ]] && lsd-mod.log.echo "${key} = ${args[${key}]}" || lsd-mod.log.error "Key does not exists: ${key}"
   done
 
   local username
@@ -61,7 +61,7 @@ function sudo_restrict_user_cmd() {
 
       ## add system user to the secondary group, if it is not already added
       getent group | grep $(id -un) | grep ${groupname} &> /dev/null || {
-        sudo usermod -aG ${groupname} $(id -un) && _log_.echo "Successfully created system user"
+        sudo usermod -aG ${groupname} $(id -un) && lsd-mod.log.echo "Successfully created system user"
         cat /etc/passwd | grep ${username}
       }
 

@@ -67,7 +67,7 @@
 
 function git.repoviz._exec() {
   # echo "$(date -d now +'%d%m%y_%H%M%S')"
-  local _timestamp=$(_date_.get__timestamp_millisec)
+  local _timestamp=$(lsd-mod.date.get__timestamp_millisec)
   echo "${_timestamp}"
   gource -s 2 -a 1 ./ -1920x1080 -o - | \
     ffmpeg -y -r 60 -f image2pipe -vcodec ppm -i - -vcodec libx264 -preset ultrafast -pix_fmt yuv420p -crf 23 -threads 0 -bf 0 gource-${_timestamp}.mp4
@@ -79,12 +79,12 @@ function git.repoviz.main() {
   source ${LSCRIPTS}/../lscripts.config.sh
   
   local _cmd="gource"
-  _log_.info "Verifying ${_cmd} installation..."
-  type ${_cmd} &>/dev/null || _log_.fail "${_cmd} not installed or corrupted!"
+  lsd-mod.log.info "Verifying ${_cmd} installation..."
+  type ${_cmd} &>/dev/null || lsd-mod.log.fail "${_cmd} not installed or corrupted!"
   
   _cmd="ffmpeg"
-  _log_.info "Verifying ${_cmd} installation..."
-  type ${_cmd} &>/dev/null || _log_.fail "${_cmd} not installed or corrupted!"
+  lsd-mod.log.info "Verifying ${_cmd} installation..."
+  type ${_cmd} &>/dev/null || lsd-mod.log.fail "${_cmd} not installed or corrupted!"
 
   git.repoviz._exec
 }

@@ -79,9 +79,21 @@ function qgis3-addrepo() {
 function qgis3-apt-install.main() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
   source ${LSCRIPTS}/lscripts.config.sh
+  
+  local scriptname=$(basename ${BASH_SOURCE[0]})
+  lsd-mod.log.debug "executing script...: ${scriptname}"
 
-  ### Uninstall.
-  ## todo
+  local _prog="qgis3"
+
+  lsd-mod.log.info "Install ${_prog}..."
+  lsd-mod.log.warn "sudo access is required!"
+
+  local _default=no
+  local _que
+  local _msg
+
+  lsd-mod.log.info "Install ${_prog}..."
+  lsd-mod.log.warn "sudo access is required!"
 
   qgis3-addrepo
 

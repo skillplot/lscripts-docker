@@ -7,44 +7,44 @@
 ###----------------------------------------------------------
 
 
-function _system_.get__vars() {
+function lsd-mod.system.get__vars() {
   # local nocolor='\e[0m';
   # local bgre='\e[1;32m';
 
-  _log_.echo "NUMTHREADS: ${bgre}${NUMTHREADS}${nocolor}"
-  _log_.echo "MACHINE_ARCH: ${bgre}${MACHINE_ARCH}${nocolor}"
-  _log_.echo "USER_ID: ${bgre}${USER_ID}${nocolor}"
-  _log_.echo "GRP_ID: ${bgre}${GRP_ID}${nocolor}"
-  _log_.echo "USR: ${bgre}${USR}${nocolor}"
-  _log_.echo "GRP: ${bgre}${GRP}${nocolor}"
-  _log_.echo "LOCAL_HOST: ${bgre}${LOCAL_HOST}${nocolor}"
-  _log_.echo "OSTYPE: ${bgre}${OSTYPE}${nocolor}"
-  _log_.echo "OS_ARCH: ${bgre}${OS_ARCH}${nocolor}"
-  _log_.echo "OS_ARCH_BIT: ${bgre}${OS_ARCH_BIT}${nocolor}"
-  _log_.echo "LINUX_VERSION: ${bgre}${LINUX_VERSION}${nocolor}"
-  _log_.echo "LINUX_CODE_NAME: ${bgre}${LINUX_CODE_NAME}${nocolor}"
-  _log_.echo "LINUX_ID: ${bgre}${LINUX_ID}${nocolor}"
-  _log_.echo "LINUX_DISTRIBUTION: ${bgre}${LINUX_DISTRIBUTION}${nocolor}"
-  _log_.echo "LINUX_DISTRIBUTION_TR: ${bgre}${LINUX_DISTRIBUTION_TR}${nocolor}"
+  lsd-mod.log.echo "NUMTHREADS: ${bgre}${NUMTHREADS}${nocolor}"
+  lsd-mod.log.echo "MACHINE_ARCH: ${bgre}${MACHINE_ARCH}${nocolor}"
+  lsd-mod.log.echo "USER_ID: ${bgre}${USER_ID}${nocolor}"
+  lsd-mod.log.echo "GRP_ID: ${bgre}${GRP_ID}${nocolor}"
+  lsd-mod.log.echo "USR: ${bgre}${USR}${nocolor}"
+  lsd-mod.log.echo "GRP: ${bgre}${GRP}${nocolor}"
+  lsd-mod.log.echo "LOCAL_HOST: ${bgre}${LOCAL_HOST}${nocolor}"
+  lsd-mod.log.echo "OSTYPE: ${bgre}${OSTYPE}${nocolor}"
+  lsd-mod.log.echo "OS_ARCH: ${bgre}${OS_ARCH}${nocolor}"
+  lsd-mod.log.echo "OS_ARCH_BIT: ${bgre}${OS_ARCH_BIT}${nocolor}"
+  lsd-mod.log.echo "LINUX_VERSION: ${bgre}${LINUX_VERSION}${nocolor}"
+  lsd-mod.log.echo "LINUX_CODE_NAME: ${bgre}${LINUX_CODE_NAME}${nocolor}"
+  lsd-mod.log.echo "LINUX_ID: ${bgre}${LINUX_ID}${nocolor}"
+  lsd-mod.log.echo "LINUX_DISTRIBUTION: ${bgre}${LINUX_DISTRIBUTION}${nocolor}"
+  lsd-mod.log.echo "LINUX_DISTRIBUTION_TR: ${bgre}${LINUX_DISTRIBUTION_TR}${nocolor}"
 }
 
 
-function _system_.get__info() {
+function lsd-mod.system.get__info() {
   type inxi &>/dev/null && inxi -Fxzd;
 }
 
 
-function _system_.get__cpu_cores() {
+function lsd-mod.system.get__cpu_cores() {
   cat /proc/cpuinfo |grep -i 'core id'|wc -l
 }
 
 
-function _system_.get__ip() {
+function lsd-mod.system.get__ip() {
   ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1'
 }
 
 
-function _system_.get__numthreads() {
+function lsd-mod.system.get__numthreads() {
   ## Calculates 1.5 times physical threads
   local NUMTHREADS=1 ## disable MP
   if [[ -f /sys/devices/system/cpu/online ]]; then
@@ -54,7 +54,7 @@ function _system_.get__numthreads() {
 }
 
 
-function _system_.get__gpu_info() {
+function lsd-mod.system.get__gpu_info() {
   ###----------------------------------------------------------
   ## GPU / Graphics card
   ## How do I find out the model of my graphics card?
@@ -73,18 +73,18 @@ function _system_.get__gpu_info() {
 }
 
 
-function _system_.create_login_user() {
+function lsd-mod.system.create_login_user() {
   ## create normal user with home and login
   ## Caution: add the user as the sudoer
 
   local __LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
   source ${__LSCRIPTS}/argparse.sh "$@"
 
-  _log_.warn "Total: $# should be equal to ${#args[@]} and args: ${args[@]}"
+  lsd-mod.log.warn "Total: $# should be equal to ${#args[@]} and args: ${args[@]}"
 
   local key
   for key in "${!args[@]}"; do
-    [[ -n "${args[${key}]+1}" ]] && _log_.echo "${key} = ${args[${key}]}" || _log_.error "Key does not exists: ${key}"
+    [[ -n "${args[${key}]+1}" ]] && lsd-mod.log.echo "${key} = ${args[${key}]}" || lsd-mod.log.error "Key does not exists: ${key}"
   done
 
   local username
@@ -117,25 +117,25 @@ function _system_.create_login_user() {
     ## add the user to the sudo group so it can run commands in a privileged mode
     getent group | grep $(id -un) | grep ${groupname} &> /dev/null || {
       sudo usermod -aG ${groupname} $(id -un) && \
-        sudo usermod -aG sudo ${username} && _log_.echo "Successfully created system user"
+        sudo usermod -aG sudo ${username} && lsd-mod.log.echo "Successfully created system user"
       cat /etc/passwd | grep ${username}
     }
-  } || _log_.error "Invalid paramerters!"
+  } || lsd-mod.log.error "Invalid paramerters!"
 }
 
 
-function _system_.create_nologin_user() {
+function lsd-mod.system.create_nologin_user() {
   ## create linux system user
   ## Caution: delete the existing user and group
 
   local __LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
   source ${__LSCRIPTS}/argparse.sh "$@"
 
-  _log_.warn "Total: $# should be equal to ${#args[@]} and args: ${args[@]}"
+  lsd-mod.log.warn "Total: $# should be equal to ${#args[@]} and args: ${args[@]}"
 
   local key
   for key in "${!args[@]}"; do
-    [[ -n "${args[${key}]+1}" ]] && _log_.echo "${key} = ${args[${key}]}" || _log_.error "Key does not exists: ${key}"
+    [[ -n "${args[${key}]+1}" ]] && lsd-mod.log.echo "${key} = ${args[${key}]}" || lsd-mod.log.error "Key does not exists: ${key}"
   done
 
   local username
@@ -167,50 +167,50 @@ function _system_.create_nologin_user() {
 
   ## add system user to the secondary group, if it is not already added
   getent group | grep $(id -un) | grep ${groupname} &> /dev/null || {
-    sudo usermod -aG ${groupname} $(id -un) && _log_.echo "Successfully created system user"
+    sudo usermod -aG ${groupname} $(id -un) && lsd-mod.log.echo "Successfully created system user"
     cat /etc/passwd | grep ${username}
   }
 }
 
 
-function _system_.sudo_restrict_user_cmd_prompt() {
+function lsd-mod.system.sudo_restrict_user_cmd_prompt() {
   local __LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
   source ${__LSCRIPTS}/argparse.sh "$@"
 
-  _log_.warn "Total: $# should be equal to ${#args[@]} and args: ${args[@]}"
+  lsd-mod.log.warn "Total: $# should be equal to ${#args[@]} and args: ${args[@]}"
 
   local key
   for key in "${!args[@]}"; do
-    [[ -n "${args[${key}]+1}" ]] && _log_.echo "${key} = ${args[${key}]}" || _log_.error "Key does not exists: ${key}"
+    [[ -n "${args[${key}]+1}" ]] && lsd-mod.log.echo "${key} = ${args[${key}]}" || lsd-mod.log.error "Key does not exists: ${key}"
   done
 
   local username
   local groupname
   local scripts_filepath
   local cservicename
-  [[ -n "${args['username']+1}" ]] && username=${args['username']} || _log_.fail "username does not exists"
+  [[ -n "${args['username']+1}" ]] && username=${args['username']} || lsd-mod.log.fail "username does not exists"
 
-  [[ -n "${args['groupname']+1}" ]] && groupname=${args['groupname']} || ( groupname=${args['username']} && _log_.info "groupname will be same as username: ${args['username']}" )
+  [[ -n "${args['groupname']+1}" ]] && groupname=${args['groupname']} || ( groupname=${args['username']} && lsd-mod.log.info "groupname will be same as username: ${args['username']}" )
 
   [[ -n "${args['scripts_filepath']+1}" ]] && scripts_filepath=${args['scripts_filepath']} \
-    ||  ( scripts_filepath="${_BZO__SCRIPTS}/lscripts-docker/lscripts/tests/test.sh" && _log_.info "scripts_filepath: ${scripts_filepath}" )
+    ||  ( scripts_filepath="${_BZO__SCRIPTS}/lscripts-docker/lscripts/tests/test.sh" && lsd-mod.log.info "scripts_filepath: ${scripts_filepath}" )
 
   [[ -n "${args['cservicename']+1}" ]] && cservicename=${args['cservicename']} \
-    ||  ( cservicename="${username}.service" && _log_.info "cservicename: ${cservicename}" )
+    ||  ( cservicename="${username}.service" && lsd-mod.log.info "cservicename: ${cservicename}" )
 
   local _que
   local _msg
   _que="Do you want proceed with system user creation process"
   _msg="Skipping system user creation process."
-  _fio_.yesno_yes "${_que}" && \
-      _log_.echo "Executing system user creation process..." && \
-      _system_.create_nologin_user --user=${username} --group=${groupname} \
-    || _log_.echo "${_msg}"
+  lsd-mod.fio.yesno_yes "${_que}" && \
+      lsd-mod.log.echo "Executing system user creation process..." && \
+      lsd-mod.system.create_nologin_user --user=${username} --group=${groupname} \
+    || lsd-mod.log.echo "${_msg}"
 
 
   _que="Do you want proceed with configure restrictive sudo access"
   _msg="Skipping sudo configuration."
-  _fio_.yesno_no "${_que}" && {
+  lsd-mod.fio.yesno_no "${_que}" && {
       local L1
       local L2
       local FILE
@@ -242,11 +242,11 @@ function _system_.sudo_restrict_user_cmd_prompt() {
       echo -e "\nUsage:
       sudo -u ${username} -s /bin/bash ${scripts_filepath} hello
       sudo -u ${username} systemctl [status|reload|restart] ${username}.service"
-    } || _log_.echo "${_msg}"
+    } || lsd-mod.log.echo "${_msg}"
 }
 
 
-function _system_.df_json {
+function lsd-mod.system.df_json {
   ## Referenecs:
   ## https://www.unix.com/unix-for-beginners-questions-and-answers/282491-how-convert-any-shell-command-output-json-format.html
   local keys
@@ -261,7 +261,7 @@ function _system_.df_json {
 }
 
 
-function _system_.get__osinfo() {
+function lsd-mod.system.get__osinfo() {
   local id=$(. /etc/os-release;echo ${ID})
   local version_id=$(. /etc/os-release;echo ${VERSION_ID})
   local distribution=$(. /etc/os-release;echo ${ID}${VERSION_ID})
@@ -272,40 +272,40 @@ function _system_.get__osinfo() {
 }
 
 
-function _system_.select__prog() {
+function lsd-mod.system.select__prog() {
   ## Todo
   local _prog=$1
 
   [[ ! -z ${_prog} ]] && {
     sudo update-alternatives --config ${_prog}
-  } || _log_.echo "Invalid update-alternatives"
+  } || lsd-mod.log.echo "Invalid update-alternatives"
 }
 
 
-function _system_.select__cuda() {
-  _system_.select__prog cuda
+function lsd-mod.system.select__cuda() {
+  lsd-mod.system.select__prog cuda
 }
 
 
-function _system_.select__bazel() {
-  _system_.select__prog bazel
+function lsd-mod.system.select__bazel() {
+  lsd-mod.system.select__prog bazel
 }
 
 
-function _system_.select__gcc() {
-  _system_.select__prog gcc
+function lsd-mod.system.select__gcc() {
+  lsd-mod.system.select__prog gcc
 }
 
 
 # ## Todo: cleanup
-# function _system_.__create_appuser() {
+# function lsd-mod.system.__create_appuser() {
 #   source ${LSCRIPTS}/core/argparse.sh "$@"
 
-#   _log_.warn "Total: $# should be equal to ${#args[@]} and args: ${args[@]}"
+#   lsd-mod.log.warn "Total: $# should be equal to ${#args[@]} and args: ${args[@]}"
 
 #   local key
 #   for key in "${!args[@]}"; do
-#     [[ -n "${args[${key}]+1}" ]] && _log_.echo "${key} = ${args[${key}]}" || _log_.error "Key does not exists: ${key}"
+#     [[ -n "${args[${key}]+1}" ]] && lsd-mod.log.echo "${key} = ${args[${key}]}" || lsd-mod.log.error "Key does not exists: ${key}"
 #   done
 
 #   local L1
@@ -321,7 +321,7 @@ function _system_.select__gcc() {
 
 #   [[ -z ${username} ]] || username="boozo"
 #   [[ -z ${groupname} ]] || username="boozo"
-#   [[ -d ${scripts_path} ]] || _log_.fail "scripts_path does not exists: ${scripts_path}"
+#   [[ -d ${scripts_path} ]] || lsd-mod.log.fail "scripts_path does not exists: ${scripts_path}"
 
 #   local cservicename="${username}.service"
 
@@ -382,10 +382,10 @@ function _system_.select__gcc() {
 # }
 
 
-# function _system_.__add_userusername{
+# function lsd-mod.system.__add_userusername{
 #   source ${LSCRIPTS}/core/argparse.sh "$@"
 
-#   [[ "$#" -ne "2" ]] && _log_.fail "Invalid number of paramerters: required 2 given $#"
+#   [[ "$#" -ne "2" ]] && lsd-mod.log.fail "Invalid number of paramerters: required 2 given $#"
 #   [[ -n "${args['user']+1}" ]] && [[ -n "${args['groupname']+1}" ]] && {
 #     # (>&2 echo -e "key: 'username' exists")
 #     local username="${args['user']}"
@@ -415,5 +415,5 @@ function _system_.select__gcc() {
 #     # ```
 #     # sudo systemctl restart sshd
 #     # 
-#   } || _log_.error "Invalid paramerters!"
+#   } || lsd-mod.log.error "Invalid paramerters!"
 # }

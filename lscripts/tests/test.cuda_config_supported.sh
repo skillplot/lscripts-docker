@@ -26,20 +26,20 @@ function test.cuda_config_supported() {
   source ${LSCRIPTS}/../lscripts.config.sh
 
   local scriptname=$(basename ${BASH_SOURCE[0]})
-  _log_.debug "executing script...: ${scriptname}"
+  lsd-mod.log.debug "executing script...: ${scriptname}"
 
   source "${LSCRIPTS}/../docker-ce-verify.sh" &>/dev/null \
-    || _log_.fail "Dependency docker-ce is not installed!\n Execute installer:\n\
+    || lsd-mod.log.fail "Dependency docker-ce is not installed!\n Execute installer:\n\
             source ${LSCRIPTS}/../docker-ce-install.sh"
 
-  declare -a cuda_vers=($(_nvidia_.get__cuda_vers))
+  declare -a cuda_vers=($(lsd-mod.nvidia.get__cuda_vers))
   local vers="${cuda_vers[@]}"
   vers=$(echo "${vers// / | }")
 
   local distributions="${CUDA_LINUX_DISTRIBUTIONS[@]}"
   distributions=$(echo "${distributions// / | }")
 
-  # [[ ${_LSCRIPTS__DEBUG_} -eq 0 ]] || {
+  # [[ ${LSCRIPTS__DEBUG} -eq 0 ]] || {
   #   (>&2 echo -e "Total cuda_vers: ${#cuda_vers[@]}\n cuda_vers: ${cuda_vers[@]}")
   #   local ver
   #   (for ver in "${cuda_vers[@]}"; do (>&2 echo -e "ver => ${ver}"); done)
@@ -62,12 +62,12 @@ function test.cuda_config_supported() {
   "
   : ${1? "${__error_msg}" } && : ${2? "${__error_msg}"}
 
-  [[ "$#" -ne "2" ]] && _log_.error "Invalid number of paramerters: required 2 given $#\n ${__error_msg}"
+  [[ "$#" -ne "2" ]] && lsd-mod.log.error "Invalid number of paramerters: required 2 given $#\n ${__error_msg}"
 
 
-  ( _fio_.find_in_array $1 "${cuda_vers[@]}" || _log_.fail "Invalid or unsupported cuda version: $1" ) && \
-    ( _fio_.find_in_array $2 "${CUDA_LINUX_DISTRIBUTIONS[@]}" || _log_.fail "Invalid or unsupported linux distribution: $2" ) && \
-    _log_.success "<cuda_version> is $1 and <linux_distribution> is $2"
+  ( lsd-mod.fio.find_in_array $1 "${cuda_vers[@]}" || lsd-mod.log.fail "Invalid or unsupported cuda version: $1" ) && \
+    ( lsd-mod.fio.find_in_array $2 "${CUDA_LINUX_DISTRIBUTIONS[@]}" || lsd-mod.log.fail "Invalid or unsupported linux distribution: $2" ) && \
+    lsd-mod.log.success "<cuda_version> is $1 and <linux_distribution> is $2"
 
 }
 

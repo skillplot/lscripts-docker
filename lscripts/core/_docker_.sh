@@ -22,19 +22,19 @@
 ###----------------------------------------------------------
 
 
-function _docker_.get__vars() {
-  _log_.echo "DOCKER_CMD: ${bgre}${DOCKER_CMD}${nocolor}"
-  _log_.echo "DOCKER_COMPOSE_CMD: ${bgre}${DOCKER_COMPOSE_CMD}${nocolor}"
-  _log_.echo "DOCKER_VERSION: ${bgre}${DOCKER_VERSION}${nocolor}"
-  _log_.echo "DOCKER_REPO_URL: ${bgre}${DOCKER_REPO_URL}${nocolor}"
-  _log_.echo "DOCKER_KEY_URL: ${bgre}${DOCKER_KEY_URL}${nocolor}"
-  _log_.echo "DOCKER_REPO_KEY: ${bgre}${DOCKER_REPO_KEY}${nocolor}"
-  _log_.echo "DOCKER_COMPOSE_VER: ${bgre}${DOCKER_COMPOSE_VER}${nocolor}"
-  _log_.echo "DOCKER_COMPOSE_URL: ${bgre}${DOCKER_COMPOSE_URL}${nocolor}"
+function lsd-mod.docker.get__vars() {
+  lsd-mod.log.echo "DOCKER_CMD: ${bgre}${DOCKER_CMD}${nocolor}"
+  lsd-mod.log.echo "DOCKER_COMPOSE_CMD: ${bgre}${DOCKER_COMPOSE_CMD}${nocolor}"
+  lsd-mod.log.echo "DOCKER_VERSION: ${bgre}${DOCKER_VERSION}${nocolor}"
+  lsd-mod.log.echo "DOCKER_REPO_URL: ${bgre}${DOCKER_REPO_URL}${nocolor}"
+  lsd-mod.log.echo "DOCKER_KEY_URL: ${bgre}${DOCKER_KEY_URL}${nocolor}"
+  lsd-mod.log.echo "DOCKER_REPO_KEY: ${bgre}${DOCKER_REPO_KEY}${nocolor}"
+  lsd-mod.log.echo "DOCKER_COMPOSE_VER: ${bgre}${DOCKER_COMPOSE_VER}${nocolor}"
+  lsd-mod.log.echo "DOCKER_COMPOSE_URL: ${bgre}${DOCKER_COMPOSE_URL}${nocolor}"
 }
 
 
-function _docker_.get__os_vers_avail() {
+function lsd-mod.docker.get__os_vers_avail() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
   declare -a cuda_linux_distributions=(`echo $(basename -a ${LSCRIPTS}/ubuntu*)`)
   local distribution
@@ -44,7 +44,7 @@ function _docker_.get__os_vers_avail() {
 }
 
 
-function _docker_.local_volumes() {
+function lsd-mod.docker.local_volumes() {
   ###----------------------------------------------------------
   ## NOTE:
   ##  - Bind mounting the Docker daemon socket gives a lot of power to a container
@@ -65,13 +65,13 @@ function _docker_.local_volumes() {
   echo "${volumes}"
 }
 
-function _docker_.port_maps() {
+function lsd-mod.docker.port_maps() {
   local docker_ports="${DOCKER_PORTS} "
   echo "${docker_ports}"
 }
 
 
-function _docker_.envvars() {
+function lsd-mod.docker.envvars() {
   local envvars="${DOCKER_ENVVARS} "
   envvars="${envvars} -e DOCKER_IMG=${DOCKER_IMG} "
   envvars="${envvars} -e DISPLAY=${DDISPLAY} "
@@ -91,26 +91,26 @@ function _docker_.envvars() {
 }
 
 
-function _docker_.restart_policy() {
+function lsd-mod.docker.restart_policy() {
   local restart=""
   restart="--restart always"
   echo "${restart}"
 }
 
 
-function _docker_.enable_nvidia_gpu() {
+function lsd-mod.docker.enable_nvidia_gpu() {
   local gpus=""
   gpus="--gpus all"
   echo "${gpus}"
 }
 
 
-function _docker_.container.exec() {
+function lsd-mod.docker.container.exec() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
   source ${LSCRIPTS}/argparse.sh "$@"
 
-  [[ "$#" -lt "1" ]] && _log_.fail "Invalid number of paramerters: required [--name] given $#"
-  [[ -n "${args['name']+1}" ]] || _log_.fail "Required params: --name=<containerName>"
+  [[ "$#" -lt "1" ]] && lsd-mod.log.fail "Invalid number of paramerters: required [--name] given $#"
+  [[ -n "${args['name']+1}" ]] || lsd-mod.log.fail "Required params: --name=<containerName>"
 
   local DOCKER_CONTAINER_NAME=${args['name']}
 
@@ -123,42 +123,42 @@ function _docker_.container.exec() {
 }
 
 
-function _docker_.image.build() {
+function lsd-mod.docker.image.build() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
   source ${LSCRIPTS}/argparse.sh "$@"
 
-  _log_.debug "Total args: $# with args value: ${args[@]}"
+  lsd-mod.log.debug "Total args: $# with args value: ${args[@]}"
 
   [[ "$#" -ne "3" ]] && \
-    _log_.info "\nUsage: --tag=<tag> --dockerfile=<dockerfile> --context=<context_dir>" && \
-    _log_.fail "Invalid inputs!"
+    lsd-mod.log.info "\nUsage: --tag=<tag> --dockerfile=<dockerfile> --context=<context_dir>" && \
+    lsd-mod.log.fail "Invalid inputs!"
 
   local key
   for key in 'tag' 'dockerfile' 'context'; do
-    _log_.debug "verifying key: ${key}"
-    [[ -n "${args[${key}]+1}" ]] || _log_.fail "Key does not exists: ${key}"
+    lsd-mod.log.debug "verifying key: ${key}"
+    [[ -n "${args[${key}]+1}" ]] || lsd-mod.log.fail "Key does not exists: ${key}"
   done
 
-  _log_.debug "\n --tag=${args['tag']}, --dockerfile=${args['dockerfile']}, --context=${args['context']}"
+  lsd-mod.log.debug "\n --tag=${args['tag']}, --dockerfile=${args['dockerfile']}, --context=${args['context']}"
 
   ## Fail on first error.
   set -e
   [[ -f ${args['dockerfile']} ]] && {
     docker build -t "${args['tag']}" -f "${args['dockerfile']}" "${args['context']}" && \
-      _log_.info "Built new image with ${tag}" || _log_.fail "built docker image failed"
-  } || _log_.fail "File does not exists: ${args['dockerfile']}"
+      lsd-mod.log.info "Built new image with ${tag}" || lsd-mod.log.fail "built docker image failed"
+  } || lsd-mod.log.fail "File does not exists: ${args['dockerfile']}"
 }
 
 
-function _docker_.adduser_to_sudoer() {
+function lsd-mod.docker.adduser_to_sudoer() {
   ## This assumes user already exists and `apt install sudo` is already installed
   if [ "${HUSER}" != "root" ]; then
 
     local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
     source ${LSCRIPTS}/argparse.sh "$@"
 
-    [[ "$#" -lt "1" ]] && _log_.fail "Invalid number of paramerters: required [--name] given $#"
-    [[ -n "${args['name']+1}" ]] || _log_.fail "Required params: --name=<containerName>"
+    [[ "$#" -lt "1" ]] && lsd-mod.log.fail "Invalid number of paramerters: required [--name] given $#"
+    [[ -n "${args['name']+1}" ]] || lsd-mod.log.fail "Required params: --name=<containerName>"
 
     local DOCKER_CONTAINER_NAME=${args['name']}
 
@@ -170,7 +170,7 @@ function _docker_.adduser_to_sudoer() {
 }
 
 
-function _docker_.userfix() {
+function lsd-mod.docker.userfix() {
   ## WARNING: This function is not re-entrant, and multiple entries in bashrc will be created
   ## Todo; make it re-entrant function
 
@@ -179,8 +179,8 @@ function _docker_.userfix() {
     local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
     source ${LSCRIPTS}/argparse.sh "$@"
 
-    [[ "$#" -lt "1" ]] && _log_.fail "Invalid number of paramerters: required [--name] given $#"
-    [[ -n "${args['name']+1}" ]] || _log_.fail "Required params: --name=<containerName>"
+    [[ "$#" -lt "1" ]] && lsd-mod.log.fail "Invalid number of paramerters: required [--name] given $#"
+    [[ -n "${args['name']+1}" ]] || lsd-mod.log.fail "Required params: --name=<containerName>"
 
     local DOCKER_CONTAINER_NAME=${args['name']}
 
@@ -235,7 +235,7 @@ ulimit -c unlimited
   fi
 }
 
-# function _docker_.bashrc_patch_2() {
+# function lsd-mod.docker.bashrc_patch_2() {
 #   echo '
 #   source /usr/local/bin/virtualenvwrapper.sh
 #   export WORKON_HOME=${PYVENV_PATH}
@@ -243,7 +243,7 @@ ulimit -c unlimited
 # }
 
 
-function _docker_.adduser() {
+function lsd-mod.docker.adduser() {
   ###----------------------------------------------------------
   ## Docker adduser to container
   ## NOTE: this is deprecated and only for reference, though it may work
@@ -273,14 +273,14 @@ function _docker_.adduser() {
 }
 
 
-function _docker_.container.list {
+function lsd-mod.docker.container.list {
   # declare -a cids=$(echo $(docker container ps -a --format "table {{.ID}}\t{{.Image}}\t{{.Names}}"))
   # echo "${cids[@]}"
   docker container ps -a --format "table {{.ID}}\t{{.Image}}\t{{.Names}}\t{{.Status}}"
 }
 
 
-function _docker_.container.list-ids {
+function lsd-mod.docker.container.list-ids {
   ## References:
   ## https://www.unix.com/unix-for-beginners-questions-and-answers/282491-how-convert-any-shell-command-output-json-format.html
   ## https://stackoverflow.com/questions/38860529/create-json-using-jq-from-pipe-separated-keys-and-values-in-bash/38862221#38862221
@@ -301,7 +301,7 @@ function _docker_.container.list-ids {
 }
 
 
-function _docker_.container.list-ids-all {
+function lsd-mod.docker.container.list-ids-all {
   declare -a cids=$(echo $(docker container ps -a --format "table {{.ID}},{{.Image}},{{.Names}}" | jq -nR '[ 
       ( input | split(",") ) as $keys | 
       ( inputs | split(",") ) as $vals | 
@@ -314,7 +314,7 @@ function _docker_.container.list-ids-all {
 }
 
 
-function _docker_.container.exec-byname {
+function lsd-mod.docker.container.exec-byname {
   : ${1?
     "Usage:
     bash $0 <DOCKER_CONTAINER_NAME>"
@@ -323,12 +323,12 @@ function _docker_.container.exec-byname {
   local DOCKER_CONTAINER_NAME=$1
   [[ ! -z $(docker container ps -a --format "{{.Names}}" | grep ${DOCKER_CONTAINER_NAME}) ]] && {
     docker exec -u $(id -u):$(id -g) -it ${DOCKER_CONTAINER_NAME} /bin/bash && xhost -local:root 1>/dev/null 2>&1
-    [[ $? -ne 0 ]] && _log_.error "Unable execute container with name: ${DOCKER_CONTAINER_NAME}" || _log_.ok "Bye from ${DOCKER_CONTAINER_NAME}!"
-  } || _log_.error "Container name not found or not started: ${DOCKER_CONTAINER_NAME}"
+    [[ $? -ne 0 ]] && lsd-mod.log.error "Unable execute container with name: ${DOCKER_CONTAINER_NAME}" || lsd-mod.log.ok "Bye from ${DOCKER_CONTAINER_NAME}!"
+  } || lsd-mod.log.error "Container name not found or not started: ${DOCKER_CONTAINER_NAME}"
 }
 
 
-function _docker_.container.status {
+function lsd-mod.docker.container.status {
   # https://gist.github.com/paulosalgado/91bd74c284e262a4806524b0dde126ba
   : ${1?
     "Usage:
@@ -341,50 +341,50 @@ function _docker_.container.status {
   local STARTED=$(docker inspect --format="{{.State.StartedAt}}" ${DOCKER_CONTAINER_NAME})
   local NETWORK=$(docker inspect --format="{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}" ${DOCKER_CONTAINER_NAME})
 
-  _log_.echo "RUNNING: \e[1;32m${RUNNING}"
-  _log_.echo "RESTARTING: \e[1;32m${RESTARTING}"
-  _log_.echo "STARTED: \e[1;32m${STARTED}"
-  _log_.echo "NETWORK: \e[1;32m${NETWORK}"
+  lsd-mod.log.echo "RUNNING: \e[1;32m${RUNNING}"
+  lsd-mod.log.echo "RESTARTING: \e[1;32m${RESTARTING}"
+  lsd-mod.log.echo "STARTED: \e[1;32m${STARTED}"
+  lsd-mod.log.echo "NETWORK: \e[1;32m${NETWORK}"
 }
 
 
-function _docker_.container.stop-all() {
-  docker stop $(docker ps -a -q) && _log_.info "All containers stopped!"
+function lsd-mod.docker.container.stop-all() {
+  docker stop $(docker ps -a -q) && lsd-mod.log.info "All containers stopped!"
   docker ps -a
 }
 
 
-function _docker_.container.delete-all() {
+function lsd-mod.docker.container.delete-all() {
   local _que="Are you sure you want to delete all containers"
   local _msg="Skipping deleting all containers!"
-  _fio_.yesno_no "${_que}" && {
+  lsd-mod.fio.yesno_no "${_que}" && {
     docker stop $(docker ps -a -q) && docker rm $(docker ps -a -q)
-    _log_.info "All containers are deleted!"
+    lsd-mod.log.info "All containers are deleted!"
     docker ps -a
-  } || _log_.echo "${_msg}"
+  } || lsd-mod.log.echo "${_msg}"
 }
 
 
-function _docker_.container.delete-byimage {
+function lsd-mod.docker.container.delete-byimage {
   local DOCKER_IMAGE_NAME=$1
   [[ -z ${DOCKER_IMAGE_NAME} ]] && DOCKER_IMAGE_NAME="hello-world"
 
   local _que="Are you sure you want to delete all containers of image: ${DOCKER_IMAGE_NAME}"
   local _msg="Skipping deleting all containers  of image: ${DOCKER_IMAGE_NAME}!"
-  _fio_.yesno_no "${_que}" && {
-    declare -a cids=$(_docker_.container.list-ids ${DOCKER_IMAGE_NAME})
+  lsd-mod.fio.yesno_no "${_que}" && {
+    declare -a cids=$(lsd-mod.docker.container.list-ids ${DOCKER_IMAGE_NAME})
     echo "cids:${cids[@]}"
     ## Todo:: if array is empty condition
     docker stop ${cids[@]} && docker rm ${cids[@]}
-    _log_.info "All containers with image: ${DOCKER_IMAGE_NAME} cids are deleted!"
+    lsd-mod.log.info "All containers with image: ${DOCKER_IMAGE_NAME} cids are deleted!"
     docker ps -a
-  } || _log_.echo "${_msg}"
+  } || lsd-mod.log.echo "${_msg}"
 }
 
 
-function _docker_.container.test() {
+function lsd-mod.docker.container.test() {
   local DOCKER_BLD_CONTAINER_IMG
-  [[ ! -z "$1" ]] && DOCKER_BLD_CONTAINER_IMG="$1" || _log_.fail "Empty DOCKER_BLD_CONTAINER_IMG: ${DOCKER_BLD_CONTAINER_IMG}"
-  _log_.info "Creating self-destructing test container using image: ${DOCKER_BLD_CONTAINER_IMG}"
+  [[ ! -z "$1" ]] && DOCKER_BLD_CONTAINER_IMG="$1" || lsd-mod.log.fail "Empty DOCKER_BLD_CONTAINER_IMG: ${DOCKER_BLD_CONTAINER_IMG}"
+  lsd-mod.log.info "Creating self-destructing test container using image: ${DOCKER_BLD_CONTAINER_IMG}"
   ${DOCKER_CMD} run --name $(uuid) --user $(id -u):$(id -u) --gpus all --rm -it "${DOCKER_BLD_CONTAINER_IMG}" bash
 }

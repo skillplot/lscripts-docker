@@ -16,17 +16,17 @@ function cuda-stack-verify.main() {
   export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:${CUDA_HOME}/lib64"
 
   local _cmd="nvcc"
-  _log_.info "Verifying ${_cmd} installation..."
+  lsd-mod.log.info "Verifying ${_cmd} installation..."
 
   type ${_cmd} &>/dev/null && {
-    _log_.info "Check the CUDA compiler version"
+    lsd-mod.log.info "Check the CUDA compiler version"
     ${_cmd} -V
-    _log_.ok "${_cmd} is available!"
+    lsd-mod.log.ok "${_cmd} is available!"
 
-    _log_.info "Testing if the drivers are working..."
+    lsd-mod.log.info "Testing if the drivers are working..."
 
     [[ -d "${CUDA_HOME}/samples" ]] && {
-      _log_.info "Compiling: ${CUDA_HOME}/samples/1_Utilities/deviceQuery"
+      lsd-mod.log.info "Compiling: ${CUDA_HOME}/samples/1_Utilities/deviceQuery"
 
       sudo chown -R $(whoami):$(whoami) "${CUDA_HOME}/samples"
       cd "${CUDA_HOME}/samples/1_Utilities/deviceQuery"
@@ -36,7 +36,7 @@ function cuda-stack-verify.main() {
       return 0
     } 1>&2 || (error "Cuda samples does not exists: ${CUDA_HOME}/samples" && return -1)
   } 1>&2 || {
-    _log_.error "${_cmd} not installed or corrupted!"
+    lsd-mod.log.error "${_cmd} not installed or corrupted!"
     return -1
   }
 

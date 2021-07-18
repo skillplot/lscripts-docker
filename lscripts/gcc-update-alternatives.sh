@@ -35,7 +35,7 @@ function gcc-update-alternatives.main() {
   source ${LSCRIPTS}/lscripts.config.sh
   
   local scriptname=$(basename ${BASH_SOURCE[0]})
-  _log_.debug "executing script...: ${scriptname}"
+  lsd-mod.log.debug "executing script...: ${scriptname}"
 
   # sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.6 10 --slave /usr/bin/g++ g++ /usr/bin/g++-4.6
   # sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.7 20 --slave /usr/bin/g++ g++ /usr/bin/g++-4.7

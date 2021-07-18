@@ -77,10 +77,10 @@ function __gource-build() {
 
   local URL="https://github.com/acaudwell/${DIR}.git"
 
-  _log_.info "Number of threads will be used: ${NUMTHREADS}"
-  _log_.info "BASEPATH: ${_LSD__EXTERNAL_HOME}"
-  _log_.info "URL: ${URL}"
-  _log_.info "PROG_DIR: ${PROG_DIR}"
+  lsd-mod.log.info "Number of threads will be used: ${NUMTHREADS}"
+  lsd-mod.log.info "BASEPATH: ${_LSD__EXTERNAL_HOME}"
+  lsd-mod.log.info "URL: ${URL}"
+  lsd-mod.log.info "PROG_DIR: ${PROG_DIR}"
 
   # source ${LSCRIPTS}/partials/gitclone.sh
 
@@ -90,11 +90,11 @@ function __gource-build() {
   # # local GOURCE_REL="gource-0.51"
   # # git checkout ${GOURCE_REL}
 
-  _log_.echo "Executing: ./autogen.sh"
+  lsd-mod.log.echo "Executing: ./autogen.sh"
   make clean
   ./autogen.sh
 
-  _log_.echo "Executing: ./configure"
+  lsd-mod.log.echo "Executing: ./configure"
 
   ## directory.hpp:270: undefined reference to `boost::filesystem::detail::directory_iterator_construct
   ## libboost_filesystem.a
@@ -133,12 +133,12 @@ function gource-install.main() {
   source ${LSCRIPTS}/lscripts.config.sh
   
   local scriptname=$(basename ${BASH_SOURCE[0]})
-  _log_.debug "executing script...: ${scriptname}"
+  lsd-mod.log.debug "executing script...: ${scriptname}"
 
   local _prog="gource"
 
-  _log_.info "Clone & compile ${_prog}..."
-  _log_.warn "sudo access is required to install the compiled code!"
+  lsd-mod.log.info "Clone & compile ${_prog}..."
+  lsd-mod.log.warn "sudo access is required to install the compiled code!"
 
   local _default=yes
   local _que
@@ -146,13 +146,13 @@ function gource-install.main() {
 
   _que="Clone & compile ${_prog} now"
   _msg="Skipping ${_prog} clonning & compiling!"
-  _fio_.yesno_${_default} "${_que}" && {
-      _log_.echo "Installing pre-requisites..."
+  lsd-mod.fio.yesno_${_default} "${_que}" && {
+      lsd-mod.log.echo "Installing pre-requisites..."
       # __${_prog}-pre_requisite
 
-      _log_.echo "Cloning & compiling..."
+      lsd-mod.log.echo "Cloning & compiling..."
       __${_prog}-build
-    } || _log_.echo "${_msg}"
+    } || lsd-mod.log.echo "${_msg}"
 
 }
 

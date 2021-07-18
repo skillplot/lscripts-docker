@@ -17,14 +17,14 @@ function docker-compose-verify.main() {
   
   local _cmd="docker-compose"
 
-  _log_.info "Verifying ${_cmd} installation..."
+  lsd-mod.log.info "Verifying ${_cmd} installation..."
 
   type ${_cmd} &>/dev/null && {
     (${_cmd} --version) 1>&2 &&
-    _log_.ok "${_cmd} is available!"
+    lsd-mod.log.ok "${_cmd} is available!"
     return 0
   } || {
-    _log_.error "${_cmd} not installed or corrupted!"
+    lsd-mod.log.error "${_cmd} not installed or corrupted!"
     return -1
   }
 

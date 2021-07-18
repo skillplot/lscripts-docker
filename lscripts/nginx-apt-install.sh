@@ -15,7 +15,7 @@ function nginx-apt-install.main() {
   sudo ufw status
   sudo systemctl status nginx.service
 
-  ## This will _log_.fail if apache is running, as nginx by defaults binds to port 80
+  ## This will lsd-mod.log.fail if apache is running, as nginx by defaults binds to port 80
   # sudo systemctl stop apache2.service
   # sudo systemctl start nginx
 }

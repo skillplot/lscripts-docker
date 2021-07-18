@@ -17,7 +17,7 @@ function ctrlc_handler {
 
 function __docker-buildimg-mongo() {
   local DOCKER_CONTEXT="$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/context/mongo"
-  _log_.info "DOCKER_CONTEXT: ${DOCKER_CONTEXT}"
+  lsd-mod.log.info "DOCKER_CONTEXT: ${DOCKER_CONTEXT}"
 
   rm -r ${DOCKER_CONTEXT} &>/dev/null
 
@@ -51,16 +51,16 @@ function docker-buildimg-mongo() {
 
   _que="Executing ${_prog} now"
   _msg="Skipping ${_prog} execution!"
-  _fio_.yesno_${_default} "${_que}" && \
-      _log_.echo "Executing..." && {
+  lsd-mod.fio.yesno_${_default} "${_que}" && \
+      lsd-mod.log.echo "Executing..." && {
         __${_prog} ${1}
 
-        _log_.info "Now you can create container:\n \
+        lsd-mod.log.info "Now you can create container:\n \
           source ${LSCRIPTS}/docker-createcontainer-mongo.sh ${DOCKER_MONGO_CONTAINER_IMG}"
 
-        _log_.success "Enjoy!"
+        lsd-mod.log.success "Enjoy!"
 
-      } || _log_.echo "${_msg}"
+      } || lsd-mod.log.echo "${_msg}"
 }
 
 docker-buildimg-mongo "$1"

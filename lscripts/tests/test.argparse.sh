@@ -35,7 +35,7 @@ function test.argparse.main() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
   source ${LSCRIPTS}/../lscripts.config.sh
   
-  export _LSCRIPTS__LOG_LEVEL_=7 ## DEBUG
+  export LSCRIPTS__LOG_LEVEL=7 ## DEBUG
   test.argparse.case-1 --user='blah' --group='dummy' --uid=1111 --gid=0000
 }
 
