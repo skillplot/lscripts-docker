@@ -153,3 +153,6 @@
 
 ## disallow C extensions
 *.so
+
+## override
+!lscripts/**/config
