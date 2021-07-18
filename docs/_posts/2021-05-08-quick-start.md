@@ -15,8 +15,8 @@ categories: quick-start
   ```
 2. Put the following in the end of the `~/.bashrc` file. Change the path where you cloned the repo:
   ```bash
-  export LSCRIPTS_DOCKER="<change_this_to_path_absolute_path>/lscripts-docker"
-  [ -f ${LSCRIPTS_DOCKER}/lscripts/lscripts.env.sh ] && source ${LSCRIPTS_DOCKER}/lscripts/lscripts.env.sh
+  export LSCRIPTS__DOCKER="<change_this_to_path_absolute_path>/lscripts-docker"
+  [ -f ${LSCRIPTS__DOCKER}/lscripts/lscripts.env.sh ] && source ${LSCRIPTS__DOCKER}/lscripts/lscripts.env.sh
   ```
 
 
@@ -55,7 +55,7 @@ categories: quick-start
     * `lsd-system`
     * `lsd-test`
     * `lsd-trash`
-* `lsd-cd` - change to the cloned directory`${LSCRIPTS_DOCKER}/lscripts` directory.
+* `lsd-cd` - change to the cloned directory`${LSCRIPTS__DOCKER}/lscripts` directory.
 * `lsd-ls` - It is at core `ls -ltr` plus wit numeric permission value added as the first column i.e. `644 -rw-r--r--`
 * Lscripts configuration variables: `lsd-cfg.`
   ```bash
