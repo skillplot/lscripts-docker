@@ -28,14 +28,14 @@ categories: specification
 The reason for sensitivity towards order and sequence of definitions and imports is because I created a **Cascading Pattern** in order to pass variables & their respective values between different scripts without leaking them in the global scope or to terminal. There is no simple way to use a shell script as a library module, hence the decision is to focus on flexibility over rigidity, simplicity over complexity and modularity of shell scripts. The success of **cascading pattern** to variable passing is due to the unique name space creation mechanism through **consistent naming conventions** and **namespace scoping**.
 
 
-* uses shell scripts itself for creating configuration variables and files are named as `<configname>-cfg.sh`
-* all variables are in local scope, configuration files cannot be used directly and can be used inside functions only
-* all variable names are uppercase
-* `_color_.sh` => `config/_color_.sh`
-  * color codes configurations
-* `_typeformats_.sh` => `config/_typeformats_.sh`
-  * internal usage for dynamic configurations
-* wraps all configurations and it's the single entry point: `__init__.sh` => `config/__init__.sh` like:
+* Uses shell scripts itself for creating configuration variables and files are named as `<configname>-cfg.sh`
+* All variables are in local scope, configuration files cannot be used directly and can be used inside functions only
+* All variable names are uppercase
+* Color codes configurations
+  * `_color_.sh` => `config/_color_.sh`
+* Internal usage for dynamic configurations
+  * `_typeformats_.sh` => `config/_typeformats_.sh`
+* Wraps all configurations and it's the single entry point: `__init__.sh` => `config/__init__.sh` like:
   * Core configuration
     * system
     * basepath
@@ -48,27 +48,27 @@ The reason for sensitivity towards order and sequence of definitions and imports
   * Docker container configuration
 
 
-### Core Utility Modules: `lscripts/utils`
+### Core Modules: `lscripts/core`
 
 * Logger:`_log_.sh`:
-  * `lscripts/utils/_log_.sh`
   * log module
-* Utility function modules: `_fn_.sh` => `lscipts/utils/_fn_.sh`
-  * `_system_.sh` => `lscripts/utils/_system_.sh`
-    * system utility module
-  * `_fio_.sh` => `lscripts/utils/_fio_.sh`
-    * I/O module
-  * `_nvidia_.sh` => `lscripts/utils/_nvidia_.sh`
-    * nvidia gpu and cuda stack utility module
-  * `_docker_.sh` => `lscripts/utils/_docker_.sh`
-    * docker utility module
+    * `lscripts/core/_log_.sh`
+* Code modules: => `lscipts/core/__init__.sh`
+  * system module
+    * `_system_.sh` => `lscripts/core/_system_.sh`
+  * I/O module
+   * `_fio_.sh` => `lscripts/core/_fio_.sh`
+  * nvidia gpu and cuda stack module
+    * `_nvidia_.sh` => `lscripts/core/_nvidia_.sh`
+  * docker module
+    * `_docker_.sh` => `lscripts/core/_docker_.sh`
 
 
 ### Common Module
 
 * Common:`_common_.sh`:
   * high level wrapper
-  * wraps the code configurations and core utility functions
+  * wraps the code configurations and core functions
 
 
 

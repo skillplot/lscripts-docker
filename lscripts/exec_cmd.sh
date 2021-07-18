@@ -26,7 +26,7 @@
 function __execute_lscripts_fn__() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
   source ${LSCRIPTS}/lscripts.config.sh
-  source ${LSCRIPTS}/utils/argparse.sh "$@"
+  source ${LSCRIPTS}/core/argparse.sh "$@"
 
   [[ "$#" -lt "1" ]] && _log_.fail "Invalid number of paramerters: minimum required 1 parameter but given: $#"
   [[ -n "${args['cmd']+1}" ]] || _log_.fail "Required paramerter missing (--cmd)!"

@@ -15,7 +15,7 @@ categories: quick-start
     ```
 2. Put the following in the end of the `~/.bashrc` file. Change the path where you cloned the repo:
     ```bash
-    export LSCRIPTS_DOCKER="/path/to/lscripts-docker"
+    export LSCRIPTS_DOCKER="/<change_this_to_path_absolute_path>/lscripts-docker"
     [ -f ${LSCRIPTS_DOCKER}/lscripts/lscripts.env.sh ] && source ${LSCRIPTS_DOCKER}/lscripts/lscripts.env.sh
     ```
 
@@ -47,8 +47,8 @@ categories: quick-start
     * `lsd-install`
     * `lsd-ls`
     * `lsd-nvidia`
-    * `lsd-python`
     * `lsd-prog`
+    * `lsd-python`
     * `lsd-rm`
     * `lsd-select`
     * `lsd-stack`
@@ -60,56 +60,38 @@ categories: quick-start
 * Lscripts configuration variables: `lsd-cfg.`
     ```bash
     lsd-cfg.color
+    lsd-cfg.docker
+    lsd-cfg.nvidia
     lsd-cfg.system
     lsd-cfg.typeformats
     ```
-* Quick Commands:
+* Change directories:
     ```bash
     lsd-cd
-    lsd-cmd.dummy                   
-    lsd-cmd.git.get.repo-urls       
-    lsd-cmd.gitlab.get.cert         
-    lsd-cmd.git.repoviz             
-    lsd-cmd.menu-navigation         
-    lsd-cmd.monitoring-cmds         
-    lsd-cmd.mount.smb               
-    lsd-cmd.mount.ssh               
-    lsd-cmd.pm                      
-    lsd-cmd.ppa.get.repo            
-    lsd-cmd.python.list.venv        
+    ```
+* Quick Commands:
+    ```bash
+    lsd-cmd.dummy
+    lsd-cmd.git.get.repo-urls
+    lsd-cmd.gitlab.get.cert
+    lsd-cmd.git.repoviz
+    lsd-cmd.menu-navigation
+    lsd-cmd.monitoring-cmds
+    lsd-cmd.mount.smb
+    lsd-cmd.mount.ssh
+    lsd-cmd.pm
+    lsd-cmd.python.list.venv
     lsd-cmd.python.venvname.generate
     ##
-    lsd-date.get
+    lsd-date.cfg
     lsd-date.timestamp
-    lsd-date.timestamp.millisec
     lsd-date.timestamp.microsec
+    lsd-date.timestamp.millisec
     lsd-date.timestamp.nanosec
     ##
-    lsd-id.get
-    lsd-id.salt
-    lsd-id.uuid
-    ##
-    lsd-image.resize
-    lsd-image.pdf
-    ##
-    lsd-ls
-    lsd-ls.pycache
-    lsd-ls.egg
-    ##
-    lsd-prog.ids
-    lsd-prog.kill
-    ##
-    lsd-python.kill
     lsd-python.create.virtualenv
     ##
-    lsd-rm.pycache
-    lsd-rm.egg
-    ##
-    lsd-nvidia.gpu.info
-    lsd-nvidia.gpu.stats
-    lsd-nvidia.cuda.vers
-    lsd-nvidia.cuda.avail
-    lsd-nvidia.driver.avail
+    lsd-nvidia.cfg
     lsd-nvidia.cuda.avail
     lsd-nvidia.cuda.vers
     lsd-nvidia.driver.avail
@@ -120,10 +102,10 @@ categories: quick-start
     lsd-select.cuda
     lsd-select.gcc
     ##
+    lsd-system.cfg
     lsd-system.cpu.cores
     lsd-system.cpu.threads
     lsd-system.df.json
-    lsd-system.info
     lsd-system.ip
     lsd-system.osinfo
     ##
@@ -135,7 +117,32 @@ categories: quick-start
     lsd-test._log_
     lsd-test._system_
     ##
-    lsd-trash
+    lsd-utils.date.get
+    #
+    lsd-utils.id.filename
+    lsd-utils.id.filename-tmp
+    lsd-utils.id.get
+    lsd-utils.id.salt
+    lsd-utils.id.uuid
+    #
+    lsd-utils.image.pdf
+    lsd-utils.image.resize
+    #
+    lsd-utils.kill
+    lsd-utils.kill.python
+    #
+    lsd-utils.ls
+    lsd-utils.ls.egg
+    lsd-utils.ls.pycache
+    #
+    lsd-utils.pid
+    #
+    lsd-utils.rm.egg
+    lsd-utils.rm.pycache
+    #
+    lsd-utils.system.info
+    #
+    lsd-utils.trash
     ```
 * One can combine the output of above commands with other system commands/utilities, example:
     * To parse the `json` output to human readable format using `jq`

@@ -3,7 +3,7 @@
 ## Copyright (c) 2021 mangalbhaskar. All Rights Reserved.
 ##__author__ = 'mangalbhaskar'
 ###----------------------------------------------------------
-## Lscripts commands convenience utilities
+## Utility functions
 ###----------------------------------------------------------
 #
 ## References:
@@ -11,85 +11,107 @@
 ###----------------------------------------------------------
 
 
-function lsd-prog.ids() {
+###----------------------------------------------------------
+## General utilities
+###----------------------------------------------------------
+
+function _utils_.pid() {
   [[ ! -z $1 ]] && (>&2 echo -e $(pgrep -f $1));
 }
 
-function lsd-prog.kill() {
+
+###----------------------------------------------------------
+## _utils_.kill Terminating utilities
+###----------------------------------------------------------
+
+function _utils_.kill() {
   [[ ! -z $1 ]] && sudo kill -9 $(pgrep -f $1);
 }
 
-## function lsd-python.kill() { sudo kill -9 $(pgrep -f python); }
-function lsd-python.kill() {
+
+function _utils_.kill.python() {
   lsd.prog.kill python;
 }
 
-## __pycache__ egg-info
-function lsd-ls.pycache() {
-  find ${PWD}/ -iname __pycache__ -type d | xargs -n 1 bash -c 'ls -dl "$0"';
-}
 
-function lsd-rm.pycache() {
-  find ${PWD}/ -iname __pycache__ -type d | xargs -n 1 bash -c 'rm -rf "$0"';
-}
+# function _utils_.kill.python() {
+#   sudo kill -9 $(pgrep -f python);
+# }
 
-##
-function lsd-ls.egg() {
-  find ${PWD}/ -iname *.egg-info -type d | xargs -n 1 bash -c 'ls -dl "$0"';
-}
 
-function lsd-rm.egg() {
-  find ${PWD}/ -iname *.egg-info -type d | xargs -n 1 bash -c 'rm -rf "$0"';
-}
+###----------------------------------------------------------
+## _utils_.ls listing utilities
+###----------------------------------------------------------
 
-##
-function lsd-ls() {
+
+function _utils_.ls() {
   ls -lrth | awk '{k=0;for(i=0;i<=8;i++)k+=((substr($1,i+2,1)~/[rwx]/) *2^(8-i));if(k)printf("%0o ",k);print}';
 }
 
-##
-function lsd-trash() {
+function _utils_.ls.pycache() {
+  ## __pycache__ egg-info
+  find ${PWD}/ -iname __pycache__ -type d | xargs -n 1 bash -c 'ls -dl "$0"';
+}
+
+
+function _utils_.ls.egg() {
+  find ${PWD}/ -iname *.egg-info -type d | xargs -n 1 bash -c 'ls -dl "$0"';
+}
+
+
+###----------------------------------------------------------
+## _utils_.rm removing/deletion/trash utilities
+###----------------------------------------------------------
+
+function _utils_.rm.pycache() {
+  find ${PWD}/ -iname __pycache__ -type d | xargs -n 1 bash -c 'rm -rf "$0"';
+}
+
+function _utils_.rm.egg() {
+  find ${PWD}/ -iname *.egg-info -type d | xargs -n 1 bash -c 'rm -rf "$0"';
+}
+
+function _utils_.trash() {
   for item in "$@" ; do echo "Trashing: $item" ; mv "$item" ${HOME}/.Trash/; done
 }
 
 ###----------------------------------------------------------
-## lsd-image Image utilities
+## _utils_.image Image utilities
 ###----------------------------------------------------------
 
-function lsd-image.resize() {
+function _utils_.image.resize() {
   for file in *.${1:-'jpg'}; do convert ${file} -resize ${2:-'50'}% $(date -d now +'%d%m%y_%H%M%S')---${file}; done
 }
 
 
-function lsd-image.pdf() {
+function _utils_.image.pdf() {
   gm convert *.${1:-'jpg'} $(date -d now +'%d%m%y_%H%M%S').pdf;
 }
 
 
 ###----------------------------------------------------------
-## lsd-date
+## _utils_.date Date utilities
 ###----------------------------------------------------------
 
-function lsd-date.get() {
+function _utils_.date.get() {
   echo $(date +"%d-%b-%Y, %A");
 }
 
 
 ###----------------------------------------------------------
-## lsd-system
+## _utils_.system
 ###----------------------------------------------------------
 
-function lsd-system.info() {
+function _utils_.system.info() {
   type inxi &>/dev/null && inxi -Fxzd;
 }
 
 
-
 ###----------------------------------------------------------
-## lsd-id
+## _utils_.id Identification utilities
 ###----------------------------------------------------------
 
-function lsd-id.salt() {
+function _utils_.id.salt() {
   ###----------------------------------------------------------
   ## To generate security keys and salts
   ###----------------------------------------------------------
@@ -106,12 +128,12 @@ function lsd-id.salt() {
 }
 
 
-function lsd-id.get() {
+function _utils_.id.get() {
   echo $(uname -a && date) | md5sum | cut -f1 -d" " | head -c ${1:-33}
 }
 
 
-function lsd-id.uuid() {
+function _utils_.id.uuid() {
   ###----------------------------------------------------------
   ## generate uuid without `uuid` apt utility package
   ###----------------------------------------------------------
@@ -139,4 +161,22 @@ function lsd-id.uuid() {
   ## Credit: https://gist.github.com/sergeyklay
   ## Generate UUID-like strings: c8521ea3-0f42-4e36-aba7-6de2d7c20725
   echo $(od -x /dev/urandom | head -1 | awk '{OFS="-"; print $2$3,$4,$5,$6,$7$8$9}')
+}
+
+
+function _utils_.id.filename() {
+  local dirpath
+  _log_.echo "Enter the directory path [ Press Enter for default: /tmp]:"
+  read dirpath
+
+  [[ -d "${dirpath}" ]] && dirpath=${dirpath%/} || dirpath="/tmp"
+  _log_.echo "Using directory path: ${dirpath}"
+  local _filename="${dirpath}/$(basename "${dirpath}")-$(date -d now +'%d%m%y_%H%M%S')"
+  echo ${_filename}
+}
+
+
+function _utils_.id.filename-tmp() {
+  local dirpath="/tmp"
+  echo "${dirpath}/$(basename "${dirpath}")-$(date -d now +'%d%m%y_%H%M%S').log"
 }

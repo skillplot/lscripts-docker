@@ -49,7 +49,7 @@ function __docker-createcontainer-boozo() {
   _log_.echo "Finished setting up ${DOCKER_CONTAINER_NAME} docker environment."
   _log_.ok "Enjoy!"
   _log_.info "Execute container..."
-  _log_.echo "bash lscripts/exec_cmd.sh --cmd=_docker_.exec_container --name=${DOCKER_CONTAINER_NAME}\n"
+  _log_.echo "bash lscripts/exec_cmd.sh --cmd=_docker_.container.exec --name=${DOCKER_CONTAINER_NAME}\n"
 
   _log_.info "Or simple execution:\n ${DOCKER_CMD} exec -it ${DOCKER_CONTAINER_NAME}\n"
   echo ${DOCKER_CONTAINER_NAME}

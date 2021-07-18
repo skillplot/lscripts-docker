@@ -11,7 +11,7 @@ function zookeeper-verify() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
   source ${LSCRIPTS}/lscripts.config.sh
   source ${LSCRIPTS}/zookeeper-utils.sh
-  source ${LSCRIPTS}/utils/argparse.sh "$@"
+  source ${LSCRIPTS}/core/argparse.sh "$@"
 
   [[ "$#" -ne "2" ]] && _log_.fail "Invalid number of paramerters: required 2 given $#"
   [[ -n "${args['home']+1}" ]] && [[ -n "${args['username']+1}" ]] && {

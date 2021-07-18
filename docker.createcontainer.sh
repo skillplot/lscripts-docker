@@ -84,7 +84,7 @@ function __docker-createcontainer() {
   _log_.echo "Finished setting up ${DOCKER_CONTAINER_NAME} docker environment."
   _log_.ok "Enjoy!"
   _log_.info "Execute container..."
-  _log_.echo "bash lscripts/exec_cmd.sh --cmd=_docker_.exec_container --name=${DOCKER_CONTAINER_NAME}\n"
+  _log_.echo "bash lscripts/exec_cmd.sh --cmd=_docker_.container.exec --name=${DOCKER_CONTAINER_NAME}\n"
 
   _log_.info "Or simple execution:\n ${DOCKER_CMD} exec -it ${DOCKER_CONTAINER_NAME}\n"
 }
@@ -112,7 +112,7 @@ function docker-createcontainer() {
   # }
 
 
-  source ${LSCRIPTS}/lscripts/utils/argparse.sh "$@"
+  source ${LSCRIPTS}/lscripts/core/argparse.sh "$@"
 
   [[ "$#" -lt "1" ]] && _log_.fail "Invalid number of paramerters: required --image [--container] given $#"
   [[ -n "${args['image']+1}" ]] || _log_.fail "Required params: --image=<imageName> [--container=<containerName>]"
@@ -152,7 +152,7 @@ function docker-createcontainer() {
 
 
   _log_.info "Execute container..."
-  _log_.echo "bash lscripts/exec_cmd.sh --cmd=_docker_.exec_container --name=${DOCKER_CONTAINER_NAME}\n"
+  _log_.echo "bash lscripts/exec_cmd.sh --cmd=_docker_.container.exec --name=${DOCKER_CONTAINER_NAME}\n"
 
   _que="Create Host user inside container"
   _msg="Skipping host user creation!"

@@ -8,8 +8,11 @@
 
 
 function _typeformats_.get__vars() {
-  _log_.echo "__TIMESTAMP__: \e[1;32m${__TIMESTAMP__}"
-  _log_.echo "_BANNER_: \e[1;32m${_BANNER_}"
-  _log_.echo "_SHEBANG_: \e[1;32m${_SHEBANG_}"
-  _log_.echo "_COPYRIGHT_: \e[1;32m${_COPYRIGHT_}"
+  # local nocolor='\e[0m';
+  # local bgre='\e[1;32m';
+
+  _log_.echo "__TIMESTAMP__: ${bgre}${__TIMESTAMP__}${nocolor}"
+  _log_.echo "_BANNER_: ${bgre}${_BANNER_}${nocolor}"
+  _log_.echo "_SHEBANG_: ${bgre}${_SHEBANG_}${nocolor}"
+  _log_.echo "_COPYRIGHT_: ${bgre}${_COPYRIGHT_}${nocolor}"
 }

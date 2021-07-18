@@ -78,13 +78,14 @@ These provides complete development stack for deep learning docker environments.
     ```bash
     lsd-docker.osvers
     #
-    lsd-docker.container.delete-byimage
+    lsd-docker.cfg
     lsd-docker.container.delete-all
-    lsd-docker.container.stop-all
-    lsd-docker.container.list-ids-all
-    lsd-docker.container.list-ids
-    lsd-docker.container.list
+    lsd-docker.container.delete-byimage
     lsd-docker.container.exec-byname
+    lsd-docker.container.list
+    lsd-docker.container.list-ids
+    lsd-docker.container.list-ids-all
     lsd-docker.container.status
+    lsd-docker.container.stop-all
     lsd-docker.container.test
     ```

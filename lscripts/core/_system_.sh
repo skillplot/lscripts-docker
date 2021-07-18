@@ -8,21 +8,24 @@
 
 
 function _system_.get__vars() {
-  _log_.echo "NUMTHREADS: \e[1;32m${NUMTHREADS}"
-  _log_.echo "MACHINE_ARCH: \e[1;32m${MACHINE_ARCH}"
-  _log_.echo "USER_ID: \e[1;32m${USER_ID}"
-  _log_.echo "GRP_ID: \e[1;32m${GRP_ID}"
-  _log_.echo "USR: \e[1;32m${USR}"
-  _log_.echo "GRP: \e[1;32m${GRP}"
-  _log_.echo "LOCAL_HOST: \e[1;32m${LOCAL_HOST}"
-  _log_.echo "OSTYPE: \e[1;32m${OSTYPE}"
-  _log_.echo "OS_ARCH: \e[1;32m${OS_ARCH}"
-  _log_.echo "OS_ARCH_BIT: \e[1;32m${OS_ARCH_BIT}"
-  _log_.echo "LINUX_VERSION: \e[1;32m${LINUX_VERSION}"
-  _log_.echo "LINUX_CODE_NAME: \e[1;32m${LINUX_CODE_NAME}"
-  _log_.echo "LINUX_ID: \e[1;32m${LINUX_ID}"
-  _log_.echo "LINUX_DISTRIBUTION: \e[1;32m${LINUX_DISTRIBUTION}"
-  _log_.echo "LINUX_DISTRIBUTION_TR: \e[1;32m${LINUX_DISTRIBUTION_TR}"
+  # local nocolor='\e[0m';
+  # local bgre='\e[1;32m';
+
+  _log_.echo "NUMTHREADS: ${bgre}${NUMTHREADS}${nocolor}"
+  _log_.echo "MACHINE_ARCH: ${bgre}${MACHINE_ARCH}${nocolor}"
+  _log_.echo "USER_ID: ${bgre}${USER_ID}${nocolor}"
+  _log_.echo "GRP_ID: ${bgre}${GRP_ID}${nocolor}"
+  _log_.echo "USR: ${bgre}${USR}${nocolor}"
+  _log_.echo "GRP: ${bgre}${GRP}${nocolor}"
+  _log_.echo "LOCAL_HOST: ${bgre}${LOCAL_HOST}${nocolor}"
+  _log_.echo "OSTYPE: ${bgre}${OSTYPE}${nocolor}"
+  _log_.echo "OS_ARCH: ${bgre}${OS_ARCH}${nocolor}"
+  _log_.echo "OS_ARCH_BIT: ${bgre}${OS_ARCH_BIT}${nocolor}"
+  _log_.echo "LINUX_VERSION: ${bgre}${LINUX_VERSION}${nocolor}"
+  _log_.echo "LINUX_CODE_NAME: ${bgre}${LINUX_CODE_NAME}${nocolor}"
+  _log_.echo "LINUX_ID: ${bgre}${LINUX_ID}${nocolor}"
+  _log_.echo "LINUX_DISTRIBUTION: ${bgre}${LINUX_DISTRIBUTION}${nocolor}"
+  _log_.echo "LINUX_DISTRIBUTION_TR: ${bgre}${LINUX_DISTRIBUTION_TR}${nocolor}"
 }
 
 
@@ -296,7 +299,7 @@ function _system_.select__gcc() {
 
 # ## Todo: cleanup
 # function _system_.__create_appuser() {
-#   source ${LSCRIPTS}/utils/argparse.sh "$@"
+#   source ${LSCRIPTS}/core/argparse.sh "$@"
 
 #   _log_.warn "Total: $# should be equal to ${#args[@]} and args: ${args[@]}"
 
@@ -380,7 +383,7 @@ function _system_.select__gcc() {
 
 
 # function _system_.__add_userusername{
-#   source ${LSCRIPTS}/utils/argparse.sh "$@"
+#   source ${LSCRIPTS}/core/argparse.sh "$@"
 
 #   [[ "$#" -ne "2" ]] && _log_.fail "Invalid number of paramerters: required 2 given $#"
 #   [[ -n "${args['user']+1}" ]] && [[ -n "${args['groupname']+1}" ]] && {

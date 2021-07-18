@@ -26,7 +26,7 @@ function __docker-buildimg-mongo() {
     "${DOCKER_CONTEXT}/config" \
     "${DOCKER_CONTEXT}/logs"
 
-  local __cmd__="_docker_.build_img"
+  local __cmd__="_docker_.image.build"
 
   local TAG="$(echo ${DOCKERFILE} | sed 's:/*$::' | rev | cut -d'/' -f1 | rev)-$(uname -m)-$(date -d now +'%d%m%y_%H%M%S')"
 

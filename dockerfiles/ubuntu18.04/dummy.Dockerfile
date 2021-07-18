@@ -52,4 +52,4 @@ RUN chown -R ${_SKILL__DUSER}:${_SKILL__DUSER} "${_SKILL__DOCKER_ROOT_BASEDIR}" 
 
 ## Run processes as non-root user
 USER ${_SKILL__DUSER}
-RUN source ${_SKILL__DOCKER_ROOT_BASEDIR}/installer/lscripts/utils/dummy.sh
+RUN source ${_SKILL__DOCKER_ROOT_BASEDIR}/installer/lscripts/snippets/dummy.sh

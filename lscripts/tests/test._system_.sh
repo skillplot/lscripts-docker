@@ -3,7 +3,7 @@
 ## Copyright (c) 2021 mangalbhaskar. All Rights Reserved.
 ##__author__ = 'mangalbhaskar'
 ###----------------------------------------------------------
-## test::shell script utils/_system_.sh module
+## test::shell script core/_system_.sh module
 ###----------------------------------------------------------
 
 

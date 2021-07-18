@@ -16,7 +16,6 @@ function __lscripts_env__() {
   source "${LSCRIPTS}/lscripts.install.sh"
   lscripts.install.main
 
-  source "${LSCRIPTS}/lscripts.cmd.sh"
   source "${LSCRIPTS}/lscripts.alias.sh"
   # (>&2 echo -e "lscripts updated...")
 

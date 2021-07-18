@@ -19,7 +19,7 @@ function asciiart.lscripts_banner_1() {
     | |     \___ \| |    |  _  /  | | |  ___/  | |  \___ \ 
     | |____ ____) | |____| | \ \ _| |_| |      | |  ____) |
     |______|_____/ \_____|_|  \_\_____|_|      |_| |_____/ 
-    >>> Skillplot: $(lsd-date.get)
+    >>> Skillplot: $(lsd-utils.date.get)
 
     ")
 }
@@ -34,7 +34,7 @@ function asciiart.skillplot_banner_1() {
      \___ \| |/ / | | |  ___/| |/ _ \| __|
      ____) |   <| | | | |    | | (_) | |_ 
     |_____/|_|\_\_|_|_|_|    |_|\___/ \__|.org
-    >>> LSCRIPTS: $(lsd-date.get)
+    >>> LSCRIPTS: $(lsd-utils.date.get)
 
     ")
 }
@@ -46,7 +46,7 @@ function asciiart.skillplot_banner_2() {
     ░█▀▀░█░█░▀█▀░█░░░█░░░█▀█░█░░░█▀█░▀█▀
     ░▀▀█░█▀▄░░█░░█░░░█░░░█▀▀░█░░░█░█░░█░
     ░▀▀▀░▀░▀░▀▀▀░▀▀▀░▀▀▀░▀░░░▀▀▀░▀▀▀░░▀░.org
-    >>> LSCRIPTS: $(lsd-date.get)
+    >>> LSCRIPTS: $(lsd-utils.date.get)
 
     ")
 }
@@ -62,7 +62,7 @@ function asciiart.skillplot_banner_3() {
      ▀▄▄▄▄▀    █  █  ▐█ ███▄ ███▄ █     ███▄ ▀████    █    .org 
                  █    ▐     ▀    ▀ █        ▀        ▀      
                 ▀                   ▀                       
-    >>> LSCRIPTS: $(lsd-date.get)
+    >>> LSCRIPTS: $(lsd-utils.date.get)
 
     ")
 }
@@ -79,7 +79,7 @@ function asciiart.skillplot_banner_4() {
        ▄█    ███   ███ ▀███▄ ███  ███▌    ▄ ███▌    ▄   ███        ███▌    ▄ ███    ███     ███     
      ▄████████▀    ███   ▀█▀ █▀   █████▄▄██ █████▄▄██  ▄████▀      █████▄▄██  ▀██████▀     ▄████▀   .org
                    ▀              ▀         ▀                      ▀                                
-    >>> LSCRIPTS: $(lsd-date.get)
+    >>> LSCRIPTS: $(lsd-utils.date.get)
 
     ")
 }

@@ -3,7 +3,7 @@
 ## Copyright (c) 2021 mangalbhaskar. All Rights Reserved.
 ##__author__ = 'mangalbhaskar'
 ###----------------------------------------------------------
-## test::shell script utils/argparse.sh
+## test::shell script core/argparse.sh
 ###----------------------------------------------------------
 
 
@@ -21,7 +21,7 @@
 
 
 function test.argparse.case-1() {
-  source ${LSCRIPTS}/../utils/argparse.sh "$@"
+  source ${LSCRIPTS}/../core/argparse.sh "$@"
   echo "Total: $# should be equal to ${#args[@]} and args: ${args[@]}"
 
   local key

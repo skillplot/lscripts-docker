@@ -8,6 +8,22 @@
 ###----------------------------------------------------------
 
 
+function _nvidia_.get__vars() {
+  _log_.echo "NVIDIA_DRIVER_VER: ${bgre}${NVIDIA_DRIVER_VER}${nocolor}"
+  _log_.echo "NVIDIA_OS_ARCH: ${bgre}${NVIDIA_OS_ARCH}${nocolor}"
+  _log_.echo "NVIDIA_CUDA_REPO_KEY: ${bgre}${NVIDIA_CUDA_REPO_KEY}${nocolor}"
+  _log_.echo "NVIDIA_GPGKEY_SUM: ${bgre}${NVIDIA_GPGKEY_SUM}${nocolor}"
+  _log_.echo "NVIDIA_GPGKEY_FPR: ${bgre}${NVIDIA_GPGKEY_FPR}${nocolor}"
+  _log_.echo "NVIDIA_REPO_BASEURL: ${bgre}${NVIDIA_REPO_BASEURL}${nocolor}"
+  _log_.echo "NVIDIA_CUDA_REPO_BASEURL: ${bgre}${NVIDIA_CUDA_REPO_BASEURL}${nocolor}"
+  _log_.echo "NVIDIA_ML_REPO_BASEURL: ${bgre}${NVIDIA_ML_REPO_BASEURL}${nocolor}"
+  _log_.echo "NVIDIA_DRIVER_INSTALLED: ${bgre}${NVIDIA_DRIVER_INSTALLED}${nocolor}"
+  _log_.echo "NVIDIA_DOCKER_CUDA_REPO_URL: ${bgre}${NVIDIA_DOCKER_CUDA_REPO_URL}${nocolor}"
+  _log_.echo "NVIDIA_DOCKER_URL: ${bgre}${NVIDIA_DOCKER_URL}${nocolor}"
+  _log_.echo "NVIDIA_DOCKER_KEY_URL: ${bgre}${NVIDIA_DOCKER_KEY_URL}${nocolor}"
+}
+
+
 function _nvidia_.get__cuda_vers() {
   local ver
   declare -a cuda_vers=(`echo $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/../config/${LINUX_DISTRIBUTION}/cuda-cfg-[0-9]*.sh | grep -o -P "(\ *[0-9.]*sh)" | sed -r 's/\.sh//'`)

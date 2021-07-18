@@ -22,6 +22,28 @@
 ###----------------------------------------------------------
 
 
+function _docker_.get__vars() {
+  _log_.echo "DOCKER_CMD: ${bgre}${DOCKER_CMD}${nocolor}"
+  _log_.echo "DOCKER_COMPOSE_CMD: ${bgre}${DOCKER_COMPOSE_CMD}${nocolor}"
+  _log_.echo "DOCKER_VERSION: ${bgre}${DOCKER_VERSION}${nocolor}"
+  _log_.echo "DOCKER_REPO_URL: ${bgre}${DOCKER_REPO_URL}${nocolor}"
+  _log_.echo "DOCKER_KEY_URL: ${bgre}${DOCKER_KEY_URL}${nocolor}"
+  _log_.echo "DOCKER_REPO_KEY: ${bgre}${DOCKER_REPO_KEY}${nocolor}"
+  _log_.echo "DOCKER_COMPOSE_VER: ${bgre}${DOCKER_COMPOSE_VER}${nocolor}"
+  _log_.echo "DOCKER_COMPOSE_URL: ${bgre}${DOCKER_COMPOSE_URL}${nocolor}"
+}
+
+
+function _docker_.get__os_vers_avail() {
+  local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
+  declare -a cuda_linux_distributions=(`echo $(basename -a ${LSCRIPTS}/ubuntu*)`)
+  local distribution
+  # (>&2 echo -e "Total cuda_linux_distributions: ${#cuda_linux_distributions[@]}\n cuda_linux_distributions: ${cuda_linux_distributions[@]}")
+  # (for distribution in "${cuda_linux_distributions[@]}"; do (>&2 echo -e "distributions => ${distribution}"); done)
+  echo "${cuda_linux_distributions[@]}"
+}
+
+
 function _docker_.local_volumes() {
   ###----------------------------------------------------------
   ## NOTE:
@@ -83,7 +105,7 @@ function _docker_.enable_nvidia_gpu() {
 }
 
 
-function _docker_.exec_container() {
+function _docker_.container.exec() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
   source ${LSCRIPTS}/argparse.sh "$@"
 
@@ -101,7 +123,7 @@ function _docker_.exec_container() {
 }
 
 
-function _docker_.build_img() {
+function _docker_.image.build() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
   source ${LSCRIPTS}/argparse.sh "$@"
 
@@ -251,61 +273,14 @@ function _docker_.adduser() {
 }
 
 
-function _docker_.list_container_ids_all {
-  declare -a cids=$(echo $(docker container ps -a --format "table {{.ID}},{{.Image}},{{.Names}}" | jq -nR '[ 
-      ( input | split(",") ) as $keys | 
-      ( inputs | split(",") ) as $vals | 
-      [ [$keys, $vals] | 
-      transpose[] | 
-      {key:.[0],value:.[1]} ] | 
-      from_entries ]') | jq -c '.[]' | jq -rc '.["CONTAINER ID"]')
-
-  echo "${cids[@]}"
-}
-
-
-function _docker_.list_container_all {
+function _docker_.container.list {
   # declare -a cids=$(echo $(docker container ps -a --format "table {{.ID}}\t{{.Image}}\t{{.Names}}"))
   # echo "${cids[@]}"
   docker container ps -a --format "table {{.ID}}\t{{.Image}}\t{{.Names}}\t{{.Status}}"
 }
 
 
-function _docker_.list_container_exec {
-  : ${1?
-    "Usage:
-    bash $0 <DOCKER_CONTAINER_NAME>"
-  }
-
-  local DOCKER_CONTAINER_NAME=$1
-  [[ ! -z $(docker container ps -a --format "{{.Names}}" | grep ${DOCKER_CONTAINER_NAME}) ]] && {
-    docker exec -u $(id -u):$(id -g) -it ${DOCKER_CONTAINER_NAME} /bin/bash && xhost -local:root 1>/dev/null 2>&1
-    [[ $? -ne 0 ]] && _log_.error "Unable execute container with name: ${DOCKER_CONTAINER_NAME}" || _log_.ok "Bye from ${DOCKER_CONTAINER_NAME}!"
-  } || _log_.error "Container name not found or not started: ${DOCKER_CONTAINER_NAME}"
-}
-
-
-function _docker_.list_container_status {
-  # https://gist.github.com/paulosalgado/91bd74c284e262a4806524b0dde126ba
-  : ${1?
-    "Usage:
-    bash $0 <DOCKER_CONTAINER_NAME>"
-  }
-
-  local DOCKER_CONTAINER_NAME=$1
-  local RUNNING=$(docker inspect --format="{{.State.Running}}" ${DOCKER_CONTAINER_NAME} 2> /dev/null)
-  local RESTARTING=$(docker inspect --format="{{.State.Restarting}}" ${DOCKER_CONTAINER_NAME})
-  local STARTED=$(docker inspect --format="{{.State.StartedAt}}" ${DOCKER_CONTAINER_NAME})
-  local NETWORK=$(docker inspect --format="{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}" ${DOCKER_CONTAINER_NAME})
-
-  _log_.echo "RUNNING: \e[1;32m${RUNNING}"
-  _log_.echo "RESTARTING: \e[1;32m${RESTARTING}"
-  _log_.echo "STARTED: \e[1;32m${STARTED}"
-  _log_.echo "NETWORK: \e[1;32m${NETWORK}"
-}
-
-
-function _docker_.list_container_ids {
+function _docker_.container.list-ids {
   ## References:
   ## https://www.unix.com/unix-for-beginners-questions-and-answers/282491-how-convert-any-shell-command-output-json-format.html
   ## https://stackoverflow.com/questions/38860529/create-json-using-jq-from-pipe-separated-keys-and-values-in-bash/38862221#38862221
@@ -326,24 +301,60 @@ function _docker_.list_container_ids {
 }
 
 
-function _docker_.get__os_vers_avail() {
-  local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
-  declare -a cuda_linux_distributions=(`echo $(basename -a ${LSCRIPTS}/ubuntu*)`)
-  local distribution
-  # (>&2 echo -e "Total cuda_linux_distributions: ${#cuda_linux_distributions[@]}\n cuda_linux_distributions: ${cuda_linux_distributions[@]}")
-  # (for distribution in "${cuda_linux_distributions[@]}"; do (>&2 echo -e "distributions => ${distribution}"); done)
-  echo "${cuda_linux_distributions[@]}"
+function _docker_.container.list-ids-all {
+  declare -a cids=$(echo $(docker container ps -a --format "table {{.ID}},{{.Image}},{{.Names}}" | jq -nR '[ 
+      ( input | split(",") ) as $keys | 
+      ( inputs | split(",") ) as $vals | 
+      [ [$keys, $vals] | 
+      transpose[] | 
+      {key:.[0],value:.[1]} ] | 
+      from_entries ]') | jq -c '.[]' | jq -rc '.["CONTAINER ID"]')
+
+  echo "${cids[@]}"
 }
 
 
+function _docker_.container.exec-byname {
+  : ${1?
+    "Usage:
+    bash $0 <DOCKER_CONTAINER_NAME>"
+  }
 
-function _docker_.container_stop_all() {
+  local DOCKER_CONTAINER_NAME=$1
+  [[ ! -z $(docker container ps -a --format "{{.Names}}" | grep ${DOCKER_CONTAINER_NAME}) ]] && {
+    docker exec -u $(id -u):$(id -g) -it ${DOCKER_CONTAINER_NAME} /bin/bash && xhost -local:root 1>/dev/null 2>&1
+    [[ $? -ne 0 ]] && _log_.error "Unable execute container with name: ${DOCKER_CONTAINER_NAME}" || _log_.ok "Bye from ${DOCKER_CONTAINER_NAME}!"
+  } || _log_.error "Container name not found or not started: ${DOCKER_CONTAINER_NAME}"
+}
+
+
+function _docker_.container.status {
+  # https://gist.github.com/paulosalgado/91bd74c284e262a4806524b0dde126ba
+  : ${1?
+    "Usage:
+    bash $0 <DOCKER_CONTAINER_NAME>"
+  }
+
+  local DOCKER_CONTAINER_NAME=$1
+  local RUNNING=$(docker inspect --format="{{.State.Running}}" ${DOCKER_CONTAINER_NAME} 2> /dev/null)
+  local RESTARTING=$(docker inspect --format="{{.State.Restarting}}" ${DOCKER_CONTAINER_NAME})
+  local STARTED=$(docker inspect --format="{{.State.StartedAt}}" ${DOCKER_CONTAINER_NAME})
+  local NETWORK=$(docker inspect --format="{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}" ${DOCKER_CONTAINER_NAME})
+
+  _log_.echo "RUNNING: \e[1;32m${RUNNING}"
+  _log_.echo "RESTARTING: \e[1;32m${RESTARTING}"
+  _log_.echo "STARTED: \e[1;32m${STARTED}"
+  _log_.echo "NETWORK: \e[1;32m${NETWORK}"
+}
+
+
+function _docker_.container.stop-all() {
   docker stop $(docker ps -a -q) && _log_.info "All containers stopped!"
   docker ps -a
 }
 
 
-function _docker_.container_delete_all() {
+function _docker_.container.delete-all() {
   local _que="Are you sure you want to delete all containers"
   local _msg="Skipping deleting all containers!"
   _fio_.yesno_no "${_que}" && {
@@ -354,14 +365,14 @@ function _docker_.container_delete_all() {
 }
 
 
-function _docker_.container_delete_byimage {
+function _docker_.container.delete-byimage {
   local DOCKER_IMAGE_NAME=$1
   [[ -z ${DOCKER_IMAGE_NAME} ]] && DOCKER_IMAGE_NAME="hello-world"
 
   local _que="Are you sure you want to delete all containers of image: ${DOCKER_IMAGE_NAME}"
   local _msg="Skipping deleting all containers  of image: ${DOCKER_IMAGE_NAME}!"
   _fio_.yesno_no "${_que}" && {
-    declare -a cids=$(_docker_.list_container_ids ${DOCKER_IMAGE_NAME})
+    declare -a cids=$(_docker_.container.list-ids ${DOCKER_IMAGE_NAME})
     echo "cids:${cids[@]}"
     ## Todo:: if array is empty condition
     docker stop ${cids[@]} && docker rm ${cids[@]}
@@ -371,7 +382,7 @@ function _docker_.container_delete_byimage {
 }
 
 
-function _docker_.container_test() {
+function _docker_.container.test() {
   local DOCKER_BLD_CONTAINER_IMG
   [[ ! -z "$1" ]] && DOCKER_BLD_CONTAINER_IMG="$1" || _log_.fail "Empty DOCKER_BLD_CONTAINER_IMG: ${DOCKER_BLD_CONTAINER_IMG}"
   _log_.info "Creating self-destructing test container using image: ${DOCKER_BLD_CONTAINER_IMG}"
