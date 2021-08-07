@@ -196,3 +196,21 @@ This is used extensively to create alias for different namespace based commands.
   export LSCRIPTS__BASENAME="lscripts"
   export LSCRIPTS__ROOT="<change_this_to_path_absolute_path>"
   ```
+
+## Environment variables
+
+Additionally following environment variables can help you customize the `lscripts-docker` based workspace setup and configurations.
+```bash
+LSCRIPTS__BASENAME
+LSCRIPTS__ROOT
+LSCRIPTS__VMHOME
+LSCRIPTS__PYVENV_HOME
+LSCRIPTS__PYVENV_PATH
+LSCRIPTS__WSGIPYTHONPATH
+LSCRIPTS__WSGIPYTHONHOME
+LSCRIPTS__ANDROID_HOME
+LSCRIPTS__APACHE_HOME
+LSCRIPTS__WWW_HOME
+LSCRIPTS__DOWNLOADS
+LSCRIPTS__EXTERNAL_HOME
+```

@@ -98,7 +98,7 @@ function nvm-install.main() {
 
   _que="Install ${_prog} now"
   _msg="Skipping ${_prog} installation!"
-  lsd-mod.fio.yesno_${_default} "${_que}" {
+  lsd-mod.fio.yesno_${_default} "${_que}" && {
       lsd-mod.log.echo "Installing..."
       __${_prog}-install
   } || lsd-mod.log.echo "${_msg}"
