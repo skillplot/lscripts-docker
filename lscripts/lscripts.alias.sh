@@ -34,6 +34,11 @@ function lscripts.alias.main() {
   alias lsd-cfg.system="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.system.get__vars"
   alias lsd-cfg.typeformats="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.typeformats.get__vars"
   ###----------------------------------------------------------
+  ## lsd-git => _git_ module
+  ###----------------------------------------------------------
+  alias lsd-git.pull="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.git-pull"
+  alias lsd-git.repo-pull="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.git.repo-pull"
+  ###----------------------------------------------------------
   ## lsd-nvidia => _nvidia_ module
   ###----------------------------------------------------------
   alias lsd-nvidia.cfg="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.nvidia.get__vars"
