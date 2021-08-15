@@ -21,14 +21,15 @@
 
 # ## trap 'exit 0' INT or simply trap INT 
 # function ctrlc_handler {
-#   (>&2 echo -e "\e[0;101m CTRL-C pressed; Terminating..!\e[0m\n")
+#   (>&2 lsd-mod.log.debug -e "\e[0;101m CTRL-C pressed; Terminating..!\e[0m\n")
 #   exit
 # }
 
 
 function __gcc-config() {
   local LSCRIPTS="$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )"
-  source ${LSCRIPTS}/gcc-update-alternatives.sh
+  local _gcc_ver=$1
+  source ${LSCRIPTS}/gcc-update-alternatives.sh ${_gcc_ver}
 }
 
 
@@ -36,15 +37,16 @@ function __gcc-install() {
   ## Todo: conditional for specific version
   local _gcc_ver=$1
   [[ ! -z ${_gcc_ver} ]] && {
-    echo "_gcc_ver: ${_gcc_ver}"
-    echo "sudo apt -y install gcc-${_gcc_ver} g++-${_gcc_ver}"
-    # sudo apt -y install gcc-${_gcc_ver} g++-${_gcc_ver}
+    lsd-mod.log.debug "_gcc_ver: ${_gcc_ver}"
+    lsd-mod.log.debug "sudo apt -y install gcc-${_gcc_ver} g++-${_gcc_ver}"
+    sudo apt -y install gcc-${_gcc_ver} g++-${_gcc_ver}
   } || {
-    echo "_gcc_ver: ${_gcc_ver}"
+    lsd-mod.log.debug "_gcc_ver: ${_gcc_ver}"
 
-    echo "GCC_VERS: ${GCC_VERS[@]}"
+    lsd-mod.log.debug "GCC_VERS: ${GCC_VERS[@]}"
     for _gcc_ver in ${GCC_VERS[@]}; do
-      echo "sudo apt -y install gcc-${_gcc_ver} g++-${_gcc_ver}"
+      lsd-mod.log.debug "sudo apt -y install gcc-${_gcc_ver} g++-${_gcc_ver}"
+      sudo apt -y install gcc-${_gcc_ver} g++-${_gcc_ver}
     done
     # sudo apt -y install gcc-8 g++-8
     # sudo apt -y install gcc-7 g++-7
@@ -74,16 +76,16 @@ function gcc-install.main() {
   _que="Install ${_prog} now"
   _msg="Skipping ${_prog} installation!"
   lsd-mod.fio.yesno_${_default} "${_que}" && {
-      lsd-mod.log.echo "Installing..."
-      __${_prog}-install "$@"
-  } || lsd-mod.log.echo "${_msg}"
+    lsd-mod.log.debug "Installing..."
+    __${_prog}-install "$@"
+  } || lsd-mod.log.debug "${_msg}"
 
   _que="Configure ${_prog} now"
   _msg="Skipping ${_prog} configuration!"
   lsd-mod.fio.yesno_${_default} "${_que}" && {
-      lsd-mod.log.echo "Configuration..."
-      __${_prog}-config
-  } || lsd-mod.log.echo "${_msg}"
+    lsd-mod.log.debug "Configuration..."
+    __${_prog}-config "$@"
+  } || lsd-mod.log.debug "${_msg}"
 }
 
 gcc-install.main "$@"
