@@ -93,6 +93,9 @@ function lsd-mod.nvidia.get__gpu_stats() {
   [[ ! -z ${_delay} ]] || _delay=5
   lsd-mod.log.debug "_delay: ${_delay} seconds"
 
+  ## dmon is experimental
+  # nvidia-smi dmon
+
   nvidia-smi -L
   # nvidia-smi -L | wc -l
 
@@ -109,7 +112,10 @@ function lsd-mod.nvidia.get__gpu_stats() {
   # watch -n 1 nvidia-smi --format=csv --query-gpu=power.draw,utilization.gpu,fan.speed,temperature.gpu
 
   ## https://www.slideshare.net/databricks/monitoring-of-gpu-usage-with-tensorflow-models-using-prometheus
-  nvidia-smi --query-gpu=timestamp,name,pci.bus_id,driver_version,pstate,pcie.link.gen.max,pcie.link.gen.current,temperature.gpu,utilization.gpu,utilization.memory,memory.total,memory.free,memory.used --format=csv -l ${_delay}
+  ##nvidia-smi --query-gpu=timestamp,name,pci.bus_id,driver_version,pstate,pcie.link.gen.max,pcie.link.gen.current,temperature.gpu,utilization.gpu,utilization.memory,memory.total,memory.free,memory.used --format=csv -l ${_delay}
+  ## added power.draw
+  nvidia-smi --query-gpu=timestamp,name,pci.bus_id,driver_version,pstate,pcie.link.gen.max,pcie.link.gen.current,temperature.gpu,power.draw,utilization.gpu,utilization.memory,memory.total,memory.free,memory.used --format=csv -l ${_delay}
+
   # nvidia-smi --query-gpu=index,timestamp,power.draw,clocks.sm,clocks.mem,clocks.gr --format=csv
 
   ## https://github.com/teh/nvidia-smi-prometheus/blob/master/src/Main.hs
