@@ -61,7 +61,7 @@ function lscripts.alias.main() {
   alias lsd-dir.get-datadirs-paths="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.dir.get-datadirs-paths"
   alias lsd-dir.get-osdirs-paths="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.dir.get-osdirs-paths"
   alias lsd-dir.mkdir-datadirs="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.dir.mkdir-datadirs"
-  alias lsd-dir.mkdir-osdirs="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.dir.mkdir-datadirs"
+  alias lsd-dir.mkdir-osdirs="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.dir.mkdir-osdirs"
   alias lsd-dir.mkdir-lscripts="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.dir.mkdir-lscripts"
   ###----------------------------------------------------------
   ## lsd-date => _date_ module

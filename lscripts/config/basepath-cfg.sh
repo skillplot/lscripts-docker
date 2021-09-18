@@ -34,26 +34,28 @@
 
 
 local _LSD__BASENAME="${LSCRIPTS__BASENAME}"
+local _LSD__BASENAME_OS="${LSCRIPTS__BASENAME_OS}"
 local _LSD__ROOT="${LSCRIPTS__ROOT}"
 declare -A _LSD__ENVVARS=()
 ##----
-[[ ! -z "${_LSD__BASENAME}" ]] || _LSD__BASENAME="lscripts"
+[[ ! -z "${_LSD__BASENAME}" ]] || _LSD__BASENAME="lsdhub"
+[[ ! -z "${_LSD__BASENAME_OS}" ]] || _LSD__BASENAME_OS="lsdos"
 [[ ! -z "${_LSD__ROOT}" ]] || _LSD__ROOT="/codehub"
 # [[ ! -z "${_LSD__ROOT}" ]] || _LSD__ROOT="${HOME}"
 
 ## only alpha-numeric values are allowed
 _LSD__BASENAME=$(tr -dc '0-9a-zA-Z' <<< "${_LSD__BASENAME}")
 _LSD__ROOT=${_LSD__ROOT%/}
-_LSD__ROOT="${_LSD__ROOT}/${_LSD__BASENAME}"
+local _LSD__HOME="${_LSD__ROOT}/${_LSD__BASENAME}"
+# _LSD__ROOT="${_LSD__ROOT}/${_LSD__BASENAME}"
 
 ##----
-local _LSD__HOME="${_LSD__ROOT}/${_LSD__BASENAME}"
+local _LSD__VM_ROOT=${_LSD__ROOT}/virtualmachines
+local _LSD__OS_ROOT="${_LSD__ROOT}/${_LSD__BASENAME_OS}"
 ##----
 local _LSD__CONFIG_ROOT="${_LSD__ROOT}/${_LSD__BASENAME}-config"
 local _LSD__DATA_ROOT="${_LSD__ROOT}/${_LSD__BASENAME}-dat"
 local _LSD__MOBILE_ROOT="${_LSD__ROOT}/${_LSD__BASENAME}-mobile"
-local _LSD__OS_ROOT="${_LSD__ROOT}/${_LSD__BASENAME}-os"
-local _LSD__VM_ROOT=${_LSD__ROOT}/virtualmachines
 
 ##----
 ## home variables
@@ -211,7 +213,7 @@ declare -a _LSD__OS_DIRS=(
   "cache"
   "crash"
   "lock"
-  "spool"
+  "opt"
   "spool"
 )
 

@@ -25,6 +25,7 @@ function lsd-mod.dir.get-osdirs-paths() {
   local i
   for i in ${!_lsd__os_dirs[*]}; do
     _lsd__os_dirs_path="${_LSD__OS_ROOT}/${_lsd__os_dirs[$i]}"
+    # lsd-mod.log.echo "_lsd__os_dirs_path: ${_lsd__os_dirs_path}"
     _LSD_OS_DIRS_PATHS[$i]="${_lsd__os_dirs_path}"
   done
   echo ${_LSD_OS_DIRS_PATHS[@]}
@@ -36,9 +37,9 @@ function lsd-mod.dir.mkdir-datadirs() {
   local i
   for i in ${!_lsd_data_dirs_paths[*]}; do
     lsd-mod.log.echo "${gre}${_lsd_data_dirs_paths[$i]}"
-    [[ ! -d ${_lsd__data_dirs_path} ]] && [[ ! -L ${_lsd__data_dirs_path} ]] && {
-      echo "mkdir -p ${_lsd__data_dirs_path}"
-      echo "chown -R $(id -un):$(id -gn) ${_lsd__data_dirs_path}"
+    [[ ! -d ${_lsd_data_dirs_paths[$i]} ]] && [[ ! -L ${_lsd_data_dirs_paths[$i]} ]] && {
+      echo "mkdir -p ${_lsd_data_dirs_paths[$i]}"
+      echo "chown -R $(id -un):$(id -gn) ${_lsd_data_dirs_paths[$i]}"
     }
   done
 }
@@ -49,9 +50,9 @@ function lsd-mod.dir.mkdir-osdirs() {
   local i
   for i in ${!_lsd_os_dirs_paths[*]}; do
     lsd-mod.log.echo "${_lsd_os_dirs_paths[$i]}"
-    [[ ! -d ${_lsd_os_dirs_paths} ]] && [[ ! -L ${_lsd_os_dirs_paths} ]] && {
-      echo "mkdir -p ${_lsd_os_dirs_paths}"
-      echo "chown -R $(id -un):$(id -gn) ${_lsd_os_dirs_paths}"
+    [[ ! -d ${_lsd_os_dirs_paths[$i]} ]] && [[ ! -L ${_lsd_os_dirs_paths[$i]} ]] && {
+      echo "mkdir -p ${_lsd_os_dirs_paths[$i]}"
+      echo "chown -R $(id -un):$(id -gn) ${_lsd_os_dirs_paths[$i]}"
     }
   done
 }
