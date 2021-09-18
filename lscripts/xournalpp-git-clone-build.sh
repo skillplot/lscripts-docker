@@ -18,7 +18,17 @@ function __xournalpp-pre_requisite() {
 }
 
 
-# function __xournalpp-package() {}
+## function __xournalpp-package() {
+##
+##  cmake --build .
+##  ## For a faster build, set the flag -DCMAKE_BUILD_TYPE=RelWithDebInfo
+##
+##  cmake .. -DCPACK_GENERATOR="DEB" ..
+##  cmake --build . --target package
+##  cd packages/
+##  sudo dpkg -i xournalpp-1.1.0-Ubuntu-bionic-x86_64.deb
+##
+##}
 
 
 function __xournalpp-build() {
