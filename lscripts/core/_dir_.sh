@@ -42,13 +42,6 @@ function lsd-mod.dir.admin.mkdir-datadirs() {
       chown -R $(id -un):$(id -gn) ${_lsd__data_dir_paths[$i]}
     }
   done
-
-  getent group | grep ${AUSER_GRP} &> /dev/null && {
-    lsd-mod.log.echo "Changing ${_LSD__DATA_ROOT} to Group ownership with groupname (${AUSER_GRP})"
-    find ${_LSD__DATA_ROOT} -type d -exec sudo chgrp ${AUSER_GRP} {} +
-    find ${_LSD__DATA_ROOT} -type d -exec sudo chmod g+s {} +
-  }
-
   echo "${_LSD__DATA_ROOT}"
 }
 
@@ -63,13 +56,6 @@ function lsd-mod.dir.admin.mkdir-osdirs() {
       chown -R $(id -un):$(id -gn) ${_lsd__os_dirs_paths[$i]}
     }
   done
-
-  getent group | grep ${AUSER_GRP} &> /dev/null && {
-    lsd-mod.log.echo "Changing ${_LSD__OS_ROOT} to Group ownership with groupname (${AUSER_GRP})"
-    find ${_LSD__OS_ROOT} -type d -exec sudo chgrp ${AUSER_GRP} {} +
-    find ${_LSD__OS_ROOT} -type d -exec sudo chmod g+s {} +
-  }
-
   echo "${_LSD__OS_ROOT}"
 }
 

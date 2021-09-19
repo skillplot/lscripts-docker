@@ -28,6 +28,7 @@ function lsd-lscripts.exe.install() {
     lsd-system.admin.create-nologin-user --user=${AUSER} --group=${AUSER_GRP}
   } || lsd-mod.log.echo "${_msg}"
 
+  lsd-mod.log.warn "sudo access is required!"
   _que="Do you want to create LSD-OS directories"
   _msg="Skipping creating LSD-OS directories!"
   lsd-mod.fio.yesno_${_default} "${_que}" && {
@@ -36,9 +37,18 @@ function lsd-lscripts.exe.install() {
     local _lsd__os_root=$(lsd-dir.admin.mkdir-osdirs)
     lsd-mod.log.echo "_lsd__os_root: ${_lsd__os_root}"
 
-    ls -ltr ${_lsd__os_root} 2>/dev/null
+    ls -ltr ${_lsd__os_root} 2>/dev/null && {
+      ## permission management
+      getent group | grep ${AUSER_GRP} &> /dev/null && {
+        lsd-mod.log.echo "Changing ${_LSD__OS_ROOT} to Group ownership with groupname (${AUSER_GRP})"
+        # sudo chown -R ${AUSER}:${AUSER_GRP} ${_LSD__OS_ROOT}
+        find ${_LSD__OS_ROOT} -type d -exec sudo chgrp ${AUSER_GRP} {} +
+        find ${_LSD__OS_ROOT} -type d -exec sudo chmod g+s {} +
+      }
+    }
   } || lsd-mod.log.echo "${_msg}"
 
+  lsd-mod.log.warn "sudo access is required!"
   _que="Do you want to create LSD-Data directories"
   _msg="Skipping creating LSD-Data directories!"
   lsd-mod.fio.yesno_${_default} "${_que}" && {
@@ -46,7 +56,14 @@ function lsd-lscripts.exe.install() {
     ## create Data DIRS
     local _lsd__data_root=$(lsd-dir.admin.mkdir-datadirs)
     lsd-mod.log.echo "_lsd__data_root: ${_lsd__data_root}"
-    ls -ltr ${_lsd__data_root} 2>/dev/null
+    ls -ltr ${_lsd__data_root} 2>/dev/null && {
+      ## permission management
+      getent group | grep ${AUSER_GRP} &> /dev/null && {
+        lsd-mod.log.echo "Changing ${_LSD__DATA_ROOT} to Group ownership with groupname (${AUSER_GRP})"
+        find ${_LSD__DATA_ROOT} -type d -exec sudo chgrp ${AUSER_GRP} {} +
+        find ${_LSD__DATA_ROOT} -type d -exec sudo chmod g+s {} +
+      }
+    }
   } || lsd-mod.log.echo "${_msg}"
 }
 
