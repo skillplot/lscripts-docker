@@ -21,7 +21,7 @@
 
 
 function test.lsd-mod.system.case-1() {
-  lsd-mod.system.sudo_restrict_user_cmd_prompt --user='blah' --group='dummy' --scripts_filepath=${_BZO__SCRIPTS}/lscripts-docker/lscripts/tests/test.echo.sh
+  lsd-mod.system.admin.restrict-cmds-for-sudo-user --user='blah' --group='dummy' --scripts_filepath=${_BZO__SCRIPTS}/lscripts-docker/lscripts/tests/test.echo.sh
 }
 
 

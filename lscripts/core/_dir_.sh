@@ -42,6 +42,7 @@ function lsd-mod.dir.admin.mkdir-datadirs() {
       chown -R $(id -un):$(id -gn) ${_lsd__data_dir_paths[$i]}
     }
   done
+  echo "${_LSD__DATA_ROOT}"
 }
 
 
@@ -55,26 +56,37 @@ function lsd-mod.dir.admin.mkdir-osdirs() {
       chown -R $(id -un):$(id -gn) ${_lsd__os_dirs_paths[$i]}
     }
   done
+  echo "${_LSD__OS_ROOT}"
+}
+
+
+function lsd-mod.dir.admin.mkalias-datadirs() {
+  declare -a _lsd__data_dir_paths=($(lsd-mod.dir.get-datadirs-paths))
+  local _lsd__data_dir_path
+  # lsd-mod.log.echo "_LSD__DATA_ALIAS_SH: ${_LSD__DATA_ALIAS_SH}"
+  # lsd-mod.log.echo "_lsd__data_dir_paths: ${#_lsd__data_dir_paths[@]}"
+  rm -f ${_LSD__DATA_ALIAS_SH}
+  for _lsd__data_dir_path in ${_lsd__data_dir_paths[@]}; do
+    # lsd-mod.log.echo "${_lsd__data_dir_path}"
+    [[ -d ${_lsd__data_dir_path} ]] && {
+      echo "alias lsdata__$(basename ${_lsd__data_dir_path})='"cd ${_lsd__data_dir_path}"'" >> ${_LSD__DATA_ALIAS_SH}
+    }
+  done
+  echo ${_LSD__DATA_ALIAS_SH}
 }
 
 
 function lsd-mod.dir.admin.mkalias-osdirs() {
   declare -a _lsd__os_dirs_paths=($(lsd-mod.dir.get-osdirs-paths))
   local _lsd__os_dirs_path
-  # lsd-mod.log.echo "_LSD__ALIAS_SH: ${_LSD__ALIAS_SH}"
+  # lsd-mod.log.echo "_LSD__OS_ALIAS_SH: ${_LSD__OS_ALIAS_SH}"
   # lsd-mod.log.echo "_lsd__os_dirs_paths: ${#_lsd__os_dirs_paths[@]}"
-  rm -f ${_LSD__ALIAS_SH}
+  rm -f ${_LSD__OS_ALIAS_SH}
   for _lsd__os_dirs_path in ${_lsd__os_dirs_paths[@]}; do
     # lsd-mod.log.echo "${_lsd__os_dirs_path}"
     [[ -d ${_lsd__os_dirs_path} ]] && {
-      echo "alias lsd__$(basename ${_lsd__os_dirs_path})='"cd ${_lsd__os_dirs_path}"'" >> ${_LSD__ALIAS_SH}
+      echo "alias lsdos__$(basename ${_lsd__os_dirs_path})='"cd ${_lsd__os_dirs_path}"'" >> ${_LSD__OS_ALIAS_SH}
     }
   done
-  echo ${_LSD__ALIAS_SH}
-}
-
-
-function lsd-mod.dir.admin.mkdir-lscripts() {
-  lsd-mod.dir.admin.mkdir-datadirs
-  lsd-mod.dir.admin.mkdir-osdirs
+  echo ${_LSD__OS_ALIAS_SH}
 }

@@ -73,9 +73,11 @@ function lsd-mod.system.get__gpu_info() {
 }
 
 
-function lsd-mod.system.create_login_user() {
-  ## create normal user with home and login
-  ## Caution: add the user as the sudoer
+function lsd-mod.system.admin.create-login-user() {
+  lsd-mod.log.info "It will create normal user with home and login!"
+  lsd-mod.log.warn "sudo access is required!"
+  ## Caution
+  lsd-mod.log.warn "It will add the user as the sudoer!"
 
   local __LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
   source ${__LSCRIPTS}/argparse.sh "$@"
@@ -102,19 +104,22 @@ function lsd-mod.system.create_login_user() {
     ##   -s, --shell SHELL             login shell of the new account
     ##   -c, --comment COMMENT         GECOS field of the new account
 
-    ## add user if it does not exists
+    lsd-mod.log.info "add user if it does not exists."
+
     id -u ${username} &> /dev/null || sudo useradd -c "User account" ${username}
     sudo gpasswd -d $(id -un) ${groupname} &> /dev/null
     sudo gpasswd -d ${username} ${groupname} &> /dev/null
 
-    ## add application system user to the secondary group, if it is not already added
+    lsd-mod.log.info "add new application system user to the secondary group, if it is not already added."
+
     getent group | grep ${username}  | grep ${groupname} &> /dev/null || {
       sudo groupadd ${groupname}
       sudo usermod -aG ${groupname} ${username}
     }
 
-    ## add system user to the secondary group, if it is not already added
-    ## add the user to the sudo group so it can run commands in a privileged mode
+    lsd-mod.log.info "Adding current user to the secondary group, if it is not already added."
+    lsd-mod.log.warn "Also, adding the user to the sudo group so it can run commands in a privileged mode!"
+
     getent group | grep $(id -un) | grep ${groupname} &> /dev/null || {
       sudo usermod -aG ${groupname} $(id -un) && \
         sudo usermod -aG sudo ${username} && lsd-mod.log.echo "Successfully created system user"
@@ -124,9 +129,11 @@ function lsd-mod.system.create_login_user() {
 }
 
 
-function lsd-mod.system.create_nologin_user() {
-  ## create linux system user
-  ## Caution: delete the existing user and group
+function lsd-mod.system.admin.create-nologin-user() {
+  lsd-mod.log.info "It will create no-login system user without the home directory!"
+  lsd-mod.log.warn "sudo access is required!"
+  ## Caution
+  lsd-mod.log.warn "It will delete and re-create if the user or group already exists!"
 
   local __LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
   source ${__LSCRIPTS}/argparse.sh "$@"
@@ -154,18 +161,21 @@ function lsd-mod.system.create_nologin_user() {
   sudo groupdel ${username} &> /dev/null
   sudo groupdel ${groupname} &> /dev/null
 
-  ## add user if it does not exists
+  lsd-mod.log.info "add user if it does not exists."
+
   id -u ${username} &> /dev/null || sudo useradd -rUMs /usr/sbin/nologin -c "User account" ${username}
   sudo gpasswd -d $(id -un) ${groupname} &> /dev/null
   sudo gpasswd -d ${username} ${groupname} &> /dev/null
 
-  ## add application system user to the secondary group, if it is not already added
+  lsd-mod.log.info "Add new system user to the secondary group, if it is not already added."
+
   getent group | grep ${username}  | grep ${groupname} &> /dev/null || {
     sudo groupadd ${groupname}
     sudo usermod -aG ${groupname} ${username}
   }
 
-  ## add system user to the secondary group, if it is not already added
+  lsd-mod.log.info "Adding current user to the secondary group, if it is not already added."
+
   getent group | grep $(id -un) | grep ${groupname} &> /dev/null || {
     sudo usermod -aG ${groupname} $(id -un) && lsd-mod.log.echo "Successfully created system user"
     cat /etc/passwd | grep ${username}
@@ -173,7 +183,7 @@ function lsd-mod.system.create_nologin_user() {
 }
 
 
-function lsd-mod.system.sudo_restrict_user_cmd_prompt() {
+function lsd-mod.system.admin.restrict-cmds-for-sudo-user() {
   local __LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
   source ${__LSCRIPTS}/argparse.sh "$@"
 
@@ -204,7 +214,7 @@ function lsd-mod.system.sudo_restrict_user_cmd_prompt() {
   _msg="Skipping system user creation process."
   lsd-mod.fio.yesno_yes "${_que}" && \
       lsd-mod.log.echo "Executing system user creation process..." && \
-      lsd-mod.system.create_nologin_user --user=${username} --group=${groupname} \
+      lsd-mod.system.admin.create-nologin-user --user=${username} --group=${groupname} \
     || lsd-mod.log.echo "${_msg}"
 
 

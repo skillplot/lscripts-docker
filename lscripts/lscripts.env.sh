@@ -14,15 +14,16 @@ function __lscripts_env__() {
   ## Todo: for full configuration
   # source "${LSCRIPTS}/lscripts.export.sh"
   source "${LSCRIPTS}/lscripts.install.sh"
-  lscripts.install.main
+  lsd-mod.lscripts.install.main
 
   source "${LSCRIPTS}/lscripts.alias.sh"
   # (>&2 echo -e "lscripts updated...")
 
   source "${LSCRIPTS}/banners/asciiart.sh"
-  asciiart.skillplot_banner_1
+  lsd-mod.asciiart.main
   #
   source "${LSCRIPTS}/lscripts.exe.sh"
+  lsd-mod.lscripts.exe.main
 }
 
 __lscripts_env__

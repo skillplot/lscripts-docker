@@ -36,7 +36,7 @@ function kafka-config() {
   ls -l ${_LSD__EXTERNAL_HOME}/${PROG} || lsd-mod.log.fail "Installation does not exists: ${_LSD__EXTERNAL_HOME}/${PROG}"
 
   lsd-mod.log.info " username=${KAFKA_USERNAME} groupname=${KAFKA_GROUPNAME}"
-  lsd-mod.system.create_nologin_user --username=${KAFKA_USERNAME} --groupname=${KAFKA_GROUPNAME}
+  lsd-mod.system.admin.create-nologin-user --username=${KAFKA_USERNAME} --groupname=${KAFKA_GROUPNAME}
   # su -l ${KAFKA_USERNAME}
 
   sudo chown -R ${KAFKA_USERNAME}:${KAFKA_GROUPNAME} ${PROG_DIR}

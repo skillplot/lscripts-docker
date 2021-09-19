@@ -14,12 +14,12 @@
 
 function lscripts.alias.main() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
-  ##
+  ###-------
   alias lt='ls -lrth'
   alias l='ls -lrth'
   alias lpwd='ls -d -1 ${PWD}/*'
   alias lpwdf='ls -d -1 ${PWD}/*.*'
-  ##
+  ###-------
   alias lsd-cd="cd ${LSCRIPTS}"
   ###----------------------------------------------------------
   ## convinience
@@ -28,11 +28,14 @@ function lscripts.alias.main() {
   ###----------------------------------------------------------
   ## lsd-admin
   ###----------------------------------------------------------
-  ## lsdhub admin
   alias lsd-admin.mkdir-datadirs="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.dir.admin.mkdir-datadirs"
   alias lsd-admin.mkdir-osdirs="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.dir.admin.mkdir-osdirs"
-  alias lsd-admin.mkdirs="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.dir.admin.mkdir-lscripts"
+  alias lsd-admin.mkalias-datadirs="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.dir.admin.mkalias-datadirs"
   alias lsd-admin.mkalias-osdirs="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.dir.admin.mkalias-osdirs"
+  ###-------
+  alias lsd-admin.create-login-user="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.system.admin.create-login-user $@"
+  alias lsd-admin.create-nologin-user="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.system.admin.create-nologin-user $@"
+  alias lsd-admin.restrict-cmds-for-sudo-user="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.system.admin.restrict-cmds-for-sudo-user $@"
   ###----------------------------------------------------------
   ## lsd-cfg => from different module
   ###----------------------------------------------------------
@@ -68,9 +71,10 @@ function lscripts.alias.main() {
   ###----------------------------------------------------------
   alias lsd-dir.get-datadirs-paths="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.dir.get-datadirs-paths"
   alias lsd-dir.get-osdirs-paths="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.dir.get-osdirs-paths"
+  ###-------
   alias lsd-dir.admin.mkdir-datadirs="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.dir.admin.mkdir-datadirs"
   alias lsd-dir.admin.mkdir-osdirs="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.dir.admin.mkdir-osdirs"
-  alias lsd-dir.admin.mkdir-lscripts="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.dir.admin.mkdir-lscripts"
+  alias lsd-dir.admin.mkalias-datadirs="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.dir.admin.mkalias-datadirs"
   alias lsd-dir.admin.mkalias-osdirs="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.dir.admin.mkalias-osdirs"
   ###----------------------------------------------------------
   ## lsd-date => _date_ module
@@ -89,7 +93,13 @@ function lscripts.alias.main() {
   alias lsd-system.df.json="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.system.df_json"
   alias lsd-system.ip="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.system.get__ip"
   alias lsd-system.osinfo="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.system.get__osinfo"
-  ##
+  ###-------
+  alias lsd-system.admin.create-login-user="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.system.admin.create-login-user $@"
+  alias lsd-system.admin.create-nologin-user="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.system.admin.create-nologin-user $@"
+  alias lsd-system.admin.restrict-cmds-for-sudo-user="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.system.admin.restrict-cmds-for-sudo-user $@"
+  ###-------
+  alias lsd-system.osinfo="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.system.admin.create-nologin-user $@"
+  ###-------
   alias lsd-select.cuda="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.system.select__cuda"
   alias lsd-select.gcc="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.system.select__gcc"
   alias lsd-select.bazel="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.system.select__bazel"
@@ -98,7 +108,7 @@ function lscripts.alias.main() {
   ###----------------------------------------------------------
   alias lsd-docker.cfg="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.docker.get__vars"
   alias lsd-docker.osvers="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.docker.get__os_vers_avail"
-  #
+  ###-------
   alias lsd-docker.container.delete-all="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.docker.container.delete-all"
   alias lsd-docker.container.delete-byimage="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.docker.container.delete-byimage $@"
   alias lsd-docker.container.exec="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.docker.container.exec"
@@ -109,7 +119,7 @@ function lscripts.alias.main() {
   alias lsd-docker.container.status="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.docker.container.status"
   alias lsd-docker.container.stop-all="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.docker.container.stop-all"
   alias lsd-docker.container.test="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.docker.container.test"
-  #
+  ###-------
   alias lsd-docker.image.build="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.docker.image.build"
   ###----------------------------------------------------------
   ## lsd-stack => _stack_ module

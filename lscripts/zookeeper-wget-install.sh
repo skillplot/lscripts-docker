@@ -34,7 +34,7 @@ function zookeeper-config() {
   ls -l ${_LSD__EXTERNAL_HOME}/${PROG} || lsd-mod.log.fail "Installation does not exists: ${_LSD__EXTERNAL_HOME}/${PROG}"
 
   lsd-mod.log.info " username=${ZOOKEEPER_USERNAME} groupname=${ZOOKEEPER_GROUPNAME}"
-  lsd-mod.system.create_nologin_user --username=${ZOOKEEPER_USERNAME} --groupname=${ZOOKEEPER_GROUPNAME}
+  lsd-mod.system.admin.create-nologin-user --username=${ZOOKEEPER_USERNAME} --groupname=${ZOOKEEPER_GROUPNAME}
   # su -l ${ZOOKEEPER_USERNAME}
 
   sudo chown -R ${ZOOKEEPER_USERNAME}:${ZOOKEEPER_GROUPNAME} ${PROG_DIR}

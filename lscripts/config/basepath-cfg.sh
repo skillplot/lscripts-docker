@@ -279,4 +279,5 @@ declare -a _LSD__DATA_DIRS_PATHS=()
 declare -a _LSD__OS_DIRS_PATHS=()
 
 ##----
-local _LSD__ALIAS_SH="${__LSCRIPTS_LOG_BASEDIR__}/lsdhub.alias.sh"
+local _LSD__OS_ALIAS_SH="${__LSCRIPTS_LOG_BASEDIR__}/lsdos.alias.sh"
+local _LSD__DATA_ALIAS_SH="${__LSCRIPTS_LOG_BASEDIR__}/lsddata.alias.sh"

@@ -90,7 +90,7 @@ DOCKER_PORTS="${DOCKER_PORTS} ${DOCKER_HOST_TO_MONGODB_PORT_MAP}"
 ###----------------------------------------------------------
 ## Data volumes configuration
 ###----------------------------------------------------------
-source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/volumes-cfg.sh
+source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/docker-container-volumes-cfg.sh
 
 
 ###----------------------------------------------------------

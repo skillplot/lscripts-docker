@@ -10,7 +10,7 @@
 ###----------------------------------------------------------------
 
 
-function asciiart.lscripts_banner_1() {
+function lsd-mod.asciiart.banner.lscripts-1() {
 
   (>&2 echo -e "
      _       _____  _____ _____  _____ _____ _______ _____ 
@@ -25,7 +25,7 @@ function asciiart.lscripts_banner_1() {
 }
 
 
-function asciiart.skillplot_banner_1() {
+function lsd-mod.asciiart.banner.skillplot-1() {
 
   (>&2 echo -e "
       _____ _    _ _ _ _____  _       _   
@@ -40,8 +40,7 @@ function asciiart.skillplot_banner_1() {
 }
 
 
-
-function asciiart.skillplot_banner_2() {
+function lsd-mod.asciiart.banner.skillplot-2() {
   (>&2 echo -e "
     ░█▀▀░█░█░▀█▀░█░░░█░░░█▀█░█░░░█▀█░▀█▀
     ░▀▀█░█▀▄░░█░░█░░░█░░░█▀▀░█░░░█░█░░█░
@@ -52,7 +51,7 @@ function asciiart.skillplot_banner_2() {
 }
 
 
-function asciiart.skillplot_banner_3() {
+function lsd-mod.asciiart.banner.skillplot-3() {
 
   (>&2 echo -e "
 
@@ -67,7 +66,8 @@ function asciiart.skillplot_banner_3() {
     ")
 }
 
-function asciiart.skillplot_banner_4() {
+
+function lsd-mod.asciiart.banner.skillplot-4() {
 
   (>&2 echo -e "
        ▄████████    ▄█   ▄█▄  ▄█   ▄█        ▄█          ▄███████▄  ▄█        ▄██████▄      ███     
@@ -82,4 +82,10 @@ function asciiart.skillplot_banner_4() {
     >>> LSCRIPTS: $(lsd-utils.date.get)
 
     ")
+}
+
+
+function lsd-mod.asciiart.main() {
+  local LSCRIPTS="$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )"
+  lsd-mod.asciiart.banner.skillplot-1
 }

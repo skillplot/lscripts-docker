@@ -7,7 +7,7 @@
 ###----------------------------------------------------------
 
 
-function lscripts.install.itemwise() {
+function lsd-mod.lscripts.install.__itemwise() {
   local _item
   local _item_filepath
   for _item in "${_stack_install_itemwise[@]}";do
@@ -30,7 +30,7 @@ function lscripts.install.itemwise() {
 }
 
 
-function lscripts.install.stack-setup() {
+function lsd-mod.lscripts.install.__stacksetup() {
   local _item
   local _item_filepath
   for _item in "${_stack_install_items[@]}";do
@@ -52,7 +52,8 @@ function lscripts.install.stack-setup() {
   } || lsd-mod.log.error "Installer not found: ${_item}!"
 }
 
-function lscripts.install.menu() {
+
+function lsd-mod.lscripts.install.__menu() {
   local _item
 
   PS3="Choose (1-${_menu_items[@]}):"
@@ -88,13 +89,17 @@ function lscripts.install.menu() {
 }
 
 
-function lscripts.install.main() {
+function lsd-mod.lscripts.install.main() {
   local LSCRIPTS="$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )"
   source "${LSCRIPTS}/config/stack-cfg.sh"
   source "${LSCRIPTS}/_common_.sh"
   # lsd-mod.log.warn "Create installer alias ${FUNCNAME[0]}!"
 
-  lscripts.install.stack-setup
-  lscripts.install.itemwise
-  # lscripts.install.menu
+  ## source ${LSCRIPTS}/lscripts.config.sh
+  ## local scriptname=$(basename ${BASH_SOURCE[0]})
+  ## lsd-mod.log.debug "executing script...: ${scriptname} with total params: $#"
+
+  lsd-mod.lscripts.install.__stacksetup
+  lsd-mod.lscripts.install.__itemwise
+  # lsd-mod.lscripts.install.__menu
 }
