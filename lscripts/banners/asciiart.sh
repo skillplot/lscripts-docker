@@ -10,6 +10,11 @@
 ###----------------------------------------------------------------
 
 
+## do not set the log level here, use environment variable
+[[ ! -z ${LSCRIPTS__BANNER} ]] || LSCRIPTS__BANNER=1
+[[ ! -z ${LSCRIPTS__BANNER_TYPE} ]] || LSCRIPTS__BANNER_TYPE="skillplot-1"
+
+
 function lsd-mod.asciiart.banner.lscripts-1() {
 
   (>&2 echo -e "
@@ -87,5 +92,7 @@ function lsd-mod.asciiart.banner.skillplot-4() {
 
 function lsd-mod.asciiart.main() {
   local LSCRIPTS="$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )"
-  lsd-mod.asciiart.banner.skillplot-1
+  [[ ${LSCRIPTS__BANNER} -eq 0 ]] || {
+    lsd-mod.asciiart.banner.${LSCRIPTS__BANNER_TYPE}
+  }
 }

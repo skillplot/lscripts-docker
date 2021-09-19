@@ -86,17 +86,19 @@ function lsd-mod.system.admin.create-login-user() {
 
   local key
   for key in "${!args[@]}"; do
-    [[ -n "${args[${key}]+1}" ]] && lsd-mod.log.echo "${key} = ${args[${key}]}" || lsd-mod.log.error "Key does not exists: ${key}"
+    [[ -n "${args[${key}]+1}" ]] && lsd-mod.log.echo "${key}=${args[${key}]}" || lsd-mod.log.error "Key does not exists: ${key}"
   done
 
   local username
   local groupname
-  # [[ -n "${args['username']+1}" ]] && username=${args['username']} ||  username=${args['username']} 
-  # [[ -n "${args['groupname']+1}" ]] && groupname=${args['groupname']} ||  groupname=${args['username']} 
+  # [[ -n "${args['user']+1}" ]] && username=${args['user']} ||  username=${args['user']} 
+  # [[ -n "${args['group']+1}" ]] && groupname=${args['group']} ||  groupname=${args['group']} 
 
-  [[ -n "${args['username']+1}" ]] && [[ -n "${args['groupname']+1}" ]] && {
-    username="${args['username']}"
-    groupname="${args['groupname']}"
+  [[ -n "${args['user']+1}" ]] && [[ -n "${args['group']+1}" ]] && {
+    username="${args['user']}"
+    groupname="${args['group']}"
+
+    lsd-mod.log.info "New system user (${username}) and new group (${groupname})"
 
     ##   -U, --user-group              create a group with the same name as the user
     ##   -r, --system                  create a system account
@@ -104,22 +106,19 @@ function lsd-mod.system.admin.create-login-user() {
     ##   -s, --shell SHELL             login shell of the new account
     ##   -c, --comment COMMENT         GECOS field of the new account
 
-    lsd-mod.log.info "add user if it does not exists."
-
+    ## "Add user if it does not exists."
     id -u ${username} &> /dev/null || sudo useradd -c "User account" ${username}
     sudo gpasswd -d $(id -un) ${groupname} &> /dev/null
     sudo gpasswd -d ${username} ${groupname} &> /dev/null
 
-    lsd-mod.log.info "add new application system user to the secondary group, if it is not already added."
-
+    ## "Add new application system user to the secondary group, if it is not already added."
     getent group | grep ${username}  | grep ${groupname} &> /dev/null || {
       sudo groupadd ${groupname}
       sudo usermod -aG ${groupname} ${username}
     }
 
-    lsd-mod.log.info "Adding current user to the secondary group, if it is not already added."
-    lsd-mod.log.warn "Also, adding the user to the sudo group so it can run commands in a privileged mode!"
-
+    ## "Adding current user to the secondary group, if it is not already added."
+    ## "Also, adding the user to the sudo group so it can run commands in a privileged mode!"
     getent group | grep $(id -un) | grep ${groupname} &> /dev/null || {
       sudo usermod -aG ${groupname} $(id -un) && \
         sudo usermod -aG sudo ${username} && lsd-mod.log.echo "Successfully created system user"
@@ -142,13 +141,15 @@ function lsd-mod.system.admin.create-nologin-user() {
 
   local key
   for key in "${!args[@]}"; do
-    [[ -n "${args[${key}]+1}" ]] && lsd-mod.log.echo "${key} = ${args[${key}]}" || lsd-mod.log.error "Key does not exists: ${key}"
+    [[ -n "${args[${key}]+1}" ]] && lsd-mod.log.echo "${key}=${args[${key}]}" || lsd-mod.log.error "Key does not exists: ${key}"
   done
 
   local username
   local groupname
-  [[ -n "${args['username']+1}" ]] && username=${args['username']} ||  username=${args['username']} 
-  [[ -n "${args['groupname']+1}" ]] && groupname=${args['groupname']} ||  groupname=${args['username']} 
+  [[ -n "${args['user']+1}" ]] && username=${args['user']} ||  username=${args['user']} 
+  [[ -n "${args['group']+1}" ]] && groupname=${args['group']} ||  groupname=${args['group']} 
+
+  lsd-mod.log.info "New system user (${username}) and new group (${groupname})"
 
   ##   -U, --user-group              create a group with the same name as the user
   ##   -r, --system                  create a system account
@@ -156,26 +157,23 @@ function lsd-mod.system.admin.create-nologin-user() {
   ##   -s, --shell SHELL             login shell of the new account
   ##   -c, --comment COMMENT         GECOS field of the new account
 
-  ## delete the system user from the secondary group
+  ## Delete the system user from the secondary group
   sudo userdel ${username} -r &> /dev/null
   sudo groupdel ${username} &> /dev/null
   sudo groupdel ${groupname} &> /dev/null
 
-  lsd-mod.log.info "add user if it does not exists."
-
+  ## "Add user if it does not exists."
   id -u ${username} &> /dev/null || sudo useradd -rUMs /usr/sbin/nologin -c "User account" ${username}
   sudo gpasswd -d $(id -un) ${groupname} &> /dev/null
   sudo gpasswd -d ${username} ${groupname} &> /dev/null
 
-  lsd-mod.log.info "Add new system user to the secondary group, if it is not already added."
-
+  ## "Add new system user (${username}) to the secondary group (${groupname}), if it is not already added."
   getent group | grep ${username}  | grep ${groupname} &> /dev/null || {
     sudo groupadd ${groupname}
     sudo usermod -aG ${groupname} ${username}
   }
 
-  lsd-mod.log.info "Adding current user to the secondary group, if it is not already added."
-
+  ## "Adding current user ($(id -un)) to the secondary group: (${groupname}), if it is not already added."
   getent group | grep $(id -un) | grep ${groupname} &> /dev/null || {
     sudo usermod -aG ${groupname} $(id -un) && lsd-mod.log.echo "Successfully created system user"
     cat /etc/passwd | grep ${username}
@@ -191,16 +189,16 @@ function lsd-mod.system.admin.restrict-cmds-for-sudo-user() {
 
   local key
   for key in "${!args[@]}"; do
-    [[ -n "${args[${key}]+1}" ]] && lsd-mod.log.echo "${key} = ${args[${key}]}" || lsd-mod.log.error "Key does not exists: ${key}"
+    [[ -n "${args[${key}]+1}" ]] && lsd-mod.log.echo "${key}=${args[${key}]}" || lsd-mod.log.error "Key does not exists: ${key}"
   done
 
   local username
   local groupname
   local scripts_filepath
   local cservicename
-  [[ -n "${args['username']+1}" ]] && username=${args['username']} || lsd-mod.log.fail "username does not exists"
+  [[ -n "${args['user']+1}" ]] && username=${args['user']} || lsd-mod.log.fail "username does not exists"
 
-  [[ -n "${args['groupname']+1}" ]] && groupname=${args['groupname']} || ( groupname=${args['username']} && lsd-mod.log.info "groupname will be same as username: ${args['username']}" )
+  [[ -n "${args['group']+1}" ]] && groupname=${args['group']} || ( groupname=${args['group']} && lsd-mod.log.info "groupname will be same as username: ${args['user']}" )
 
   [[ -n "${args['scripts_filepath']+1}" ]] && scripts_filepath=${args['scripts_filepath']} \
     ||  ( scripts_filepath="${_BZO__SCRIPTS}/lscripts-docker/lscripts/tests/test.sh" && lsd-mod.log.info "scripts_filepath: ${scripts_filepath}" )
@@ -315,7 +313,7 @@ function lsd-mod.system.select__gcc() {
 
 #   local key
 #   for key in "${!args[@]}"; do
-#     [[ -n "${args[${key}]+1}" ]] && lsd-mod.log.echo "${key} = ${args[${key}]}" || lsd-mod.log.error "Key does not exists: ${key}"
+#     [[ -n "${args[${key}]+1}" ]] && lsd-mod.log.echo "${key}=${args[${key}]}" || lsd-mod.log.error "Key does not exists: ${key}"
 #   done
 
 #   local L1
@@ -325,8 +323,8 @@ function lsd-mod.system.select__gcc() {
 #   # local groupname="boozo"
 #   # local scripts_path="/boozo-hub/boozo/scripts"
 
-#   local username="${args['username']}"
-#   local groupname="${args['groupname']}"
+#   local username="${args['user']}"
+#   local groupname="${args['group']}"
 #   local scripts_path="${args['scripts_path']}"
 
 #   [[ -z ${username} ]] || username="boozo"
@@ -396,10 +394,10 @@ function lsd-mod.system.select__gcc() {
 #   source ${LSCRIPTS}/core/argparse.sh "$@"
 
 #   [[ "$#" -ne "2" ]] && lsd-mod.log.fail "Invalid number of paramerters: required 2 given $#"
-#   [[ -n "${args['user']+1}" ]] && [[ -n "${args['groupname']+1}" ]] && {
+#   [[ -n "${args['user']+1}" ]] && [[ -n "${args['group']+1}" ]] && {
 #     # (>&2 echo -e "key: 'username' exists")
 #     local username="${args['user']}"
-#     local groupname="${args['groupname']}"
+#     local groupname="${args['group']}"
 
 #     ## Create the user that will run the service
 #     sudo useradd ${username}

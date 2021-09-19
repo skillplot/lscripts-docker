@@ -7,7 +7,7 @@
 ###----------------------------------------------------------
 
 
-function lsd-mod.lscripts.install.__itemwise() {
+function lsd-lscripts.install.__itemwise() {
   local _item
   local _item_filepath
   for _item in "${_stack_install_itemwise[@]}";do
@@ -30,7 +30,7 @@ function lsd-mod.lscripts.install.__itemwise() {
 }
 
 
-function lsd-mod.lscripts.install.__stacksetup() {
+function lsd-lscripts.install.__stacksetup() {
   local _item
   local _item_filepath
   for _item in "${_stack_install_items[@]}";do
@@ -53,7 +53,7 @@ function lsd-mod.lscripts.install.__stacksetup() {
 }
 
 
-function lsd-mod.lscripts.install.__menu() {
+function lsd-lscripts.install.__menu() {
   local _item
 
   PS3="Choose (1-${_menu_items[@]}):"
@@ -89,7 +89,7 @@ function lsd-mod.lscripts.install.__menu() {
 }
 
 
-function lsd-mod.lscripts.install.main() {
+function lsd-lscripts.install.main() {
   local LSCRIPTS="$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )"
   source "${LSCRIPTS}/config/stack-cfg.sh"
   source "${LSCRIPTS}/_common_.sh"
@@ -99,7 +99,7 @@ function lsd-mod.lscripts.install.main() {
   ## local scriptname=$(basename ${BASH_SOURCE[0]})
   ## lsd-mod.log.debug "executing script...: ${scriptname} with total params: $#"
 
-  lsd-mod.lscripts.install.__stacksetup
-  lsd-mod.lscripts.install.__itemwise
-  # lsd-mod.lscripts.install.__menu
+  lsd-lscripts.install.__stacksetup
+  lsd-lscripts.install.__itemwise
+  # lsd-lscripts.install.__menu
 }

@@ -7,23 +7,24 @@
 ###----------------------------------------------------------
 
 
-function __lscripts_env__() {
+function lsd-lscripts.env.main() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
   source "${LSCRIPTS}/config/ps1.sh"
-  ##
-  ## Todo: for full configuration
-  # source "${LSCRIPTS}/lscripts.export.sh"
+
+  source "${LSCRIPTS}/lscripts.export.sh"
+
   source "${LSCRIPTS}/lscripts.install.sh"
-  lsd-mod.lscripts.install.main
+  lsd-lscripts.install.main "$@"
 
   source "${LSCRIPTS}/lscripts.alias.sh"
+  lsd-lscripts.alias.main "$@"
   # (>&2 echo -e "lscripts updated...")
 
   source "${LSCRIPTS}/banners/asciiart.sh"
-  lsd-mod.asciiart.main
-  #
+  lsd-mod.asciiart.main "$@"
+
   source "${LSCRIPTS}/lscripts.exe.sh"
-  lsd-mod.lscripts.exe.main
+  lsd-lscripts.exe.main "$@"
 }
 
-__lscripts_env__
+lsd-lscripts.env.main "$@"

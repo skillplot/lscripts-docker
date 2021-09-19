@@ -37,24 +37,25 @@ categories: quick-start
 ## Lscripts Commands
 
 * Lscripts commands available at the disposal with prefix `lsd-`. All th namespaces are:
+    * `lsd-admin`
     * `lsd-apt`
     * `lsd-cd`
+    * `lsd-cfg`
     * `lsd-cmd`
     * `lsd-date`
+    * `lsd-dir`
     * `lsd-docker`
-    * `lsd-id`
-    * `lsd-image`
+    * `lsd-git`
     * `lsd-install`
-    * `lsd-ls`
+    * `lsd-lscripts`
+    * `lsd-mod` => not to be used directly. It's a namespace for core modules.
     * `lsd-nvidia`
-    * `lsd-prog`
     * `lsd-python`
-    * `lsd-rm`
     * `lsd-select`
     * `lsd-stack`
     * `lsd-system`
     * `lsd-test`
-    * `lsd-trash`
+    * `lsd-utils`
 * `lsd-cd` - change to the cloned directory`${LSCRIPTS__DOCKER}/lscripts` directory.
 * `lsd-ls` - It is at core `ls -ltr` plus wit numeric permission value added as the first column i.e. `644 -rw-r--r--`
 * Lscripts configuration variables: `lsd-cfg.`
@@ -71,6 +72,16 @@ categories: quick-start
   ```
 * Quick Commands:
   ```bash
+  lsd-admin.create-login-user
+  lsd-admin.create-nologin-user
+  ##
+  lsd-admin.mkalias-datadirs
+  lsd-admin.mkalias-osdirs
+  lsd-admin.mkdir-datadirs
+  lsd-admin.mkdir-osdirs
+  ##
+  lsd-admin.restrict-cmds-for-sudo-user
+  ##
   lsd-cmd.dummy
   lsd-cmd.git.get.repo-urls
   lsd-cmd.gitlab.get.cert
@@ -89,6 +100,13 @@ categories: quick-start
   lsd-date.timestamp.millisec
   lsd-date.timestamp.nanosec
   ##
+  lsd-dir.admin.mkalias-datadirs
+  lsd-dir.admin.mkalias-osdirs
+  lsd-dir.admin.mkdir-datadirs
+  lsd-dir.admin.mkdir-osdirs
+  lsd-dir.get-datadirs-paths
+  lsd-dir.get-osdirs-paths
+  ##
   lsd-python.create.virtualenv
   ##
   lsd-nvidia.cfg
@@ -102,10 +120,14 @@ categories: quick-start
   lsd-select.cuda
   lsd-select.gcc
   ##
+  lsd-system.admin.create-login-user
+  lsd-system.admin.create-nologin-user
+  lsd-system.admin.restrict-cmds-for-sudo-user
   lsd-system.cfg
   lsd-system.cpu.cores
   lsd-system.cpu.threads
   lsd-system.df.json
+  lsd-system.info
   lsd-system.ip
   lsd-system.osinfo
   ##
@@ -143,6 +165,15 @@ categories: quick-start
   lsd-utils.system.info
   #
   lsd-utils.trash
+  #####
+  lsd-lscripts.alias.main
+  lsd-lscripts.env.main
+  lsd-lscripts.exe.install
+  lsd-lscripts.exe.main
+  lsd-lscripts.install.__itemwise
+  lsd-lscripts.install.main
+  lsd-lscripts.install.__menu
+  lsd-lscripts.install.__stacksetup
   ```
 * One can combine the output of above commands with other system commands/utilities, example:
     * To parse the `json` output to human readable format using `jq`
@@ -203,8 +234,11 @@ Additionally following environment variables can help you customize the `lscript
 ```bash
 LSCRIPTS__BASENAME
 LSCRIPTS__ROOT
+LSCRIPTS__BANNER
+LSCRIPTS__BANNER_TYPE
+LSCRIPTS__DEBUG
+LSCRIPTS__LOG_LEVEL
 LSCRIPTS__VMHOME
-LSCRIPTS__PYVENV_HOME
 LSCRIPTS__PYVENV_PATH
 LSCRIPTS__WSGIPYTHONPATH
 LSCRIPTS__WSGIPYTHONHOME

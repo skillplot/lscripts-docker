@@ -12,7 +12,7 @@
 ###----------------------------------------------------------
 
 
-function lscripts.alias.main() {
+function lsd-lscripts.alias.main() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
   ###-------
   alias lt='ls -lrth'
@@ -93,12 +93,11 @@ function lscripts.alias.main() {
   alias lsd-system.df.json="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.system.df_json"
   alias lsd-system.ip="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.system.get__ip"
   alias lsd-system.osinfo="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.system.get__osinfo"
+  alias lsd-system.info="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.system.get__info"
   ###-------
   alias lsd-system.admin.create-login-user="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.system.admin.create-login-user $@"
   alias lsd-system.admin.create-nologin-user="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.system.admin.create-nologin-user $@"
   alias lsd-system.admin.restrict-cmds-for-sudo-user="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.system.admin.restrict-cmds-for-sudo-user $@"
-  ###-------
-  alias lsd-system.osinfo="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.system.admin.create-nologin-user $@"
   ###-------
   alias lsd-select.cuda="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.system.select__cuda"
   alias lsd-select.gcc="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.system.select__gcc"
@@ -173,5 +172,3 @@ function lscripts.alias.main() {
   alias lsd-utils.id.filename="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.utils.id.filename"
   alias lsd-utils.id.filename-tmp="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.utils.id.filename-tmp"
 }
-
-lscripts.alias.main "$@"

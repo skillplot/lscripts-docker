@@ -1,0 +1,25 @@
+#!/bin/bash
+
+## Copyright (c) 2021 mangalbhaskar. All Rights Reserved.
+##__author__ = 'mangalbhaskar'
+###----------------------------------------------------------
+## Lscripts environment variables 
+###----------------------------------------------------------
+[[ ! -z ${LSCRIPTS__BASENAME} ]] || export LSCRIPTS__BASENAME="lsdhub"
+[[ ! -z ${LSCRIPTS__ROOT} ]] || export LSCRIPTS__ROOT="/boozo-hub"
+##
+[[ ! -z ${LSCRIPTS__BANNER} ]] || LSCRIPTS__BANNER=1
+[[ ! -z ${LSCRIPTS__BANNER_TYPE} ]] || LSCRIPTS__BANNER_TYPE="skillplot-1"
+##
+[[ ! -z ${LSCRIPTS__DEBUG} ]] || LSCRIPTS__DEBUG=1
+[[ ! -z ${LSCRIPTS__LOG_LEVEL} ]] || LSCRIPTS__LOG_LEVEL=8
+##
+[[ ! -z ${LSCRIPTS__VMHOME} ]] || export LSCRIPTS__VMHOME=""
+[[ ! -z ${LSCRIPTS__PYVENV_PATH} ]] || export LSCRIPTS__PYVENV_PATH=""
+[[ ! -z ${LSCRIPTS__WSGIPYTHONPATH} ]] || export LSCRIPTS__WSGIPYTHONPATH=""
+[[ ! -z ${LSCRIPTS__WSGIPYTHONHOME} ]] || export LSCRIPTS__WSGIPYTHONHOME=""
+[[ ! -z ${LSCRIPTS__ANDROID_HOME} ]] || export LSCRIPTS__ANDROID_HOME=""
+[[ ! -z ${LSCRIPTS__APACHE_HOME} ]] || export LSCRIPTS__APACHE_HOME=""
+[[ ! -z ${LSCRIPTS__WWW_HOME} ]] || export LSCRIPTS__WWW_HOME=""
+[[ ! -z ${LSCRIPTS__DOWNLOADS} ]] || export LSCRIPTS__DOWNLOADS=""
+[[ ! -z ${LSCRIPTS__EXTERNAL_HOME} ]] || export LSCRIPTS__EXTERNAL_HOME=""

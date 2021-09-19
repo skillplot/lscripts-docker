@@ -23,8 +23,15 @@
 
 
 ```bash
-export LSCRIPTS__BASENAME=""
-export LSCRIPTS__ROOT=""
+export LSCRIPTS__BASENAME="lsdhub"
+export LSCRIPTS__ROOT="/boozo-hub"
+##
+export LSCRIPTS__BANNER=1
+export LSCRIPTS__BANNER_TYPE="skillplot-1"
+##
+export LSCRIPTS__DEBUG=1
+export LSCRIPTS__LOG_LEVEL=8
+##
 export LSCRIPTS__VMHOME=""
 export LSCRIPTS__PYVENV_PATH=""
 export LSCRIPTS__WSGIPYTHONPATH=""
