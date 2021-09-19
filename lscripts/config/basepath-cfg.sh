@@ -183,7 +183,9 @@ local _LSD__OS_ETC=${_LSD__OS_ROOT}/etc
 ## This directory contains subdirectories with specific application data, that can be shared among different architectures of the same OS
 local _LSD__OS_SHARE=${_LSD__OS_ROOT}/share
 ## This directory contains files which may change in size, such as spool and log files.
-# local _LSD__OS_VAR=${_LSD__OS_ROOT}/var
+local _LSD__OS_VAR=${_LSD__OS_ROOT}/var
+## Logs directory
+local _LSD__OS_LOGS=${_LSD__OS_ROOT}/logs
 ## Data cached for programs.
 local _LSD__OS_CACHE=${_LSD__OS_ROOT}/cache
 ## System crash dumps
@@ -210,6 +212,7 @@ declare -a _LSD__OS_DIRS=(
   "etc"
   "share"
   "var"
+  "logs"
   "cache"
   "crash"
   "lock"
@@ -271,6 +274,9 @@ declare -a _LSD__DATA_DIRS=(
   "technotes-research"
 )
 
-declare -A _LSD_ENVVARS=()
-declare -a _LSD_DATA_DIRS_PATHS=()
-declare -a _LSD_OS_DIRS_PATHS=()
+declare -A _LSD__ENVVARS=()
+declare -a _LSD__DATA_DIRS_PATHS=()
+declare -a _LSD__OS_DIRS_PATHS=()
+
+##----
+local _LSD__ALIAS_SH="${__LSCRIPTS_LOG_BASEDIR__}/lsdhub.alias.sh"

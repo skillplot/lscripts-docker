@@ -21,6 +21,8 @@ function __lscripts_env__() {
 
   source "${LSCRIPTS}/banners/asciiart.sh"
   asciiart.skillplot_banner_1
+  #
+  source "${LSCRIPTS}/lscripts.exe.sh"
 }
 
 __lscripts_env__

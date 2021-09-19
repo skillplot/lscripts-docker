@@ -26,6 +26,14 @@ function lscripts.alias.main() {
   ###----------------------------------------------------------
   alias lsd-python.create.virtualenv="source ${LSCRIPTS}/python-virtualenvwrapper-install.sh"
   ###----------------------------------------------------------
+  ## lsd-admin
+  ###----------------------------------------------------------
+  ## lsdhub admin
+  alias lsd-admin.mkdir-datadirs="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.dir.admin.mkdir-datadirs"
+  alias lsd-admin.mkdir-osdirs="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.dir.admin.mkdir-osdirs"
+  alias lsd-admin.mkdirs="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.dir.admin.mkdir-lscripts"
+  alias lsd-admin.mkalias-osdirs="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.dir.admin.mkalias-osdirs"
+  ###----------------------------------------------------------
   ## lsd-cfg => from different module
   ###----------------------------------------------------------
   alias lsd-cfg.color="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.color.get__vars"
@@ -60,9 +68,10 @@ function lscripts.alias.main() {
   ###----------------------------------------------------------
   alias lsd-dir.get-datadirs-paths="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.dir.get-datadirs-paths"
   alias lsd-dir.get-osdirs-paths="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.dir.get-osdirs-paths"
-  alias lsd-dir.mkdir-datadirs="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.dir.mkdir-datadirs"
-  alias lsd-dir.mkdir-osdirs="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.dir.mkdir-osdirs"
-  alias lsd-dir.mkdir-lscripts="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.dir.mkdir-lscripts"
+  alias lsd-dir.admin.mkdir-datadirs="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.dir.admin.mkdir-datadirs"
+  alias lsd-dir.admin.mkdir-osdirs="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.dir.admin.mkdir-osdirs"
+  alias lsd-dir.admin.mkdir-lscripts="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.dir.admin.mkdir-lscripts"
+  alias lsd-dir.admin.mkalias-osdirs="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.dir.admin.mkalias-osdirs"
   ###----------------------------------------------------------
   ## lsd-date => _date_ module
   ###----------------------------------------------------------

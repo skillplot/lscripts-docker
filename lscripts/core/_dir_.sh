@@ -13,9 +13,9 @@ function lsd-mod.dir.get-datadirs-paths() {
   local i
   for i in ${!_lsd__data_dirs[*]}; do
     _lsd__data_dirs_path="${_LSD__DATA_ROOT}/${_lsd__data_dirs[$i]}"
-    _LSD_DATA_DIR_PATHS[$i]="${_lsd__data_dirs_path}"
+    _LSD__DATA_DIR_PATHS[$i]="${_lsd__data_dirs_path}"
   done
-  echo ${_LSD_DATA_DIR_PATHS[@]}
+  echo ${_LSD__DATA_DIR_PATHS[@]}
 }
 
 
@@ -26,39 +26,55 @@ function lsd-mod.dir.get-osdirs-paths() {
   for i in ${!_lsd__os_dirs[*]}; do
     _lsd__os_dirs_path="${_LSD__OS_ROOT}/${_lsd__os_dirs[$i]}"
     # lsd-mod.log.echo "_lsd__os_dirs_path: ${_lsd__os_dirs_path}"
-    _LSD_OS_DIRS_PATHS[$i]="${_lsd__os_dirs_path}"
+    _LSD__OS_DIRS_PATHS[$i]="${_lsd__os_dirs_path}"
   done
-  echo ${_LSD_OS_DIRS_PATHS[@]}
+  echo ${_LSD__OS_DIRS_PATHS[@]}
 }
 
 
-function lsd-mod.dir.mkdir-datadirs() {
-  declare -a _lsd_data_dirs_paths=($(lsd-mod.dir.get-datadirs-paths))
+function lsd-mod.dir.admin.mkdir-datadirs() {
+  declare -a _lsd__data_dir_paths=($(lsd-mod.dir.get-datadirs-paths))
   local i
-  for i in ${!_lsd_data_dirs_paths[*]}; do
-    lsd-mod.log.echo "${gre}${_lsd_data_dirs_paths[$i]}"
-    [[ ! -d ${_lsd_data_dirs_paths[$i]} ]] && [[ ! -L ${_lsd_data_dirs_paths[$i]} ]] && {
-      echo "mkdir -p ${_lsd_data_dirs_paths[$i]}"
-      echo "chown -R $(id -un):$(id -gn) ${_lsd_data_dirs_paths[$i]}"
+  for i in ${!_lsd__data_dir_paths[*]}; do
+    lsd-mod.log.echo "${gre}${_lsd__data_dir_paths[$i]}"
+    [[ ! -d ${_lsd__data_dir_paths[$i]} ]] && [[ ! -L ${_lsd__data_dir_paths[$i]} ]] && {
+      mkdir -p ${_lsd__data_dir_paths[$i]}
+      chown -R $(id -un):$(id -gn) ${_lsd__data_dir_paths[$i]}
     }
   done
 }
 
 
-function lsd-mod.dir.mkdir-osdirs() {
-  declare -a _lsd_os_dirs_paths=($(lsd-mod.dir.get-osdirs-paths))
+function lsd-mod.dir.admin.mkdir-osdirs() {
+  declare -a _lsd__os_dirs_paths=($(lsd-mod.dir.get-osdirs-paths))
   local i
-  for i in ${!_lsd_os_dirs_paths[*]}; do
-    lsd-mod.log.echo "${_lsd_os_dirs_paths[$i]}"
-    [[ ! -d ${_lsd_os_dirs_paths[$i]} ]] && [[ ! -L ${_lsd_os_dirs_paths[$i]} ]] && {
-      echo "mkdir -p ${_lsd_os_dirs_paths[$i]}"
-      echo "chown -R $(id -un):$(id -gn) ${_lsd_os_dirs_paths[$i]}"
+  for i in ${!_lsd__os_dirs_paths[*]}; do
+    lsd-mod.log.echo "${_lsd__os_dirs_paths[$i]}"
+    [[ ! -d ${_lsd__os_dirs_paths[$i]} ]] && [[ ! -L ${_lsd__os_dirs_paths[$i]} ]] && {
+      mkdir -p ${_lsd__os_dirs_paths[$i]}
+      chown -R $(id -un):$(id -gn) ${_lsd__os_dirs_paths[$i]}
     }
   done
 }
 
 
-function lsd-mod.dir.mkdir-lscripts() {
-  lsd-mod.dir.mkdir-datadirs
-  lsd-mod.dir.mkdir-osdirs
+function lsd-mod.dir.admin.mkalias-osdirs() {
+  declare -a _lsd__os_dirs_paths=($(lsd-mod.dir.get-osdirs-paths))
+  local _lsd__os_dirs_path
+  # lsd-mod.log.echo "_LSD__ALIAS_SH: ${_LSD__ALIAS_SH}"
+  # lsd-mod.log.echo "_lsd__os_dirs_paths: ${#_lsd__os_dirs_paths[@]}"
+  rm -f ${_LSD__ALIAS_SH}
+  for _lsd__os_dirs_path in ${_lsd__os_dirs_paths[@]}; do
+    # lsd-mod.log.echo "${_lsd__os_dirs_path}"
+    [[ -d ${_lsd__os_dirs_path} ]] && {
+      echo "alias lsd__$(basename ${_lsd__os_dirs_path})='"cd ${_lsd__os_dirs_path}"'" >> ${_LSD__ALIAS_SH}
+    }
+  done
+  echo ${_LSD__ALIAS_SH}
+}
+
+
+function lsd-mod.dir.admin.mkdir-lscripts() {
+  lsd-mod.dir.admin.mkdir-datadirs
+  lsd-mod.dir.admin.mkdir-osdirs
 }
