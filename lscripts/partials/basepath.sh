@@ -11,7 +11,7 @@ declare -a _lsd__basepaths=(
 )
 
 local _lsd__basepath
-for _lsd__basepath in ${!_lsd__basepaths[*]}; do
+for _lsd__basepath in ${_lsd__basepaths[*]}; do
   ([[ -d "${_lsd__basepath}" ]] || [[ -L "${_lsd__basepath}" && -d "${_lsd__basepath}" ]]) && \
     lsd-mod.log.info "Using BASEPATH: ${_lsd__basepath}" || {
       # lsd-mod.log.info "Using BASEPATH: ${_lsd__basepath}"
