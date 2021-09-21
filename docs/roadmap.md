@@ -25,4 +25,13 @@
 * `chroot jail` setup option for the `lscripts-docker` to run and execute in isolated environments
 
 
-
+**Issues to be fixed**
+* Ubuntu 20.04, or in many systems, `virtaulenvwrapper` gets isntalled at `$HOME/.local/bin` but it is not in the PATH environment variable, hence `mkvirtualenv` command fails and exists abruptly.
+  ```bash
+  ## add in ~/.bashrc file
+  export PATH=$HOME/.local/bin:$PATH
+  ```
+* Installation of `nvidia-container-toolkit` has some logic issues - repo key to be added and then the repo; repo is not getting added through the script
+* Cuda installer issues
+  * lsd-stack.nvidia ==> cuda installer expects cuda version to be installed
+  * cuda stack for ubuntu 20.04 still needs to add 18.04 OS distribution repo
