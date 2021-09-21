@@ -38,6 +38,10 @@ local _LSD__BASENAME_OS="${LSCRIPTS__BASENAME_OS}"
 local _LSD__ROOT="${LSCRIPTS__ROOT}"
 declare -A _LSD__ENVVARS=()
 ##----
+local _LSD__BASHRC_FILE="${LSCRIPTS__BASHRC_FILE}"
+[[ ! -z "${_LSD__BASHRC_FILE}" ]] || _LSD__BASHRC_FILE="$HOME/.bashrc"
+
+##----
 [[ ! -z "${_LSD__BASENAME}" ]] || _LSD__BASENAME="lsdhub"
 [[ ! -z "${_LSD__BASENAME_OS}" ]] || _LSD__BASENAME_OS="lsdos"
 [[ ! -z "${_LSD__ROOT}" ]] || _LSD__ROOT="/codehub"

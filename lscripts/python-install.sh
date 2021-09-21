@@ -56,15 +56,15 @@ function __python-install() {
     liblapack-doc \
     libeigen3-doc \
     libmrpt-dev \
-    libhdf5-doc
+    libhdf5-doc \
+    python-pip \
+    python-scipy
   }
 
   sudo apt -y install --no-install-recommends \
     python-dev \
-    python-pip \
     python-nose \
-    python-numpy \
-    python-scipy
+    python-numpy
 
   sudo apt -y install  --no-install-recommends \
     python3-dev \

@@ -23,7 +23,7 @@
 
 function python-virtualenvwrapper-uninstall() {
   lsd-mod.log.warn "python-virtualenvwrapper uninstallion not allowed through this script!"
-  return -1
+  # return -1
 }
 
 
@@ -139,27 +139,27 @@ function python-virtualenvwrapper-create() {
     }
   } 1>&2 || {
     lsd-mod.log.error "${_cmd} not installed or corrupted!"
-    return -1
+    # return -1
   }
 }
 
 function python-virtualenvwrapper-config() {
-  [[ -f ${USER_BASHRC_FILE} ]] || lsd-mod.log.fail "File does not exits,USER_BASHRC_FILE: ${USER_BASHRC_FILE}"
+  [[ -f ${_LSD__BASHRC_FILE} ]] || lsd-mod.log.fail "File does not exits,_LSD__BASHRC_FILE: ${_LSD__BASHRC_FILE}"
 
   local LINE
   LINE="export WORKON_HOME=${_LSD__PYVENV_PATH}"
-  lsd-mod.fio.inject_in_file --file="${USER_BASHRC_FILE}" --line="${LINE}"
+  lsd-mod.fio.inject_in_file --file="${_LSD__BASHRC_FILE}" --line="${LINE}"
 
   __PY_VIRTUALENVWRAPPER=$(__python-virtualenvwrapper-getconfig_file)
   lsd-mod.log.debug "__PY_VIRTUALENVWRAPPER: ${__PY_VIRTUALENVWRAPPER}"
   LINE="source ${__PY_VIRTUALENVWRAPPER}"
-  lsd-mod.fio.inject_in_file --file="${USER_BASHRC_FILE}" --line="${LINE}"
+  lsd-mod.fio.inject_in_file --file="${_LSD__BASHRC_FILE}" --line="${LINE}"
 
-  source ${USER_BASHRC_FILE}
+  source ${_LSD__BASHRC_FILE}
 }
 
 function __python-virtualenvwrapper-install() {
-  [[ -f ${USER_BASHRC_FILE} ]] || lsd-mod.log.fail "File does not exits,USER_BASHRC_FILE: ${USER_BASHRC_FILE}"
+  [[ -f ${_LSD__BASHRC_FILE} ]] || lsd-mod.log.fail "File does not exits,_LSD__BASHRC_FILE: ${_LSD__BASHRC_FILE}"
 
   local pyVer=$1
   local PYTHON

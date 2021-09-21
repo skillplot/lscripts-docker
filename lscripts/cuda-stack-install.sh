@@ -239,11 +239,11 @@ function __cuda-stack-install() {
 function cuda-stack-config() {
   ## FYI: not required with boozo stack, as it's pre-configured
 
-  [[ -f ${USER_BASHRC_FILE} ]] || lsd-mod.log.fail "File does not exits,USER_BASHRC_FILE: ${USER_BASHRC_FILE}"
+  [[ -f ${_LSD__BASHRC_FILE} ]] || lsd-mod.log.fail "File does not exits,_LSD__BASHRC_FILE: ${_LSD__BASHRC_FILE}"
 
   local LINE
-  local FILE=${USER_BASHRC_FILE}
-  lsd-mod.log.warn "Modifying file: USER_BASHRC_FILE: ${USER_BASHRC_FILE}"
+  local FILE=${_LSD__BASHRC_FILE}
+  lsd-mod.log.warn "Modifying file: _LSD__BASHRC_FILE: ${_LSD__BASHRC_FILE}"
 
   LINE='export CUDA_HOME="/usr/local/cuda"'
   grep -qF "$LINE" "$FILE" || echo "$LINE" >> "$FILE"

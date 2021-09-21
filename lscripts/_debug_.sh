@@ -35,7 +35,7 @@ function _debug_.main() {
   [[ ! -f ${CUDACFG_FILEPATH} ]] || lsd-mod.log.ok "CUDACFG_FILEPATH: ${CUDACFG_FILEPATH}"
   [[ ! -f ${AI_PYCUDA_FILE} ]] || lsd-mod.log.ok "AI_PYCUDA_FILE: ${AI_PYCUDA_FILE}"
 
-  lsd-mod.log.info "USER_BASHRC_FILE: ${USER_BASHRC_FILE}"
+  lsd-mod.log.info "_LSD__BASHRC_FILE: ${_LSD__BASHRC_FILE}"
   ## Un-comment for testing 
   lsd-mod.fio.debug_logger
 
