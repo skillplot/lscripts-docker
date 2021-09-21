@@ -29,7 +29,7 @@ function python-uninstall() {
 }
 
 
-function __python-install.main() {
+function __python-install() {
   lsd-mod.log.info "By default, both python2 and python3 are installed."
 
   lsd-mod.log.info "Installing python 2 and 3 along with other important packages"
