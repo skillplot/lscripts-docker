@@ -3,7 +3,7 @@
 
 ## [lscripts.skillplot.org](https://skillplot.github.io/lscripts-docker)
 
-* [Introduction to Lscripts Docker](2021-05-07-introduction-to-lscripts-docker)
+* [Introduction to Lscripts Docker](docs/_posts/2021-05-07-introduction-to-lscripts-docker.md)
 * [Quick start](docs/_posts/2021-05-08-quick-start.md)
 * [System design](docs/_posts/2021-05-09-system-design.md)
 * [System Setup](docs/_posts/2021-06-18-system-setup.md)
