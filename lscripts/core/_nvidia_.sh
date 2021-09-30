@@ -3,8 +3,7 @@
 ## Copyright (c) 2021 mangalbhaskar. All Rights Reserved.
 ##__author__ = 'mangalbhaskar'
 ###----------------------------------------------------------
-## Utilility functions for nvidia, cuda, gpu
-## cuda, cudnn, tensorrt is referred as 'cuda-stack'
+## Utilility functions for nvidia, gpu
 ###----------------------------------------------------------
 
 
@@ -21,28 +20,6 @@ function lsd-mod.nvidia.get__vars() {
   lsd-mod.log.echo "NVIDIA_DOCKER_CUDA_REPO_URL: ${bgre}${NVIDIA_DOCKER_CUDA_REPO_URL}${nocolor}"
   lsd-mod.log.echo "NVIDIA_DOCKER_URL: ${bgre}${NVIDIA_DOCKER_URL}${nocolor}"
   lsd-mod.log.echo "NVIDIA_DOCKER_KEY_URL: ${bgre}${NVIDIA_DOCKER_KEY_URL}${nocolor}"
-}
-
-
-function lsd-mod.nvidia.get__cuda_vers() {
-  local ver
-  declare -a cuda_vers=(`echo $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/../config/${LINUX_DISTRIBUTION}/cuda-cfg-[0-9]*.sh | grep -o -P "(\ *[0-9.]*sh)" | sed -r 's/\.sh//'`)
-  # (>&2 echo -e "Total cuda_vers: ${#cuda_vers[@]}\n cuda_vers: ${cuda_vers[@]}")
-  # for ver in "${cuda_vers[@]}"; do
-  #   (>&2 echo -e "ver => ${ver}")
-  # done
-  echo "${cuda_vers[@]}"
-}
-
-
-function lsd-mod.nvidia.get__cuda_vers_avail() {
-  local ver
-  declare -a cuda_vers_avail=(`echo $(ls -d /usr/local/cuda-* | cut -d'-' -f2)`)
-  # (>&2 echo -e "Total cuda_vers: ${#cuda_vers[@]}\n cuda_vers: ${cuda_vers[@]}")
-  # for ver in "${cuda_vers_avail[@]}"; do
-  #   (>&2 echo -e "ver => ${ver}")
-  # done
-  echo "${cuda_vers_avail[@]}"
 }
 
 
@@ -233,27 +210,6 @@ function lsd-mod.nvidia.get__gpu_stats() {
 }
 
 
-function lsd-mod.nvidia.purge_cuda_stack() {
-  local _que="Do you want to purge cuda stack"
-  lsd-mod.fio.yes_or_no_loop "${_que}" && {
-
-    lsd-mod.log.warn "purging cuda stack..."
-
-    sudo apt -y --allow-change-held-packages remove 'cuda*' \
-      'cudnn*' \
-      'libcudnn*' \
-      'libnccl*' \
-      'libnvinfer*'
-       # &>/dev/null
-    
-    sudo rm -rf /usr/local/cuda \
-      /usr/local/cuda* 1>&2
-    
-    lsd-mod.log.ok "purging cuda stack... completed."
-  } || lsd-mod.log.info "Skipping purging cuda stack."
-}
-
-
 function lsd-mod.nvidia.purge_nvidia_stack() {
   lsd-mod.log.warn "purging nvidia driver and cuda, cudnn, tensorrt stack..."
 
@@ -262,52 +218,4 @@ function lsd-mod.nvidia.purge_nvidia_stack() {
 
   lsd-mod.nvidia.purge_cuda_stack
   lsd-mod.log.ok "purging nvidia stack... completed"
-}
-
-
-function lsd-mod.nvidia.update_alternatives_cuda() {
-  ###----------------------------------------------------------
-  ## cuda multiple version configuration
-  ## Alternative to update-alternative options is to create sym link
-  ## I preferred update-alternatives option
-  ##
-  ## Examples:
-  # ## Todo: autopick cuda version and their priorities based on what is installed in the /usr/local/cuda-xx.y
-  # if [ -d /usr/local/cuda-11.0 ]; then
-  #   sudo update-alternatives --install /usr/local/cuda cuda /usr/local/cuda-11.0 250
-  # fi
-  # if [ -d /usr/local/cuda-10.2 ]; then
-  #   sudo update-alternatives --install /usr/local/cuda cuda /usr/local/cuda-10.2 300
-  # fi
-  # if [ -d /usr/local/cuda-10.1 ]; then
-  #   sudo update-alternatives --install /usr/local/cuda cuda /usr/local/cuda-10.1 500
-  # fi
-  # if [ -d /usr/local/cuda-10.0 ]; then
-  #   sudo update-alternatives --install /usr/local/cuda cuda /usr/local/cuda-10.0 200
-  # fi
-  # if [ -d /usr/local/cuda-9.0 ]; then
-  #   sudo update-alternatives --install /usr/local/cuda cuda /usr/local/cuda-9.0 400
-  # fi
-  # if [ -d /usr/local/cuda-8.0 ]; then
-  #   sudo update-alternatives --install /usr/local/cuda cuda /usr/local/cuda-8.0 50
-  # fi
-  ###----------------------------------------------------------
-
-  declare -a cuda_vers=($(lsd-mod.nvidia.get__cuda_vers))
-  ## Todo: fix error
-  # declare -a weights=($(seq 50 50 `echo (( ${#cuda_vers[@]}*100 ))`))
-  declare -a weights=($(seq 50 50 500))
-
-  local ver
-  local __count=0
-  for ver in "${cuda_vers[@]}"; do
-    (>&2 echo -e "cuda-${ver}: ${ver} ${weights[${__count}]}")
-
-    if [[ -d /usr/local/cuda-${ver} ]]; then
-      sudo update-alternatives --install /usr/local/cuda cuda /usr/local/cuda-${ver} ${weights[${__count}]}
-    fi
-    ((__count++))
-  done
-
-  sudo update-alternatives --config cuda
 }

@@ -71,7 +71,7 @@ function docker-createcontainer-boozo.main() {
     || lsd-mod.log.fail "Dependency nvidia-container-toolkit is not installed!\n Execute installer:\n\
             source ${LSCRIPTS}/lscripts/nvidia-container-toolkit-install.sh"
 
-  declare -a cuda_vers=($(_nvidia_.get__cuda_vers))
+  declare -a cuda_vers=($(_cuda_.get__cuda_vers))
   local vers="${cuda_vers[@]}";
   vers=$(echo "${vers// / | }")
 

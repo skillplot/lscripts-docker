@@ -32,7 +32,7 @@ function test.cuda_config_supported() {
     || lsd-mod.log.fail "Dependency docker-ce is not installed!\n Execute installer:\n\
             source ${LSCRIPTS}/../docker-ce-install.sh"
 
-  declare -a cuda_vers=($(lsd-mod.nvidia.get__cuda_vers))
+  declare -a cuda_vers=($(lsd-mod.cuda.get__cuda_vers))
   local vers="${cuda_vers[@]}"
   vers=$(echo "${vers// / | }")
 

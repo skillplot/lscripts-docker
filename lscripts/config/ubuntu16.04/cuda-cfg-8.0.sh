@@ -12,7 +12,10 @@ local NVIDIA_CUDA_IMAGE_NAME="nvidia/cuda"
 ## example: https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/7fa2af80.pub
 local NVIDIA_REPO_BASEURL="https://developer.download.nvidia.com/compute"
 local NVIDIA_CUDA_REPO_KEY="7fa2af80.pub"
+## Todo: Ideally it should be `ubuntu1604`, but it has to be verified
 local CUDA_OS_REL="1604"
+# local CUDA_OS_REL="ubuntu1604"
+
 
 ##----------------------------------------------------------
 ## CUDA

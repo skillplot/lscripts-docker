@@ -117,7 +117,7 @@ function docker-buildimg-boozo() {
     || lsd-mod.log.fail "Dependency docker-ce is not installed!\n Execute installer:\n\
             source ${LSCRIPTS}/lscripts/docker-ce-install.sh"
 
-  declare -a cuda_vers=($(_nvidia_.get__cuda_vers))
+  declare -a cuda_vers=($(_cuda_.get__cuda_vers))
   local vers="${cuda_vers[@]}";
   vers=$(echo "${vers// / | }")
 

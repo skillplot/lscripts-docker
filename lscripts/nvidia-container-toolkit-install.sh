@@ -37,9 +37,114 @@
 ###----------------------------------------------------------
 
 
+function nvidia-container-toolkit-addrepo-key() {
+  lsd-mod.log.debug "NVIDIA_DOCKER_KEY_URL: ${NVIDIA_DOCKER_KEY_URL}"
+
+  ## distribution=$(. /etc/os-release;echo $ID$VERSION_ID) \
+  ##    && curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | sudo apt-key add - \
+  ##    && curl -s -L https://nvidia.github.io/nvidia-docker/$distribution/nvidia-docker.list | sudo tee /etc/apt/sources.list.d/nvidia-docker.list
+
+  sudo apt -y update
+  ## Install packages to allow apt to use a repository over HTTPS:
+  sudo apt -y --no-install-recommends install \
+      apt-transport-https \
+      ca-certificates \
+      curl \
+      gnupg2 \
+      software-properties-common
+
+  curl -s -L "${NVIDIA_DOCKER_KEY_URL}" |  sudo apt-key add -
+  ## Todo:
+  ## local NVIDIA_DOCKER_REPO_KEY
+  ## sudo apt-key fingerprint ${NVIDIA_DOCKER_REPO_KEY}
+}
+
+
+function nvidia-container-toolkit-addrepo-ubuntu1404() {
+  ## Not tested
+  local __LINUX_DISTRIBUTION="ubuntu14.04"
+  lsd-mod.log.debug "LINUX_DISTRIBUTION: ${LINUX_DISTRIBUTION}"
+  lsd-mod.log.debug "__LINUX_DISTRIBUTION: ${__LINUX_DISTRIBUTION}"
+
+  local __NVIDIA_DOCKER_URL="${NVIDIA_DOCKER_URL}/${__LINUX_DISTRIBUTION}/nvidia-docker.list"
+
+  nvidia-container-toolkit-addrepo-key "${__LINUX_DISTRIBUTION}"
+
+  lsd-mod.log.debug "__NVIDIA_DOCKER_URL: ${__NVIDIA_DOCKER_URL}"
+  curl -s -L  ${__NVIDIA_DOCKER_URL} | sudo tee /etc/apt/sources.list.d/nvidia-docker.list
+
+  sudo apt -y update
+  # return -1
+}
+
+
+function nvidia-container-toolkit-addrepo-ubuntu1604() {
+  ## Not tested
+  local __LINUX_DISTRIBUTION="ubuntu16.04"
+  lsd-mod.log.debug "LINUX_DISTRIBUTION: ${LINUX_DISTRIBUTION}"
+  lsd-mod.log.debug "__LINUX_DISTRIBUTION: ${__LINUX_DISTRIBUTION}"
+
+  local __NVIDIA_DOCKER_URL="${NVIDIA_DOCKER_URL}/${__LINUX_DISTRIBUTION}/nvidia-docker.list"
+
+  nvidia-container-toolkit-addrepo-key "${__LINUX_DISTRIBUTION}"
+
+  lsd-mod.log.debug "__NVIDIA_DOCKER_URL: ${__NVIDIA_DOCKER_URL}"
+  curl -s -L  ${__NVIDIA_DOCKER_URL} | sudo tee /etc/apt/sources.list.d/nvidia-docker.list
+
+  sudo apt -y update
+}
+
+
+function nvidia-container-toolkit-addrepo-ubuntu1804() {
+  ## verified
+  local __LINUX_DISTRIBUTION="ubuntu18.04"
+  lsd-mod.log.debug "LINUX_DISTRIBUTION: ${LINUX_DISTRIBUTION}"
+  lsd-mod.log.debug "__LINUX_DISTRIBUTION: ${__LINUX_DISTRIBUTION}"
+
+  local __NVIDIA_DOCKER_URL="${NVIDIA_DOCKER_URL}/${__LINUX_DISTRIBUTION}/nvidia-docker.list"
+
+  nvidia-container-toolkit-addrepo-key "${__LINUX_DISTRIBUTION}"
+
+  lsd-mod.log.debug "__NVIDIA_DOCKER_URL: ${__NVIDIA_DOCKER_URL}"
+  curl -s -L  ${__NVIDIA_DOCKER_URL} | sudo tee /etc/apt/sources.list.d/nvidia-docker.list
+
+  sudo apt -y update
+}
+
+
+function nvidia-container-toolkit-addrepo-ubuntu2004() {
+  ## Overriding because Ubuntu 20.04 still uses repo of Ubuntu 18.04
+  ## Because 20.04 LTS still uses 18.04 LTS repo as of 30th-Sep-2021
+  local __LINUX_DISTRIBUTION="ubuntu18.04"
+  lsd-mod.log.debug "LINUX_DISTRIBUTION: ${LINUX_DISTRIBUTION}"
+  lsd-mod.log.debug "__LINUX_DISTRIBUTION: ${__LINUX_DISTRIBUTION}"
+
+  local __NVIDIA_DOCKER_URL="${NVIDIA_DOCKER_URL}/${__LINUX_DISTRIBUTION}/nvidia-docker.list"
+
+  nvidia-container-toolkit-addrepo-key "${__LINUX_DISTRIBUTION}"
+
+  lsd-mod.log.debug "__NVIDIA_DOCKER_URL: ${__NVIDIA_DOCKER_URL}"
+  curl -s -L  ${__NVIDIA_DOCKER_URL} | sudo tee /etc/apt/sources.list.d/nvidia-docker.list
+
+  sudo apt -y update
+}
+
+
+function nvidia-container-toolkit-addrepo() {
+  local __LINUX_DISTRIBUTION_TR
+  lsd-mod.log.debug "param 1: $1"
+  [[ ! -z $1 ]] && __LINUX_DISTRIBUTION_TR=$1 || __LINUX_DISTRIBUTION_TR=${LINUX_DISTRIBUTION_TR}
+  lsd-mod.log.debug "__LINUX_DISTRIBUTION_TR: ${__LINUX_DISTRIBUTION_TR}"
+
+  nvidia-container-toolkit-addrepo-${__LINUX_DISTRIBUTION_TR}
+  # &>/dev/null || lsd-mod.log.fail "Internal Error: nvidia-container-toolkit-addrepo-${__LINUX_DISTRIBUTION_TR}"
+}
+
+
 function nvidia-container-toolkit-uninstall() {
   sudo apt -y remove nvidia-container-toolkit
 }
+
 
 function __nvidia-container-toolkit-install() {
   lsd-mod.log.info "Docker version: 19.03.1 is minimum recommended version for Nvidia container runtime/toolkit for GPU/cuda docker."
@@ -54,39 +159,6 @@ function __nvidia-container-toolkit-install() {
   sudo systemctl restart docker
 }
 
-
-function nvidia-container-toolkit-addrepo-key() {
-  lsd-mod.log.debug "NVIDIA_DOCKER_KEY_URL: ${NVIDIA_DOCKER_KEY_URL}"
-  curl -s -L "${NVIDIA_DOCKER_KEY_URL}" |  sudo apt-key add -
-  ## Todo:
-  ## local NVIDIA_DOCKER_REPO_KEY
-  ## sudo apt-key fingerprint ${NVIDIA_DOCKER_REPO_KEY}
-}
-
-
-function nvidia-container-toolkit-addrepo() {
-  ## distribution=$(. /etc/os-release;echo $ID$VERSION_ID) \
-  ##    && curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | sudo apt-key add - \
-  ##    && curl -s -L https://nvidia.github.io/nvidia-docker/$distribution/nvidia-docker.list | sudo tee /etc/apt/sources.list.d/nvidia-docker.list
-
-  sudo apt -y update
-  ## Install packages to allow apt to use a repository over HTTPS:
-  sudo apt -y --no-install-recommends install \
-      apt-transport-https \
-      ca-certificates \
-      curl \
-      gnupg2 \
-      software-properties-common
-
-  local __NVIDIA_DOCKER_URL="${NVIDIA_DOCKER_URL}/${LINUX_DISTRIBUTION}/nvidia-docker.list"
-
-  nvidia-container-addrepo-key
-
-  lsd-mod.log.debug "__NVIDIA_DOCKER_URL: ${__NVIDIA_DOCKER_URL}"
-  curl -s -L  ${__NVIDIA_DOCKER_URL} | sudo tee /etc/apt/sources.list.d/nvidia-docker.list
-
-  sudo apt -y update
-}
 
 function nvidia-container-toolkit-install.main() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
@@ -108,31 +180,31 @@ function nvidia-container-toolkit-install.main() {
 
   _que="Uninstall previous ${_prog} installation"
   _msg="Skipping ${_prog} uninstall!"
-  lsd-mod.fio.yesno_${_default} "${_que}" && \
-      lsd-mod.log.echo "Uninstalling..." && \
-          ${_prog}-uninstall \
-    || lsd-mod.log.echo "${_msg}"
-
-  _que="Add ${_prog} repo"
-  _msg="Skipping adding ${_prog} repo!"
-  lsd-mod.fio.yesno_${_default} "${_que}" && \
-      lsd-mod.log.echo "Adding ${_prog} repo..." && \
-          ${_prog}-addrepo \
-    || lsd-mod.log.echo "${_msg}"
+  lsd-mod.fio.yesno_${_default} "${_que}" && {
+      lsd-mod.log.echo "Uninstalling..."
+      ${_prog}-uninstall
+  } || lsd-mod.log.echo "${_msg}"
 
   _que="Add/Update ${_prog} repo Key"
   _msg="Skipping adding/updating ${_prog} repo!"
-  lsd-mod.fio.yesno_${_default} "${_que}" && \
-      lsd-mod.log.echo "Adding/Updating ${_prog} repo key..." && \
-          ${_prog}-addrepo-key \
-    || lsd-mod.log.echo "${_msg}"
+  lsd-mod.fio.yesno_${_default} "${_que}" && {
+      lsd-mod.log.echo "Adding/Updating ${_prog} repo key..."
+      ${_prog}-addrepo-key
+  } || lsd-mod.log.echo "${_msg}"
+
+  _que="Add ${_prog} repo"
+  _msg="Skipping adding ${_prog} repo!"
+  lsd-mod.fio.yesno_${_default} "${_que}" && {
+    lsd-mod.log.echo "Adding ${_prog} repo..."
+    ${_prog}-addrepo
+  } || lsd-mod.log.echo "${_msg}"
 
   _que="Install ${_prog} now"
   _msg="Skipping ${_prog} installation!"
-  lsd-mod.fio.yesno_${_default} "${_que}" && \
-    lsd-mod.log.echo "Installing..." && \
-    __${_prog}-install \
-    || lsd-mod.log.echo "${_msg}"
+  lsd-mod.fio.yesno_${_default} "${_que}" && {
+    lsd-mod.log.echo "Installing..."
+    __${_prog}-install
+  } || lsd-mod.log.echo "${_msg}"
 }
 
 nvidia-container-toolkit-install.main "$@"

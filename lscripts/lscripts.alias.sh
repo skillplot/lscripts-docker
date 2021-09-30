@@ -55,9 +55,15 @@ function lsd-lscripts.alias.main() {
   alias lsd-nvidia.cfg="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.nvidia.get__vars"
   alias lsd-nvidia.gpu.info="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.nvidia.get__driver_info"
   alias lsd-nvidia.gpu.stats="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.nvidia.get__gpu_stats $1"
-  alias lsd-nvidia.cuda.vers="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.nvidia.get__cuda_vers"
-  alias lsd-nvidia.cuda.avail="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.nvidia.get__cuda_vers_avail"
   alias lsd-nvidia.driver.avail="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.nvidia.get__driver_avail"
+  ###----------------------------------------------------------
+  ## lsd-cuda => _cuda_ module
+  ###----------------------------------------------------------
+  alias lsd-cuda.cfg="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.cuda.get__vars $@"
+  alias lsd-cuda.vers="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.cuda.get__cuda_vers $@"
+  alias lsd-cuda.avail="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.cuda.get__cuda_vers_avail $@"
+  alias lsd-cuda.admin.__purge_cuda_stack="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.lsd-mod.cuda.purge_cuda_stack $@"
+  alias lsd-cuda.select="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.system.select__cuda $@"
   ###----------------------------------------------------------
   ## lsd-apt => _apt_ module
   ###----------------------------------------------------------

@@ -17,7 +17,7 @@
 
 
 function __docker-buildimg-cuda() {
-  declare -a cuda_vers=($(_nvidia_.get__cuda_vers))
+  declare -a cuda_vers=($(_cuda_.get__cuda_vers))
   local vers="${cuda_vers[@]}";
   vers=$(echo "${vers// / | }")
 

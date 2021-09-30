@@ -46,9 +46,11 @@ function lsd-mod.log.echo() {
   (>&2 echo -e "${bred}$*${nocolor}")
 }
 
+
 function lsd-mod.log.epoch() {
   echo "$(date +%s)"
 }
+
 
 function lsd-mod.log.get_print_time_msg() {
   local END_TIME=$(lsd-mod.log.epoch)
@@ -57,9 +59,11 @@ function lsd-mod.log.get_print_time_msg() {
   echo "${MESSAGE}"
 }
 
+
 function lsd-mod.log.__print_delim() {
   echo '${ucya}============================${nocolor}'
 }
+
 
 function lsd-mod.log.__failure() {
   [[ ! -z ${LSCRIPTS__LOG_LEVEL} ]] && \
@@ -67,6 +71,7 @@ function lsd-mod.log.__failure() {
     (>&2 echo -e "[${on_ired}FAIL    - $(date -d now)${nocolor}]:${bwhi}[Line# ${BASH_LINENO}]:${nocolor}${on_ired}$*${nocolor}")
     # (>&2 echo -e "[${on_ired}FAIL    - $(date -d now)${nocolor}]:${bwhi}Line# $(caller 0) => ${nocolor}${on_ired}$*${nocolor}")
 }
+
 
 function lsd-mod.log.fail() {
   ## failure is critical lsd-mod.log.error and results script termination - hard stop
@@ -84,6 +89,7 @@ function lsd-mod.log.fail() {
   exit -1
 }
 
+
 function lsd-mod.log.error() {
   ## lsd-mod.log.error is bearable lsd-mod.log.error and does not terminate the script execution
   [[ ! -z ${LSCRIPTS__LOG_LEVEL} ]] && \
@@ -92,12 +98,14 @@ function lsd-mod.log.error() {
     # (>&2 echo -e "[${bired}ERROR   - $(date -d now)${nocolor}]:${bwhi}Line# $(caller 0) => ${nocolor}${bired}$*${nocolor}")
 }
 
+
 function lsd-mod.log.warn() {
   [[ ! -z ${LSCRIPTS__LOG_LEVEL} ]] && \
     [[ ${LSCRIPTS__LOG_LEVEL} -ge 3 ]] && \
     (>&2 echo -e "[${biyel}WARNING - $(date -d now)${nocolor}]:${bwhi}[Line# ${BASH_LINENO}]:${nocolor}${biyel}$*${nocolor}")
     # (>&2 echo -e "[${biyel}WARNING - $(date -d now)${nocolor}]:${bwhi}Line# $(caller 0) => ${nocolor}${biyel}$*${nocolor}")
 }
+
 
 function lsd-mod.log.info() {
   [[ ! -z ${LSCRIPTS__LOG_LEVEL} ]] && \
@@ -107,12 +115,14 @@ function lsd-mod.log.info() {
     # (>&2 echo -e "[${bblu}INFO    - $(date -d now)${nocolor}]:${bwhi}Line# $(caller 0) => ${nocolor}${bblu}$*${nocolor}")
 }
 
+
 function lsd-mod.log.ok() {
   [[ ! -z ${LSCRIPTS__LOG_LEVEL} ]] && \
     [[ ${LSCRIPTS__LOG_LEVEL} -ge 5 ]] && \
     (>&2 echo -e "[${bgre}OK      - $(date -d now)${nocolor}]:${bwhi}[Line# ${BASH_LINENO}]:${nocolor}${bgre}$*${nocolor}")
     # (>&2 echo -e "[${bgre}OK      - $(date -d now)${nocolor}]:${bwhi}Line# $(caller 0) => ${nocolor}${bgre}$*${nocolor}")
 }
+
 
 function lsd-mod.log.__successful() {
   [[ ! -z ${LSCRIPTS__LOG_LEVEL} ]] && \
@@ -121,11 +131,13 @@ function lsd-mod.log.__successful() {
     # (>&2 echo -e "[${gre}SUCCESS - $(date -d now)${nocolor}]:${bwhi}Line# $(caller 0) => ${nocolor}${gre}$*${nocolor}")
 }
 
+
 function lsd-mod.log.success() {
   [[ ! -z ${LSCRIPTS__LOG_LEVEL} ]] && \
     [[ ${LSCRIPTS__LOG_LEVEL} -ge 6 ]]\
      && lsd-mod.log.__successful "$1\n$(lsd-mod.log.get_print_time_msg)"
 }
+
 
 function lsd-mod.log.debug() {
   [[ ${LSCRIPTS__DEBUG} -eq 0 ]] || {
@@ -136,6 +148,7 @@ function lsd-mod.log.debug() {
       # (>&2 echo -e "[${bcya}DEBUG - $(date -d now)${nocolor}]:${bwhi}Line# $(caller 0) => ${nocolor}${bcya}$*${nocolor}")
   }
 }
+
 
 function lsd-mod.log.stacktrace() {
   [[ ${LSCRIPTS__DEBUG} -eq 0 ]] || {
