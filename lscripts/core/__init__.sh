@@ -26,6 +26,6 @@ source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/_dir_.sh
 source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/_apt_.sh
 source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/_git_.sh
 source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/_nvidia_.sh
-# source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/_cuda_.sh
+source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/_cuda_.sh
 source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/_docker_.sh
 source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/_mongodb_.sh

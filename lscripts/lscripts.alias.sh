@@ -64,6 +64,8 @@ function lsd-lscripts.alias.main() {
   alias lsd-cuda.avail="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.cuda.get__cuda_vers_avail $@"
   alias lsd-cuda.admin.__purge_cuda_stack="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.lsd-mod.cuda.purge_cuda_stack $@"
   alias lsd-cuda.select="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.system.select__cuda $@"
+  alias lsd-cuda.config="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.cuda.cuda-config $@"
+  alias lsd-cuda.verify="bash ${LSCRIPTS}/cuda-stack-verify.sh"
   ###----------------------------------------------------------
   ## lsd-apt => _apt_ module
   ###----------------------------------------------------------
@@ -129,6 +131,7 @@ function lsd-lscripts.alias.main() {
   ###----------------------------------------------------------
   ## lsd-stack => _stack_ module
   ###----------------------------------------------------------
+  alias lsd-stack.cfg="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.stack.get__vars $@"
   alias lsd-stack.list="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.stack.list $@"
   ###----------------------------------------------------------
   ## lsd-cmd => snippets/ package

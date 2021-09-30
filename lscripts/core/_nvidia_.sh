@@ -208,14 +208,3 @@ function lsd-mod.nvidia.get__gpu_stats() {
   # https://www.pyimagesearch.com/2018/01/29/scalable-keras-deep-learning-rest-api/
   # https://blog.keras.io/building-a-simple-keras-deep-learning-rest-api.how-to-move-machine-learning-model-to-production
 }
-
-
-function lsd-mod.nvidia.purge_nvidia_stack() {
-  lsd-mod.log.warn "purging nvidia driver and cuda, cudnn, tensorrt stack..."
-
-  sudo apt -y --allow-change-held-packages remove 'nvidia-*' \
-    'nvidia*' 1>&2
-
-  lsd-mod.nvidia.purge_cuda_stack
-  lsd-mod.log.ok "purging nvidia stack... completed"
-}

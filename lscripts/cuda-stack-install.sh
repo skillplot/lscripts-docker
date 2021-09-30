@@ -14,32 +14,48 @@
 
 
 function cuda-stack-addrepo-key() {
-  lsd-mod.log.debug "NVIDIA_DOCKER_KEY_URL: ${NVIDIA_DOCKER_KEY_URL}"
-
-  ## distribution=$(. /etc/os-release;echo $ID$VERSION_ID) \
-  ##    && curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | sudo apt-key add - \
-  ##    && curl -s -L https://nvidia.github.io/nvidia-docker/$distribution/nvidia-docker.list | sudo tee /etc/apt/sources.list.d/nvidia-docker.list
+  lsd-mod.log.debug "CUDA_REPO_KEY_URL: ${CUDA_REPO_KEY_URL}"
 
   sudo apt -y update
   ## Install packages to allow apt to use a repository over HTTPS:
   sudo apt -y --no-install-recommends install \
-      apt-transport-https \
-      ca-certificates \
-      curl \
-      gnupg2 \
-      software-properties-common
+    apt-transport-https \
+    ca-certificates \
+    curl \
+    gnupg2 \
+    software-properties-common 2>/dev/null
 
-  curl -s -L "${NVIDIA_DOCKER_KEY_URL}" |  sudo apt-key add -
+  curl -fsSL "${CUDA_REPO_KEY_URL}" | sudo apt-key add - &>/dev/null
   ## Todo:
-  ## local NVIDIA_DOCKER_REPO_KEY
-  ## sudo apt-key fingerprint ${NVIDIA_DOCKER_REPO_KEY}
+  ## local CUDA_REPO_KEY_URL
+  ## sudo apt-key fingerprint ${CUDA_REPO_KEY_URL}
 }
 
 
 function cuda-stack-addrepo-ubuntu1404() {
   ## Not supported
-  lsd-mod.log.debug "__LINUX_DISTRIBUTION_TR: ${__LINUX_DISTRIBUTION_TR}"
-  return -1
+  local __LINUX_DISTRIBUTION_TR="ubuntu1404"
+  lsd-mod.log.debug "LINUX_DISTRIBUTION: ${LINUX_DISTRIBUTION}"
+  lsd-mod.log.debug "__LINUX_DISTRIBUTION: ${__LINUX_DISTRIBUTION}"
+
+  ## local NVIDIA_REPO_BASEURL="https://developer.download.nvidia.com/compute"
+  ## local NVIDIA_OS_ARCH="x86_64"
+  ## local NVIDIA_CUDA_REPO_KEY="7fa2af80.pub"
+
+  # local NVIDIA_REPO_BASEURL="https://developer.download.nvidia.com/compute"
+  # local NVIDIA_OS_ARCH="x86_64"
+  # local NVIDIA_CUDA_REPO_KEY="7fa2af80.pub"
+  # local NVIDIA_GPGKEY_SUM="d1be581509378368edeec8c1eb2958702feedf3bc3d17011adbf24efacce4ab5"
+  # local NVIDIA_GPGKEY_FPR="ae09fe4bbd223a84b2ccfce3f60f4b3d7fa2af80"
+  local CUDA_REPO_KEY_URL="${NVIDIA_REPO_BASEURL}/cuda/repos/${__LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH}/${NVIDIA_CUDA_REPO_KEY}"
+  lsd-mod.log.debug "CUDA_REPO_KEY_URL: ${CUDA_REPO_KEY_URL}"
+
+  cuda-stack-addrepo-key
+
+  echo "deb ${NVIDIA_REPO_BASEURL}/cuda/repos/${__LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH} /" | sudo tee /etc/apt/sources.list.d/cuda.list && \
+  echo "deb ${NVIDIA_REPO_BASEURL}/machine-learning/repos/${__LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH} /" | sudo tee /etc/apt/sources.list.d/nvidia-ml.list
+
+  sudo apt -y update
 }
 
 
@@ -53,32 +69,28 @@ function cuda-stack-addrepo-ubuntu1604() {
   ## cudasign.pub: FAILED
   ## sha256sum: WARNING: 1 computed checksum did NOT match
   ###----------------------------------------------------------
+  local __LINUX_DISTRIBUTION_TR="ubuntu1604"
+  lsd-mod.log.debug "LINUX_DISTRIBUTION: ${LINUX_DISTRIBUTION}"
+  lsd-mod.log.debug "__LINUX_DISTRIBUTION: ${__LINUX_DISTRIBUTION}"
+
+  ## local NVIDIA_REPO_BASEURL="https://developer.download.nvidia.com/compute"
+  ## local NVIDIA_OS_ARCH="x86_64"
+  ## local NVIDIA_CUDA_REPO_KEY="7fa2af80.pub"
 
   # local NVIDIA_REPO_BASEURL="https://developer.download.nvidia.com/compute"
-  local __LINUX_DISTRIBUTION_TR="ubuntu1604"
   # local NVIDIA_OS_ARCH="x86_64"
   # local NVIDIA_CUDA_REPO_KEY="7fa2af80.pub"
   # local NVIDIA_GPGKEY_SUM="d1be581509378368edeec8c1eb2958702feedf3bc3d17011adbf24efacce4ab5"
   # local NVIDIA_GPGKEY_FPR="ae09fe4bbd223a84b2ccfce3f60f4b3d7fa2af80"
-  lsd-mod.log.debug "__LINUX_DISTRIBUTION_TR: ${__LINUX_DISTRIBUTION_TR}"
+  local CUDA_REPO_KEY_URL="${NVIDIA_REPO_BASEURL}/cuda/repos/${__LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH}/${NVIDIA_CUDA_REPO_KEY}"
+  lsd-mod.log.debug "CUDA_REPO_KEY_URL: ${CUDA_REPO_KEY_URL}"
 
-  sudo apt-get -y update
+  cuda-stack-addrepo-key
 
-  sudo apt-get install -y --no-install-recommends \
-    apt-transport-https \
-    ca-certificates \
-    gnupg \
-    gnupg2 \
-    curl \
-    software-properties-common 2>/dev/null
+  echo "deb ${NVIDIA_REPO_BASEURL}/cuda/repos/${__LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH} /" | sudo tee /etc/apt/sources.list.d/cuda.list && \
+  echo "deb ${NVIDIA_REPO_BASEURL}/machine-learning/repos/${__LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH} /" | sudo tee /etc/apt/sources.list.d/nvidia-ml.list
 
-  curl -fsSL ${NVIDIA_REPO_BASEURL}/cuda/repos/${__LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH}/${NVIDIA_CUDA_REPO_KEY} | sudo apt-key add - &>/dev/null && {
-    echo "deb ${NVIDIA_REPO_BASEURL}/cuda/repos/${__LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH} /" | sudo tee /etc/apt/sources.list.d/cuda.list && \
-    echo "deb ${NVIDIA_REPO_BASEURL}/machine-learning/repos/${__LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH} /" | sudo tee /etc/apt/sources.list.d/nvidia-ml.list
-
-    sudo apt -y update
-  } || lsd-mod.log.fail "Check the URL manually: curl -fsSL  ${CUDA_REPO_KEY_URL}"
-
+  sudo apt -y update
 }
 
 
@@ -87,61 +99,43 @@ function cuda-stack-addrepo-ubuntu1804() {
   ## References:
   ##  - cuda/dist/ubuntu18.04/10.0/base/Dockerfile
   ###----------------------------------------------------------
-  sudo apt-get -y update
-  # local NVIDIA_REPO_BASEURL="https://developer.download.nvidia.com/compute"
-  local __LINUX_DISTRIBUTION_TR="ubuntu1804"
-  # local NVIDIA_OS_ARCH="x86_64"
-  # local NVIDIA_CUDA_REPO_KEY="7fa2af80.pub"
+  
+  local __LINUX_DISTRIBUTION="ubuntu18.04"
+  lsd-mod.log.debug "LINUX_DISTRIBUTION: ${LINUX_DISTRIBUTION}"
+  lsd-mod.log.debug "__LINUX_DISTRIBUTION: ${__LINUX_DISTRIBUTION}"
+
+  ## local NVIDIA_REPO_BASEURL="https://developer.download.nvidia.com/compute"
+  ## local NVIDIA_OS_ARCH="x86_64"
+  ## local NVIDIA_CUDA_REPO_KEY="7fa2af80.pub"
   local CUDA_REPO_KEY_URL="${NVIDIA_REPO_BASEURL}/cuda/repos/${__LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH}/${NVIDIA_CUDA_REPO_KEY}"
-  lsd-mod.log.debug "__LINUX_DISTRIBUTION_TR: ${__LINUX_DISTRIBUTION_TR}"
   lsd-mod.log.debug "CUDA_REPO_KEY_URL: ${CUDA_REPO_KEY_URL}"
 
-  sudo apt-get install -y --no-install-recommends \
-    apt-transport-https \
-    ca-certificates \
-    gnupg2 \
-    curl \
-    software-properties-common 2>/dev/null
+  cuda-stack-addrepo-key
 
-  curl -fsSL ${CUDA_REPO_KEY_URL} | sudo apt-key add - &>/dev/null && {
-    echo "deb ${NVIDIA_REPO_BASEURL}/cuda/repos/${__LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH} /" | sudo tee /etc/apt/sources.list.d/cuda.list && \
-    echo "deb ${NVIDIA_REPO_BASEURL}/machine-learning/repos/${__LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH} /" | sudo tee /etc/apt/sources.list.d/nvidia-ml.list
+  echo "deb ${NVIDIA_REPO_BASEURL}/cuda/repos/${__LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH} /" | sudo tee /etc/apt/sources.list.d/cuda.list && \
+  echo "deb ${NVIDIA_REPO_BASEURL}/machine-learning/repos/${__LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH} /" | sudo tee /etc/apt/sources.list.d/nvidia-ml.list
 
-    sudo apt -y update
-  } || lsd-mod.log.fail "Check the URL manually: curl -fsSL  ${CUDA_REPO_KEY_URL}"
+  sudo apt -y update
 }
 
 
 function cuda-stack-addrepo-ubuntu2004() {
-  ###----------------------------------------------------------
-  ## References:
-  ##  - cuda/dist/ubuntu18.04/10.0/base/Dockerfile
-  ###----------------------------------------------------------
-  sudo apt-get -y update
-  # local NVIDIA_REPO_BASEURL="https://developer.download.nvidia.com/compute"
-  # local __LINUX_DISTRIBUTION_TR="ubuntu2004"
-  ## Overriding because Ubuntu 20.04 still uses repo of Ubuntu 18.04
-  local __LINUX_DISTRIBUTION_TR="ubuntu1804"
+  local __LINUX_DISTRIBUTION="ubuntu18.04"
+  lsd-mod.log.debug "LINUX_DISTRIBUTION: ${LINUX_DISTRIBUTION}"
+  lsd-mod.log.debug "__LINUX_DISTRIBUTION: ${__LINUX_DISTRIBUTION}"
 
-  # local NVIDIA_OS_ARCH="x86_64"
-  # local NVIDIA_CUDA_REPO_KEY="7fa2af80.pub"
+  ## local NVIDIA_REPO_BASEURL="https://developer.download.nvidia.com/compute"
+  ## local NVIDIA_OS_ARCH="x86_64"
+  ## local NVIDIA_CUDA_REPO_KEY="7fa2af80.pub"
   local CUDA_REPO_KEY_URL="${NVIDIA_REPO_BASEURL}/cuda/repos/${__LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH}/${NVIDIA_CUDA_REPO_KEY}"
-  lsd-mod.log.debug "__LINUX_DISTRIBUTION_TR: ${__LINUX_DISTRIBUTION_TR}"
   lsd-mod.log.debug "CUDA_REPO_KEY_URL: ${CUDA_REPO_KEY_URL}"
 
-  sudo apt-get install -y --no-install-recommends \
-    apt-transport-https \
-    ca-certificates \
-    gnupg2 \
-    curl \
-    software-properties-common 2>/dev/null
+  cuda-stack-addrepo-key
 
-  curl -fsSL ${CUDA_REPO_KEY_URL} | sudo apt-key add - &>/dev/null && {
-    echo "deb ${NVIDIA_REPO_BASEURL}/cuda/repos/${__LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH} /" | sudo tee /etc/apt/sources.list.d/cuda.list && \
-    echo "deb ${NVIDIA_REPO_BASEURL}/machine-learning/repos/${__LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH} /" | sudo tee /etc/apt/sources.list.d/nvidia-ml.list
+  echo "deb ${NVIDIA_REPO_BASEURL}/cuda/repos/${__LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH} /" | sudo tee /etc/apt/sources.list.d/cuda.list && \
+  echo "deb ${NVIDIA_REPO_BASEURL}/machine-learning/repos/${__LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH} /" | sudo tee /etc/apt/sources.list.d/nvidia-ml.list
 
-    sudo apt -y update
-  } || lsd-mod.log.fail "Check the URL manually: curl -fsSL  ${CUDA_REPO_KEY_URL}"
+  sudo apt -y update
 }
 
 
@@ -157,7 +151,7 @@ function cuda-stack-addrepo() {
 
 
 function cuda-stack-uninstall() {
-  lsd-mod.nvidia.purge_cuda_stack
+  lsd-mod.cuda.purge_cuda_stack
 }
 
 
@@ -250,6 +244,14 @@ function __cuda-stack-install() {
     export DEBIAN_FRONTEND=${__DEBIAN_FRONTEND}
     export FORCE_CUDA=${__FORCE_CUDA}
     export TORCH_CUDA_ARCH_LIST=${__TORCH_CUDA_ARCH_LIST}
+
+    [[ -d "${CUDA_HOME}/samples" ]] && {
+      export CUDA_HOME="/usr/local/cuda"
+      export PATH="/usr/local/cuda/bin:${PATH}"
+      export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:${CUDA_HOME}/lib64"
+      sudo chown -R $(whoami):$(whoami) "${CUDA_HOME}/samples"
+    }   
+
 }
 
 
@@ -285,6 +287,50 @@ function cuda-stack-install.main() {
   local scriptname=$(basename ${BASH_SOURCE[0]})
   lsd-mod.log.debug "executing script...: ${scriptname} with total params: $#"
 
+
+  source ${LSCRIPTS}/core/argparse.sh "$@"
+
+  # # [[ "$#" -lt "1" ]] && lsd-mod.log.error "Invalid number of paramerters: minimum required 1 parameter but given: $#"
+  # [[ -n "${args['cuda']+1}" ]] || lsd-mod.log.error "Required paramerter missing (--cuda)!"
+  # [[ -n "${args['os']+1}" ]] || lsd-mod.log.error "Required paramerter missing (--os)!"
+  
+  # local scriptname=$(basename ${BASH_SOURCE[0]})
+  # lsd-mod.log.debug "executing script...: ${scriptname} with total params: $#"
+
+  local __BUILD_FOR_CUDA_VER=${args['cuda']}
+  local __LINUX_DISTRIBUTION=${args['os']}
+  [[ ! -z ${__BUILD_FOR_CUDA_VER} ]] || __BUILD_FOR_CUDA_VER=${BUILD_FOR_CUDA_VER}
+  [[ ! -z ${__LINUX_DISTRIBUTION} ]] || __LINUX_DISTRIBUTION=${LINUX_DISTRIBUTION}
+
+  local CUDACFG_FILEPATH=$(lsd-mod.cuda.include "${__BUILD_FOR_CUDA_VER}" "${__BUILD_FOR_CUDA_VER}")
+  lsd-mod.log.debug "CUDACFG_FILEPATH: ${CUDACFG_FILEPATH}"
+
+  ## Only for reference, not used here
+  ## local AI_PYCUDA_FILE=${LSCRIPTS}/config/${__LINUX_DISTRIBUTION}/python.requirements-ai-cuda-${__BUILD_FOR_CUDA_VER.txt
+  ## echo "CUDACFG_FILEPATH: ${AI_PYCUDA_FILE}"
+
+  ls -1 ${CUDACFG_FILEPATH} &>/dev/null || lsd-mod.log.fail "config file does not exists: ${CUDACFG_FILEPATH}${nocolor}"
+  lsd-mod.log.debug "CUDACFG_FILEPATH: ${CUDACFG_FILEPATH}"
+
+  local __CUDA_LOG_FILEPATH="${__LSCRIPTS_LOG_BASEDIR__}/${scriptname%.*}-cuda-${__BUILD_FOR_CUDA_VER}-${__TIMESTAMP__}.log"
+  lsd-mod.log.debug "__CUDA_LOG_FILEPATH: ${__CUDA_LOG_FILEPATH}"
+
+  source ${CUDACFG_FILEPATH}
+  lsd-mod.log.echo "###----------------------------------------------------------"
+  source ${LSCRIPTS}/core/cuda-echo.sh 1>${__CUDA_LOG_FILEPATH} 2>&1
+  lsd-mod.log.ok "Verify cuda-stack versions: ${__CUDA_LOG_FILEPATH}"
+  cat "${__CUDA_LOG_FILEPATH}"
+  lsd-mod.log.echo "###----------------------------------------------------------"
+
+  lsd-mod.cuda.get__vars
+
+  lsd-mod.log.debug "__BUILD_FOR_CUDA_VER: ${__BUILD_FOR_CUDA_VER}"
+  lsd-mod.log.debug "__LINUX_DISTRIBUTION: ${__LINUX_DISTRIBUTION}"
+  lsd-mod.log.debug "OS: ${OS}"
+  lsd-mod.log.debug "CUDA_OS_REL: ${CUDA_OS_REL}"
+  lsd-mod.log.debug "CUDA_VER: ${CUDA_VER}"
+
+  ## keeping the fail check here and not the beginning because want to print the CUDA stack details
   local _default=no
   local _que
   local _msg
@@ -294,35 +340,6 @@ function cuda-stack-install.main() {
     || lsd-mod.log.fail "Nvidia driver: nvidia-smi is not installed!\n Execute installer:\n\
             source ${LSCRIPTS}/nvidia-driver-install.sh"
 
-
-  local CUDACFG_FILEPATH=$(lsd-lscripts.exe.include.cuda "$@")
-  local __CUDA_LOG_FILEPATH="${__LSCRIPTS_LOG_BASEDIR__}/${scriptname%.*}-cuda-${BUILD_FOR_CUDA_VER}-${__TIMESTAMP__}.log"
-  lsd-mod.log.debug "CUDACFG_FILEPATH: ${CUDACFG_FILEPATH}"
-  lsd-mod.cuda.get__vars
-  # source ${CUDACFG_FILEPATH}
-  # lsd-mod.log.echo "###----------------------------------------------------------"
-  # source ${LSCRIPTS}/../cuda-echo.sh 1>${__CUDA_LOG_FILEPATH} 2>&1
-  # lsd-mod.log.ok "Verify cuda-stack versions: ${__CUDA_LOG_FILEPATH}"
-  # lsd-mod.log.echo "###----------------------------------------------------------"
-  # lsd-mod.cuda.__get__vars
-
-  # declare -a cuda_vers=($(lsd-mod.cuda.get__cuda_vers))
-  # local vers="${cuda_vers[@]}";
-  # vers=$(echo "${vers// / | }")
-
-  # [[ ${LSCRIPTS__DEBUG} -eq 0 ]] || {
-  #   (>&2 echo -e "Total cuda_vers: ${#cuda_vers[@]}\n cuda_vers: ${cuda_vers[@]}")
-  #   (for ver in "${cuda_vers[@]}"; do (>&2 echo -e "ver => ${ver}"); done)
-  # }
-
-  # : ${1?
-  #   "Usage:
-  #   bash $0 <cudaversion> [ ${vers} ]"
-  # }
-
-  # lsd-mod.fio.find_in_array "$1" "${cuda_vers[@]}" &>/dev/null \
-  #   || lsd-mod.log.fail "Invalid or not supported CUDA version: $1"
-
   _prog="cuda-stack"
 
   lsd-mod.log.info "Install ${_prog}..."
@@ -330,50 +347,32 @@ function cuda-stack-install.main() {
 
   _que="Uninstall previous ${_prog} installation"
   _msg="Skipping ${_prog} uninstall!"
-  lsd-mod.fio.yesno_no "${_que}" && \
-      lsd-mod.log.echo "Uninstalling..." && \
-      ${_prog}-uninstall \
-    || lsd-mod.log.echo "${_msg}"
+  lsd-mod.fio.yesno_${_default} "${_que}" && {
+      lsd-mod.log.echo "Uninstalling..."
+      ${_prog}-uninstall
+  } || lsd-mod.log.echo "${_msg}"
 
-
-  # local BUILD_FOR_CUDA_VER=$1
-  # lsd-mod.log.info "Using CUDA version: ${BUILD_FOR_CUDA_VER}"
-
-  # local CUDACFG_FILEPATH="${LSCRIPTS}/core/config/${LINUX_DISTRIBUTION}/cuda-cfg-${BUILD_FOR_CUDA_VER}.sh"
-  # lsd-mod.log.debug "CUDACFG_FILEPATH: ${CUDACFG_FILEPATH}"
-
-  # ls -1 ${CUDACFG_FILEPATH} &>/dev/null || lsd-mod.log.fail "config file does not exists: ${CUDACFG_FILEPATH}"
-  # ## Only for reference, not used here
-  # ## local AI_PYCUDA_FILE=${LSCRIPTS}/core/config/${LINUX_DISTRIBUTION}/python.requirements-ai-cuda-${BUILD_FOR_CUDA_VER}.txt
-  # ## echo "CUDACFG_FILEPATH: ${AI_PYCUDA_FILE}"
-
-  # local __CUDA_LOG_FILEPATH="${__LSCRIPTS_LOG_BASEDIR__}/${scriptname%.*}-cuda-${BUILD_FOR_CUDA_VER}-${__TIMESTAMP__}.log"
-  # source ${CUDACFG_FILEPATH}
-  # lsd-mod.log.echo "###----------------------------------------------------------"
-  # source ${LSCRIPTS}/cuda-echo.sh 1>${__CUDA_LOG_FILEPATH} 2>&1
-  # lsd-mod.log.ok "Verify cuda-stack versions: ${__CUDA_LOG_FILEPATH}"
-  # lsd-mod.log.echo "###----------------------------------------------------------"
-
-  lsd-mod.log.debug "OS: ${OS}"
-  lsd-mod.log.debug "CUDA_OS_REL: ${CUDA_OS_REL}"
-  lsd-mod.log.debug "LINUX_DISTRIBUTION_TR: ${LINUX_DISTRIBUTION_TR}"
-  lsd-mod.log.debug "CUDA_VER: ${CUDA_VER}"
+  _que="Update ${_prog} repo Key"
+  _msg="Skipping adding/updating ${_prog} repo!"
+  lsd-mod.fio.yesno_${_default} "${_que}" && {
+      lsd-mod.log.echo "Adding/Updating ${_prog} repo key..."
+      ${_prog}-addrepo-key
+  } || lsd-mod.log.echo "${_msg}"
 
   _que="Add ${_prog} repo"
   _msg="Skipping adding ${_prog} repo!"
   lsd-mod.fio.yesno_${_default} "${_que}" && {
     lsd-mod.log.echo "Adding ${_prog} repo..."
-    ${_prog}-addrepo ${CUDA_OS_REL}
+    ${_prog}-addrepo
   } || lsd-mod.log.echo "${_msg}"
-
 
   _que="Install ${_prog} now"
   _msg="Skipping ${_prog} installation!"
   lsd-mod.fio.yesno_${_default} "${_que}" && (
-    set -x
+    # set -x
     lsd-mod.log.echo "Installing..."
-    __${_prog}-install ${BUILD_FOR_CUDA_VER} && _default=yes
-    set +x
+    __${_prog}-install ${__BUILD_FOR_CUDA_VER} && _default=yes
+    # set +x
   ) || {
     lsd-mod.log.echo "${_msg}" && _default=no
   }
@@ -391,7 +390,7 @@ function cuda-stack-install.main() {
   _msg="Skipping multiple cuda configuration!"
   lsd-mod.fio.yesno_${_default} "${_que}" && {
     lsd-mod.log.echo "Configuring..."
-    lsd-mod.nvidia.update_alternatives_cuda
+    lsd-mod.cuda.update_alternatives_cuda
   } || {
     lsd-mod.log.echo "${_msg}" && _default=no
   }

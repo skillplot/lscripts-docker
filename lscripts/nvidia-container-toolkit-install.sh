@@ -47,13 +47,13 @@ function nvidia-container-toolkit-addrepo-key() {
   sudo apt -y update
   ## Install packages to allow apt to use a repository over HTTPS:
   sudo apt -y --no-install-recommends install \
-      apt-transport-https \
-      ca-certificates \
-      curl \
-      gnupg2 \
-      software-properties-common
+    apt-transport-https \
+    ca-certificates \
+    curl \
+    gnupg2 \
+    software-properties-common 2>/dev/null
 
-  curl -s -L "${NVIDIA_DOCKER_KEY_URL}" |  sudo apt-key add -
+  curl -s -L "${NVIDIA_DOCKER_KEY_URL}" |  sudo apt-key add - &>/dev/null
   ## Todo:
   ## local NVIDIA_DOCKER_REPO_KEY
   ## sudo apt-key fingerprint ${NVIDIA_DOCKER_REPO_KEY}
@@ -68,7 +68,7 @@ function nvidia-container-toolkit-addrepo-ubuntu1404() {
 
   local __NVIDIA_DOCKER_URL="${NVIDIA_DOCKER_URL}/${__LINUX_DISTRIBUTION}/nvidia-docker.list"
 
-  nvidia-container-toolkit-addrepo-key "${__LINUX_DISTRIBUTION}"
+  nvidia-container-toolkit-addrepo-key
 
   lsd-mod.log.debug "__NVIDIA_DOCKER_URL: ${__NVIDIA_DOCKER_URL}"
   curl -s -L  ${__NVIDIA_DOCKER_URL} | sudo tee /etc/apt/sources.list.d/nvidia-docker.list
@@ -86,7 +86,7 @@ function nvidia-container-toolkit-addrepo-ubuntu1604() {
 
   local __NVIDIA_DOCKER_URL="${NVIDIA_DOCKER_URL}/${__LINUX_DISTRIBUTION}/nvidia-docker.list"
 
-  nvidia-container-toolkit-addrepo-key "${__LINUX_DISTRIBUTION}"
+  nvidia-container-toolkit-addrepo-key
 
   lsd-mod.log.debug "__NVIDIA_DOCKER_URL: ${__NVIDIA_DOCKER_URL}"
   curl -s -L  ${__NVIDIA_DOCKER_URL} | sudo tee /etc/apt/sources.list.d/nvidia-docker.list
@@ -103,7 +103,7 @@ function nvidia-container-toolkit-addrepo-ubuntu1804() {
 
   local __NVIDIA_DOCKER_URL="${NVIDIA_DOCKER_URL}/${__LINUX_DISTRIBUTION}/nvidia-docker.list"
 
-  nvidia-container-toolkit-addrepo-key "${__LINUX_DISTRIBUTION}"
+  nvidia-container-toolkit-addrepo-key
 
   lsd-mod.log.debug "__NVIDIA_DOCKER_URL: ${__NVIDIA_DOCKER_URL}"
   curl -s -L  ${__NVIDIA_DOCKER_URL} | sudo tee /etc/apt/sources.list.d/nvidia-docker.list
@@ -121,7 +121,7 @@ function nvidia-container-toolkit-addrepo-ubuntu2004() {
 
   local __NVIDIA_DOCKER_URL="${NVIDIA_DOCKER_URL}/${__LINUX_DISTRIBUTION}/nvidia-docker.list"
 
-  nvidia-container-toolkit-addrepo-key "${__LINUX_DISTRIBUTION}"
+  nvidia-container-toolkit-addrepo-key
 
   lsd-mod.log.debug "__NVIDIA_DOCKER_URL: ${__NVIDIA_DOCKER_URL}"
   curl -s -L  ${__NVIDIA_DOCKER_URL} | sudo tee /etc/apt/sources.list.d/nvidia-docker.list

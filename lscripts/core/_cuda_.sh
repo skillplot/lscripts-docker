@@ -7,171 +7,6 @@
 ## cuda, cudnn, tensorrt is referred as 'cuda-stack'
 ###----------------------------------------------------------
 
-set -e
-
-function lsd-mod.cuda.get__cuda_vers() {
-  local ver
-  declare -a cuda_vers=(`echo $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/config/${LINUX_DISTRIBUTION}/cuda-cfg-[0-9]*.sh | grep -o -P "(\ *[0-9.]*sh)" | sed -r 's/\.sh//'`)
-  # (>&2 echo -e "Total cuda_vers: ${#cuda_vers[@]}\n cuda_vers: ${cuda_vers[@]}")
-  # for ver in "${cuda_vers[@]}"; do
-  #   (>&2 echo -e "ver => ${ver}")
-  # done
-  echo "${cuda_vers[@]}"
-}
-
-
-function lsd-mod.cuda.get__cuda_vers_avail() {
-  local ver
-  declare -a cuda_vers_avail=(`echo $(ls -d /usr/local/cuda-* | cut -d'-' -f2)`)
-  # (>&2 echo -e "Total cuda_vers: ${#cuda_vers[@]}\n cuda_vers: ${cuda_vers[@]}")
-  # for ver in "${cuda_vers_avail[@]}"; do
-  #   (>&2 echo -e "ver => ${ver}")
-  # done
-  echo "${cuda_vers_avail[@]}"
-}
-
-
-function lsd-mod.cuda.purge_cuda_stack() {
-  ## Todo: prmpt for passphrase for extra level of protection
-  local _que="Do you want to purge cuda stack"
-  lsd-mod.fio.yes_or_no_loop "${_que}" && {
-
-    lsd-mod.log.warn "purging cuda stack..."
-
-    sudo apt -y --allow-change-held-packages remove 'cuda*' \
-      'cudnn*' \
-      'libcudnn*' \
-      'libnccl*' \
-      'libnvinfer*'
-       # &>/dev/null
-    
-    sudo rm -rf /usr/local/cuda \
-      /usr/local/cuda* 1>&2
-    
-    lsd-mod.log.ok "purging cuda stack... completed."
-  } || lsd-mod.log.info "Skipping purging cuda stack."
-}
-
-
-function lsd-mod.cuda.update_alternatives_cuda() {
-  ## cuda multiple version configuration
-  ## Alternative to update-alternative options is to create sym link
-  ## I preferred update-alternatives option
-  ##
-  ## Examples:
-  # ## Todo: autopick cuda version and their priorities based on what is installed in the /usr/local/cuda-xx.y
-  # if [ -d /usr/local/cuda-11.0 ]; then
-  #   sudo update-alternatives --install /usr/local/cuda cuda /usr/local/cuda-11.0 250
-  # fi
-  # if [ -d /usr/local/cuda-10.2 ]; then
-  #   sudo update-alternatives --install /usr/local/cuda cuda /usr/local/cuda-10.2 300
-  # fi
-  # if [ -d /usr/local/cuda-10.1 ]; then
-  #   sudo update-alternatives --install /usr/local/cuda cuda /usr/local/cuda-10.1 500
-  # fi
-  # if [ -d /usr/local/cuda-10.0 ]; then
-  #   sudo update-alternatives --install /usr/local/cuda cuda /usr/local/cuda-10.0 200
-  # fi
-  # if [ -d /usr/local/cuda-9.0 ]; then
-  #   sudo update-alternatives --install /usr/local/cuda cuda /usr/local/cuda-9.0 400
-  # fi
-  # if [ -d /usr/local/cuda-8.0 ]; then
-  #   sudo update-alternatives --install /usr/local/cuda cuda /usr/local/cuda-8.0 50
-  # fi
-
-  declare -a cuda_vers=($(lsd-mod.cuda.get__cuda_vers))
-  ## Todo: fix error
-  # declare -a weights=($(seq 50 50 `echo (( ${#cuda_vers[@]}*100 ))`))
-  declare -a weights=($(seq 50 50 500))
-
-  local ver
-  local __count=0
-  for ver in "${cuda_vers[@]}"; do
-    (>&2 echo -e "cuda-${ver}: ${ver} ${weights[${__count}]}")
-
-    if [[ -d /usr/local/cuda-${ver} ]]; then
-      sudo update-alternatives --install /usr/local/cuda cuda /usr/local/cuda-${ver} ${weights[${__count}]}
-    fi
-    ((__count++))
-  done
-
-  sudo update-alternatives --config cuda
-}
-
-
-function lsd-mod.cuda.cudacfg_filepath() {
-  local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
-  source ${LSCRIPTS}/argparse.sh "$@"
-
-  # # [[ "$#" -lt "1" ]] && lsd-mod.log.error "Invalid number of paramerters: minimum required 1 parameter but given: $#"
-  # [[ -n "${args['cuda']+1}" ]] || lsd-mod.log.error "Required paramerter missing (--cuda)!"
-  # [[ -n "${args['os']+1}" ]] || lsd-mod.log.error "Required paramerter missing (--os)!"
-  
-  # local scriptname=$(basename ${BASH_SOURCE[0]})
-  # lsd-mod.log.debug "executing script...: ${scriptname} with total params: $#"
-
-  local __BUILD_FOR_CUDA_VER=${args['cuda']}
-  local __LINUX_DISTRIBUTION=${args['os']}
-  [[ ! -z ${__BUILD_FOR_CUDA_VER} ]] || __BUILD_FOR_CUDA_VER=${BUILD_FOR_CUDA_VER}
-
-  [[ ! -z ${__LINUX_DISTRIBUTION} ]] || __LINUX_DISTRIBUTION=${LINUX_DISTRIBUTION}
-
-
-  local CUDACFG_FILEPATH=$(lsd-mod.cuda.include "${__BUILD_FOR_CUDA_VER}" "${__BUILD_FOR_CUDA_VER}")
-  local __CUDA_LOG_FILEPATH="${__LSCRIPTS_LOG_BASEDIR__}/${scriptname%.*}-cuda-${__LINUX_DISTRIBUTION}-${__TIMESTAMP__}.log"
-
-  # ## Only for reference, not used here
-  # ## local AI_PYCUDA_FILE=${LSCRIPTS}/config/${LINUX_DISTRIBUTION}/python.requirements-ai-cuda-${BUILD_FOR_CUDA_VER}.txt
-  # ## echo "CUDACFG_FILEPATH: ${AI_PYCUDA_FILE}"
-
-  # source ${CUDACFG_FILEPATH}
-  # lsd-mod.log.echo "###----------------------------------------------------------"
-  # source ${LSCRIPTS}/cuda-echo.sh 1>${__CUDA_LOG_FILEPATH} 2>&1
-  # lsd-mod.log.ok "Verify cuda-stack versions: ${__CUDA_LOG_FILEPATH}"
-  # lsd-mod.log.echo "###----------------------------------------------------------"
-  # lsd-mod.cuda.get__vars
-}
-
-
-function lsd-mod.cuda.include() {
-  local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
-
-  declare -a cuda_vers=($(lsd-mod.cuda.get__cuda_vers))
-  local vers="${cuda_vers[@]}";
-  vers=$(echo "${vers// / | }")
-
-  [[ ${LSCRIPTS__DEBUG} -eq 0 ]] || {
-    (>&2 echo -e "Total cuda_vers: ${#cuda_vers[@]}\n cuda_vers: ${cuda_vers[@]}")
-    (for ver in "${cuda_vers[@]}"; do (>&2 echo -e "ver => ${ver}"); done)
-  }
-
-  local BUILD_FOR_CUDA_VER=${args['cuda']}
-  local __LINUX_DISTRIBUTION=${args['os']}
-  [[ ! -z ${__BUILD_FOR_CUDA_VER} ]] || __BUILD_FOR_CUDA_VER=${__BUILD_FOR_CUDA_VER}
-
-  [[ ! -z ${__LINUX_DISTRIBUTION} ]] || __LINUX_DISTRIBUTION=${LINUX_DISTRIBUTION}
-
-
-  local BUILD_FOR_CUDA_VER=$1
-  # [[ ! -z ${BUILD_FOR_CUDA_VER} ]] || lsd-mod.log.error "CUDA version is mandatory: $1"
-
-  local __LINUX_DISTRIBUTION=$2
-  # [[ ! -z ${__LINUX_DISTRIBUTION} ]] || __LINUX_DISTRIBUTION=${LINUX_DISTRIBUTION}
-
-  lsd-mod.fio.find_in_array "${BUILD_FOR_CUDA_VER}" "${cuda_vers[@]}" &>/dev/null \
-    || lsd-mod.log.fail "Invalid or not supported CUDA version: ${BUILD_FOR_CUDA_VER}"
-
-  lsd-mod.log.info "Using CUDA version: ${BUILD_FOR_CUDA_VER}"
-
-  local CUDACFG_FILEPATH="${LSCRIPTS}/config/${__LINUX_DISTRIBUTION}/cuda-cfg-${BUILD_FOR_CUDA_VER}.sh"
-  lsd-mod.log.debug "CUDACFG_FILEPATH: ${CUDACFG_FILEPATH}"
-
-  ls -1 ${CUDACFG_FILEPATH} &>/dev/null || lsd-mod.log.fail "config file does not exists: ${CUDACFG_FILEPATH}"
-  echo "${CUDACFG_FILEPATH}"
-}
-
-
-
 
 function lsd-mod.cuda.get__vars() {
   lsd-mod.log.echo "OS: ${bgre}${OS}${nocolor}"
@@ -262,4 +97,190 @@ function lsd-mod.cuda.get__vars() {
   lsd-mod.log.echo "__TORCH_CUDA_ARCH_LIST: ${bgre}${__TORCH_CUDA_ARCH_LIST}${nocolor}"
   lsd-mod.log.echo "__FVCORE_CACHE: ${bgre}${__FVCORE_CACHE}${nocolor}"
   lsd-mod.log.echo "###----------------------------------------------------------"
+}
+
+
+function lsd-mod.cuda.get__cuda_vers() {
+  local ver
+  declare -a cuda_vers=(`echo $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/config/${LINUX_DISTRIBUTION}/cuda-cfg-[0-9]*.sh | grep -o -P "(\ *[0-9.]*sh)" | sed -r 's/\.sh//'`)
+  # (>&2 echo -e "Total cuda_vers: ${#cuda_vers[@]}\n cuda_vers: ${cuda_vers[@]}")
+  # for ver in "${cuda_vers[@]}"; do
+  #   (>&2 echo -e "ver => ${ver}")
+  # done
+  echo "${cuda_vers[@]}"
+}
+
+
+function lsd-mod.cuda.get__cuda_vers_avail() {
+  local ver
+  declare -a cuda_vers_avail=(`echo $(ls -d /usr/local/cuda-* | cut -d'-' -f2)`)
+  # (>&2 echo -e "Total cuda_vers: ${#cuda_vers[@]}\n cuda_vers: ${cuda_vers[@]}")
+  # for ver in "${cuda_vers_avail[@]}"; do
+  #   (>&2 echo -e "ver => ${ver}")
+  # done
+  echo "${cuda_vers_avail[@]}"
+}
+
+
+function lsd-mod.cuda.admin.purge_cuda_stack() {
+  ## Todo: prmpt for passphrase for extra level of protection
+  local _que="Do you want to purge cuda stack"
+  lsd-mod.fio.yes_or_no_loop "${_que}" && {
+
+    lsd-mod.log.warn "purging cuda stack..."
+
+    sudo apt -y --allow-change-held-packages remove 'cuda*' \
+      'cudnn*' \
+      'libcudnn*' \
+      'libnccl*' \
+      'libnvinfer*'
+       # &>/dev/null
+    
+    sudo rm -rf /usr/local/cuda \
+      /usr/local/cuda* 1>&2
+    
+    lsd-mod.log.ok "purging cuda stack... completed."
+  } || lsd-mod.log.info "Skipping purging cuda stack."
+}
+
+
+function lsd-mod.cuda.admin.purge_nvidia_stack() {
+  lsd-mod.log.warn "purging nvidia driver and cuda, cudnn, tensorrt stack..."
+
+  sudo apt -y --allow-change-held-packages remove 'nvidia-*' \
+    'nvidia*' 1>&2
+
+  lsd-mod.cuda.admin.purge_cuda_stack
+  lsd-mod.log.ok "purging nvidia stack... completed"
+}
+
+
+function lsd-mod.cuda.update_alternatives_cuda() {
+  ## cuda multiple version configuration
+  ## Alternative to update-alternative options is to create sym link
+  ## I preferred update-alternatives option
+  ##
+  ## Examples:
+  # ## Todo: autopick cuda version and their priorities based on what is installed in the /usr/local/cuda-xx.y
+  # if [ -d /usr/local/cuda-11.0 ]; then
+  #   sudo update-alternatives --install /usr/local/cuda cuda /usr/local/cuda-11.0 250
+  # fi
+  # if [ -d /usr/local/cuda-10.2 ]; then
+  #   sudo update-alternatives --install /usr/local/cuda cuda /usr/local/cuda-10.2 300
+  # fi
+  # if [ -d /usr/local/cuda-10.1 ]; then
+  #   sudo update-alternatives --install /usr/local/cuda cuda /usr/local/cuda-10.1 500
+  # fi
+  # if [ -d /usr/local/cuda-10.0 ]; then
+  #   sudo update-alternatives --install /usr/local/cuda cuda /usr/local/cuda-10.0 200
+  # fi
+  # if [ -d /usr/local/cuda-9.0 ]; then
+  #   sudo update-alternatives --install /usr/local/cuda cuda /usr/local/cuda-9.0 400
+  # fi
+  # if [ -d /usr/local/cuda-8.0 ]; then
+  #   sudo update-alternatives --install /usr/local/cuda cuda /usr/local/cuda-8.0 50
+  # fi
+
+  declare -a cuda_vers=($(lsd-mod.cuda.get__cuda_vers))
+  ## Todo: fix error
+  # declare -a weights=($(seq 50 50 `echo (( ${#cuda_vers[@]}*100 ))`))
+  declare -a weights=($(seq 50 50 500))
+
+  local ver
+  local __count=0
+  for ver in "${cuda_vers[@]}"; do
+    (>&2 echo -e "cuda-${ver}: ${ver} ${weights[${__count}]}")
+
+    if [[ -d /usr/local/cuda-${ver} ]]; then
+      sudo update-alternatives --install /usr/local/cuda cuda /usr/local/cuda-${ver} ${weights[${__count}]}
+    fi
+    ((__count++))
+  done
+
+  sudo update-alternatives --config cuda
+}
+
+
+function lsd-mod.cuda.include() {
+  local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
+  local scriptname=$(basename ${BASH_SOURCE[0]})
+
+  declare -a cuda_vers=($(lsd-mod.cuda.get__cuda_vers))
+  local vers="${cuda_vers[@]}";
+  vers=$(echo "${vers// / | }")
+
+  [[ ${LSCRIPTS__DEBUG} -eq 0 ]] || {
+    (>&2 echo -e "Total cuda_vers: ${#cuda_vers[@]}\n cuda_vers: ${cuda_vers[@]}")
+    (for ver in "${cuda_vers[@]}"; do (>&2 echo -e "ver => ${ver}"); done)
+  }
+
+  local __BUILD_FOR_CUDA_VER=${args['cuda']}
+  local __LINUX_DISTRIBUTION=${args['os']}
+  [[ ! -z ${__BUILD_FOR_CUDA_VER} ]] || __BUILD_FOR_CUDA_VER=${BUILD_FOR_CUDA_VER}
+
+  [[ ! -z ${__LINUX_DISTRIBUTION} ]] || __LINUX_DISTRIBUTION=${LINUX_DISTRIBUTION}
+
+  lsd-mod.log.ok "${scriptname}::__BUILD_FOR_CUDA_VER: ${__BUILD_FOR_CUDA_VER}"
+  lsd-mod.log.ok "${scriptname}::__LINUX_DISTRIBUTION: ${__LINUX_DISTRIBUTION}"
+
+  lsd-mod.fio.find_in_array "${__BUILD_FOR_CUDA_VER}" "${cuda_vers[@]}" &>/dev/null \
+    || lsd-mod.log.fail "Invalid or not supported CUDA version: ${__BUILD_FOR_CUDA_VER}"
+
+  lsd-mod.log.info "Using CUDA version: ${__BUILD_FOR_CUDA_VER}"
+
+  local CUDACFG_FILEPATH="${LSCRIPTS}/config/${__LINUX_DISTRIBUTION}/cuda-cfg-${__BUILD_FOR_CUDA_VER}.sh"
+  lsd-mod.log.debug "CUDACFG_FILEPATH: ${CUDACFG_FILEPATH}"
+
+  ls -1 ${CUDACFG_FILEPATH} &>/dev/null || lsd-mod.log.fail "config file does not exists: ${CUDACFG_FILEPATH}"
+  echo "${CUDACFG_FILEPATH}"
+}
+
+
+function lsd-mod.cuda.cuda-config() {
+  local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
+  source ${LSCRIPTS}/argparse.sh "$@"
+
+  # # [[ "$#" -lt "1" ]] && lsd-mod.log.error "Invalid number of paramerters: minimum required 1 parameter but given: $#"
+  # [[ -n "${args['cuda']+1}" ]] || lsd-mod.log.error "Required paramerter missing (--cuda)!"
+  # [[ -n "${args['os']+1}" ]] || lsd-mod.log.error "Required paramerter missing (--os)!"
+  
+  # local scriptname=$(basename ${BASH_SOURCE[0]})
+  # lsd-mod.log.debug "executing script...: ${scriptname} with total params: $#"
+
+  local __BUILD_FOR_CUDA_VER=${args['cuda']}
+  local __LINUX_DISTRIBUTION=${args['os']}
+  [[ ! -z ${__BUILD_FOR_CUDA_VER} ]] || __BUILD_FOR_CUDA_VER=${BUILD_FOR_CUDA_VER}
+  [[ ! -z ${__LINUX_DISTRIBUTION} ]] || __LINUX_DISTRIBUTION=${LINUX_DISTRIBUTION}
+
+
+  local CUDACFG_FILEPATH=$(lsd-mod.cuda.include "${__BUILD_FOR_CUDA_VER}" "${__BUILD_FOR_CUDA_VER}")
+  lsd-mod.log.debug "CUDACFG_FILEPATH: ${CUDACFG_FILEPATH}"
+
+  ## Only for reference, not used here
+  ## local AI_PYCUDA_FILE=${LSCRIPTS}/config/${__LINUX_DISTRIBUTION}/python.requirements-ai-cuda-${__BUILD_FOR_CUDA_VER.txt
+  ## echo "CUDACFG_FILEPATH: ${AI_PYCUDA_FILE}"
+
+  ls -1 ${CUDACFG_FILEPATH} &>/dev/null || lsd-mod.log.fail "config file does not exists: ${CUDACFG_FILEPATH}${nocolor}"
+  lsd-mod.log.debug "CUDACFG_FILEPATH: ${CUDACFG_FILEPATH}"
+
+  local __CUDA_LOG_FILEPATH="${__LSCRIPTS_LOG_BASEDIR__}/${scriptname%.*}-cuda-${__BUILD_FOR_CUDA_VER}-${__TIMESTAMP__}.log"
+  lsd-mod.log.debug "__CUDA_LOG_FILEPATH: ${__CUDA_LOG_FILEPATH}"
+
+  source ${CUDACFG_FILEPATH}
+  lsd-mod.log.echo "###----------------------------------------------------------"
+  source ${LSCRIPTS}/core/cuda-echo.sh 1>${__CUDA_LOG_FILEPATH} 2>&1
+  lsd-mod.log.ok "Verify cuda-stack versions: ${__CUDA_LOG_FILEPATH}"
+  cat "${__CUDA_LOG_FILEPATH}"
+  lsd-mod.log.echo "###----------------------------------------------------------"
+
+  lsd-mod.cuda.get__vars
+
+  lsd-mod.log.debug "__BUILD_FOR_CUDA_VER: ${__BUILD_FOR_CUDA_VER}"
+  lsd-mod.log.debug "__LINUX_DISTRIBUTION: ${__LINUX_DISTRIBUTION}"
+  lsd-mod.log.debug "OS: ${OS}"
+  lsd-mod.log.debug "CUDA_OS_REL: ${CUDA_OS_REL}"
+  lsd-mod.log.debug "CUDA_VER: ${CUDA_VER}"
+
+  # lsd-mod.cuda.get__vars
+  echo "${CUDACFG_FILEPATH}"
 }

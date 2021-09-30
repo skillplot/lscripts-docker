@@ -28,7 +28,7 @@ function cuda-stack-verify.main() {
     [[ -d "${CUDA_HOME}/samples" ]] && {
       lsd-mod.log.info "Compiling: ${CUDA_HOME}/samples/1_Utilities/deviceQuery"
 
-      sudo chown -R $(whoami):$(whoami) "${CUDA_HOME}/samples"
+      # sudo chown -R $(whoami):$(whoami) "${CUDA_HOME}/samples"
       cd "${CUDA_HOME}/samples/1_Utilities/deviceQuery"
       make
       ./deviceQuery  
