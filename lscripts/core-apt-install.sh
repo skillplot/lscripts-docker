@@ -9,15 +9,16 @@
 
 function core-apt-install.main() {
   ## sudo apt -y update
-
   ## Essential for New Machine Setup
-  sudo apt -y install git
-  sudo apt -y install gparted
-  sudo apt -y install net-tools
-  sudo apt -y install ppa-purge
-  sudo apt -y install sshfs
-  sudo apt -y install mono-complete
-  sudo apt -y install inxi
+  sudo apt -y install -y --no-install-recommends \
+    build-essential \
+    apt-transport-https \
+    ca-certificates \
+    gnupg \
+    gnupg2 \
+    wget \
+    curl \
+    software-properties-common
 }
 
 core-apt-install.main "$@"

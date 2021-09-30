@@ -5,62 +5,92 @@
 ###----------------------------------------------------------
 ## Install Lscripts utilities and softwares
 ###----------------------------------------------------------
+## References:
+## https://stackoverflow.com/questions/7106012/download-a-single-folder-or-directory-from-a-github-repo
+#
+## Used in openCV:: doxygen doxygen-gui, graphviz
+## For software builds:: cmake-curses-gui
+## Admin system utils:: htop, apcalc
+## cmd image viewer: feh
+###----------------------------------------------------------
 
 
 function essentials-apt-install.main() {
   ##sudo apt -y update
-  sudo apt -y install openssh-client openssh-server
-  sudo apt -y install dos2unix
-  sudo apt -y install tree
-  sudo apt -y install chromium-browser
-  sudo apt -y install unrar
-  sudo apt -y install aptitude
-  sudo apt -y install uuid
+  sudo apt -y install -y --no-install-recommends \
+    libcurl3-dev \
+    libfreetype6-dev \
+    libhdf5-serial-dev \
+    libzmq3-dev \
+    pkg-config \
+    aptitude \
+    graphviz \
+    openmpi-bin \
+    rsync \
+    unzip \
+    zip \
+    zlib1g-dev \
+    git \
+    swig \
+    grep \
+    feh \
+    tree \
+    sudo \
+    libpng-dev \
+    libjpeg-dev \
+    libtool \
+    bc \
+    jq \
+    openssh-client \
+    openssh-server \
+    apt-utils \
+    gparted \
+    net-tools \
+    ppa-purge \
+    sshfs \
+    inxi \
+    dos2unix \
+    tree \
+    exuberant-ctags \
+    cmake-curses-gui
 
-  ## exif tool
-  sudo apt -y install libimage-exiftool-perl
+  # sudo apt -y install -y --no-install-recommends locales
 
-  ## Used in openCV
-  sudo apt -y install doxygen doxygen-gui
-  sudo apt -y install graphviz
-
-  ## Misc
-  sudo apt -y install libexif-dev
-  sudo apt -y install ntp
-  sudo apt -y install libconfig++-dev
-  sudo apt -y install kino
-
-  ## for software builds
-  sudo apt -y install cmake-curses-gui
-
-  ## Admin system utils:
-  sudo apt -y install htop
-  sudo apt -y install apcalc
+  sudo apt -y install -y --no-install-recommends \
+    uuid \
+    automake \
+    locate \
+    unrar \
+    mono-complete \
+    chromium-browser \
+    libimage-exiftool-perl \
+    doxygen \
+    doxygen-gui \
+    libexif-dev \
+    ntp \
+    libconfig++-dev \
+    kino \
+    htop \
+    apcalc
 
   ## For gnome Ubuntu >= 17
-  sudo apt -y install gnome-tweak-tool
+  sudo apt -y install -y --no-install-recommends \
+    gnome-tweak-tool
 
   ## sudo apt install gnome-shell-extension-weather
   ## start gnome-tweaks by
   # gnome-tweaks
 
-  sudo apt -y install dconf-editor
+  sudo apt -y install -y --no-install-recommends \
+    dconf-editor \
+    openvpn \
+    neofetch \
+    libcanberra-gtk-module
 
-  ## cmd image viewer
-  sudo apt -y install feh
+  # sudo apt -y install -y --no-install-recommends \
+  #   subversion
 
-  ## openvpn
-  sudo apt -y install openvpn
-
-  ## * Enabe "New Document" Option
-  ## https://linuxconfig.org/how-to-create-desktop-shortcut-launcher-on-ubuntu-18-04-bionic-beaver-linux
-  touch $HOME/Templates/Empty\ Document
-
-  ## https://stackoverflow.com/questions/7106012/download-a-single-folder-or-directory-from-a-github-repo
-  sudo apt -y install subversion
-  sudo apt -y install libcanberra-gtk-module
-
-  [[ $LINUX_ID == 'Kali' ]] && (
+  [[ ${LINUX_ID} == 'Kali' ]] && (
     sudo apt -y install pepperflashplugin-nonfree
     sudo apt -y install libreoffice
     ## PDF viewer
@@ -71,15 +101,16 @@ function essentials-apt-install.main() {
     sudo apt -y install libgconf-2-4
   )
 
-  sudo apt -y install neofetch
-  sudo apt -y install exuberant-ctags
-
   ## multiplexer
   # sudo apt install byobu
   # sudo apt install screen
 
   ## web based terminal
   # sudo apt install shellinabox
+
+  ## * Enabe "New Document" Option
+  ## https://linuxconfig.org/how-to-create-desktop-shortcut-launcher-on-ubuntu-18-04-bionic-beaver-linux
+  touch "$HOME/Templates/Empty\ Document"
 }
 
 essentials-apt-install.main "$@"

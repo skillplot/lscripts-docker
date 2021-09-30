@@ -32,6 +32,7 @@ function lsd-mod.cuda.get__cuda_vers_avail() {
 
 
 function lsd-mod.cuda.purge_cuda_stack() {
+  ## Todo: prmpt for passphrase for extra level of protection
   local _que="Do you want to purge cuda stack"
   lsd-mod.fio.yes_or_no_loop "${_que}" && {
 
