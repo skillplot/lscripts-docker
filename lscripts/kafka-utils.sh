@@ -12,7 +12,7 @@ function __kafka-service-setup() {
   [[ ! -z ${KAFKA_HOME} ]] || lsd-mod.log.fail "Undefined KAFKA_HOME: ${KAFKA_HOME}"
 
   local kafkaservicename=kafka.service
-  local service_filepath=${LSCRIPTS}/config/kafka/${kafkaservicename}
+  local service_filepath=${LSCRIPTS}/core/config/kafka/${kafkaservicename}
   ## Todo: lsd-mod.log.error check and dynamic service file
 
   sudo cp ${service_filepath} /etc/systemd/system/

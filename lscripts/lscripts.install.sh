@@ -91,7 +91,7 @@ function lsd-lscripts.install.__menu() {
 
 function lsd-lscripts.install.main() {
   local LSCRIPTS="$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )"
-  source "${LSCRIPTS}/config/stack-cfg.sh"
+  source "${LSCRIPTS}/core/config/stack-cfg.sh"
   source "${LSCRIPTS}/_common_.sh"
   # lsd-mod.log.warn "Create installer alias ${FUNCNAME[0]}!"
 

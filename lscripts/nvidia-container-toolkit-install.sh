@@ -164,6 +164,9 @@ function nvidia-container-toolkit-install.main() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
   source ${LSCRIPTS}/lscripts.config.sh
 
+  local scriptname=$(basename ${BASH_SOURCE[0]})
+  lsd-mod.log.debug "executing script...: ${scriptname} with total params: $#"
+
   local _default=no
   local _que
   local _msg
@@ -185,7 +188,7 @@ function nvidia-container-toolkit-install.main() {
       ${_prog}-uninstall
   } || lsd-mod.log.echo "${_msg}"
 
-  _que="Add/Update ${_prog} repo Key"
+  _que="Update ${_prog} repo Key"
   _msg="Skipping adding/updating ${_prog} repo!"
   lsd-mod.fio.yesno_${_default} "${_que}" && {
       lsd-mod.log.echo "Adding/Updating ${_prog} repo key..."

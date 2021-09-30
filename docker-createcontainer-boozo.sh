@@ -91,12 +91,12 @@ function docker-createcontainer-boozo.main() {
   local BUILD_FOR_CUDA_VER="$1"
   lsd-mod.log.info "Using CUDA version: ${BUILD_FOR_CUDA_VER}"
 
-  local CUDACFG_FILEPATH="${LSCRIPTS}/lscripts/config/${LINUX_DISTRIBUTION}/cuda-cfg-${BUILD_FOR_CUDA_VER}.sh"
+  local CUDACFG_FILEPATH="${LSCRIPTS}/lscripts/core/config/${LINUX_DISTRIBUTION}/cuda-cfg-${BUILD_FOR_CUDA_VER}.sh"
   lsd-mod.log.debug "CUDACFG_FILEPATH: ${CUDACFG_FILEPATH}"
 
   ls -1 ${CUDACFG_FILEPATH} &>/dev/null || lsd-mod.log.fail "config file does not exists: ${CUDACFG_FILEPATH}"
   ## Only for reference, not used here
-  ## local AI_PYCUDA_FILE=${LSCRIPTS}/lscripts/config/${LINUX_DISTRIBUTION}/python.requirements-ai-cuda-${BUILD_FOR_CUDA_VER}.txt
+  ## local AI_PYCUDA_FILE=${LSCRIPTS}/lscripts/core/config/${LINUX_DISTRIBUTION}/python.requirements-ai-cuda-${BUILD_FOR_CUDA_VER}.txt
   ## echo "CUDACFG_FILEPATH: ${AI_PYCUDA_FILE}"
 
   local __CUDA_LOG_FILEPATH="${LSCRIPTS}/logs/${scriptname%.*}-cuda-${BUILD_FOR_CUDA_VER}-${__TIMESTAMP__}.log"

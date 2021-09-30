@@ -12,7 +12,7 @@ function __zookeeper-service-setup() {
   [[ ! -z ${ZOOKEEPER_HOME} ]] || lsd-mod.log.fail "Undefined ZOOKEEPER_HOME: ${ZOOKEEPER_HOME}"
 
   local zookeeperservicename=zookeeper.service
-  local service_filepath=${LSCRIPTS}/config/zookeeper/${zookeeperservicename}
+  local service_filepath=${LSCRIPTS}/core/config/zookeeper/${zookeeperservicename}
   ## Todo: lsd-mod.log.error check and dynamic service file
 
   sudo cp ${service_filepath} /etc/systemd/system/
@@ -40,5 +40,5 @@ function __zookeeper-start() {
 
   mkdir -p ${_BZO__LOGS}/zookeeper
   sudo /bin/bash ${ZOOKEEPER_HOME}/bin/zkServer.sh --config ${ZOOKEEPER_CONFIG} start > ${_BZO__LOGS}/zookeeper/zookeeper.log 2>&1
-  sudo /bin/bash /boozo-hub/data/external/zookeeper/bin/zkServer.sh --config $PWD/config/zookeeper start
+  sudo /bin/bash /boozo-hub/data/external/zookeeper/bin/zkServer.sh --config $PWD/core/config/zookeeper start
 }

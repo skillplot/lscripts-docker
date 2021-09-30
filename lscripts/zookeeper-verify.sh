@@ -18,7 +18,7 @@ function zookeeper-verify() {
     # (>&2 echo -e "key: 'username' exists")
     local ZOOKEEPER_HOME="${args['home']}"
     local ZOOKEEPER_USERNAME="${args['username']}"
-    local ZOOKEEPER_CONFIG=${LSCRIPTS}/config/zookeeper
+    local ZOOKEEPER_CONFIG=${LSCRIPTS}/core/config/zookeeper
 
     lsd-mod.log.info "ZOOKEEPER_HOME: ${ZOOKEEPER_HOME}"
     lsd-mod.log.info "ZOOKEEPER_USERNAME: ${ZOOKEEPER_USERNAME}"

@@ -19,7 +19,7 @@
 function stack-setup-all.main() {
   local LSCRIPTS="$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )"
   source "${LSCRIPTS}/_common_.sh"
-  source "${LSCRIPTS}/config/stack-cfg.sh"
+  source "${LSCRIPTS}/core/config/stack-cfg.sh"
 
   lsd-mod.log.warn "Install ${FUNCNAME[0]}; sudo access is required!"
   lsd-mod.fio.yesno_yes "Continue" && {

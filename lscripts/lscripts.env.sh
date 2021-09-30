@@ -9,7 +9,7 @@
 
 function lsd-lscripts.env.main() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
-  source "${LSCRIPTS}/config/ps1.sh"
+  source "${LSCRIPTS}/core/config/ps1.sh"
 
   source "${LSCRIPTS}/lscripts.export.sh"
 

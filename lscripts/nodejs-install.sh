@@ -73,14 +73,14 @@ function nodejs-config() {
 
   # ## cushion if source for bashrc does not happen
   # export MANPATH='${NPM_PACKAGES}/share/man:$(manpath)'
-  # ls -l ${LSCRIPTS}/config/${LINUX_DISTRIBUTION}/nodejs.requirements.sh
+  # ls -l ${LSCRIPTS}/core/config/${LINUX_DISTRIBUTION}/nodejs.requirements.sh
 }
 
 
 function nodejs-install-packages() {
   lsd-mod.log.info "nodejs-install-packages"
-  ls -l ${LSCRIPTS}/config/${LINUX_DISTRIBUTION}/nodejs.requirements.sh
-  source ${LSCRIPTS}/config/${LINUX_DISTRIBUTION}/nodejs.requirements.sh
+  ls -l ${LSCRIPTS}/core/config/${LINUX_DISTRIBUTION}/nodejs.requirements.sh
+  source ${LSCRIPTS}/core/config/${LINUX_DISTRIBUTION}/nodejs.requirements.sh
 }
 
 

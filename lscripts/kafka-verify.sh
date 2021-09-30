@@ -20,7 +20,7 @@ function kafka-verify.main() {
     # (>&2 echo -e "key: 'username' exists")
     local KAFKA_HOME="${args['home']}"
     local KAFKA_USERNAME="${args['username']}"
-    local KAFKA_CONFIG=${LSCRIPTS}/config/kafka/server.properties
+    local KAFKA_CONFIG=${LSCRIPTS}/core/config/kafka/server.properties
 
     lsd-mod.log.info "KAFKA_HOME: ${KAFKA_HOME}"
     lsd-mod.log.info "KAFKA_USERNAME: ${KAFKA_USERNAME}"
