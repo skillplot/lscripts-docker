@@ -42,6 +42,7 @@ categories: quick-start
     * `lsd-cd`
     * `lsd-cfg`
     * `lsd-cmd`
+    * `lsd-cuda`
     * `lsd-date`
     * `lsd-dir`
     * `lsd-docker`
@@ -94,6 +95,14 @@ categories: quick-start
   lsd-cmd.python.list.venv
   lsd-cmd.python.venvname.generate
   ##
+  lsd-cuda.admin.__purge_cuda_stack
+  lsd-cuda.avail
+  lsd-cuda.cfg
+  lsd-cuda.config
+  lsd-cuda.select
+  lsd-cuda.verify
+  lsd-cuda.vers
+  ##
   lsd-date.cfg
   lsd-date.timestamp
   lsd-date.timestamp.microsec
@@ -110,8 +119,6 @@ categories: quick-start
   lsd-python.create.virtualenv
   ##
   lsd-nvidia.cfg
-  lsd-nvidia.cuda.avail
-  lsd-nvidia.cuda.vers
   lsd-nvidia.driver.avail
   lsd-nvidia.gpu.info
   lsd-nvidia.gpu.stats

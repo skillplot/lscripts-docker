@@ -11,6 +11,7 @@ categories: lscript-docker
 1. Install nvidia-driver
 2. Install docker (community edition), docker-compose (optional) and nvidia-docker-toolkit on the host machine.
 3. Build Nvidia CUDA Docker Images
+4. [CI/CD](https://gitlab.com/nvidia/container-images/cuda/blob/master/README_CICD.md)
 
 
 ## Installation
@@ -26,7 +27,7 @@ This is for **advance** usage providing granular control on specific software co
     lsd-install.docker-ce
     lsd-install.docker-compose
     ```
-3. Install Nvidia docker
+3. Install Nvidia container toolkit
     ```bash
     lsd-install.nvidia-container-toolkit
     ```
@@ -41,11 +42,11 @@ These provides complete development stack for deep learning docker environments.
 * **Pre-requites**
     * Nvidia Driver
     * Docker
-    * Nvidia runtime
+    * Nvidia runtime (or nvidia container toolkit which comes with the runtime)
 * **Build CUDA 10.0 Nvidia image**
     ```bash
     ## create the external directory, inside this clone the official nividia container file repo
-    mkidr -p external
+    mkdir -p external
     cd external
     git clone https://gitlab.com/nvidia/container-images/cuda.git
     ##
