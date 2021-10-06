@@ -59,6 +59,10 @@ local NODE_NVM_VER=v0.38.0
 ##----------------------------------------------------------
 local YARN_REPO_URL="https://dl.yarnpkg.com/debian"
 local YARN_KEY_URL="${YARN_REPO_URL}/pubkey.gpg"
+##----------------------------------------------------------
+## Qgis
+##----------------------------------------------------------
+local QGIS_REPO_URL="https://qgis.org/debian"
 #
 ##----------------------------------------------------------
 ## JAVA JDK version

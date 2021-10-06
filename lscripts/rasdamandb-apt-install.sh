@@ -75,7 +75,7 @@ function rasdamandb-addrepo() {
 }
 
 
-function __rasdamandb-install.main() {
+function __rasdamandb-install() {
   sudo apt -y install rasdaman
   source /etc/profile.d/rasdaman.sh
 

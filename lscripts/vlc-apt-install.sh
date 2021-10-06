@@ -9,7 +9,8 @@
 
 function vlc-apt-install.main() {
   # sudo apt -y update
-  sudo apt -y install vlc browser-plugin-vlc
+  sudo apt -y install vlc
+  # sudo apt -y install vlc browser-plugin-vlc
 
   # VLC hacks
 

@@ -44,6 +44,16 @@ function qgis3-uninstall() {
 
 
 function qgis3-addrepo-key() {
+  sudo apt -y update
+  ## Install packages to allow apt to use a repository over HTTPS:
+  sudo apt -y --no-install-recommends install \
+    apt-transport-https \
+    ca-certificates \
+    curl \
+    gnupg2 \
+    software-properties-common 2>/dev/null
+
+    # gnupg
   ## import the GPG key of QGIS 3 
   # sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key 51F523511C7028C3
   # wget -O - https://qgis.org/downloads/qgis-2017.gpg.key | sudo gpg --import
@@ -65,17 +75,24 @@ function qgis3-addrepo-key() {
 
 
   ## 2020
-  wget -O - https://qgis.org/downloads/qgis-2020.gpg.key | sudo gpg --import
-  gpg --fingerprint F7E06F06199EF2F2
-  gpg --export --armor F7E06F06199EF2F2 | sudo apt-key add -
+  # wget -O - https://qgis.org/downloads/qgis-2020.gpg.key | sudo gpg --import
+  # gpg --fingerprint F7E06F06199EF2F2
+  # gpg --export --armor F7E06F06199EF2F2 | sudo apt-key add -
 
+
+  ## 2021
+  # wget -qO - https://qgis.org/downloads/qgis-2021.gpg.key | sudo gpg --no-default-keyring --keyring gnupg-ring:/etc/apt/trusted.gpg.d/qgis-archive.gpg --import
+  wget -qO - https://qgis.org/downloads/qgis-$(date +%Y).gpg.key | sudo gpg --no-default-keyring --keyring gnupg-ring:/etc/apt/trusted.gpg.d/qgis-archive.gpg --import
+  sudo chmod a+r /etc/apt/trusted.gpg.d/qgis-archive.gpg
 }
 
 
 function qgis3-addrepo() {
-  echo "LINUX_CODE_NAME: ${LINUX_CODE_NAME}"
+  lsd-mod.log.debug "LINUX_CODE_NAME: ${LINUX_CODE_NAME}"
+  lsd-mod.log.debug "QGIS_REPO_URL: ${QGIS_REPO_URL}"
   # sudo sh -c 'echo "deb https://qgis.org/debian bionic main" > /etc/apt/sources.list.d/qgis3.list'
-  sudo sh -c "echo \"deb https://qgis.org/debian ${LINUX_CODE_NAME} main\" > /etc/apt/sources.list.d/qgis3.list"
+  # sudo sh -c "echo \"deb https://qgis.org/debian ${LINUX_CODE_NAME} main\" > /etc/apt/sources.list.d/qgis3.list"
+  sudo sh -c "echo \"deb ${QGIS_REPO_URL} ${LINUX_CODE_NAME} main\" > /etc/apt/sources.list.d/qgis3.list"
   # cat /etc/apt/sources.list.d/qgis3.list
 }
 
