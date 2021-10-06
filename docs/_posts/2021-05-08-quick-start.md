@@ -61,6 +61,7 @@ categories: quick-start
 * `lsd-ls` - It is at core `ls -ltr` plus wit numeric permission value added as the first column i.e. `644 -rw-r--r--`
 * Lscripts configuration variables: `lsd-cfg.`
   ```bash
+  lsd-cfg.basepath
   lsd-cfg.color
   lsd-cfg.docker
   lsd-cfg.nvidia
@@ -109,6 +110,7 @@ categories: quick-start
   lsd-date.timestamp.millisec
   lsd-date.timestamp.nanosec
   ##
+  lsd-dir.cfg
   lsd-dir.admin.mkalias-datadirs
   lsd-dir.admin.mkalias-osdirs
   lsd-dir.admin.mkdir-datadirs

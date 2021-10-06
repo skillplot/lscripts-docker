@@ -44,6 +44,7 @@ function lsd-lscripts.alias.main() {
   alias lsd-cfg.nvidia="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.nvidia.get__vars"
   alias lsd-cfg.system="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.system.get__vars"
   alias lsd-cfg.typeformats="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.typeformats.get__vars"
+  alias lsd-cfg.basepath="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.dir.basepath.get__vars"
   ###----------------------------------------------------------
   ## lsd-git => _git_ module
   ###----------------------------------------------------------
@@ -77,6 +78,7 @@ function lsd-lscripts.alias.main() {
   ###----------------------------------------------------------
   ## lsd-date => _date_ module
   ###----------------------------------------------------------
+  alias lsd-dir.cfg="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.dir.basepath.get__vars"
   alias lsd-dir.get-datadirs-paths="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.dir.get-datadirs-paths"
   alias lsd-dir.get-osdirs-paths="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.dir.get-osdirs-paths"
   ###-------

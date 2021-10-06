@@ -24,14 +24,17 @@ function atom-wget-dpkg-install() {
   [[ ! -d "${_LSD__EXTERNAL_HOME}" ]] && mkdir -p "${_LSD__EXTERNAL_HOME}"
 
   if [ -z "${ATOM_VER}" ]; then
-    local ATOM_VER="v1.47.0"
+    # local ATOM_VER="v1.47.0"
+    local ATOM_VER="v1.58.0"
     echo "Unable to get ATOM_VER version, falling back to default version#: ${ATOM_VER}"
   fi
 
   local PROG="atom"
   local FILE="${PROG}-amd64.deb"
 
-  local URL="https://atom-installer.github.com/${ATOM_VER}/${FILE}"
+  # local URL="https://atom-installer.github.com/${ATOM_VER}/${FILE}"
+  ## latest
+  local URL="https://atom.io/download/deb"
 
   echo "Number of threads will be used: ${NUMTHREADS}"
   echo "BASEPATH: ${_LSD__EXTERNAL_HOME}"
