@@ -28,4 +28,4 @@ function python.venvname.generate.main() {
   echo ${py_env_name}
 }
 
-python.venvname.generate.main $1
+python.venvname.generate.main "$1"

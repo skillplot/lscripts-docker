@@ -119,6 +119,14 @@ categories: quick-start
   lsd-dir.get-osdirs-paths
   ##
   lsd-python.create.virtualenv
+  lsd-python.kill
+  lsd-python.ls.egg
+  lsd-python.ls.pycache
+  lsd-python.rm.egg
+  lsd-python.rm.pycache
+  lsd-python.venv.list
+  lsd-python.venv.name
+  lsd-python.venv.name --path=/usr/bin/python2
   ##
   lsd-nvidia.cfg
   lsd-nvidia.driver.avail

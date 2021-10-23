@@ -27,20 +27,6 @@ function python-virtualenvwrapper-uninstall() {
 }
 
 
-function __python-virtualenvwrapper-getconfig_file() {
-  local __PY_VIRTUALENVWRAPPER
-  lsd-mod.log.debug "/usr/local/bin/${_LSD__PY_VIRTUALENVWRAPPER}"
-  {
-    ls -1 "/usr/local/bin/${_LSD__PY_VIRTUALENVWRAPPER}" &>/dev/null && __PY_VIRTUALENVWRAPPER="/usr/local/bin/${_LSD__PY_VIRTUALENVWRAPPER}"
-  } || {
-    ls -1 "${HOME}/.local/bin/${_LSD__PY_VIRTUALENVWRAPPER}" &>/dev/null && __PY_VIRTUALENVWRAPPER="${HOME}/.local/bin/${_LSD__PY_VIRTUALENVWRAPPER}"
-  }
-  lsd-mod.log.debug "__PY_VIRTUALENVWRAPPER: ${__PY_VIRTUALENVWRAPPER}"
-
-  echo ${__PY_VIRTUALENVWRAPPER}
-}
-
-
 function python-virtualenvwrapper-test() {
   lsd-mod.log.warn "Testing Usage and Installation: "
 
@@ -68,7 +54,7 @@ function python-virtualenvwrapper-test() {
 
   [[ -d ${_LSD__PYVENV_PATH} ]] && {
     export WORKON_HOME=${_LSD__PYVENV_PATH}
-    __PY_VIRTUALENVWRAPPER=$(__python-virtualenvwrapper-getconfig_file)
+    __PY_VIRTUALENVWRAPPER=$(lsd-python.virtualenvwrapper.getconfig_file)
     lsd-mod.log.debug "__PY_VIRTUALENVWRAPPER: ${__PY_VIRTUALENVWRAPPER}"
     source "${__PY_VIRTUALENVWRAPPER}"
 
@@ -126,7 +112,7 @@ function python-virtualenvwrapper-create() {
   [[ -d ${_LSD__PYVENV_PATH} ]] || lsd-mod.log.fail "Does not exists _LSD__PYVENV_PATH: ${_LSD__PYVENV_PATH}"
 
   export WORKON_HOME=${_LSD__PYVENV_PATH}
-  __PY_VIRTUALENVWRAPPER=$(__python-virtualenvwrapper-getconfig_file)
+  __PY_VIRTUALENVWRAPPER=$(lsd-python.virtualenvwrapper.getconfig_file)
   lsd-mod.log.debug "__PY_VIRTUALENVWRAPPER: ${__PY_VIRTUALENVWRAPPER}"
   source "${__PY_VIRTUALENVWRAPPER}"
 
@@ -143,20 +129,6 @@ function python-virtualenvwrapper-create() {
   }
 }
 
-function python-virtualenvwrapper-config() {
-  [[ -f ${_LSD__BASHRC_FILE} ]] || lsd-mod.log.fail "File does not exits,_LSD__BASHRC_FILE: ${_LSD__BASHRC_FILE}"
-
-  local LINE
-  LINE="export WORKON_HOME=${_LSD__PYVENV_PATH}"
-  lsd-mod.fio.inject_in_file --file="${_LSD__BASHRC_FILE}" --line="${LINE}"
-
-  __PY_VIRTUALENVWRAPPER=$(__python-virtualenvwrapper-getconfig_file)
-  lsd-mod.log.debug "__PY_VIRTUALENVWRAPPER: ${__PY_VIRTUALENVWRAPPER}"
-  LINE="source ${__PY_VIRTUALENVWRAPPER}"
-  lsd-mod.fio.inject_in_file --file="${_LSD__BASHRC_FILE}" --line="${LINE}"
-
-  source ${_LSD__BASHRC_FILE}
-}
 
 function __python-virtualenvwrapper-install() {
   [[ -f ${_LSD__BASHRC_FILE} ]] || lsd-mod.log.fail "File does not exits,_LSD__BASHRC_FILE: ${_LSD__BASHRC_FILE}"

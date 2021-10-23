@@ -22,9 +22,18 @@ function lsd-lscripts.alias.main() {
   ###-------
   alias lsd-cd="cd ${LSCRIPTS}"
   ###----------------------------------------------------------
-  ## convinience
+  ## lsd-python => _python_ module
   ###----------------------------------------------------------
+  alias lsd-python.venv.name="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.python.venv.name $@"
+  alias lsd-python.venv.list="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.python.venv.list $@"
+  ##
   alias lsd-python.create.virtualenv="source ${LSCRIPTS}/python-virtualenvwrapper-install.sh"
+  ##
+  alias lsd-python.kill="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.utils.kill.python"
+  alias lsd-python.ls.pycache="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.utils.ls.pycache"
+  alias lsd-python.ls.egg="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.utils.ls.egg"
+  alias lsd-python.rm.pycache="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.utils.rm.pycache"
+  alias lsd-python.rm.egg="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.utils.rm.egg"
   ###----------------------------------------------------------
   ## lsd-admin
   ###----------------------------------------------------------
@@ -147,8 +156,6 @@ function lsd-lscripts.alias.main() {
   alias lsd-cmd.mount.smb="bash ${LSCRIPTS}/snippets/mount.smb.sh"
   alias lsd-cmd.mount.ssh="bash ${LSCRIPTS}/snippets/mount.ssh.sh"
   alias lsd-cmd.pm="bash ${LSCRIPTS}/snippets/pm.sh"
-  alias lsd-cmd.python.venvname.generate="bash ${LSCRIPTS}/snippets/python.venvname.generate.sh"
-  alias lsd-cmd.python.list.venv="bash ${LSCRIPTS}/snippets/python.list.venv.sh"
   ###----------------------------------------------------------
   ## lsd-test => tests/ package
   ###----------------------------------------------------------
@@ -165,7 +172,6 @@ function lsd-lscripts.alias.main() {
   ###----------------------------------------------------------
   alias lsd-utils.pid="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.utils.pid"
   alias lsd-utils.kill="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.utils.kill"
-  alias lsd-utils.kill.python="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.utils.kill.python"
   alias lsd-utils.kill.python="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.utils.kill.python"
   alias lsd-utils.ls="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.utils.ls"
   alias lsd-utils.ls.pycache="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.utils.ls.pycache"
