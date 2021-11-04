@@ -54,7 +54,7 @@ function python-virtualenvwrapper-test() {
 
   [[ -d ${_LSD__PYVENV_PATH} ]] && {
     export WORKON_HOME=${_LSD__PYVENV_PATH}
-    __PY_VIRTUALENVWRAPPER=$(lsd-python.virtualenvwrapper.getconfig_file)
+    __PY_VIRTUALENVWRAPPER=$(lsd-mod.python.virtualenvwrapper.getconfig_file)
     lsd-mod.log.debug "__PY_VIRTUALENVWRAPPER: ${__PY_VIRTUALENVWRAPPER}"
     source "${__PY_VIRTUALENVWRAPPER}"
 
@@ -112,7 +112,7 @@ function python-virtualenvwrapper-create() {
   [[ -d ${_LSD__PYVENV_PATH} ]] || lsd-mod.log.fail "Does not exists _LSD__PYVENV_PATH: ${_LSD__PYVENV_PATH}"
 
   export WORKON_HOME=${_LSD__PYVENV_PATH}
-  __PY_VIRTUALENVWRAPPER=$(lsd-python.virtualenvwrapper.getconfig_file)
+  __PY_VIRTUALENVWRAPPER=$(lsd-mod.python.virtualenvwrapper.getconfig_file)
   lsd-mod.log.debug "__PY_VIRTUALENVWRAPPER: ${__PY_VIRTUALENVWRAPPER}"
   source "${__PY_VIRTUALENVWRAPPER}"
 
