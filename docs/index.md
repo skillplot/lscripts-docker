@@ -1,6 +1,1 @@
----
-# Feel free to add content and custom Front Matter to this file.
-# To modify the layout, see https://jekyllrb.com/docs/themes/#overriding-theme-defaults
-
-layout: home
----
+_posts/2021-05-07-introduction-to-lscripts-docker.md

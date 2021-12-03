@@ -27,6 +27,67 @@ function lsd-mod.docs.get__vars() {
 }
 
 
+function lsd-mod.docs.mkdocs() {
+  local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
+  source ${LSCRIPTS}/argparse.sh "$@"
+
+  local __path
+  [[ -n "${args['path']+1}" ]] && __path=${args['path']}
+
+  local mkdocs_yml=${__path}
+  local current_dir=${PWD}
+  [[ ! -z ${mkdocs_yml} ]] || mkdocs_yml="${current_dir}/mkdocs.yml"
+
+  [[ -f ${mkdocs_yml} ]] || lsd-mod.log.fail "${mkdocs_yml} file does not exists."
+
+  lsd-mod.log.echo "Using Mkdocs YAML: ${mkdocs_yml}"
+
+  (
+    type mkdocs &>/dev/null && mkdocs build --clean -f ${mkdocs_yml} || \
+      lsd-mod.log.fail "mkdocs: command not found."
+  )
+}
+
+
+function lsd-mod.docs.mkdocs.link() {
+  local www_root="$HOME/public_html"
+  local www_docs="${www_root}/docs"
+
+  local current_dir=${PWD}
+  local host_dir_name=$(basename ${current_dir})
+  local host_dir=${host_dir_name}-$(lsd-mod.date.get__timestamp)
+  [[ -d ${current_dir}/_site ]] && {
+    mkdir -p "${www_docs}"
+    lsd-mod.log.echo "www_docs:: ${www_docs}"
+
+    lsd-mod.log.echo "ln -s ${current_dir}/_site ${www_docs}/${host_dir}"
+
+    [[ ! -d ${www_docs}/${host_dir} ]] && \
+      ln -s ${current_dir}/_site ${www_docs}/${host_dir} || \
+      lsd-mod.log.warn "${www_docs}/${host_dir} already exists. Rename or remove it first."
+
+    [[ -L ${www_docs}/${host_dir_name} ]] && \
+      unlink ${www_docs}/${host_dir_name}
+
+    [[ -d ${www_docs}/${host_dir_name} ]] && \
+      mv ${www_docs}/${host_dir_name} ${host_dir_name}-$(lsd-mod.date.get__timestamp)
+
+    lsd-mod.log.echo "ln -s ${www_docs}/${host_dir} ${www_docs}/${host_dir_name}"
+    ln -s ${www_docs}/${host_dir} ${www_docs}/${host_dir_name}
+
+    lsd-mod.log.echo "Timestamped:: http://localhost/~$(id -un)/docs/${host_dir}"
+    lsd-mod.log.ok "Default (latest):: http://localhost/~$(id -un)/docs/${host_dir_name}"
+    ls -ltr ${www_docs} 2>/dev/null
+  } || lsd-mod.log.warn "${current_dir}/_site directory does not exists."
+}
+
+
+function lsd-mod.docs.mkdocs.deploy() {
+  lsd-mod.docs.mkdocs "$@"
+  lsd-mod.docs.mkdocs.link "$@"
+}
+
+
 function lsd-mod.docs.arxiv.download() {
   local _dirpath
   lsd-mod.log.echo "Enter the directory path [ Press Enter for default: /tmp]:"
@@ -64,7 +125,6 @@ function lsd-mod.docs.arxiv.download() {
     ls -ltr ${_filepath}
   done < "${_filepath}"
 }
-
 
 
 function lsd-mod.docs.asciidoc.create_pdf() {

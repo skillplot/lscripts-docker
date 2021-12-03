@@ -46,6 +46,7 @@ categories: quick-start
     * `lsd-date`
     * `lsd-dir`
     * `lsd-docker`
+    * `lsd-docs`
     * `lsd-git`
     * `lsd-install`
     * `lsd-lscripts`
@@ -105,6 +106,9 @@ categories: quick-start
   lsd-cuda.vers
   ##
   lsd-date.cfg
+  lsd-date.get
+  lsd-date.get-blog
+  lsd-date.get-full
   lsd-date.timestamp
   lsd-date.timestamp.microsec
   lsd-date.timestamp.millisec
@@ -117,6 +121,12 @@ categories: quick-start
   lsd-dir.admin.mkdir-osdirs
   lsd-dir.get-datadirs-paths
   lsd-dir.get-osdirs-paths
+  ##
+  lsd-docs.admin.update
+  lsd-docs.cmds
+  lsd-docs.mkdocs
+  lsd-docs.mkdocs.deploy
+  lsd-docs.mkdocs.link
   ##
   lsd-python.create.virtualenv
   lsd-python.kill
@@ -156,6 +166,8 @@ categories: quick-start
   lsd-test.log
   lsd-test.system
   ##
+  lsd-utils.cmds
+  #
   lsd-utils.date.get
   #
   lsd-utils.id.filename
@@ -175,6 +187,8 @@ categories: quick-start
   lsd-utils.ls.pycache
   #
   lsd-utils.pid
+  #
+  lsd-utils.python.venvname
   #
   lsd-utils.rm.egg
   lsd-utils.rm.pycache

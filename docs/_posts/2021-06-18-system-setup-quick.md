@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "System Setup"
+title:  "Quick System Setup"
 date:   2021-06-18 04:15:25 +0530
 categories: system-setup
 ---

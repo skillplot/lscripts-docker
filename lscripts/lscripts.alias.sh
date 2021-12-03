@@ -99,6 +99,9 @@ function lsd-lscripts.alias.main() {
   ## lsd-date => _date_ module
   ###----------------------------------------------------------
   alias lsd-date.cfg="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.typeformats.get__vars"
+  alias lsd-date.get="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.date.get"
+  alias lsd-date.get-full="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.date.get__full"
+  alias lsd-date.get-blog="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.date.get__blog"
   alias lsd-date.timestamp="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.date.get__timestamp"
   alias lsd-date.timestamp.millisec="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.date.get__timestamp_millisec"
   alias lsd-date.timestamp.microsec="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.date.get__timestamp_microsec"
@@ -188,4 +191,14 @@ function lsd-lscripts.alias.main() {
   alias lsd-utils.id.uuid="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.utils.id.uuid"
   alias lsd-utils.id.filename="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.utils.id.filename"
   alias lsd-utils.id.filename-tmp="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.utils.id.filename-tmp"
+  alias lsd-utils.cmds="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.utils.cmds lsd"
+  alias lsd-utils.python.venvname="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.utils.python.venvname $@"
+  ###----------------------------------------------------------
+  ## lsd-docs => _docs_ module
+  ###----------------------------------------------------------
+  alias lsd-docs.mkdocs="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.docs.mkdocs $@"
+  alias lsd-docs.mkdocs.link="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.docs.mkdocs.link $@"
+  alias lsd-docs.mkdocs.deploy="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.docs.mkdocs.deploy $@"
+  alias lsd-docs.admin.update="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.docs.update $@"
+  alias lsd-docs.cmds="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.docs.update.get__cmds $@"
 }

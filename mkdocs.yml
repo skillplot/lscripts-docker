@@ -1,0 +1,164 @@
+site_name: Lscripts Docker Toolkit
+site_description: Shell script framework for MLOps.
+site_author: mangalbhaskar
+## Copyright
+copyright: © skillplot.org 2021. All Rights Reserved.
+
+## Configuration
+## https://squidfunk.github.io/mkdocs-material/setup/changing-the-colors/#primary-color
+theme: 
+  language: en
+  name: material
+  font: false
+  # font:
+  #   text: Nunito 
+  #   code: IBM Plex
+  # palette:
+  #   #scheme: default
+  #   #primary: black
+  #   #accent: orange
+  #   ## Toggle dark mode
+  #   - scheme: slate
+  #     primary: indigo
+  #     accent: purple
+  #     toggle:
+  #       icon: material/toggle-switch
+  #       name: Switch to dark mode
+  #   ## Toggle light mode
+  #   - scheme: default
+  #     primary: indigo
+  #     accent: indigo
+  #     toggle:
+  #       icon: material/toggle-switch-off-outline
+  #       name: Switch to light mode
+  icon:
+    # repo: fontawesome/brands/github-alt
+    repo: fontawesome/brands/gitlab
+  logo: images/favicon/favicon-32x32.png
+  favicon: images/favicon/favicon.ico
+  custom_dir: docs/assets/overrides
+  features:
+    - navigation.tabs
+  # language: en
+repo_url: https://github.com/skillplot/lscripts-docker.git
+# google_analytics: 
+#   - ''
+remote_branch: 
+remote_name:  
+docs_dir: docs
+site_dir: _site
+use_directory_urls: false
+plugins: 
+  - git-revision-date-localized:
+      type: date
+      fallback_to_build_date: true
+  - search: 
+      separator: '[\s\-\.]+'
+  - minify:
+      minify_html: true
+  ## This gives error
+  # - markdownextradata:
+  #     data: data
+  ##
+  # - mkdocstrings:
+  #     default_handler: python
+  #     handlers:
+  #       python:
+  #         rendering:
+  #           show_root_heading: false
+  #           show_root_toc_entry: false
+  #           show_source: true
+  #           heading_level: 3
+markdown_extensions: 
+  - admonition
+  - abbr
+  - attr_list
+  - def_list
+  - footnotes
+  - meta
+  - md_in_html
+  - toc: 
+      permalink: true
+      title: Table of contents
+      toc_depth: 3
+  # - markdown.extensions.codehilite:
+  #     guess_lang: false
+  # # - markdown_include.include:
+  # #     base_path: docs
+  - codehilite:
+      guess_lang: False
+      use_pygments: True
+      noclasses: True
+      pygments_style: monokai
+  - pymdownx.arithmatex
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.critic
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg
+  - smarty 
+  - sane_lists
+  - admonition
+  - codehilite
+  - extra
+  - pymdownx.superfences:
+      custom_fences:
+      - name: mermaid
+        class: mermaid
+        format: !!python/name:pymdownx.superfences.fence_div_format ''
+  - pymdownx.tabbed
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.superfences
+  - pymdownx.tilde
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.snippets:
+      check_paths: true
+
+## Customization
+extra:
+  social:
+  - icon: fontawesome/brands/github-alt
+    link: https://github.com/skillplot/lscripts-docker.git
+  # - icon: fontawesome/brands/twitter
+  #   link: https://twitter.com/theskillplot
+  # - icon: fontawesome/brands/linkedin
+  #   link: https://www.linkedin.com/company/skillplot
+  # - icon: fontawesome/brands/facebook
+  #   link: https://www.facebook.com/skillplot
+extra_css:
+  - assets/css/extra.css
+  - assets/css/font-awesome-5.10.2-all.min.css
+extra_javascript:
+  - assets/js/extra.js
+#  - assets/js/analytics.js
+
+## Page tree
+nav: 
+  # - Tutorial - User Guide: 
+  - Introduction: index.md
+  - cmds.md
+  # - code_of_conduct.md
+  # - contributing.md
+  # - credits.md
+  # - references.md
+  # - changelist.md
+  # - notes.md
+  # - wip.md
+  # - Introduction: _posts/2021-05-07-introduction-to-lscripts-docker.md
+  - Quick start: _posts/2021-05-08-quick-start.md
+  - System design: 
+    - Overview: _posts/2021-05-09-system-design.md
+    - Color codes: _posts/2021-06-18-color-codes.md
+  - Lscript docker: _posts/2021-06-21-lscript-docker.md
+  - System setup: 
+    - Quick system setup: _posts/2021-06-18-system-setup-quick.md
+    - Overview: _posts/2021-07-04-system-setup-overview.md
+    - Prerequisite: _posts/2021-07-04-system-setup-prerequisite.md
+    - Prerequisite opencv: _posts/2021-07-05-system-setup-prerequisite-opencv.md
+    - Prerequisite pcl: _posts/2021-07-05-system-setup-prerequisite-pcl.md
+    - Tools stack: _posts/2021-07-04-tools-stack.md

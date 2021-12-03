@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "System Setup"
+title:  "System Setup Overview"
 date:   2021-07-04 02:30:30 +0530
 categories: setup, tools, prerequisite
 ---

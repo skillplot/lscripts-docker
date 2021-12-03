@@ -54,6 +54,7 @@ function lsd-mod.utils.ls() {
   ls -lrth | awk '{k=0;for(i=0;i<=8;i++)k+=((substr($1,i+2,1)~/[rwx]/) *2^(8-i));if(k)printf("%0o ",k);print}';
 }
 
+
 function lsd-mod.utils.ls.pycache() {
   ## __pycache__ egg-info
   find ${PWD}/ -iname __pycache__ -type d | xargs -n 1 bash -c 'ls -dl "$0"';
@@ -73,9 +74,11 @@ function lsd-mod.utils.rm.pycache() {
   find ${PWD}/ -iname __pycache__ -type d | xargs -n 1 bash -c 'rm -rf "$0"';
 }
 
+
 function lsd-mod.utils.rm.egg() {
   find ${PWD}/ -iname *.egg-info -type d | xargs -n 1 bash -c 'rm -rf "$0"';
 }
+
 
 function lsd-mod.utils.trash() {
   for item in "$@" ; do echo "Trashing: $item" ; mv "$item" ${HOME}/.Trash/; done
@@ -185,4 +188,59 @@ function lsd-mod.utils.id.filename() {
 function lsd-mod.utils.id.filename-tmp() {
   local dirpath="/tmp"
   echo "${dirpath}/$(basename "${dirpath}")-$(date -d now +'%d%m%y_%H%M%S').log"
+}
+
+
+function lsd-mod.utils.cmds() {
+  local _cmd_prefix=$1
+  [[ ! -z "${_cmd_prefix}" ]] && {
+    (
+      local LSCRIPTS=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
+      local scriptname=$(basename ${BASH_SOURCE[0]})
+      [ -f ${LSCRIPTS}/../lscripts.env.sh ] && source ${LSCRIPTS}/../lscripts.env.sh
+      # type compgen &>/dev/null && compgen -c | grep "${_cmd_prefix}-"
+      type compgen &>/dev/null && compgen -c | grep -v "${_cmd_prefix}-mod" | grep -v ".main" | grep "${_cmd_prefix}-"
+    ) 2>/dev/null
+  }
+}
+
+
+function lsd-mod.utils.python.venvname() {
+  local LSCRIPTS=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
+  local scriptname=$(basename ${BASH_SOURCE[0]})
+
+  source ${LSCRIPTS}/argparse.sh "$@"
+
+  local py=python3
+  local pip=pip3
+
+  local pyPath
+  # local pipPath
+  # local pipVer
+
+  type ${pyPath} &>/dev/null && pyPath=$(which ${py})
+  # type ${pipPath} &>/dev/null && pipPath=$(which ${pip})
+  # type ${pipVer} &>/dev/null && pipVer=$(${pip} --version)
+
+  [[ -n "${args['path']+1}" ]] && pyPath=${args['path']}
+  type ${pyPath} &>/dev/null && py=${pyPath}
+
+  pyPath=$(which ${py})
+
+  lsd-mod.log.debug "py: ${py}"
+  lsd-mod.log.debug "pyPath: ${pyPath}"
+
+  local pipPath=$(which ${pip})
+  # local pipVer=$(${pip} --version)
+
+  type ${pyPath} &>/dev/null && {
+    # (>&2 echo -e "key: 'line' exists")
+
+    ## this is the fullpath of the input python executable you want to use
+    local __pyVer=$(${py} -c 'import sys; print("-".join(map(str, sys.version_info[:3])))')
+    # local _timestamp=$(lsd-mod.date.get__timestamp)
+    # local _timestamp="$(date -d now +'%d%m%y_%H%M%S')"
+    local py_env_name="py_${__pyVer}_$(date -d now +'%d%m%y_%H%M%S')"
+  } 2>/dev/null
+  echo "${py_env_name}"
 }

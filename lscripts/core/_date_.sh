@@ -13,6 +13,21 @@ function lsd-mod.date.get() {
 }
 
 
+function lsd-mod.date.get__blog() {
+  echo $(date -d now +'%Y-%m-%d %H:%M:%S');
+}
+
+
+function lsd-mod.date.get__blog-post() {
+  echo $(date -d now +'%Y-%m-%d');
+}
+
+
+function lsd-mod.date.get__full() {
+  echo $(date +"%H:%M:%S, %d-%b-%Y, %A");
+}
+
+
 function lsd-mod.date.get__timestamp() {
   ## second, 010129_012650
   local __TIMESTAMP__=$(date -d now +'%d%m%y_%H%M%S')
