@@ -38,6 +38,30 @@ function lsd-mod.python.virtualenvwrapper.config() {
 }
 
 
+function lsd-mod.python.path() {
+  local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
+  local scriptname=$(basename ${BASH_SOURCE[0]})
+
+  source ${LSCRIPTS}/argparse.sh "$@"
+
+  local py=python3
+  local pyPath
+
+  type ${pyPath} &>/dev/null && pyPath=$(which ${py})
+
+  [[ -n "${args['path']+1}" ]] && pyPath=${args['path']}
+  type ${pyPath} &>/dev/null && py=${pyPath}
+
+  pyPath=$(which ${py})
+
+  lsd-mod.log.echo "py: ${py}"
+  lsd-mod.log.echo "pyPath: ${pyPath}"
+
+  type ${pyPath} &>/dev/null
+  echo "${pyPath}"
+}
+
+
 function lsd-mod.python.venv.name() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
   local scriptname=$(basename ${BASH_SOURCE[0]})
@@ -83,4 +107,133 @@ function lsd-mod.python.venv.list() {
     lsd-mod.log.echo "${biyel}Total: ${#pyenvs[@]}${nocolor}"
     for pyenv in ${pyenvs[@]}; do echo -e "${gre}${pyenv}${nocolor}"; done 
   } || lsd-mod.log.error "_LSD__PYVENV_PATH does not exists: ${_LSD__PYVENV_PATH}"
+}
+
+
+function lsd-mod.python.virtualenvwrapper.test() {
+  lsd-mod.log.warn "Testing Usage and Installation: "
+
+  local py=python3
+  local pyPath
+  local __PY_VIRTUALENVWRAPPER
+
+  type ${pyPath} &>/dev/null && pyPath=$(which ${py})
+
+  [[ -n "${args['path']+1}" ]] && pyPath=${args['path']}
+  type ${pyPath} &>/dev/null && py=${pyPath}
+
+  pyPath=$(which ${py})
+
+  lsd-mod.log.echo "py: ${py}"
+  lsd-mod.log.echo "pyPath: ${pyPath}"
+
+  type ${pyPath} &>/dev/null
+
+  # pyPath=$(lsd-mod.python.path)
+  lsd-mod.log.debug "Creating...pyPath: ${pyPath}"
+
+  local __pyVer=$(${pyPath} -c 'import sys; print("-".join(map(str, sys.version_info[:3])))')
+  local py_env_name="test_py_${__pyVer}_$(date -d now +'%d%m%y_%H%M%S')"
+  lsd-mod.log.debug "Creating...py_env_name: ${py_env_name}"
+
+  lsd-mod.log.debug "_LSD__PYVENV_PATH: ${_LSD__PYVENV_PATH}"
+  [[ -d ${_LSD__PYVENV_PATH} ]] || {
+    lsd-mod.log.info "_LSD__PYVENV_PATH Does not exists: ${_LSD__PYVENV_PATH}"
+
+    local _que="Do you want to Create _LSD__PYVENV_PATH: ${_LSD__PYVENV_PATH}"
+    local _msg="Skipping _LSD__PYVENV_PATH creation!"
+    lsd-mod.fio.yesno_yes "${_que}" && {
+      lsd-mod.log.echo "Creating _LSD__PYVENV_PATH..."
+      mkdir -p ${_LSD__PYVENV_PATH}
+    } || lsd-mod.log.echo "${_msg}"
+  }
+
+  [[ -d ${_LSD__PYVENV_PATH} ]] && {
+    export WORKON_HOME=${_LSD__PYVENV_PATH}
+    __PY_VIRTUALENVWRAPPER=$(lsd-mod.python.virtualenvwrapper.getconfig_file)
+    lsd-mod.log.debug "__PY_VIRTUALENVWRAPPER: ${__PY_VIRTUALENVWRAPPER}"
+    source "${__PY_VIRTUALENVWRAPPER}"
+
+    lsd-mod.log.info "Creating py_env_name: ${py_env_name} folder inside: ${_LSD__PYVENV_PATH}"
+    ## creates the my_project folder inside ${_LSD__PYVENV_PATH}
+    mkvirtualenv -p $(which ${pyPath}) ${py_env_name} &>/dev/null && {
+      lsd-mod.log.info "lsvirtualenv: ## List all of the environments."
+      lsvirtualenv
+    
+      lsd-mod.log.info "cdvirtualenv: ## Navigate into the directory of the currently activated virtual environment, so you can browse its site-packages."
+      cdvirtualenv
+    
+      lsd-mod.log.info "cdsitepackages: ## Like the above, but directly into site-packages directory."
+      cdsitepackages
+    
+      lsd-mod.log.info "lssitepackages: ## Shows contents of site-packages directory."
+      lssitepackages
+      #
+      lsd-mod.log.info "workon <py_env_name>: ## workon also deactivates whatever environment you are currently in, so you can quickly switch between environments."
+      lsd-mod.log.info "workon ${py_env_name}"
+      workon ${py_env_name}
+      ##
+      lsd-mod.log.info "deactivate: ## Deactivates whatever environment you are currently in."
+      deactivate
+      #
+      ## Rename
+      ## https://stackoverflow.com/questions/9540040/rename-an-environment-with-virtualenvwrapper
+      lsd-mod.log.info "cpvirtualenv <py_env_name> new_<py_env_name>: ## copy the virtualenv environment. Used as workaround for renaming."
+      cpvirtualenv ${py_env_name} new_${py_env_name}
+      deactivate
+      rmvirtualenv ${py_env_name}
+    
+      ## Remove
+      lsd-mod.log.info "rmvirtualenv new_<py_env_name>: ## Removes the virtualenv environment."
+      rmvirtualenv new_${py_env_name}
+    } || lsd-mod.log.error "python virtualenvwrapper is not installed / configured properly. check: WORKON_HOME: ${WORKON_HOME}"
+  } || lsd-mod.log.error "_LSD__PYVENV_PATH does not exists: ${_LSD__PYVENV_PATH}"
+}
+
+
+function lsd-mod.python.virtualenvwrapper.create() {
+  local py=python3
+  local pyPath
+  local __PY_VIRTUALENVWRAPPER
+
+  type ${pyPath} &>/dev/null && pyPath=$(which ${py})
+
+  [[ -n "${args['path']+1}" ]] && pyPath=${args['path']}
+  type ${pyPath} &>/dev/null && py=${pyPath}
+
+  pyPath=$(which ${py})
+
+  lsd-mod.log.echo "py: ${py}"
+  lsd-mod.log.echo "pyPath: ${pyPath}"
+
+  type ${pyPath} &>/dev/null
+
+  # pyPath=$(lsd-mod.python.path)
+  lsd-mod.log.debug "Creating...pyPath: ${pyPath}"
+
+  local __pyVer=$(${pyPath} -c 'import sys; print("-".join(map(str, sys.version_info[:3])))')
+  # local _timestamp=$(lsd-mod.date.get__timestamp)
+  # local _timestamp="$(date -d now +'%d%m%y_%H%M%S')"
+  local py_env_name="py_${__pyVer}_$(date -d now +'%d%m%y_%H%M%S')"
+  lsd-mod.log.debug "Creating...py_env_name: ${py_env_name}"
+
+  lsd-mod.log.debug "_LSD__PYVENV_PATH: ${_LSD__PYVENV_PATH}"
+  [[ -d ${_LSD__PYVENV_PATH} ]] || lsd-mod.log.fail "Does not exists _LSD__PYVENV_PATH: ${_LSD__PYVENV_PATH}"
+
+  export WORKON_HOME=${_LSD__PYVENV_PATH}
+  __PY_VIRTUALENVWRAPPER=$(lsd-mod.python.virtualenvwrapper.getconfig_file)
+  lsd-mod.log.debug "__PY_VIRTUALENVWRAPPER: ${__PY_VIRTUALENVWRAPPER}"
+  source "${__PY_VIRTUALENVWRAPPER}"
+
+  local _cmd='lsvirtualenv'
+  type ${_cmd} &>/dev/null && {
+    lsvirtualenv | grep ${py_env_name}
+    [[ $? -eq 0 ]] || {
+      lsd-mod.log.warn "Creating: ${py_env_name} folder inside: ${_LSD__PYVENV_PATH}"
+      mkvirtualenv -p $(which ${pyPath}) ${py_env_name} &>/dev/null && workon ${py_env_name} || lsd-mod.log.error "Internal lsd-mod.log.error in mkvirtualenv!"
+    }
+  } 1>&2 || {
+    lsd-mod.log.error "${_cmd} not installed or corrupted!"
+    # return -1
+  }
 }

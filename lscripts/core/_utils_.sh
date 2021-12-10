@@ -36,7 +36,7 @@ function lsd-mod.utils.kill() {
 
 
 function lsd-mod.utils.kill.python() {
-  lsd.prog.kill python;
+  lsd-mod.utils.kill python;
 }
 
 

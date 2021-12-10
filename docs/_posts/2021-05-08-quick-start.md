@@ -129,11 +129,14 @@ categories: quick-start
   lsd-docs.mkdocs.link
   ##
   lsd-python.create.virtualenv
+  lsd-python.create.virtualenv --path=/usr/bin/python2
   lsd-python.kill
   lsd-python.ls.egg
   lsd-python.ls.pycache
   lsd-python.rm.egg
   lsd-python.rm.pycache
+  lsd-python.test.virtualenv
+  lsd-python.test.virtualenv --path=/usr/bin/python2
   lsd-python.venv.list
   lsd-python.venv.name
   lsd-python.venv.name --path=/usr/bin/python2
