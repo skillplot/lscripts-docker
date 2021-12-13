@@ -27,6 +27,11 @@ function python-virtualenvwrapper-uninstall() {
 }
 
 
+function python-virtualenvwrapper-config() {
+  $(lsd-mod.python.virtualenvwrapper.config "$@")
+}
+
+
 function python-virtualenvwrapper-test() {
   $(lsd-mod.python.virtualenvwrapper.test "$@")
 }
@@ -58,6 +63,7 @@ function __python-virtualenvwrapper-install() {
   [[ ! -z ${USR} ]] && [[ ! -z ${GRP} ]] && \
     sudo chown ${USR}:${GRP} ${_LSD__VM_HOME} &>/dev/null || lsd-mod.log.fail "Unable to set permission _LSD__VM_HOME: ${_LSD__VM_HOME}"
 }
+
 
 function python-virtualenvwrapper-install.main() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
