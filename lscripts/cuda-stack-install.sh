@@ -363,7 +363,7 @@ function cuda-stack-install.main() {
   _msg="Skipping adding ${_prog} repo!"
   lsd-mod.fio.yesno_${_default} "${_que}" && {
     lsd-mod.log.echo "Adding ${_prog} repo..."
-    ${_prog}-addrepo
+    ${_prog}-addrepo "${__LINUX_DISTRIBUTION}"
   } || lsd-mod.log.echo "${_msg}"
 
   _que="Install ${_prog} now"
