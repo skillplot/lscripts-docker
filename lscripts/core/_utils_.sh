@@ -80,6 +80,11 @@ function lsd-mod.utils.rm.egg() {
 }
 
 
+function lsd-mod.utils.rm.node_modules() {
+  find ${PWD}/ -iname node_modules -type d | xargs -n 1 bash -c 'rm -rf "$0"'
+}
+
+
 function lsd-mod.utils.trash() {
   for item in "$@" ; do echo "Trashing: $item" ; mv "$item" ${HOME}/.Trash/; done
 }

@@ -28,7 +28,7 @@ function mount.ssh.main() {
   read remote_user
   echo "remote_user: ${remote_user}"
 
-  info_remotepaths
+  # info_remotepaths
   local remote_path
   echo "Enter the REMOTE path you want to mount:"
   read remote_path

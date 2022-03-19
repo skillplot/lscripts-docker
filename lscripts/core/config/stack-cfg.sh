@@ -201,6 +201,8 @@ declare -a _stack_install_python_stack=(
   ## _stack_install_python_stack
   ###---------------------------------------------------------- 
   "python"
+  ## Todo: specific version as input; build from source
+  # "python-wget"
   "python-virtualenvwrapper"
 )
 

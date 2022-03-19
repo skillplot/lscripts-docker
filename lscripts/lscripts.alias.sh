@@ -184,6 +184,7 @@ function lsd-lscripts.alias.main() {
   alias lsd-utils.ls.egg="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.utils.ls.egg"
   alias lsd-utils.rm.pycache="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.utils.rm.pycache"
   alias lsd-utils.rm.egg="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.utils.rm.egg"
+  alias lsd-utils.rm.node_modules="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.utils.rm.node_modules"
   alias lsd-utils.trash="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.utils.trash"
   alias lsd-utils.image.resize="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.utils.image.resize"
   alias lsd-utils.image.pdf="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.utils.image.pdf"

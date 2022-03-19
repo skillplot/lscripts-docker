@@ -30,10 +30,10 @@ function __docker-createcontainer-boozo() {
   echo "${DOCKER_CMD} run -d -it \
       --user $(id -un):$(id -gn) \
       --name ${DOCKER_CONTAINER_NAME} \
-      $(_docker_.enable_nvidia_gpu) \
-      $(_docker_.envvars) \
-      $(_docker_.local_volumes) \
-      $(_docker_.restart_policy) \
+      $(lsd-mod.docker.enable_nvidia_gpu) \
+      $(lsd-mod.docker.envvars) \
+      $(lsd-mod.docker.local_volume) \
+      $(lsd-mod.docker.restart_policy) \
       --net host \
       --add-host ${LOCAL_HOST}:127.0.0.1 \
       --add-host ${DOCKER_LOCAL_HOST}:127.0.0.1 \
