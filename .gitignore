@@ -15,25 +15,57 @@
 !.gitattributes
 !.nojekyll
 !.gitignore
-!.gitmodules
+!.gitmodules/
+!.husky/
+!.flake8
+!*.cjs
+!*.json
+!.eslintignore
+!.prettierignore
+!.prettierrc
+!.npmrc
+!.pypirc
+!.pylintrc
+##
 !*.md
 !*.adoc
 !*.html
 !*.yml
 !*.yaml
+!*.xml
 !*.sh
 !*.txt
 !*.py
 !*.cfg
+!*.conf
 !*.example
 !*.toml
 !*.env
 !*.in
+!*.ini
+!*.js
+!*.ts
 !LICENSE*
-
+!Dockerfile*
+!package.json
+#
+!apps/
+!docker/
+!**/data
+!demo/
 !dockerfiles/
 !docs/
+!docs-*/
+!e2e/
+!licenses/
+!requirements/
+!samples/
+!scripts/
 # !external/
+#!src/
+!tests/
+#!reports/
+#!wsgi-bin/
 !lscripts/
 !pyscripts/
 
@@ -44,11 +76,22 @@
 **/*.mlmodel
 **/*.torchscript
 **/*.npy
+**/*.npz
+**/*.pkl
 **/*.t7
 **/*.weights
 **/*.h5
+**/*.ckpt
 **/*.ckpt.*
+**/*.ckpt-*
 **/*.tflite
+**/*.pb
+**/*.pbtext
+**/*.pb.tflite
+**/checkpoint
+**/*.hdf5
+**/*.data-*
+**/*.index
 **/*-lock.*
 **/*.lock
 
@@ -87,15 +130,17 @@
 **/cache
 **/_site
 **/tmp
-**/config
+# **/config
 **/*-config
-**/data
+# **/data/*
 **/*-data
 **/logs
 **/virtualenvs
+**/site-packages
 **/venv
 **/mobile
 **/*-mobile
+**/deprecated
 
 **/external
 **/local
@@ -141,10 +186,10 @@
 **/.sass-cache/
 **/.jekyll-cache/
 **/.jekyll-metadata
-# **/vendor
+**/vendor
 **/bundle
-# **/.vendor
-# **/.bundle
+**/.vendor
+**/.bundle
 
 ## Python egg metadata, regenerated from source files by setuptools.
 **/*.egg-info
@@ -154,5 +199,18 @@
 ## disallow C extensions
 *.so
 
-## override
+## override and allow
 !lscripts/**/config
+#
+!docs/**/*.png
+!docs/**/*.jpg
+!docs/**/*.jpeg
+!docs/**/*.gif
+!**/*.png
+!**/*.jpg
+!**/*.jpeg
+!**/*.gif
+
+!**/data/**/*.yml
+!**/data/**/*.csv
+!**/data/**/*.json
