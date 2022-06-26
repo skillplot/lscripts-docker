@@ -33,7 +33,7 @@ function python-wget-tgz-install() {
 
   # local URL="https://www.python.org/ftp/python/3.8.0/Python-3.8.0.tgz"
   local URL="https://www.python.org/ftp/${PROG}/${PYTHON_VER}/${FILE}"
-  local PROG_DIR="${_LSD__SOFTWARES}/${PROG}"
+  local PROG_DIR="${_LSD__SOFTWARES}/${PROG}/Python-${PYTHON_VER}"
 
   source ${LSCRIPTS}/partials/basepath.sh
 

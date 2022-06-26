@@ -1,1 +1,3 @@
-_posts/2021-05-07-introduction-to-lscripts-docker.md
+---
+layout: home
+---

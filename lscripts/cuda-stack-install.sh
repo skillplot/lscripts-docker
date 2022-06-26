@@ -101,6 +101,7 @@ function cuda-stack-addrepo-ubuntu1804() {
   ###----------------------------------------------------------
   
   local __LINUX_DISTRIBUTION="ubuntu18.04"
+  local __LINUX_DISTRIBUTION_TR="ubuntu1804"
   lsd-mod.log.debug "LINUX_DISTRIBUTION: ${LINUX_DISTRIBUTION}"
   lsd-mod.log.debug "__LINUX_DISTRIBUTION: ${__LINUX_DISTRIBUTION}"
 
@@ -120,7 +121,29 @@ function cuda-stack-addrepo-ubuntu1804() {
 
 
 function cuda-stack-addrepo-ubuntu2004() {
-  local __LINUX_DISTRIBUTION="ubuntu18.04"
+  local __LINUX_DISTRIBUTION="ubuntu20.04"
+  local __LINUX_DISTRIBUTION_TR="ubuntu1804"
+  lsd-mod.log.debug "LINUX_DISTRIBUTION: ${LINUX_DISTRIBUTION}"
+  lsd-mod.log.debug "__LINUX_DISTRIBUTION: ${__LINUX_DISTRIBUTION}"
+
+  ## local NVIDIA_REPO_BASEURL="https://developer.download.nvidia.com/compute"
+  ## local NVIDIA_OS_ARCH="x86_64"
+  ## local NVIDIA_CUDA_REPO_KEY="7fa2af80.pub"
+  local CUDA_REPO_KEY_URL="${NVIDIA_REPO_BASEURL}/cuda/repos/${__LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH}/${NVIDIA_CUDA_REPO_KEY}"
+  lsd-mod.log.debug "CUDA_REPO_KEY_URL: ${CUDA_REPO_KEY_URL}"
+
+  cuda-stack-addrepo-key
+
+  echo "deb ${NVIDIA_REPO_BASEURL}/cuda/repos/${__LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH} /" | sudo tee /etc/apt/sources.list.d/cuda.list && \
+  echo "deb ${NVIDIA_REPO_BASEURL}/machine-learning/repos/${__LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH} /" | sudo tee /etc/apt/sources.list.d/nvidia-ml.list
+
+  sudo apt -y update
+}
+
+
+function cuda-stack-addrepo-ubuntu22.04() {
+  local __LINUX_DISTRIBUTION="ubuntu20.04"
+  local __LINUX_DISTRIBUTION_TR="ubuntu1804"
   lsd-mod.log.debug "LINUX_DISTRIBUTION: ${LINUX_DISTRIBUTION}"
   lsd-mod.log.debug "__LINUX_DISTRIBUTION: ${__LINUX_DISTRIBUTION}"
 

@@ -240,5 +240,9 @@ local GITLAB_INSTALLER_URL=${GITLAB_INSTALLER_CE_URL}
 ##----------------------------------------------------------
 local VIRTUALBOX_REPO_URL="http://download.virtualbox.org/virtualbox/debian"
 ##----------------------------------------------------------
+local PYTHON_VER="3.6.10"
+local PYTHON_VER="3.6.14"
+local PYTHON_VER="3.7.0"
 local PYTHON_VER="3.8.0"
+local PYTHON_VER="3.9.0"
 ##----------------------------------------------------------
