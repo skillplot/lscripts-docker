@@ -1,8 +1,8 @@
 ---
 title: All Commands
 description: List of all commands for Lscripts Docker
-date: 2021-12-03 22:45:35
-last_updated: 22:45:35, 03-Dec-2021, Friday
+date: 2022-06-26 09:27:55
+last_updated: 09:27:55, 26-Jun-2022, Sunday
 note: Auto generated file and will be overwritten
 ---
 
@@ -185,8 +185,10 @@ lsd-python.create.virtualenv
 lsd-python.kill
 lsd-python.ls.egg
 lsd-python.ls.pycache
+lsd-python.path
 lsd-python.rm.egg
 lsd-python.rm.pycache
+lsd-python.test.virtualenv
 lsd-python.venv.list
 lsd-python.venv.name
 lsd-select.bazel
@@ -243,6 +245,7 @@ lsd-utils.ls.pycache
 lsd-utils.pid
 lsd-utils.python.venvname
 lsd-utils.rm.egg
+lsd-utils.rm.node_modules
 lsd-utils.rm.pycache
 lsd-utils.system.info
 lsd-utils.trash
