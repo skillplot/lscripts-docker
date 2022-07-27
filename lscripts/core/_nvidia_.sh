@@ -61,7 +61,7 @@ function lsd-mod.nvidia.get__driver_info() {
   ## ipmi_msghandler        65536  2 ipmi_devintf,nvidia
   ## drm                   487424  6 drm_kms_helper,nvidia_drm,i915
 
-  prime-select query # should return: nvidia
+  type prime-select &>/dev/null && prime-select query # should return: nvidia
 }
 
 

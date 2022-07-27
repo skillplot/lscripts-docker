@@ -24,6 +24,7 @@ function latex-editors-apt-install.main() {
   sudo apt -y install gummi
   sudo apt -y install gedit-latex-plugin
   sudo apt -y install texworks
+  sudo apt -y install xfig
 }
 
 latex-editors-apt-install.main "$@"

@@ -32,8 +32,8 @@ local NVIDIA_DRIVER_VER="465"
 local NVIDIA_DRIVER_VER="510"
 ##
 local NVIDIA_OS_ARCH="x86_64"
-#local NVIDIA_CUDA_REPO_KEY="3bf863cc.pub"
-local NVIDIA_CUDA_REPO_KEY="7fa2af80.pub"
+local NVIDIA_CUDA_REPO_KEY="3bf863cc.pub"
+local NVIDIA_ML_REPO_KEY="7fa2af80.pub"
 ## local NVIDIA_GPGKEY_SUM="d1be581509378368edeec8c1eb2958702feedf3bc3d17011adbf24efacce4ab5"
 ## local NVIDIA_GPGKEY_FPR="ae09fe4bbd223a84b2ccfce3f60f4b3d7fa2af80"
 #

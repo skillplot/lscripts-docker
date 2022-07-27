@@ -15,6 +15,7 @@
 
 function cuda-stack-addrepo-key() {
   lsd-mod.log.debug "CUDA_REPO_KEY_URL: ${CUDA_REPO_KEY_URL}"
+  lsd-mod.log.debug "ML_REPO_KEY_URL: ${ML_REPO_KEY_URL}"
 
   sudo apt -y update
   ## Install packages to allow apt to use a repository over HTTPS:
@@ -25,7 +26,12 @@ function cuda-stack-addrepo-key() {
     gnupg2 \
     software-properties-common 2>/dev/null
 
+  ## Remove keys
+  sudo apt-key del ${NVIDIA_CUDA_REPO_KEY}
+  sudo apt-key del ${NVIDIA_ML_REPO_KEY}
+
   curl -fsSL "${CUDA_REPO_KEY_URL}" | sudo apt-key add - &>/dev/null
+  curl -fsSL "${ML_REPO_KEY_URL}" | sudo apt-key add - &>/dev/null
   ## Todo:
   ## local CUDA_REPO_KEY_URL
   ## sudo apt-key fingerprint ${CUDA_REPO_KEY_URL}
@@ -47,13 +53,18 @@ function cuda-stack-addrepo-ubuntu1404() {
   # local NVIDIA_CUDA_REPO_KEY="7fa2af80.pub"
   # local NVIDIA_GPGKEY_SUM="d1be581509378368edeec8c1eb2958702feedf3bc3d17011adbf24efacce4ab5"
   # local NVIDIA_GPGKEY_FPR="ae09fe4bbd223a84b2ccfce3f60f4b3d7fa2af80"
-  local CUDA_REPO_KEY_URL="${NVIDIA_REPO_BASEURL}/cuda/repos/${__LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH}/${NVIDIA_CUDA_REPO_KEY}"
+  # local CUDA_REPO_KEY_URL="${NVIDIA_REPO_BASEURL}/cuda/repos/${__LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH}/${NVIDIA_CUDA_REPO_KEY}"
+  local CUDA_REPO_KEY_URL="${NVIDIA_CUDA_REPO_BASEURL}/${__LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH}/${NVIDIA_CUDA_REPO_KEY}"
+  local ML_REPO_KEY_URL="${NVIDIA_ML_REPO_BASEURL}/${__LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH}/${NVIDIA_ML_REPO_KEY}"
   lsd-mod.log.debug "CUDA_REPO_KEY_URL: ${CUDA_REPO_KEY_URL}"
+  lsd-mod.log.debug "ML_REPO_KEY_URL: ${ML_REPO_KEY_URL}"
 
   cuda-stack-addrepo-key
 
-  echo "deb ${NVIDIA_REPO_BASEURL}/cuda/repos/${__LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH} /" | sudo tee /etc/apt/sources.list.d/cuda.list && \
-  echo "deb ${NVIDIA_REPO_BASEURL}/machine-learning/repos/${__LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH} /" | sudo tee /etc/apt/sources.list.d/nvidia-ml.list
+  # echo "deb ${NVIDIA_REPO_BASEURL}/cuda/repos/${__LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH} /" | sudo tee /etc/apt/sources.list.d/cuda.list && \
+  echo "deb ${NVIDIA_CUDA_REPO_BASEURL}/${__LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH} /" | sudo tee /etc/apt/sources.list.d/cuda.list && \
+  # echo "deb ${NVIDIA_REPO_BASEURL}/machine-learning/repos/${__LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH} /" | sudo tee /etc/apt/sources.list.d/nvidia-ml.list
+  echo "deb ${NVIDIA_ML_REPO_BASEURL}/${__LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH} /" | sudo tee /etc/apt/sources.list.d/nvidia-ml.list
 
   sudo apt -y update
 }
@@ -82,13 +93,18 @@ function cuda-stack-addrepo-ubuntu1604() {
   # local NVIDIA_CUDA_REPO_KEY="7fa2af80.pub"
   # local NVIDIA_GPGKEY_SUM="d1be581509378368edeec8c1eb2958702feedf3bc3d17011adbf24efacce4ab5"
   # local NVIDIA_GPGKEY_FPR="ae09fe4bbd223a84b2ccfce3f60f4b3d7fa2af80"
-  local CUDA_REPO_KEY_URL="${NVIDIA_REPO_BASEURL}/cuda/repos/${__LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH}/${NVIDIA_CUDA_REPO_KEY}"
+  # local CUDA_REPO_KEY_URL="${NVIDIA_REPO_BASEURL}/cuda/repos/${__LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH}/${NVIDIA_CUDA_REPO_KEY}"
+  local CUDA_REPO_KEY_URL="${NVIDIA_CUDA_REPO_BASEURL}/${__LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH}/${NVIDIA_CUDA_REPO_KEY}"
+  local ML_REPO_KEY_URL="${NVIDIA_ML_REPO_BASEURL}/${__LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH}/${NVIDIA_ML_REPO_KEY}"
   lsd-mod.log.debug "CUDA_REPO_KEY_URL: ${CUDA_REPO_KEY_URL}"
+  lsd-mod.log.debug "ML_REPO_KEY_URL: ${ML_REPO_KEY_URL}"
 
   cuda-stack-addrepo-key
 
-  echo "deb ${NVIDIA_REPO_BASEURL}/cuda/repos/${__LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH} /" | sudo tee /etc/apt/sources.list.d/cuda.list && \
-  echo "deb ${NVIDIA_REPO_BASEURL}/machine-learning/repos/${__LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH} /" | sudo tee /etc/apt/sources.list.d/nvidia-ml.list
+  # echo "deb ${NVIDIA_REPO_BASEURL}/cuda/repos/${__LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH} /" | sudo tee /etc/apt/sources.list.d/cuda.list && \
+  echo "deb ${NVIDIA_CUDA_REPO_BASEURL}/${__LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH} /" | sudo tee /etc/apt/sources.list.d/cuda.list && \
+  # echo "deb ${NVIDIA_REPO_BASEURL}/machine-learning/repos/${__LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH} /" | sudo tee /etc/apt/sources.list.d/nvidia-ml.list
+  echo "deb ${NVIDIA_ML_REPO_BASEURL}/${__LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH} /" | sudo tee /etc/apt/sources.list.d/nvidia-ml.list
 
   sudo apt -y update
 }
@@ -108,13 +124,18 @@ function cuda-stack-addrepo-ubuntu1804() {
   ## local NVIDIA_REPO_BASEURL="https://developer.download.nvidia.com/compute"
   ## local NVIDIA_OS_ARCH="x86_64"
   ## local NVIDIA_CUDA_REPO_KEY="7fa2af80.pub"
-  local CUDA_REPO_KEY_URL="${NVIDIA_REPO_BASEURL}/cuda/repos/${__LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH}/${NVIDIA_CUDA_REPO_KEY}"
+  # local CUDA_REPO_KEY_URL="${NVIDIA_REPO_BASEURL}/cuda/repos/${__LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH}/${NVIDIA_CUDA_REPO_KEY}"
+  local CUDA_REPO_KEY_URL="${NVIDIA_CUDA_REPO_BASEURL}/${__LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH}/${NVIDIA_CUDA_REPO_KEY}"
+  local ML_REPO_KEY_URL="${NVIDIA_ML_REPO_BASEURL}/${__LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH}/${NVIDIA_ML_REPO_KEY}"
   lsd-mod.log.debug "CUDA_REPO_KEY_URL: ${CUDA_REPO_KEY_URL}"
+  lsd-mod.log.debug "ML_REPO_KEY_URL: ${ML_REPO_KEY_URL}"
 
   cuda-stack-addrepo-key
 
-  echo "deb ${NVIDIA_REPO_BASEURL}/cuda/repos/${__LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH} /" | sudo tee /etc/apt/sources.list.d/cuda.list && \
-  echo "deb ${NVIDIA_REPO_BASEURL}/machine-learning/repos/${__LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH} /" | sudo tee /etc/apt/sources.list.d/nvidia-ml.list
+  # echo "deb ${NVIDIA_REPO_BASEURL}/cuda/repos/${__LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH} /" | sudo tee /etc/apt/sources.list.d/cuda.list && \
+  echo "deb ${NVIDIA_CUDA_REPO_BASEURL}/${__LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH} /" | sudo tee /etc/apt/sources.list.d/cuda.list && \
+  # echo "deb ${NVIDIA_REPO_BASEURL}/machine-learning/repos/${__LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH} /" | sudo tee /etc/apt/sources.list.d/nvidia-ml.list
+  echo "deb ${NVIDIA_ML_REPO_BASEURL}/${__LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH} /" | sudo tee /etc/apt/sources.list.d/nvidia-ml.list
 
   sudo apt -y update
 }
@@ -129,13 +150,18 @@ function cuda-stack-addrepo-ubuntu2004() {
   ## local NVIDIA_REPO_BASEURL="https://developer.download.nvidia.com/compute"
   ## local NVIDIA_OS_ARCH="x86_64"
   ## local NVIDIA_CUDA_REPO_KEY="7fa2af80.pub"
-  local CUDA_REPO_KEY_URL="${NVIDIA_REPO_BASEURL}/cuda/repos/${__LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH}/${NVIDIA_CUDA_REPO_KEY}"
+  # local CUDA_REPO_KEY_URL="${NVIDIA_REPO_BASEURL}/cuda/repos/${__LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH}/${NVIDIA_CUDA_REPO_KEY}"
+  local CUDA_REPO_KEY_URL="${NVIDIA_CUDA_REPO_BASEURL}/${__LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH}/${NVIDIA_CUDA_REPO_KEY}"
+  local ML_REPO_KEY_URL="${NVIDIA_ML_REPO_BASEURL}/${__LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH}/${NVIDIA_ML_REPO_KEY}"
   lsd-mod.log.debug "CUDA_REPO_KEY_URL: ${CUDA_REPO_KEY_URL}"
+  lsd-mod.log.debug "ML_REPO_KEY_URL: ${ML_REPO_KEY_URL}"
 
   cuda-stack-addrepo-key
 
-  echo "deb ${NVIDIA_REPO_BASEURL}/cuda/repos/${__LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH} /" | sudo tee /etc/apt/sources.list.d/cuda.list && \
-  echo "deb ${NVIDIA_REPO_BASEURL}/machine-learning/repos/${__LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH} /" | sudo tee /etc/apt/sources.list.d/nvidia-ml.list
+  # echo "deb ${NVIDIA_REPO_BASEURL}/cuda/repos/${__LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH} /" | sudo tee /etc/apt/sources.list.d/cuda.list && \
+  echo "deb ${NVIDIA_CUDA_REPO_BASEURL}/${__LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH} /" | sudo tee /etc/apt/sources.list.d/cuda.list && \
+  # echo "deb ${NVIDIA_REPO_BASEURL}/machine-learning/repos/${__LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH} /" | sudo tee /etc/apt/sources.list.d/nvidia-ml.list
+  echo "deb ${NVIDIA_ML_REPO_BASEURL}/${__LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH} /" | sudo tee /etc/apt/sources.list.d/nvidia-ml.list
 
   sudo apt -y update
 }
@@ -150,13 +176,18 @@ function cuda-stack-addrepo-ubuntu22.04() {
   ## local NVIDIA_REPO_BASEURL="https://developer.download.nvidia.com/compute"
   ## local NVIDIA_OS_ARCH="x86_64"
   ## local NVIDIA_CUDA_REPO_KEY="7fa2af80.pub"
-  local CUDA_REPO_KEY_URL="${NVIDIA_REPO_BASEURL}/cuda/repos/${__LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH}/${NVIDIA_CUDA_REPO_KEY}"
+  # local CUDA_REPO_KEY_URL="${NVIDIA_REPO_BASEURL}/cuda/repos/${__LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH}/${NVIDIA_CUDA_REPO_KEY}"
+  local CUDA_REPO_KEY_URL="${NVIDIA_CUDA_REPO_BASEURL}/${__LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH}/${NVIDIA_CUDA_REPO_KEY}"
+  local ML_REPO_KEY_URL="${NVIDIA_ML_REPO_BASEURL}/${__LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH}/${NVIDIA_ML_REPO_KEY}"
   lsd-mod.log.debug "CUDA_REPO_KEY_URL: ${CUDA_REPO_KEY_URL}"
+  lsd-mod.log.debug "ML_REPO_KEY_URL: ${ML_REPO_KEY_URL}"
 
   cuda-stack-addrepo-key
 
-  echo "deb ${NVIDIA_REPO_BASEURL}/cuda/repos/${__LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH} /" | sudo tee /etc/apt/sources.list.d/cuda.list && \
-  echo "deb ${NVIDIA_REPO_BASEURL}/machine-learning/repos/${__LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH} /" | sudo tee /etc/apt/sources.list.d/nvidia-ml.list
+  # echo "deb ${NVIDIA_REPO_BASEURL}/cuda/repos/${__LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH} /" | sudo tee /etc/apt/sources.list.d/cuda.list && \
+  echo "deb ${NVIDIA_CUDA_REPO_BASEURL}/${__LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH} /" | sudo tee /etc/apt/sources.list.d/cuda.list && \
+  # echo "deb ${NVIDIA_REPO_BASEURL}/machine-learning/repos/${__LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH} /" | sudo tee /etc/apt/sources.list.d/nvidia-ml.list
+  echo "deb ${NVIDIA_ML_REPO_BASEURL}/${__LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH} /" | sudo tee /etc/apt/sources.list.d/nvidia-ml.list
 
   sudo apt -y update
 }

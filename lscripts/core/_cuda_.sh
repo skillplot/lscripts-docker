@@ -9,10 +9,44 @@
 
 
 function lsd-mod.cuda.get__vars() {
+
+  lsd-mod.log.echo "###----------------------------------------------------------"
+  lsd-mod.log.echo "System CFG"
+  lsd-mod.log.echo "###----------------------------------------------------------"
+  lsd-mod.log.echo "NUMTHREADS: ${bgre}${NUMTHREADS}${nocolor}"
+  lsd-mod.log.echo "MACHINE_ARCH: ${bgre}${MACHINE_ARCH}${nocolor}"
+  lsd-mod.log.echo "USER_ID: ${bgre}${USER_ID}${nocolor}"
+  lsd-mod.log.echo "GRP_ID: ${bgre}${GRP_ID}${nocolor}"
+  lsd-mod.log.echo "USR: ${bgre}${USR}${nocolor}"
+  lsd-mod.log.echo "GRP: ${bgre}${GRP}${nocolor}"
+  lsd-mod.log.echo "LOCAL_HOST: ${bgre}${LOCAL_HOST}${nocolor}"
+  lsd-mod.log.echo "OSTYPE: ${bgre}${OSTYPE}${nocolor}"
+  lsd-mod.log.echo "OS_ARCH: ${bgre}${OS_ARCH}${nocolor}"
+  lsd-mod.log.echo "OS_ARCH_BIT: ${bgre}${OS_ARCH_BIT}${nocolor}"
+  lsd-mod.log.echo "LINUX_VERSION: ${bgre}${LINUX_VERSION}${nocolor}"
+  lsd-mod.log.echo "LINUX_CODE_NAME: ${bgre}${LINUX_CODE_NAME}${nocolor}"
+  lsd-mod.log.echo "LINUX_ID: ${bgre}${LINUX_ID}${nocolor}"
+  lsd-mod.log.echo "LINUX_DISTRIBUTION: ${bgre}${LINUX_DISTRIBUTION}${nocolor}"
+  lsd-mod.log.echo "LINUX_DISTRIBUTION_TR: ${bgre}${LINUX_DISTRIBUTION_TR}${nocolor}"
+  lsd-mod.log.echo "###----------------------------------------------------------"
+
+
   lsd-mod.log.echo "OS: ${bgre}${OS}${nocolor}"
   lsd-mod.log.echo "NVIDIA_CUDA_IMAGE_NAME: ${bgre}${NVIDIA_CUDA_IMAGE_NAME}${nocolor}"
   lsd-mod.log.echo "NVIDIA_REPO_BASEURL: ${bgre}${NVIDIA_REPO_BASEURL}${nocolor}"
+  lsd-mod.log.echo "NVIDIA_CUDA_REPO_BASEURL: ${bgre}${NVIDIA_CUDA_REPO_BASEURL}${nocolor}"
+  lsd-mod.log.echo "NVIDIA_ML_REPO_BASEURL: ${bgre}${NVIDIA_ML_REPO_BASEURL}${nocolor}"
   lsd-mod.log.echo "NVIDIA_CUDA_REPO_KEY: ${bgre}${NVIDIA_CUDA_REPO_KEY}${nocolor}"
+  lsd-mod.log.echo "NVIDIA_ML_REPO_KEY: ${bgre}${NVIDIA_ML_REPO_KEY}${nocolor}"
+  lsd-mod.log.echo "###----------------------------------------------------------"
+
+
+  local CUDA_REPO_KEY_URL="${NVIDIA_CUDA_REPO_BASEURL}/${LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH}/${NVIDIA_CUDA_REPO_KEY}"
+  local ML_REPO_KEY_URL="${NVIDIA_ML_REPO_BASEURL}/${LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH}/${NVIDIA_ML_REPO_KEY}"
+  lsd-mod.log.echo "CUDA_REPO_KEY_URL: ${bgre}${CUDA_REPO_KEY_URL}${nocolor}"
+  lsd-mod.log.echo "ML_REPO_KEY_URL: ${bgre}${ML_REPO_KEY_URL}${nocolor}"
+
+
   lsd-mod.log.echo "###----------------------------------------------------------"
 
   lsd-mod.log.echo "CUDA_OS_REL: ${bgre}${CUDA_OS_REL}${nocolor}"
@@ -283,4 +317,102 @@ function lsd-mod.cuda.cuda-config() {
 
   # lsd-mod.cuda.get__vars
   echo "${CUDACFG_FILEPATH}"
+}
+
+
+function lsd-mod.cuda.addrepo-key() {
+  local __LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
+  source ${__LSCRIPTS}/argparse.sh "$@"
+
+  local __LINUX_DISTRIBUTION_TR="${LINUX_DISTRIBUTION_TR}"
+  lsd-mod.log.echo "Allowed:: dist: ${bgre}ubuntu1604 ubuntu1804 ubuntu2004  ubuntu2204 ${nocolor}"
+  lsd-mod.log.echo "Default:: dist: ${bgre}${__LINUX_DISTRIBUTION_TR}${nocolor}"
+
+  [[ -n "${args['dist']+1}" ]] && __LINUX_DISTRIBUTION_TR=${args['dist']}
+  lsd-mod.log.echo "Using:: dist: ${bgre}${__LINUX_DISTRIBUTION_TR}${nocolor}"
+
+
+  local CUDA_REPO_KEY_URL="${NVIDIA_CUDA_REPO_BASEURL}/${__LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH}/${NVIDIA_CUDA_REPO_KEY}"
+  local ML_REPO_KEY_URL="${NVIDIA_ML_REPO_BASEURL}/${__LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH}/${NVIDIA_ML_REPO_KEY}"
+
+  lsd-mod.log.debug "CUDA_REPO_KEY_URL: ${bgre}${CUDA_REPO_KEY_URL}${nocolor}"
+  lsd-mod.log.debug "ML_REPO_KEY_URL: ${bgre}${ML_REPO_KEY_URL}${nocolor}"
+
+  local _default="no"
+  local _que="Continue"
+  local _msg="Skipping CUDA addrepo-key!"
+  lsd-mod.fio.yesno_${_default} "${_que}" && {
+    lsd-mod.log.echo "Adding..."
+
+    sudo apt -y update
+    ## Install packages to allow apt to use a repository over HTTPS:
+    sudo apt -y --no-install-recommends install \
+      apt-transport-https \
+      ca-certificates \
+      curl \
+      gnupg2 \
+      software-properties-common 2>/dev/null
+
+    ## Remove keys
+    sudo apt-key del ${NVIDIA_CUDA_REPO_KEY}
+    sudo apt-key del ${NVIDIA_ML_REPO_KEY}
+
+    curl -fsSL "${CUDA_REPO_KEY_URL}" | sudo apt-key add - &>/dev/null
+    curl -fsSL "${ML_REPO_KEY_URL}" | sudo apt-key add - &>/dev/null
+    ## Todo:
+    ## local CUDA_REPO_KEY_URL
+    ## sudo apt-key fingerprint ${CUDA_REPO_KEY_URL}
+  }  || lsd-mod.log.echo "${_msg}"
+}
+
+
+function lsd-mod.cuda.addrepo() {
+  local __LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
+  source ${__LSCRIPTS}/argparse.sh "$@"
+
+  local __LINUX_DISTRIBUTION_TR="${LINUX_DISTRIBUTION_TR}"
+  lsd-mod.log.echo "Allowed:: dist: ${bgre}ubuntu1604 ubuntu1804 ubuntu2004  ubuntu2204 ${nocolor}"
+  lsd-mod.log.echo "Default:: dist: ${bgre}${__LINUX_DISTRIBUTION_TR}${nocolor}"
+
+  [[ -n "${args['dist']+1}" ]] && __LINUX_DISTRIBUTION_TR=${args['dist']}
+  lsd-mod.log.echo "Using:: dist: ${bgre}${__LINUX_DISTRIBUTION_TR}${nocolor}"
+
+
+  local CUDA_REPO_KEY_URL="${NVIDIA_CUDA_REPO_BASEURL}/${__LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH}/${NVIDIA_CUDA_REPO_KEY}"
+  local ML_REPO_KEY_URL="${NVIDIA_ML_REPO_BASEURL}/${__LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH}/${NVIDIA_ML_REPO_KEY}"
+
+  lsd-mod.log.debug "CUDA_REPO_KEY_URL: ${bgre}${CUDA_REPO_KEY_URL}${nocolor}"
+  lsd-mod.log.debug "ML_REPO_KEY_URL: ${bgre}${ML_REPO_KEY_URL}${nocolor}"
+
+  local _default="no"
+  local _que="Continue"
+  local _msg="Skipping CUDA addrepo!"
+  lsd-mod.fio.yesno_${_default} "${_que}" && {
+    lsd-mod.log.echo "Adding..."
+
+    ## add repo key
+    sudo apt -y update
+    ## Install packages to allow apt to use a repository over HTTPS:
+    sudo apt -y --no-install-recommends install \
+      apt-transport-https \
+      ca-certificates \
+      curl \
+      gnupg2 \
+      software-properties-common 2>/dev/null
+
+    ## Remove keys
+    sudo apt-key del ${NVIDIA_CUDA_REPO_KEY}
+    sudo apt-key del ${NVIDIA_ML_REPO_KEY}
+
+    curl -fsSL "${CUDA_REPO_KEY_URL}" | sudo apt-key add - &>/dev/null
+    curl -fsSL "${ML_REPO_KEY_URL}" | sudo apt-key add - &>/dev/null
+
+
+    # echo "deb ${NVIDIA_REPO_BASEURL}/cuda/repos/${__LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH} /" | sudo tee /etc/apt/sources.list.d/cuda.list && \
+    echo "deb ${NVIDIA_CUDA_REPO_BASEURL}/${__LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH} /" | sudo tee /etc/apt/sources.list.d/cuda.list && \
+    # echo "deb ${NVIDIA_REPO_BASEURL}/machine-learning/repos/${__LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH} /" | sudo tee /etc/apt/sources.list.d/nvidia-ml.list
+    echo "deb ${NVIDIA_ML_REPO_BASEURL}/${__LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH} /" | sudo tee /etc/apt/sources.list.d/nvidia-ml.list
+
+    sudo apt -y update
+  }  || lsd-mod.log.echo "${_msg}"
 }

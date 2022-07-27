@@ -23,6 +23,7 @@ function latex-apt-install.main() {
 
   sudo apt -y install texlive-latex-recommended texlive texlive-pictures texlive-latex-extra
   sudo apt -y install texlive-fonts-recommended texlive-fonts-extra
+  # sudo apt -y install texlive-full
 
   # texlive-base
   # texlive-latex-recommended

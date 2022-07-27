@@ -79,6 +79,8 @@ function lsd-lscripts.alias.main() {
   alias lsd-cuda.select="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.system.select__cuda $@"
   alias lsd-cuda.config="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.cuda.cuda-config $@"
   alias lsd-cuda.verify="bash ${LSCRIPTS}/cuda-stack-verify.sh"
+  alias lsd-cuda.addrepo-key="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.cuda.addrepo-key $@"
+  alias lsd-cuda.addrepo="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.cuda.addrepo $@"
   ###----------------------------------------------------------
   ## lsd-apt => _apt_ module
   ###----------------------------------------------------------
