@@ -37,6 +37,13 @@ local NVIDIA_ML_REPO_KEY="7fa2af80.pub"
 ## local NVIDIA_GPGKEY_SUM="d1be581509378368edeec8c1eb2958702feedf3bc3d17011adbf24efacce4ab5"
 ## local NVIDIA_GPGKEY_FPR="ae09fe4bbd223a84b2ccfce3f60f4b3d7fa2af80"
 #
+## Example: open these URL in the browser to check if they are valid are not
+### ubuntu1804
+## cuda repo: https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/3bf863cc.pub
+## ML repo: https://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1804/x86_64/7fa2af80.pub
+### ubuntu2004
+## cuda repo: https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/3bf863cc.pub
+## ML repo: https://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu2004/x86_64/7fa2af80.pub
 local NVIDIA_REPO_BASEURL="https://developer.download.nvidia.com/compute"
 ## https://developer.download.nvidia.com/compute/machine-learning/repos
 local NVIDIA_CUDA_REPO_BASEURL="${NVIDIA_REPO_BASEURL}/cuda/repos"

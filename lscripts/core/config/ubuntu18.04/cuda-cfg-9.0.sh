@@ -8,10 +8,6 @@
 ##----------------------------------------------------------
 
 local OS="ubuntu18.04"
-local NVIDIA_CUDA_IMAGE_NAME="nvidia/cuda"
-## example: https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/7fa2af80.pub
-local NVIDIA_REPO_BASEURL="https://developer.download.nvidia.com/compute"
-local NVIDIA_CUDA_REPO_KEY="7fa2af80.pub"
 local CUDA_OS_REL="ubuntu1604"
 
 ##----------------------------------------------------------
@@ -79,8 +75,9 @@ local BAZEL_URL="https://github.com/bazelbuild/bazel/releases/download/${BAZEL_V
 local __OS="ubuntu16.04"
 local __NVIDIA_WHICHONE="devel" ## base, runtime, devel
 local __NVIDIA_IMAGE_TAG=${CUDA_VER}-${__NVIDIA_WHICHONE}-${__OS}
-## example: 10.0-devel-ubuntu16.04
-local __NVIDIA_BASE_IMAGE="nvidia/cuda:${__NVIDIA_IMAGE_TAG}"
+## example: 9.0-devel-ubuntu16.04
+local __NVIDIA_CUDA_IMAGE_NAME="nvidia/cuda"
+local __NVIDIA_BASE_IMAGE="${__NVIDIA_CUDA_IMAGE_NAME}:${__NVIDIA_IMAGE_TAG}"
 
 local DOCKER_BLD_IMG_TAG="${__NVIDIA_IMAGE_TAG}"
 

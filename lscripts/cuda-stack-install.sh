@@ -220,8 +220,10 @@ function __cuda-stack-install() {
 
     ## Required for nvidia-docker v1
     ## Todo: Error on without docker - permission denies; instead to use cuda-10-2.conf??
-    sudo echo "/usr/local/nvidia/lib" >> /etc/ld.so.conf.d/nvidia.conf &>/dev/null && \
-      sudo echo "/usr/local/nvidia/lib64" >> /etc/ld.so.conf.d/nvidia.conf &>/dev/null
+    [[ -f /etc/ld.so.conf.d/nvidia.conf ]] && {
+      sudo echo "/usr/local/nvidia/lib" >> /etc/ld.so.conf.d/nvidia.conf &>/dev/null && \
+        sudo echo "/usr/local/nvidia/lib64" >> /etc/ld.so.conf.d/nvidia.conf &>/dev/null
+    }
 
     export PATH=${__PATH}:${PATH}
     export LD_LIBRARY_PATH=${__LD_LIBRARY_PATH_1}

@@ -41,10 +41,10 @@ function lsd-mod.cuda.get__vars() {
   lsd-mod.log.echo "###----------------------------------------------------------"
 
 
-  local CUDA_REPO_KEY_URL="${NVIDIA_CUDA_REPO_BASEURL}/${LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH}/${NVIDIA_CUDA_REPO_KEY}"
-  local ML_REPO_KEY_URL="${NVIDIA_ML_REPO_BASEURL}/${LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH}/${NVIDIA_ML_REPO_KEY}"
-  lsd-mod.log.echo "CUDA_REPO_KEY_URL: ${bgre}${CUDA_REPO_KEY_URL}${nocolor}"
-  lsd-mod.log.echo "ML_REPO_KEY_URL: ${bgre}${ML_REPO_KEY_URL}${nocolor}"
+  local __CUDA_REPO_KEY_URL="${NVIDIA_CUDA_REPO_BASEURL}/${LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH}/${NVIDIA_CUDA_REPO_KEY}"
+  local __ML_REPO_KEY_URL="${NVIDIA_ML_REPO_BASEURL}/${LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH}/${NVIDIA_ML_REPO_KEY}"
+  lsd-mod.log.echo "__CUDA_REPO_KEY_URL: ${bgre}${__CUDA_REPO_KEY_URL}${nocolor}"
+  lsd-mod.log.echo "__ML_REPO_KEY_URL: ${bgre}${__ML_REPO_KEY_URL}${nocolor}"
 
 
   lsd-mod.log.echo "###----------------------------------------------------------"
@@ -54,7 +54,6 @@ function lsd-mod.cuda.get__vars() {
   lsd-mod.log.echo "CUDA_PKG: ${bgre}${CUDA_PKG}${nocolor}"
   lsd-mod.log.echo "CUDA_REL: ${bgre}${CUDA_REL}${nocolor}"
   lsd-mod.log.echo "CUDA_VERSION: ${bgre}${CUDA_VERSION}${nocolor}"
-  lsd-mod.log.echo "CUDA_CORE_PKG_VERSION: ${bgre}${CUDA_CORE_PKG_VERSION}${nocolor}"
   lsd-mod.log.echo "CUDA_PKG_VERSION: ${bgre}${CUDA_PKG_VERSION}${nocolor}"
   lsd-mod.log.echo "CUDA_CORE_PKG_VERSION: ${bgre}${CUDA_CORE_PKG_VERSION}${nocolor}"
   lsd-mod.log.echo "###----------------------------------------------------------"
@@ -62,10 +61,8 @@ function lsd-mod.cuda.get__vars() {
   lsd-mod.log.echo "NVML_VERSION: ${bgre}${NVML_VERSION}${nocolor}"
   lsd-mod.log.echo "###----------------------------------------------------------"
 
-  lsd-mod.log.echo "cuDNN_VER: ${bgre}${cuDNN_VER}${nocolor}"
+  lsd-mod.log.echo "CUDNN_VER: ${bgre}${CUDNN_VER}${nocolor}"
   lsd-mod.log.echo "CUDNN_MAJOR_VERSION: ${bgre}${CUDNN_MAJOR_VERSION}${nocolor}"
-  lsd-mod.log.echo "CUDNN_VERSION: ${bgre}${CUDNN_VERSION}${nocolor}"
-  lsd-mod.log.echo "CUDNN_VERSION: ${bgre}${CUDNN_VERSION}${nocolor}"
   lsd-mod.log.echo "CUDNN_VERSION: ${bgre}${CUDNN_VERSION}${nocolor}"
   lsd-mod.log.echo "CUDNN_PKG: ${bgre}${CUDNN_PKG}${nocolor}"
   lsd-mod.log.echo "###----------------------------------------------------------"
@@ -75,7 +72,8 @@ function lsd-mod.cuda.get__vars() {
   lsd-mod.log.echo "###----------------------------------------------------------"
 
   lsd-mod.log.echo "TENSORRT_VER: ${bgre}${TENSORRT_VER}${nocolor}"
-  lsd-mod.log.echo "LIBNVINFER_VER: ${bgre}${LIBNVINFER_VER}${nocolor}"
+  lsd-mod.log.echo "LIBNVINFER_VERSION: ${bgre}${LIBNVINFER_VERSION}${nocolor}"
+  lsd-mod.log.echo "LIBNVINFER_PKG: ${bgre}${LIBNVINFER_PKG}${nocolor}"
   lsd-mod.log.echo "###----------------------------------------------------------"
 
   lsd-mod.log.echo "TF_VER: ${bgre}${TF_VER}${nocolor}"
@@ -97,6 +95,7 @@ function lsd-mod.cuda.get__vars() {
   lsd-mod.log.echo "__OS: ${bgre}${__OS}${nocolor}"
   lsd-mod.log.echo "__NVIDIA_WHICHONE: ${bgre}${__NVIDIA_WHICHONE}${nocolor}"
   lsd-mod.log.echo "__NVIDIA_IMAGE_TAG: ${bgre}${__NVIDIA_IMAGE_TAG}${nocolor}"
+  lsd-mod.log.echo "__NVIDIA_CUDA_IMAGE_NAME: ${bgre}${__NVIDIA_CUDA_IMAGE_NAME}${nocolor}"
   lsd-mod.log.echo "__NVIDIA_BASE_IMAGE: ${bgre}${__NVIDIA_BASE_IMAGE}${nocolor}"
   lsd-mod.log.echo "###----------------------------------------------------------"
 
@@ -156,6 +155,47 @@ function lsd-mod.cuda.get__cuda_vers_avail() {
 }
 
 
+function lsd-mod.cuda.find_vers() {
+  local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
+  source ${LSCRIPTS}/argparse.sh "$@"
+
+  lsd-mod.log.echo "NOTE:: CUDA and ML apt repos must already be added.\nOtherwise use lsd-cuda.addrepo to add the required apt repositories.\n"
+
+  local __BUILD_FOR_CUDA_VER=${args['cuda']}
+
+  [[ ! -z ${__BUILD_FOR_CUDA_VER} ]] && {
+    local __BUILD_FOR_CUDA_REL=$(echo ${__BUILD_FOR_CUDA_VER} | tr . -) ## 11-1
+
+    lsd-mod.log.echo "Searching compatible dependencies for CUDA STACK: cuda, cudnn (libcudnn), tensorrt (libnvinfer): ${__BUILD_FOR_CUDA_REL}"
+
+    lsd-mod.log.echo "###----------------------------------------------------------"
+    lsd-mod.log.echo "${bgre}cuda${nocolor}"
+
+    apt-cache policy cuda-${__BUILD_FOR_CUDA_REL}
+
+    lsd-mod.log.echo "###----------------------------------------------------------"
+    lsd-mod.log.echo "${bgre}cuda-libraries${nocolor}"
+    apt-cache policy cuda-libraries-${__BUILD_FOR_CUDA_REL}
+
+    lsd-mod.log.echo "###----------------------------------------------------------"
+    lsd-mod.log.echo "${bgre}libnccl${nocolor}"
+    apt-cache policy libnccl-dev | grep ${__BUILD_FOR_CUDA_VER}
+
+    lsd-mod.log.echo "###----------------------------------------------------------"
+    lsd-mod.log.echo "${bgre}cuda-nvml${nocolor}"
+    apt-cache policy cuda-nvml-dev-${__BUILD_FOR_CUDA_VER} | grep ${__BUILD_FOR_CUDA_VER}
+
+    lsd-mod.log.echo "###----------------------------------------------------------"
+    lsd-mod.log.echo "${bgre}libcudnn${nocolor}"
+    apt-cache search libcudnn | grep --color=auto [0-9]
+
+    lsd-mod.log.echo "###----------------------------------------------------------"
+    lsd-mod.log.echo "${bgre}libnvinfer${nocolor}"
+    apt-cache search libnvinfer | grep --color=auto [0-9]
+  } || echo -e "Usage::\nlsd-cuda.find_vers --cuda=10.0\n"
+}
+
+
 function lsd-mod.cuda.admin.purge_cuda_stack() {
   ## Todo: prmpt for passphrase for extra level of protection
   local _que="Do you want to purge cuda stack"
@@ -196,20 +236,41 @@ function lsd-mod.cuda.update_alternatives_cuda() {
   ##
   ## Examples:
   # ## Todo: autopick cuda version and their priorities based on what is installed in the /usr/local/cuda-xx.y
+  # if [ -d /usr/local/cuda-11.7 ]; then
+  #   sudo update-alternatives --install /usr/local/cuda cuda /usr/local/cuda-11.7 250
+  # fi
+  # if [ -d /usr/local/cuda-11.6 ]; then
+  #   sudo update-alternatives --install /usr/local/cuda cuda /usr/local/cuda-11.6 350
+  # fi
+  # if [ -d /usr/local/cuda-11.5 ]; then
+  #   sudo update-alternatives --install /usr/local/cuda cuda /usr/local/cuda-11.5 450
+  # fi
+  # if [ -d /usr/local/cuda-11.4 ]; then
+  #   sudo update-alternatives --install /usr/local/cuda cuda /usr/local/cuda-11.4 550
+  # fi
+  # if [ -d /usr/local/cuda-11.3 ]; then
+  #   sudo update-alternatives --install /usr/local/cuda cuda /usr/local/cuda-11.3 650
+  # fi
+  # if [ -d /usr/local/cuda-11.2 ]; then
+  #   sudo update-alternatives --install /usr/local/cuda cuda /usr/local/cuda-11.2 750
+  # fi
+  # if [ -d /usr/local/cuda-11.1 ]; then
+  #   sudo update-alternatives --install /usr/local/cuda cuda /usr/local/cuda-11.1 850
+  # fi
   # if [ -d /usr/local/cuda-11.0 ]; then
-  #   sudo update-alternatives --install /usr/local/cuda cuda /usr/local/cuda-11.0 250
+  #   sudo update-alternatives --install /usr/local/cuda cuda /usr/local/cuda-11.0 950
   # fi
   # if [ -d /usr/local/cuda-10.2 ]; then
-  #   sudo update-alternatives --install /usr/local/cuda cuda /usr/local/cuda-10.2 300
+  #   sudo update-alternatives --install /usr/local/cuda cuda /usr/local/cuda-10.2 1000
   # fi
   # if [ -d /usr/local/cuda-10.1 ]; then
-  #   sudo update-alternatives --install /usr/local/cuda cuda /usr/local/cuda-10.1 500
+  #   sudo update-alternatives --install /usr/local/cuda cuda /usr/local/cuda-10.1 200
   # fi
   # if [ -d /usr/local/cuda-10.0 ]; then
-  #   sudo update-alternatives --install /usr/local/cuda cuda /usr/local/cuda-10.0 200
+  #   sudo update-alternatives --install /usr/local/cuda cuda /usr/local/cuda-10.0 150
   # fi
   # if [ -d /usr/local/cuda-9.0 ]; then
-  #   sudo update-alternatives --install /usr/local/cuda cuda /usr/local/cuda-9.0 400
+  #   sudo update-alternatives --install /usr/local/cuda cuda /usr/local/cuda-9.0 100
   # fi
   # if [ -d /usr/local/cuda-8.0 ]; then
   #   sudo update-alternatives --install /usr/local/cuda cuda /usr/local/cuda-8.0 50
@@ -218,7 +279,7 @@ function lsd-mod.cuda.update_alternatives_cuda() {
   declare -a cuda_vers=($(lsd-mod.cuda.get__cuda_vers))
   ## Todo: fix error
   # declare -a weights=($(seq 50 50 `echo (( ${#cuda_vers[@]}*100 ))`))
-  declare -a weights=($(seq 50 50 500))
+  declare -a weights=($(seq 50 50 1000))
 
   local ver
   local __count=0

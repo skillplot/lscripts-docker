@@ -3,66 +3,70 @@
 ## Copyright (c) 2021 mangalbhaskar. All Rights Reserved.
 ##__author__ = 'mangalbhaskar'
 ##----------------------------------------------------------
-## CUDA Stack 9.2, Nvidia Driver: 400+
+## CUDA Stack 11.1, Nvidia Driver: 450+
 ## - Do not change the version, if you are not sure what you are doing
 ##----------------------------------------------------------
 
 local OS="ubuntu18.04"
-local CUDA_OS_REL="ubuntu1604"
+local NVIDIA_CUDA_IMAGE_NAME="nvidia/cuda"
+## example: https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/7fa2af80.pub
+local NVIDIA_REPO_BASEURL="https://developer.download.nvidia.com/compute"
+local NVIDIA_CUDA_REPO_KEY="7fa2af80.pub"
+local CUDA_OS_REL="ubuntu1804"
 
 ##----------------------------------------------------------
 ## CUDA
 ##----------------------------------------------------------
-local CUDA_VER="9.2"
-local CUDA_PKG="${CUDA_VER}.176-1"
-local CUDA_REL=$(echo ${CUDA_VER} | tr . -) ## 9-2
-local CUDA_VERSION=${CUDA_VER}
+local CUDA_VER="11.1"
+local CUDA_PKG="${CUDA_VER}.1-1"
+local CUDA_REL=$(echo ${CUDA_VER} | tr . -) ## 11-1
+local CUDA_VERSION="${CUDA_VER}"
 
 local CUDA_CORE_PKG_VERSION="${CUDA_REL}=${CUDA_PKG}"
 local CUDA_PKG_VERSION="${CUDA_CORE_PKG_VERSION}"
 local CUDA_CUBLAS_PKG_VERSION="${CUDA_PKG_VERSION}"
 
-local CUDA_CUBLAS_PKG_VERSION="${CUDA_REL}=${CUDA_VER}.176.4-1"
-local CUDA_CORE_PKG_VERSION="${CUDA_REL}=${CUDA_VER}.176.3-1"
-
 local NVML_VERSION="${CUDA_PKG_VERSION}"
+local NVML_VERSION="${CUDA_REL}=${CUDA_VER}.74-1"
 
 ##----------------------------------------------------------
 ## cuDNN
 ##----------------------------------------------------------
-local CUDNN_VER="7"
+local CUDNN_VER="8"
 local CUDNN_MAJOR_VERSION="${CUDNN_VER}"
-local CUDNN_VERSION="7.6.4.38"
-#local CUDNN_VERSION="7.6.5.32"
+# local CUDNN_VERSION="8.0.4.30"
+local CUDNN_VERSION="8.0.5.39"
 local CUDNN_PKG="${CUDNN_VERSION}-1+cuda${CUDA_VER}"
 
 ##----------------------------------------------------------
 ## NCCL
 ##----------------------------------------------------------
-# local NCCL_VERSION="2.5.6"
-local NCCL_VERSION="2.4.8"
+# local NCCL_VERSION="2.7.8"
+# local NCCL_VERSION="2.8.3"
+local NCCL_VERSION="2.8.4"
 local NCCL_PKG="${NCCL_VERSION}-1+cuda${CUDA_VER}"
 
 ##----------------------------------------------------------
 ## TensorRT
 ##----------------------------------------------------------
-local TENSORRT_VER="5"
-#local LIBNVINFER_PKG="5.1.2-1+cuda${CUDA_VER}"
-local LIBNVINFER_PKG="5.1.5-1+cuda${CUDA_VER}"
+local TENSORRT_VER="7"
+# local LIBNVINFER_VERSION="7.2.1"
+# local LIBNVINFER_VERSION="7.2.2"
+local LIBNVINFER_VERSION="7.2.3"
+local LIBNVINFER_PKG="${LIBNVINFER_VERSION}-1+cuda${CUDA_VER}"
 
 ##----------------------------------------------------------
 ## AI Frameworks - Todo
 ##----------------------------------------------------------
-
-local TF_VER="1.9.0"
-local TENSORFLOW_VER="${TF_VER}"
+local TF_VER="2.2"
+local TENSORFLOW_VER=${TF_VER}
 local TF_RELEASE="v${TF_VER}"
-local TF_BAZEL_VER="0.5.0"
+local TF_BAZEL_VER="0.21.0"
 
-local KERAS_VER="2.2.2"
+local KERAS_VER="2.2.3"
 ##-------
 
-local PYTORCH_VER="0.4.0"
+local PYTORCH_VER="1.4.0"
 ##-------
 
 ## bazel configuration for compiling tensorflow from source
@@ -72,12 +76,11 @@ local BAZEL_URL="https://github.com/bazelbuild/bazel/releases/download/${BAZEL_V
 ##----------------------------------------------------------
 ## Dockerfile configuration
 ##----------------------------------------------------------
-local __OS="ubuntu16.04"
+local __OS="ubuntu18.04"
 local __NVIDIA_WHICHONE="devel" ## base, runtime, devel
 local __NVIDIA_IMAGE_TAG=${CUDA_VER}-${__NVIDIA_WHICHONE}-${__OS}
-## example: 9.2-devel-ubuntu16.04
-local __NVIDIA_CUDA_IMAGE_NAME="nvidia/cuda"
-local __NVIDIA_BASE_IMAGE="${__NVIDIA_CUDA_IMAGE_NAME}:${__NVIDIA_IMAGE_TAG}"
+## example: 11.1-devel-ubuntu18.04
+local __NVIDIA_BASE_IMAGE="nvidia/cuda:${__NVIDIA_IMAGE_TAG}"
 
 local DOCKER_BLD_IMG_TAG="${__NVIDIA_IMAGE_TAG}"
 

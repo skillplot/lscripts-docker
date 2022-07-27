@@ -75,6 +75,7 @@ function lsd-lscripts.alias.main() {
   alias lsd-cuda.cfg="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.cuda.get__vars $@"
   alias lsd-cuda.vers="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.cuda.get__cuda_vers $@"
   alias lsd-cuda.avail="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.cuda.get__cuda_vers_avail $@"
+  alias lsd-cuda.find_vers="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.cuda.find_vers $@"
   alias lsd-cuda.admin.__purge_cuda_stack="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.lsd-mod.cuda.purge_cuda_stack $@"
   alias lsd-cuda.select="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.system.select__cuda $@"
   alias lsd-cuda.config="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.cuda.cuda-config $@"

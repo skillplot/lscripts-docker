@@ -142,6 +142,7 @@ nav:
   # - Tutorial - User Guide: 
   - Introduction: index.md
   - cmds.md
+  - nvidia-cuda.md
   # - code_of_conduct.md
   # - contributing.md
   # - credits.md

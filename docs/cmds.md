@@ -1,8 +1,8 @@
 ---
 title: All Commands
 description: List of all commands for Lscripts Docker
-date: 2022-06-26 09:27:55
-last_updated: 09:27:55, 26-Jun-2022, Sunday
+date: 2022-07-28 00:50:35
+last_updated: 00:50:35, 28-Jul-2022, Thursday
 note: Auto generated file and will be overwritten
 ---
 
@@ -38,10 +38,13 @@ lsd-cmd.monitoring-cmds
 lsd-cmd.mount.smb
 lsd-cmd.mount.ssh
 lsd-cmd.pm
+lsd-cuda.addrepo
+lsd-cuda.addrepo-key
 lsd-cuda.admin.__purge_cuda_stack
 lsd-cuda.avail
 lsd-cuda.cfg
 lsd-cuda.config
+lsd-cuda.find_vers
 lsd-cuda.select
 lsd-cuda.verify
 lsd-cuda.vers

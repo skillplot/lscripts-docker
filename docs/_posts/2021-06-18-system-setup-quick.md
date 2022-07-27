@@ -123,17 +123,97 @@ This is for **advance** usage providing granular control on specific software co
       ```bash
       lsd-install.python-virtualenvwrapper
       ```
-6. Install CUDA stack (cuda, cudnn, tensorRT). supported CUDA: `9.0`, `10.0`, `10.2`, `11.0`.
-    ```bash
-    lsd-install.cuda-stack 10.0
-    ```
+6. Install CUDA stack (cuda, cudnn, tensorRT). supported CUDA: `9.0`, `10.0`, `10.2`, `11.0`. `11.1`.
+   * Cuda stack installation
+        ```bash
+        lsd-install.cuda-stack
+        lsd-install.cuda-stack --cuda=11.1
+        ```
+    * Find cuda compatible stack versions
+        ```bash
+        lsd-cuda.find_vers --cuda=11.1
+        ```
 
 
 ## Compelete List of Individual installer
 
 * `lsd-install.<name_of_package>` is used to install individual software components. Here are currently available options:
     ```bash
+    lsd-admin.create-login-user
+    lsd-admin.create-nologin-user
+    lsd-admin.mkalias-datadirs
+    lsd-admin.mkalias-osdirs
+    lsd-admin.mkdir-datadirs
+    lsd-admin.mkdir-osdirs
+    lsd-admin.restrict-cmds-for-sudo-user
+    lsd-apt.guess
+    lsd-apt.ppa-add
+    lsd-apt.ppa-list
+    lsd-apt.ppa-remove
+    lsd-apt.search
+    lsd-cd
+    lsd-cfg.basepath
+    lsd-cfg.color
+    lsd-cfg.docker
+    lsd-cfg.nvidia
+    lsd-cfg.system
+    lsd-cfg.typeformats
+    lsd-cmd.dummy
+    lsd-cmd.git.get.repo-urls
+    lsd-cmd.git.repoviz
+    lsd-cmd.gitlab.get.cert
+    lsd-cmd.menu-navigation
+    lsd-cmd.monitoring-cmds
+    lsd-cmd.mount.smb
+    lsd-cmd.mount.ssh
+    lsd-cmd.pm
+    lsd-cuda.addrepo
+    lsd-cuda.addrepo-key
+    lsd-cuda.admin.__purge_cuda_stack
+    lsd-cuda.avail
+    lsd-cuda.cfg
+    lsd-cuda.config
+    lsd-cuda.find_vers
+    lsd-cuda.select
+    lsd-cuda.verify
+    lsd-cuda.vers
+    lsd-date.cfg
+    lsd-date.get
+    lsd-date.get-blog
+    lsd-date.get-full
+    lsd-date.timestamp
+    lsd-date.timestamp.microsec
+    lsd-date.timestamp.millisec
+    lsd-date.timestamp.nanosec
+    lsd-dir.admin.mkalias-datadirs
+    lsd-dir.admin.mkalias-osdirs
+    lsd-dir.admin.mkdir-datadirs
+    lsd-dir.admin.mkdir-osdirs
+    lsd-dir.cfg
+    lsd-dir.get-datadirs-paths
+    lsd-dir.get-osdirs-paths
+    lsd-docker.cfg
+    lsd-docker.container.delete-all
+    lsd-docker.container.delete-byimage
+    lsd-docker.container.exec
+    lsd-docker.container.exec-byname
+    lsd-docker.container.list
+    lsd-docker.container.list-ids
+    lsd-docker.container.list-ids-all
+    lsd-docker.container.status
+    lsd-docker.container.stop-all
+    lsd-docker.container.test
+    lsd-docker.image.build
+    lsd-docker.osvers
+    lsd-docs.admin.update
+    lsd-docs.cmds
+    lsd-docs.mkdocs
+    lsd-docs.mkdocs.deploy
+    lsd-docs.mkdocs.link
+    lsd-git.pull
+    lsd-git.repo-pull
     lsd-install.apache2
+    lsd-install.asciidoc-clone
     lsd-install.atom-wget-dpkg
     lsd-install.audacity-apt
     lsd-install.balenaetcher-apt
@@ -199,6 +279,7 @@ This is for **advance** usage providing granular control on specific software co
     lsd-install.python
     lsd-install.python-virtualenvwrapper
     lsd-install.qgis3-apt
+    lsd-install.qgis3-clone
     lsd-install.rasdamandb-apt
     lsd-install.rclone
     lsd-install.redis-wget-make
@@ -218,13 +299,90 @@ This is for **advance** usage providing granular control on specific software co
     lsd-install.videofix-apt
     lsd-install.vim-apt
     lsd-install.vim-plug
+    lsd-install.virtualbox-apt
     lsd-install.vlc-apt
     lsd-install.vokoscreen-ppa
     lsd-install.vscode-apt
     lsd-install.vulkansdk-apt
     lsd-install.wine-apt
     lsd-install.xnview-wget
-    lsd-install.yarn
+    lsd-install.yarn-apt
     lsd-install.youtubedl-apt
     lsd-install.zookeeper-wget
+    lsd-nvidia.cfg
+    lsd-nvidia.driver.avail
+    lsd-nvidia.gpu.info
+    lsd-nvidia.gpu.stats
+    lsd-python.create.virtualenv
+    lsd-python.kill
+    lsd-python.ls.egg
+    lsd-python.ls.pycache
+    lsd-python.path
+    lsd-python.rm.egg
+    lsd-python.rm.pycache
+    lsd-python.test.virtualenv
+    lsd-python.venv.list
+    lsd-python.venv.name
+    lsd-select.bazel
+    lsd-select.cuda
+    lsd-select.gcc
+    lsd-stack.all
+    lsd-stack.cfg
+    lsd-stack.docker_stack
+    lsd-stack.editors
+    lsd-stack.epub
+    lsd-stack.itemwise
+    lsd-stack.list
+    lsd-stack.markdowneditors
+    lsd-stack.misc
+    lsd-stack.multimedia
+    lsd-stack.nvidia_cuda_python_docker
+    lsd-stack.prerequisite
+    lsd-stack.programming
+    lsd-stack.python_stack
+    lsd-stack.storage
+    lsd-stack.sysutils
+    lsd-stack.utils
+    lsd-system.admin.create-login-user
+    lsd-system.admin.create-nologin-user
+    lsd-system.admin.restrict-cmds-for-sudo-user
+    lsd-system.cfg
+    lsd-system.cpu.cores
+    lsd-system.cpu.threads
+    lsd-system.df.json
+    lsd-system.info
+    lsd-system.ip
+    lsd-system.osinfo
+    lsd-test.argparse
+    lsd-test.cuda_config_supported
+    lsd-test.dir
+    lsd-test.echo
+    lsd-test.fio
+    lsd-test.log
+    lsd-test.system
+    lsd-utils.cmds
+    lsd-utils.date.get
+    lsd-utils.id.filename
+    lsd-utils.id.filename-tmp
+    lsd-utils.id.get
+    lsd-utils.id.salt
+    lsd-utils.id.uuid
+    lsd-utils.image.pdf
+    lsd-utils.image.resize
+    lsd-utils.kill
+    lsd-utils.kill.python
+    lsd-utils.ls
+    lsd-utils.ls.egg
+    lsd-utils.ls.pycache
+    lsd-utils.pid
+    lsd-utils.python.venvname
+    lsd-utils.rm.egg
+    lsd-utils.rm.node_modules
+    lsd-utils.rm.pycache
+    lsd-utils.system.info
+    lsd-utils.trash
+    lsd-lscripts.exe.install
+    lsd-lscripts.install.__itemwise
+    lsd-lscripts.install.__menu
+    lsd-lscripts.install.__stacksetup
     ```
