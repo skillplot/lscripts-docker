@@ -28,11 +28,12 @@ function cuda-stack-verify.main() {
     [[ -d "${CUDA_HOME}/samples" ]] && {
       lsd-mod.log.info "Compiling: ${CUDA_HOME}/samples/1_Utilities/deviceQuery"
 
-      # sudo chown -R $(whoami):$(whoami) "${CUDA_HOME}/samples"
-      cd "${CUDA_HOME}/samples/1_Utilities/deviceQuery"
-      make
-      ./deviceQuery  
-      cd -
+      sudo chown -R $(whoami):$(whoami) "${CUDA_HOME}/samples"
+      make -C "${CUDA_HOME}/samples/1_Utilities/deviceQuery"
+      ${CUDA_HOME}/samples/1_Utilities/deviceQuery/deviceQuery
+      # cd "${CUDA_HOME}/samples/1_Utilities/deviceQuery"
+      # ./deviceQuery
+      # cd -
       return 0
     } 1>&2 || (error "Cuda samples does not exists: ${CUDA_HOME}/samples" && return -1)
   } 1>&2 || {
