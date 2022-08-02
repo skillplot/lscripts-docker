@@ -23,6 +23,7 @@ declare -a _stack_install_itemwise=(
   "docker-compose"
   "nvidia-container-toolkit"
   "python"
+  "python-pyenv"
   "python-virtualenvwrapper"
   "cuda-stack"
   ###----------------------------------------------------------

@@ -10,7 +10,7 @@
 function core-apt-install.main() {
   ## sudo apt -y update
   ## Essential for New Machine Setup
-  sudo apt -y install -y --no-install-recommends \
+  sudo apt -y install --no-install-recommends \
     build-essential \
     apt-transport-https \
     ca-certificates \
