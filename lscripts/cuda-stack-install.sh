@@ -167,7 +167,7 @@ function cuda-stack-addrepo-ubuntu2004() {
 }
 
 
-function cuda-stack-addrepo-ubuntu22.04() {
+function cuda-stack-addrepo-ubuntu2204() {
   local __LINUX_DISTRIBUTION="ubuntu20.04"
   local __LINUX_DISTRIBUTION_TR="ubuntu1804"
   lsd-mod.log.debug "LINUX_DISTRIBUTION: ${LINUX_DISTRIBUTION}"
@@ -354,15 +354,15 @@ function cuda-stack-install.main() {
   # lsd-mod.log.debug "executing script...: ${scriptname} with total params: $#"
 
   local __BUILD_FOR_CUDA_VER=${args['cuda']}
-  local __LINUX_DISTRIBUTION=${args['os']}
+  local __LINUX_DISTRIBUTION_TR=${args['os']}
   [[ ! -z ${__BUILD_FOR_CUDA_VER} ]] || __BUILD_FOR_CUDA_VER=${BUILD_FOR_CUDA_VER}
-  [[ ! -z ${__LINUX_DISTRIBUTION} ]] || __LINUX_DISTRIBUTION=${LINUX_DISTRIBUTION}
+  [[ ! -z ${__LINUX_DISTRIBUTION_TR} ]] || __LINUX_DISTRIBUTION_TR=${LINUX_DISTRIBUTION_TR}
 
   local CUDACFG_FILEPATH=$(lsd-mod.cuda.include "${__BUILD_FOR_CUDA_VER}" "${__BUILD_FOR_CUDA_VER}")
   lsd-mod.log.debug "CUDACFG_FILEPATH: ${CUDACFG_FILEPATH}"
 
   ## Only for reference, not used here
-  ## local AI_PYCUDA_FILE=${LSCRIPTS}/config/${__LINUX_DISTRIBUTION}/python.requirements-ai-cuda-${__BUILD_FOR_CUDA_VER.txt
+  ## local AI_PYCUDA_FILE=${LSCRIPTS}/config/${__LINUX_DISTRIBUTION_TR}/python.requirements-ai-cuda-${__BUILD_FOR_CUDA_VER.txt
   ## echo "CUDACFG_FILEPATH: ${AI_PYCUDA_FILE}"
 
   ls -1 ${CUDACFG_FILEPATH} &>/dev/null || lsd-mod.log.fail "config file does not exists: ${CUDACFG_FILEPATH}${nocolor}"
@@ -381,7 +381,7 @@ function cuda-stack-install.main() {
   lsd-mod.cuda.get__vars
 
   lsd-mod.log.debug "__BUILD_FOR_CUDA_VER: ${__BUILD_FOR_CUDA_VER}"
-  lsd-mod.log.debug "__LINUX_DISTRIBUTION: ${__LINUX_DISTRIBUTION}"
+  lsd-mod.log.debug "__LINUX_DISTRIBUTION_TR: ${__LINUX_DISTRIBUTION_TR}"
   lsd-mod.log.debug "OS: ${OS}"
   lsd-mod.log.debug "CUDA_OS_REL: ${CUDA_OS_REL}"
   lsd-mod.log.debug "CUDA_VER: ${CUDA_VER}"
@@ -419,7 +419,7 @@ function cuda-stack-install.main() {
   _msg="Skipping adding ${_prog} repo!"
   lsd-mod.fio.yesno_${_default} "${_que}" && {
     lsd-mod.log.echo "Adding ${_prog} repo..."
-    ${_prog}-addrepo "${__LINUX_DISTRIBUTION}"
+    ${_prog}-addrepo "${__LINUX_DISTRIBUTION_TR}"
   } || lsd-mod.log.echo "${_msg}"
 
   _que="Install ${_prog} now"
