@@ -9,6 +9,7 @@
 ## References:
 ## * http://www.gis-blog.com/how-to-install-postgis-2-3-on-ubuntu-16-04-lts/
 ## * https://packages.ubuntu.com/xenial/postgresql-server-dev-9.5
+## * https://stackoverflow.com/questions/2172569/how-do-i-login-and-authenticate-to-postgresql-after-a-fresh-install
 ###----------------------------------------------------------
 
 # Note that you can only create new superuser roles if you are creating them as a role that is already a superuser. By default, the postgres role is a superuser.
