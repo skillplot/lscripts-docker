@@ -3,23 +3,19 @@
 ## Copyright (c) 2021 mangalbhaskar. All Rights Reserved.
 ##__author__ = 'mangalbhaskar'
 ##----------------------------------------------------------
-## CUDA Stack 11.0, Nvidia Driver: 450+
+## CUDA Stack 11.1, Nvidia Driver: 450+
 ## - Do not change the version, if you are not sure what you are doing
 ##----------------------------------------------------------
 
 local OS="ubuntu20.04"
-local NVIDIA_CUDA_IMAGE_NAME="nvidia/cuda"
-## example: https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/7fa2af80.pub
-local NVIDIA_REPO_BASEURL="https://developer.download.nvidia.com/compute"
-local NVIDIA_CUDA_REPO_KEY="7fa2af80.pub"
 local CUDA_OS_REL="ubuntu2004"
 
 ##----------------------------------------------------------
 ## CUDA
 ##----------------------------------------------------------
-local CUDA_VER="11.0"
-local CUDA_PKG="${CUDA_VER}.2-1"
-local CUDA_REL=$(echo ${CUDA_VER} | tr . -) ## 11-0
+local CUDA_VER="11.1"
+local CUDA_PKG="${CUDA_VER}.1-1"
+local CUDA_REL=$(echo ${CUDA_VER} | tr . -) ## 11-1
 local CUDA_VERSION="${CUDA_VER}"
 
 local CUDA_CORE_PKG_VERSION="${CUDA_REL}=${CUDA_PKG}"
@@ -27,27 +23,33 @@ local CUDA_PKG_VERSION="${CUDA_CORE_PKG_VERSION}"
 local CUDA_CUBLAS_PKG_VERSION="${CUDA_PKG_VERSION}"
 
 local NVML_VERSION="${CUDA_PKG_VERSION}"
-local NVML_VERSION="${CUDA_REL}=${CUDA_VER}.167-1"
+local NVML_VERSION="${CUDA_REL}=${CUDA_VER}.74-1"
 
 ##----------------------------------------------------------
 ## cuDNN
 ##----------------------------------------------------------
 local CUDNN_VER="8"
 local CUDNN_MAJOR_VERSION="${CUDNN_VER}"
-local CUDNN_VERSION="8.0.2.39"
+# local CUDNN_VERSION="8.0.4.30"
+local CUDNN_VERSION="8.0.5.39"
 local CUDNN_PKG="${CUDNN_VERSION}-1+cuda${CUDA_VER}"
 
 ##----------------------------------------------------------
 ## NCCL
 ##----------------------------------------------------------
-local NCCL_VERSION="2.7.8"
+# local NCCL_VERSION="2.7.8"
+# local NCCL_VERSION="2.8.3"
+local NCCL_VERSION="2.8.4"
 local NCCL_PKG="${NCCL_VERSION}-1+cuda${CUDA_VER}"
 
 ##----------------------------------------------------------
 ## TensorRT
 ##----------------------------------------------------------
 local TENSORRT_VER="7"
-local LIBNVINFER_PKG="7.1.3-1+cuda${CUDA_VER}"
+# local LIBNVINFER_VERSION="7.2.1"
+# local LIBNVINFER_VERSION="7.2.2"
+local LIBNVINFER_VERSION="7.2.3"
+local LIBNVINFER_PKG="${LIBNVINFER_VERSION}-1+cuda${CUDA_VER}"
 
 ##----------------------------------------------------------
 ## AI Frameworks - Todo
@@ -73,8 +75,9 @@ local BAZEL_URL="https://github.com/bazelbuild/bazel/releases/download/${BAZEL_V
 local __OS="ubuntu20.04"
 local __NVIDIA_WHICHONE="devel" ## base, runtime, devel
 local __NVIDIA_IMAGE_TAG=${CUDA_VER}-${__NVIDIA_WHICHONE}-${__OS}
-## example: 10.0-devel-ubuntu20.04
-local __NVIDIA_BASE_IMAGE="nvidia/cuda:${__NVIDIA_IMAGE_TAG}"
+## example: 11.1-devel-ubuntu20.04
+local __NVIDIA_CUDA_IMAGE_NAME="nvidia/cuda"
+local __NVIDIA_BASE_IMAGE="${__NVIDIA_CUDA_IMAGE_NAME}:${__NVIDIA_IMAGE_TAG}"
 
 local DOCKER_BLD_IMG_TAG="${__NVIDIA_IMAGE_TAG}"
 

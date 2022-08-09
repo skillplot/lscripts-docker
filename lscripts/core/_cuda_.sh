@@ -9,7 +9,6 @@
 
 
 function lsd-mod.cuda.get__vars() {
-
   lsd-mod.log.echo "###----------------------------------------------------------"
   lsd-mod.log.echo "System CFG"
   lsd-mod.log.echo "###----------------------------------------------------------"

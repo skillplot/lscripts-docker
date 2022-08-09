@@ -336,14 +336,8 @@ function cuda-stack-config() {
 }
 
 
-function cuda-stack-install.main() {
+function cuda-stack-install.cuda-config() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
-  source ${LSCRIPTS}/lscripts.config.sh
-
-  local scriptname=$(basename ${BASH_SOURCE[0]})
-  lsd-mod.log.debug "executing script...: ${scriptname} with total params: $#"
-
-
   source ${LSCRIPTS}/core/argparse.sh "$@"
 
   # # [[ "$#" -lt "1" ]] && lsd-mod.log.error "Invalid number of paramerters: minimum required 1 parameter but given: $#"
@@ -385,7 +379,13 @@ function cuda-stack-install.main() {
   lsd-mod.log.debug "OS: ${OS}"
   lsd-mod.log.debug "CUDA_OS_REL: ${CUDA_OS_REL}"
   lsd-mod.log.debug "CUDA_VER: ${CUDA_VER}"
+  lsd-mod.log.echo "###----------------------------------------------------------"
+  lsd-mod.log.ok "Verify cuda-stack versions: ${__CUDA_LOG_FILEPATH}"
+  lsd-mod.log.echo "###----------------------------------------------------------"
+}
 
+
+function cuda-stack-install.options() {
   ## keeping the fail check here and not the beginning because want to print the CUDA stack details
   local _default=no
   local _que
@@ -457,7 +457,23 @@ function cuda-stack-install.main() {
     lsd-mod.log.echo "Verifying..."
     source "${LSCRIPTS}/${_prog}-verify.sh"
   }  || lsd-mod.log.echo "${_msg}"
+}
 
+
+function cuda-stack-install.main() {
+  local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
+  source ${LSCRIPTS}/lscripts.config.sh
+
+  local scriptname=$(basename ${BASH_SOURCE[0]})
+  lsd-mod.log.debug "executing script...: ${scriptname} with total params: $#"
+
+  ## cudacfg
+  cuda-stack-install.cuda-config "$@"
+
+  ##lsd-mod.cuda.cuda-config "$@"
+
+  ## cuda installation menu/options
+  cuda-stack-install.options "$@"
 }
 
 cuda-stack-install.main "$@"

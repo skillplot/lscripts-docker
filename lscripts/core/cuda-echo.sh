@@ -8,9 +8,6 @@
 echo -e "__BUILD_FOR_CUDA_VER=\"${__BUILD_FOR_CUDA_VER}\""
 echo -e "__LINUX_DISTRIBUTION=\"${__LINUX_DISTRIBUTION}\""
 echo -e "OS=\"${OS}\""
-echo -e "NVIDIA_CUDA_IMAGE_NAME=\"${NVIDIA_CUDA_IMAGE_NAME}\""
-echo -e "NVIDIA_REPO_BASEURL=\"${NVIDIA_REPO_BASEURL}\""
-echo -e "NVIDIA_CUDA_REPO_KEY=\"${NVIDIA_CUDA_REPO_KEY}\""
 echo -e "CUDA_OS_REL=\"${CUDA_OS_REL}\""
 
 
@@ -55,7 +52,8 @@ echo -e "BAZEL_URL=\"${BAZEL_URL}\""
 
 
 echo -e "__OS=\"${__OS}\""
-echo -e "__NVIDIA_CUDA_IMAGE_NAME=\"${__NVIDIA_CUDA_IMAGE_NAME}\""
+echo -e "NVIDIA_CUDA_IMAGE_NAME=\"${NVIDIA_CUDA_IMAGE_NAME}\""
+echo -e "__NVIDIA_BASE_IMAGE=\"${__NVIDIA_BASE_IMAGE}\""
 
 echo -e "__PATH=\"${__PATH}\""
 echo -e "__LD_LIBRARY_PATH_1=\"${__LD_LIBRARY_PATH_1}\""

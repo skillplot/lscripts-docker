@@ -29,7 +29,6 @@ local NVML_VERSION="${CUDA_PKG_VERSION}"
 ##----------------------------------------------------------
 local CUDNN_VER="7"
 local CUDNN_MAJOR_VERSION="${CUDNN_VER}"
-## local CUDNN_VERSION="7.6.5.32" ## this installs for 10.2
 local CUDNN_VERSION="7.6.4.38"
 local CUDNN_PKG="${CUDNN_VERSION}-1+cuda${CUDA_VER}"
 
