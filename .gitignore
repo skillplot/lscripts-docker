@@ -127,6 +127,8 @@
 **/.goutputstream-*
 
 ## conventions - these directories not allowed
+**/.cred
+**/.secrets
 **/cache
 **/_site
 **/tmp

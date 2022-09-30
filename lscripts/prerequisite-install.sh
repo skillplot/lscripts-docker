@@ -39,6 +39,8 @@ function prerequisite-install.main() {
   sudo apt -y install libssl-dev libsslcommon2-dev
   sudo apt -y install pkg-config
   sudo apt -y install libglfw3 libglfw3-dev
+  ## noninteractive ssh password provider
+  sudo apt -y install sshpass
 
   ## https://www.pyimagesearch.com/2015/08/24/resolved-matplotlib-figures-not-showing-up-or-displaying/
   ## https://github.com/tctianchi/pyvenn/issues/3

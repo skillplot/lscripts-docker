@@ -71,6 +71,10 @@ Plug 'jistr/vim-nerdtree-tabs'
 Plug 'junegunn/vim-easy-align'
 Plug 'junegunn/vim-github-dashboard'
 
+" LaTeX
+" https://medium.com/rahasak/vim-as-my-latex-editor-f0c5d60c66fa
+Plug 'xuhdev/vim-latex-live-preview'
+
 " Code Folding
 Plug 'tmhedberg/SimpylFold'
 
@@ -143,3 +147,10 @@ nmap <F8> :TagbarToggle<CR>
 " add yaml stuffs
 au! BufNewFile,BufReadPost *.{yaml,yml} set filetype=yaml foldmethod=indent
 autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
+
+" set the vim option updatetime to a smaller value, which is the frequency that the output PDF is updated. This helps to get the live preview of the editing LaTeX file.
+autocmd Filetype tex setl updatetime=1
+
+let g:livepreview_previewer = 'evince'
+
+nmap <F12> :LLPStartPreview<cr>

@@ -23,6 +23,13 @@ function lsd-mod.nvidia.get__vars() {
 }
 
 
+function lsd-mod.nvidia.version() {
+  ## https://stackoverflow.com/questions/40589814/cuda-runtime-version-vs-cuda-driver-version-whats-the-difference
+  modinfo nvidia | grep "^version:" | sed 's/^version: *//;'
+  cat /proc/driver/nvidia/version
+}
+
+
 function lsd-mod.nvidia.get__driver_avail() {
   declare -a nvidia_driver_avail=($(apt-cache search nvidia-driver | grep -Eo "^nvidia-driver-[0-9]+\s" | cut -d'-' -f3 | sort))
   echo "${nvidia_driver_avail[@]}"

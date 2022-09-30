@@ -23,7 +23,7 @@ function latex-editors-apt-install.main() {
   sudo apt -y install kile
   sudo apt -y install gummi
   sudo apt -y install gedit-latex-plugin
-  sudo apt -y install texworks
+  sudo apt -y install texworks texworks-scripting-python texworks-help-en
   #
   ## latexila - LaTeX editor designed for the GNOME desktop
   sudo apt -y install latexila

@@ -238,6 +238,9 @@ local GITLAB_INSTALLER_EE_URL=https://packages.gitlab.com/install/repositories/g
 local GITLAB_INSTALLER_CE_URL=https://packages.gitlab.com/install/repositories/gitlab/gitlab-ce/script.deb.sh
 local GITLAB_INSTALLER_URL=${GITLAB_INSTALLER_CE_URL}
 ##----------------------------------------------------------
+local JENKINS_REPO_KEY_URL="https://pkg.jenkins.io/debian-stable/jenkins.io.key"
+local JENIKS_REPO_BASEURL="http://pkg.jenkins.io/debian-stable"
+##----------------------------------------------------------
 local VIRTUALBOX_REPO_URL="http://download.virtualbox.org/virtualbox/debian"
 ##----------------------------------------------------------
 local PYTHON_VER="3.6.10"

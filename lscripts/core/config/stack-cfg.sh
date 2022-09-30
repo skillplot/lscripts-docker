@@ -155,6 +155,7 @@ declare -a _stack_install_itemwise=(
   "ros-apt"
   "vulkansdk-apt"
   "wine-apt"
+  "jenkins-devops-apt"
   ###----------------------------------------------------------    
   ## "IDEs"
   ###----------------------------------------------------------
