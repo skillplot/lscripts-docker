@@ -71,7 +71,9 @@ function essentials-apt-install.main() {
     libconfig++-dev \
     kino \
     htop \
-    apcalc
+    apcalc \
+    xclip \
+    xsel
 
   ## For gnome Ubuntu >= 17
   sudo apt -y install -y --no-install-recommends \

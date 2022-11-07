@@ -9,6 +9,7 @@
 ## References:
 ## https://stackoverflow.com/questions/7131670/make-a-bash-alias-that-takes-a-parameter
 ## https://stackoverflow.com/questions/2013547/assigning-default-values-to-shell-variables-with-a-single-command-in-bash
+## https://github.com/mrbvrz/cheat-sheet/blob/master/cheat/install-pbcopy-pbpaste-ubuntu.md
 ###----------------------------------------------------------
 
 
@@ -19,6 +20,9 @@ function lsd-lscripts.alias.main() {
   alias l='ls -lrth'
   alias lpwd='ls -d -1 ${PWD}/*'
   alias lpwdf='ls -d -1 ${PWD}/*.*'
+  ##
+  alias pbcopy='xsel --clipboard --input'
+  alias pbpaste='xsel --clipboard --output'
   ###-------
   alias lsd-cd="cd ${LSCRIPTS}"
   ###----------------------------------------------------------
@@ -208,4 +212,5 @@ function lsd-lscripts.alias.main() {
   alias lsd-docs.mkdocs.deploy="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.docs.mkdocs.deploy $@"
   alias lsd-docs.admin.update="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.docs.update $@"
   alias lsd-docs.cmds="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.docs.update.get__cmds $@"
+  alias lsd-docs.markdown2latex="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.docs.pandoc.markdown2latex $@"
 }

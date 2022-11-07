@@ -50,12 +50,14 @@
 !package.json
 #
 !apps/
+!assets/
 !docker/
 !**/data
 !demo/
 !dockerfiles/
 !docs/
 !docs-*/
+!dist/
 !e2e/
 !licenses/
 !requirements/
@@ -143,6 +145,9 @@
 **/mobile
 **/*-mobile
 **/deprecated
+##
+# **/blah/
+# **/blah*
 
 **/external
 **/local
@@ -175,7 +180,7 @@
 **/.DS_Store
 **/.tox
 **/build
-**/dist
+# **/dist
 **/bin
 **/.Trashes
 

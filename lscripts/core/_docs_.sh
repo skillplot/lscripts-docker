@@ -48,6 +48,15 @@ function lsd-mod.docs.mkdocs() {
   )
 }
 
+function lsd-mod.docs.pandoc.markdown2latex() {
+  type pandoc &>/dev/null && {
+    ## pbpaste: xsel --clipboard --output
+    ## pbcopy: xsel --clipboard --input
+    xsel --clipboard --output | pandoc -f markdown -t latex | sed -e 's/\\tightlist//'  | xsel --clipboard --input &&
+      lsd-mod.log.echo "Converted LaTeX is also copied to clipboard.\n\n"
+      xsel --clipboard --output
+  } || lsd-mod.log.echo "pandoc is not installed! Use: lsd-install.pandoc-wget-dpkg"
+}
 
 function lsd-mod.docs.mkdocs.link() {
   local www_root="$HOME/public_html"

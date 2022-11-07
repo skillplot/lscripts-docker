@@ -22,8 +22,7 @@ title: Lscripts
 description: >- # this means to ignore newlines until "baseurl:"
   Develop a perspective of what happens when shell scripts limits are pushed to be used in conjunction with machine learning and deep learning projects. When the shell scripts and the command line tools are combined with python it provide for the powerful triad for a cadence.
 baseurl: "" # the subpath of your site, e.g. /blog
-# url: "https://www.skillplot.org" # the base hostname & protocol for your site, e.g. http://example.com
-# email: skillplot@gmail.com
+# url: "https://lscripts.skillplot.org" # the base hostname & protocol for your site, e.g. http://example.com
 # twitter_username: theskillplot
 # github_username:  "skillplot/lscripts-docker"
 
@@ -90,7 +89,7 @@ include:
   - _pages
   - _posts
 
-exclude: 
+exclude:
   - node_modules
   - changelog.md
   - LICENSE.txt
@@ -98,3 +97,4 @@ exclude:
   - CREDITS.md
   - Gemfile
   - Gemfile.lock
+  - vendor
