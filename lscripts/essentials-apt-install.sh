@@ -17,7 +17,7 @@
 
 function essentials-apt-install.main() {
   ##sudo apt -y update
-  sudo apt -y install -y --no-install-recommends \
+  sudo apt -y install --no-install-recommends \
     libcurl3-dev \
     libfreetype6-dev \
     libhdf5-serial-dev \
@@ -54,9 +54,9 @@ function essentials-apt-install.main() {
     exuberant-ctags \
     cmake-curses-gui
 
-  # sudo apt -y install -y --no-install-recommends locales
+  # sudo apt -y install --no-install-recommends locales
 
-  sudo apt -y install -y --no-install-recommends \
+  sudo apt -y install --no-install-recommends \
     uuid \
     automake \
     locate \
@@ -76,20 +76,20 @@ function essentials-apt-install.main() {
     xsel
 
   ## For gnome Ubuntu >= 17
-  sudo apt -y install -y --no-install-recommends \
+  sudo apt -y install --no-install-recommends \
     gnome-tweak-tool
 
   ## sudo apt install gnome-shell-extension-weather
   ## start gnome-tweaks by
   # gnome-tweaks
 
-  sudo apt -y install -y --no-install-recommends \
+  sudo apt -y install --no-install-recommends \
     dconf-editor \
     openvpn \
     neofetch \
     libcanberra-gtk-module
 
-  # sudo apt -y install -y --no-install-recommends \
+  # sudo apt -y install --no-install-recommends \
   #   subversion
 
   [[ ${LINUX_ID} == 'Kali' ]] && (
