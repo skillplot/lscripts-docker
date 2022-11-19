@@ -23,13 +23,12 @@ function lsd-lscripts.install.__itemwise() {
     # _item_filepath="${LSCRIPTS}/${_item}-install.sh"
 
   ## dynamically gets the install script names
-  declare -a fnames=($(ls -1 *-install.sh | sort))
-  for _item in "${fnames[@]}";do
-    # lsd-mod.log.info ${_item}
-    # _item=$(echo "${_item}" | sed 's/\-install\.sh//g')
-    _item_filepath="${LSCRIPTS}/${_item}"
-    # lsd-mod.log.echo "Checking for installer..." && \
+  declare -a fnames=($(ls -1 ${LSCRIPTS}/*-install.sh | sort))
+  for _item_filepath in "${fnames[@]}";do
+    # lsd-mod.log.echo ${_item_filepath}
+    # _item_filepath="${LSCRIPTS}/${_item}"
     ls -1 "${_item_filepath}" &>/dev/null && {
+      _item=$(basename ${_item_filepath})
       _item=${_item%-install.*}
       # lsd-mod.log.echo "_item:${_item}"
       ## create alias

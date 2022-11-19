@@ -12,6 +12,7 @@
 
 
 function mosquitto-configure() {
+  echo 'todo'
   # sudo vi /etc/mosquitto/mosquitto.conf
 
   # sudo service mosquitto start
@@ -29,7 +30,6 @@ function mosquitto-configure() {
 
   # sudo mosquitto_passwd -c /etc/mosquitto/pwfile <username>
 }
-
 
 function mosquitto-install.main() {
   sudo apt -y update
