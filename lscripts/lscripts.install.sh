@@ -4,17 +4,34 @@
 ##__author__ = 'mangalbhaskar'
 ###----------------------------------------------------------
 ## Create install scripts alias
+#
+## References
+# * https://stackoverflow.com/questions/20164917/variable-substitution-to-get-the-file-name-and-extension-in-bash
+#
+# ${filename%.*}   
+# # % Deletes shortest match of pattern ".*" from back of "filename".
+#
+# ${filename#*.}   
+# # Deletes the pattern '*.' from front of filename i.e. removes the name
 ###----------------------------------------------------------
 
 
 function lsd-lscripts.install.__itemwise() {
   local _item
   local _item_filepath
-  for _item in "${_stack_install_itemwise[@]}";do
+  # for _item in "${_stack_install_itemwise[@]}";do
+    # _item_filepath="${LSCRIPTS}/${_item}-install.sh"
+
+  ## dynamically gets the install script names
+  declare -a fnames=($(ls -1 *-install.sh | sort))
+  for _item in "${fnames[@]}";do
     # lsd-mod.log.info ${_item}
-    _item_filepath="${LSCRIPTS}/${_item}-install.sh"
+    # _item=$(echo "${_item}" | sed 's/\-install\.sh//g')
+    _item_filepath="${LSCRIPTS}/${_item}"
     # lsd-mod.log.echo "Checking for installer..." && \
     ls -1 "${_item_filepath}" &>/dev/null && {
+      _item=${_item%-install.*}
+      # lsd-mod.log.echo "_item:${_item}"
       ## create alias
       alias lsd-install.${_item}="source ${_item_filepath} $@"
     } || lsd-mod.log.error "Installer not found: ${_item}!"
@@ -91,7 +108,9 @@ function lsd-lscripts.install.__menu() {
 
 function lsd-lscripts.install.main() {
   local LSCRIPTS="$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )"
+  source "${LSCRIPTS}/core/_log_.sh"
   source "${LSCRIPTS}/core/config/stack-cfg.sh"
+
   # source "${LSCRIPTS}/_common_.sh"
   # lsd-mod.log.warn "Create installer alias ${FUNCNAME[0]}!"
 

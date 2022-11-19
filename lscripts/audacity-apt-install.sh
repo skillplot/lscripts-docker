@@ -11,7 +11,7 @@
 ###----------------------------------------------------------
 
 
-function audacity-apt-install() {
+function audacity-install.main() {
   ## Ubuntu 16.04
   # sudo add-apt-repository -y ppa:ubuntuhandbook1/audacity
   # sudo apt -y update
@@ -21,4 +21,4 @@ function audacity-apt-install() {
   sudo apt -y install audacity audacity-data
 }
 
-audacity-apt-install "$@"
+audacity-install.main "$@"

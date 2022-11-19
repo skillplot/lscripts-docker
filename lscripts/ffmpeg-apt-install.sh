@@ -14,7 +14,7 @@
 ###----------------------------------------------------------
 
 
-function ffmpeg-apt-install.main() {
+function ffmpeg-install.main() {
   #sudo apt-get --purge ffmpeg
   #sudo apt -y install ppa-purge
 
@@ -31,4 +31,4 @@ function ffmpeg-apt-install.main() {
   sudo apt -y install ffmpeg
 }
 
-ffmpeg-apt-install.main
+ffmpeg-install.main "$@"
