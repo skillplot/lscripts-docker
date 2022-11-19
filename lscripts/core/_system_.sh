@@ -273,10 +273,12 @@ function lsd-mod.system.get__osinfo() {
   local id=$(. /etc/os-release;echo ${ID})
   local version_id=$(. /etc/os-release;echo ${VERSION_ID})
   local distribution=$(. /etc/os-release;echo ${ID}${VERSION_ID})
+  local version_codename=$(. /etc/os-release;echo ${VERSION_CODENAME})
 
-  echo ${id}
-  echo ${version_id}
-  echo ${distribution}
+  echo "id: ${id}"
+  echo "version_id: ${version_id}"
+  echo "distribution: ${distribution}"
+  echo "version_codename: ${version_codename}"
 }
 
 

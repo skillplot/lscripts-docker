@@ -43,6 +43,14 @@ function __php-install() {
     sudo apt purge ${_php} ${_php}-common
   fi
 
+  ## bullseye for RPI
+  if [[ ${LINUX_CODE_NAME} == "bullseye" ]]; then
+    echo ${LINUX_CODE_NAME}
+    sudo wget -qO /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg
+    # echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | sudo tee /etc/apt/sources.list.d/php.list
+    echo "deb https://packages.sury.org/php/ ${LINUX_CODE_NAME} main" | sudo tee /etc/apt/sources.list.d/php.list
+  fi
+
   sudo apt -y install curl git
   sudo apt -y install ${_php} ${_php}-cli
 
