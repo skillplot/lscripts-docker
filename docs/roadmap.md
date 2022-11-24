@@ -35,3 +35,10 @@
 * Cuda installer issues
   * lsd-stack.nvidia ==> cuda installer expects cuda version to be installed
   * cuda stack for ubuntu 20.04 still needs to add 18.04 OS distribution repo
+
+
+## 24th-Nov-2022
+
+* invent the mechanism to enable module on-demand rather then enabling all
+* lazy initialization to speed up bootup time when opening the terminal
+* disable banner from environment variable - though it will be an issue to tell if framework is enabled on not

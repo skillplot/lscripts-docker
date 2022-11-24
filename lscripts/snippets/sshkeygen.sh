@@ -13,6 +13,12 @@
 ###----------------------------------------------------------
 
 
+function sshkeygen.remove() {
+  local _ip=$1
+  ssh-keygen -f "$HOME/.ssh/known_hosts" -R "${_ip}"
+}
+
+
 ## wip: work-in-progress
 function sshkeygen.main() {
   ssh-keygen -t ed25519 -C "<comment>"
