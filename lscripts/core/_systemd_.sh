@@ -15,6 +15,29 @@ function lsd-mod.systemd.get__vars() {
 }
 
 
+function lsd-mod.systemd.list.enabled() {
+  systemctl list-unit-files --state=enabled
+}
+
+
+function lsd-mod.systemd.list.running() {
+  # To list all the systemd service which are in state=active and sub=running
+  systemctl list-units --type=service --state=running
+}
+
+
+function lsd-mod.systemd.list.active() {
+  # To list all the systemd serice which are in state=active and sub either running or exited
+  systemctl list-units --type=service --state=active
+}
+
+
+function lsd-mod.systemd.list.all() {
+  ## Listing Installed Unit Files
+  systemctl list-unit-files --type=service
+}
+
+
 function lsd-mod.systemd.nvm.create-service-config() {
   local _appname=$(basename $PWD)
   local _servicename="$1"

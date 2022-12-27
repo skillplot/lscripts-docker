@@ -213,4 +213,12 @@ function lsd-lscripts.alias.main() {
   alias lsd-docs.admin.update="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.docs.update $@"
   alias lsd-docs.cmds="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.docs.update.get__cmds $@"
   alias lsd-docs.markdown2latex="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.docs.pandoc.markdown2latex $@"
+  ###----------------------------------------------------------
+  ## lsd-systemd => _systemd_ module
+  ###----------------------------------------------------------
+  alias lsd-systemd.list.enabled="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.systemd.list.enabled $@"
+  alias lsd-systemd.list.running="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.systemd.list.running $@"
+  alias lsd-systemd.list.active="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.systemd.list.active $@"
+  alias lsd-systemd.list.all="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.systemd.list.all $@"
+  alias lsd-systemd.nvm-config="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.systemd.nvm.create-service-config $@"
 }
