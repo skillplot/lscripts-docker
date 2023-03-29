@@ -3,6 +3,10 @@
 ## Copyright (c) 2021 mangalbhaskar. All Rights Reserved.
 ##__author__ = 'mangalbhaskar'
 ###----------------------------------------------------------
+#
+## References:
+## https://www.linode.com/docs/guides/introduction-to-systemctl/#listing-installed-unit-files
+###----------------------------------------------------------
 
 
 function lsd-mod.systemd.get__vars() {
@@ -15,26 +19,38 @@ function lsd-mod.systemd.get__vars() {
 }
 
 
-function lsd-mod.systemd.list.enabled() {
+function lsd-mod.systemd.list-dependencies() {
+  ## To display a list of a unit file’s dependencies, use the list-dependencies command:
+  systemctl list-dependencies "$1"
+}
+
+
+function lsd-mod.systemd.list-enabled() {
   systemctl list-unit-files --state=enabled
 }
 
 
-function lsd-mod.systemd.list.running() {
+function lsd-mod.systemd.list-running() {
   # To list all the systemd service which are in state=active and sub=running
   systemctl list-units --type=service --state=running
 }
 
 
-function lsd-mod.systemd.list.active() {
+function lsd-mod.systemd.list-active() {
   # To list all the systemd serice which are in state=active and sub either running or exited
   systemctl list-units --type=service --state=active
 }
 
 
-function lsd-mod.systemd.list.all() {
+function lsd-mod.systemd.list-all() {
   ## Listing Installed Unit Files
   systemctl list-unit-files --type=service
+}
+
+
+function lsd-mod.systemd.cat() {
+  ## To view the contents of a unit file, run the cat command
+  systemctl cat "$1"
 }
 
 

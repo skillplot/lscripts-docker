@@ -216,9 +216,12 @@ function lsd-lscripts.alias.main() {
   ###----------------------------------------------------------
   ## lsd-systemd => _systemd_ module
   ###----------------------------------------------------------
-  alias lsd-systemd.list.enabled="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.systemd.list.enabled $@"
-  alias lsd-systemd.list.running="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.systemd.list.running $@"
-  alias lsd-systemd.list.active="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.systemd.list.active $@"
-  alias lsd-systemd.list.all="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.systemd.list.all $@"
+  alias lsd-systemd.list-enabled="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.systemd.list-enabled"
+  alias lsd-systemd.list-running="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.systemd.list-running"
+  alias lsd-systemd.list-active="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.systemd.list-active"
+  alias lsd-systemd.list-all="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.systemd.list-all"
+  #
+  alias lsd-systemd.list-dependencies="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.systemd.list-dependencies $@"
+  alias lsd-systemd.cat="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.systemd.cat $@"
   alias lsd-systemd.nvm-config="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.systemd.nvm.create-service-config $@"
 }
