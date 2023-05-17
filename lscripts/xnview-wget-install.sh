@@ -19,7 +19,7 @@ function xnview-wget-install.main() {
   local URL=https://download.xnview.com/${FILE}
   source ${LSCRIPTS}/partials/wget.sh
 
-  sudo dpkg -i ${_LSD__DOWNLOADS_HOME}/${FILE}
+  source ${LSCRIPTS}/partials/dpkg.install.sh
 
 }
 

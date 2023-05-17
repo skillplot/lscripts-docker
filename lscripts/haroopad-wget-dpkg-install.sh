@@ -41,7 +41,7 @@ function haroopad-wget-dpkg-install.main() {
 
   source ${LSCRIPTS}/partials/wget.sh
 
-  sudo dpkg -i "${_LSD__DOWNLOADS_HOME}/${FILE}"
+  source ${LSCRIPTS}/partials/dpkg.install.sh
 }
 
 haroopad-wget-dpkg-install.main "$@"

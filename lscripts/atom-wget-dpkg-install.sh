@@ -43,9 +43,11 @@ function atom-wget-dpkg-install() {
 
   source ${LSCRIPTS}/partials/wget.sh
 
-  sudo dpkg -i "${_LSD__DOWNLOADS_HOME}/${FILE}" 2>/dev/null
+  source ${LSCRIPTS}/partials/dpkg.install.sh
+  # sudo dpkg -i "${_LSD__DOWNLOADS_HOME}/${FILE}" 2>/dev/null
   sudo apt --fix-broken -y install
-  sudo dpkg -i "${_LSD__DOWNLOADS_HOME}/${FILE}" 2>/dev/null
+  # sudo dpkg -i "${_LSD__DOWNLOADS_HOME}/${FILE}" 2>/dev/null
+  source ${LSCRIPTS}/partials/dpkg.install.sh
 }
 
 atom-wget-dpkg-install "$@"

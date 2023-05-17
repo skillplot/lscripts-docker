@@ -41,8 +41,7 @@ function pandoc-wget-dpkg-install.main() {
   echo "PROG_DIR: ${PROG_DIR}"
 
   source ${LSCRIPTS}/partials/wget.sh
-
-  sudo dpkg -i "${_LSD__DOWNLOADS_HOME}/${FILE}"
+  source ${LSCRIPTS}/partials/dpkg.install.sh
 
   # tar xvzf "${_LSD__DOWNLOADS_HOME}/${FILE}" --strip-components 1 -C "/usr/local"
 }
