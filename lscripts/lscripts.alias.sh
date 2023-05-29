@@ -31,6 +31,8 @@ function lsd-lscripts.alias.main() {
   alias lsd-python.venv.name="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.python.venv.name $@"
   alias lsd-python.venv.list="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.python.venv.list $@"
   alias lsd-python.path="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.python.path $@"
+  alias lsd-python.list="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.python.list $@"
+  alias lsd-python.find_vers="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.python.find_vers $@"
   ##
   # alias lsd-python.create.virtualenv="source ${LSCRIPTS}/python-virtualenvwrapper-install.sh"
   alias lsd-python.create.virtualenv="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.python.virtualenvwrapper.create"

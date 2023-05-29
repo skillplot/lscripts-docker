@@ -1,8 +1,8 @@
 ---
 title: All Commands
 description: List of all commands for Lscripts Docker
-date: 2022-07-28 00:50:35
-last_updated: 00:50:35, 28-Jul-2022, Thursday
+date: 2023-05-30 01:48:11
+last_updated: 01:48:11, 30-May-2023, Tuesday
 note: Auto generated file and will be overwritten
 ---
 
@@ -78,16 +78,19 @@ lsd-docker.image.build
 lsd-docker.osvers
 lsd-docs.admin.update
 lsd-docs.cmds
+lsd-docs.markdown2latex
 lsd-docs.mkdocs
 lsd-docs.mkdocs.deploy
 lsd-docs.mkdocs.link
 lsd-git.pull
 lsd-git.repo-pull
+lsd-install.android-studio-wget
 lsd-install.apache2
 lsd-install.asciidoc-clone
 lsd-install.atom-wget-dpkg
 lsd-install.audacity-apt
 lsd-install.balenaetcher-apt
+lsd-install.chrootjail
 lsd-install.core-apt
 lsd-install.couchdb-apt
 lsd-install.cuda-stack
@@ -108,6 +111,7 @@ lsd-install.gcc-apt
 lsd-install.ghostwriter-apt
 lsd-install.gimp-graphics-apt
 lsd-install.gitlab-apt
+lsd-install.gitlfs-wget
 lsd-install.golang
 lsd-install.handbrake-ppa
 lsd-install.haroopad-wget-dpkg
@@ -118,6 +122,7 @@ lsd-install.imageviewer-cmdline-apt
 lsd-install.inkscape-graphics-apt
 lsd-install.inotifytools-apt
 lsd-install.java-apt
+lsd-install.jenkins-devops-apt
 lsd-install.kafka-wget-dpkg
 lsd-install.kodi-multimedia-apt
 lsd-install.krita-ppa
@@ -127,9 +132,12 @@ lsd-install.librecad-ppa
 lsd-install.lyx-ppa
 lsd-install.makehuman3d-ppa
 lsd-install.mongodb-apt
+lsd-install.mosquitto-apt
 lsd-install.mysql-apt
 lsd-install.nginx-apt
 lsd-install.nodejs
+lsd-install.nprobe-wget
+lsd-install.ns3-wget-tar
 lsd-install.nvidia-container-toolkit
 lsd-install.nvidia-driver
 lsd-install.nvm
@@ -140,15 +148,19 @@ lsd-install.openshot-ppa
 lsd-install.openvpn-apt
 lsd-install.pandoc-wget-dpkg
 lsd-install.php
+lsd-install.php_composer
 lsd-install.pitvi-flatpak
 lsd-install.postgres-postgis-apt
 lsd-install.postman-testing-snap
 lsd-install.prerequisite
 lsd-install.prerequisite-opencv
 lsd-install.prerequisite-pcl
+lsd-install.prerequisite_lite
 lsd-install.pycharm-snap
 lsd-install.python
+lsd-install.python-pyenv
 lsd-install.python-virtualenvwrapper
+lsd-install.python-wget
 lsd-install.qgis3-apt
 lsd-install.qgis3-clone
 lsd-install.rasdamandb-apt
@@ -161,6 +173,7 @@ lsd-install.shotcut-wget
 lsd-install.shutter-ppa
 lsd-install.simplescreenrecorder-ppa
 lsd-install.slowmovideo-ppa
+lsd-install.sona-nexus-repomanagement-wget
 lsd-install.stacer-apt
 lsd-install.sublime-apt
 lsd-install.sublimemerge-apt
@@ -177,6 +190,7 @@ lsd-install.vscode-apt
 lsd-install.vulkansdk-apt
 lsd-install.wine-apt
 lsd-install.xnview-wget
+lsd-install.xournal-apt
 lsd-install.yarn-apt
 lsd-install.youtubedl-apt
 lsd-install.zookeeper-wget
@@ -185,7 +199,9 @@ lsd-nvidia.driver.avail
 lsd-nvidia.gpu.info
 lsd-nvidia.gpu.stats
 lsd-python.create.virtualenv
+lsd-python.find_vers
 lsd-python.kill
+lsd-python.list
 lsd-python.ls.egg
 lsd-python.ls.pycache
 lsd-python.path
@@ -224,6 +240,13 @@ lsd-system.df.json
 lsd-system.info
 lsd-system.ip
 lsd-system.osinfo
+lsd-systemd.cat
+lsd-systemd.list-active
+lsd-systemd.list-all
+lsd-systemd.list-dependencies
+lsd-systemd.list-enabled
+lsd-systemd.list-running
+lsd-systemd.nvm-config
 lsd-test.argparse
 lsd-test.cuda_config_supported
 lsd-test.dir

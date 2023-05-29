@@ -222,6 +222,8 @@ local SHOTCUT_REL="v19.12.31"
 local GRAFANA_VER="6.4.4"
 ##----------------------------------------------------------
 local GITLFS_VER="v2.6.1"
+local GITLFS_VER="3.2.0" ## v3.2.0
+local GITLFS_VER="3.3.0" ## v3.3.0
 ##----------------------------------------------------------
 local ZOOKEEPER_VER="3.5.8"
 # local ZOOKEEPER_VER="3.6.1"

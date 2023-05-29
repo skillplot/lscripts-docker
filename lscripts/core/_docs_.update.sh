@@ -24,6 +24,8 @@ function lsd-mod.docs.update.cmds() {
 
 
   lsd-mod.log.info "cmds_filepath: ${cmds_filepath}"
+  touch ${cmds_filepath} &>/dev/null
+
   ## Todo: check if git root
   [[ -f "${cmds_filepath}" ]] && {
     [[ "${host_dir_name}" == "lscripts-docker" ]] &&  {

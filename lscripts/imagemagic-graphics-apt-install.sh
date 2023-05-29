@@ -17,6 +17,7 @@ function imagemagic-graphics-apt-install.main() {
   apt-cache showpkg imagemagick
   sudo apt -y update
   sudo apt -y install imagemagick
+  sudo apt -y install graphicsmagick
   ## for php
   sudo apt -y install php-imagick
 }

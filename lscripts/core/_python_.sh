@@ -38,6 +38,29 @@ function lsd-mod.python.virtualenvwrapper.config() {
 }
 
 
+function lsd-mod.python.list() {
+  ls -1 /usr/bin/python[1-9].[1-9] && ls -1 /usr/local/bin/python[1-9].[1-9]
+}
+
+
+function lsd-mod.python.find_vers() {
+  local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
+  source ${LSCRIPTS}/argparse.sh "$@"
+
+  local version
+  [[ -n "${args['version']+1}" ]] && version=${args['version']}
+
+  [[ -z ${version} ]] && {
+    local _versions=$(curl -s https://www.python.org/ftp/python/  | sed 's/^.*">//;s/<.*//' | sed 's/\///' | grep ^[1-9].[1-9])
+    echo "${_versions}"
+  } || {
+    lsd-mod.log.echo "searching for version: ${version}"
+    local _match=$(curl -s https://www.python.org/ftp/python/  | sed 's/^.*">//;s/<.*//' | sed 's/\///' | grep ^[1-9].[1-9] | grep ${version})
+    [[ -z ${_match} ]] && echo "-1" || echo "${_match}"
+  }
+}
+
+
 function lsd-mod.python.path() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
   local scriptname=$(basename ${BASH_SOURCE[0]})

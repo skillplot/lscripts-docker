@@ -84,6 +84,7 @@ function qgis3-addrepo-key() {
   # wget -qO - https://qgis.org/downloads/qgis-2021.gpg.key | sudo gpg --no-default-keyring --keyring gnupg-ring:/etc/apt/trusted.gpg.d/qgis-archive.gpg --import
   wget -qO - https://qgis.org/downloads/qgis-$(date +%Y).gpg.key | sudo gpg --no-default-keyring --keyring gnupg-ring:/etc/apt/trusted.gpg.d/qgis-archive.gpg --import
   sudo chmod a+r /etc/apt/trusted.gpg.d/qgis-archive.gpg
+  ## 2022 - check for latest year; no key does not exists; roll back
 }
 
 
