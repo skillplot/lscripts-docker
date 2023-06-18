@@ -8,6 +8,8 @@
 ## References:
 ## * https://realpython.com/intro-to-pyenv/
 ## * https://medium.com/python-programming-at-work/multiple-python-versions-with-pyenv-266e1801ff3d
+## * https://gist.github.com/mttmantovani/a8b820a9ccc673f6ec7265d234000635
+## * https://github.com/pyenv/pyenv-virtualenvwrapper
 #
 ## * pyenv manages multiple versions of Python itself.
 ## * virtualenv/venv manages virtual environments for a specific Python version.
@@ -15,6 +17,13 @@
 #
 ## ```
 ## pyenv global system
+## pyenv versions
+### Install specific python version
+## pyenv install 3.6.15
+### Activate specific to a terminal only
+## pyenv shell 3.6.15
+## Install virtualenv virtualenvwrapper
+## pip install virtualenv virtualenvwrapper
 ## ```
 ###----------------------------------------------------------
 
@@ -43,7 +52,7 @@ function python-pyenv-prequiresite() {
 
 
 function __python-pyenv-install() {
-  export PYENV_ROOT="${__AIMLHUB_ROOT__}/.pyenv"
+  export PYENV_ROOT="${__DATAHUB_ROOT__}/.pyenv"
   curl -s -S -L https://raw.githubusercontent.com/pyenv/pyenv-installer/master/bin/pyenv-installer | bash
 }
 
@@ -56,18 +65,21 @@ function python-pyenv-config() {
   local LINE
   local FILE=${_LSD__BASHRC_FILE}
 
-  export PYENV_ROOT="${__AIMLHUB_ROOT__}/.pyenv"
+  export PYENV_ROOT="${__DATAHUB_ROOT__}/.pyenv"
   # LINE='export PYENV_ROOT="${HOME}/.pyenv"'
-  LINE='export PYENV_ROOT="${__AIMLHUB_ROOT__}/.pyenv"'
+  LINE='export PYENV_ROOT="${__DATAHUB_ROOT__}/.pyenv"'
   grep -qF "$LINE" "$FILE" || echo "$LINE" >> "$FILE"
 
   LINE='export PATH="${PYENV_ROOT}/bin:$PATH"'
   grep -qF "$LINE" "$FILE" || echo "$LINE" >> "$FILE"
 
-  LINE='eval "$(pyenv init -)"'
+  LINE='type pyenv &>/dev/null && eval "$(pyenv init -)"'
   grep -qF "$LINE" "$FILE" || echo "$LINE" >> "$FILE"
 
-  LINE='eval "$(pyenv virtualenv-init -)"'
+  # LINE='export PYENV_VIRTUALENVWRAPPER_PREFER_PYENV="true"'
+  # grep -qF "$LINE" "$FILE" || echo "$LINE" >> "$FILE"
+
+  LINE='type pyenv &>/dev/null && eval "$(pyenv virtualenv-init -)"'
   grep -qF "$LINE" "$FILE" || echo "$LINE" >> "$FILE"
 
   # this will work only if the script is invoked with `source` command
@@ -77,7 +89,7 @@ function python-pyenv-config() {
 
 function python-pyenv-list() {
   type pyenv &>/dev/null && pyenv install --list | grep " 3\.[678]" || {
-    echo "pyenv not installed or configured properly"
+    lsd-mod.log.echo "pyenv not installed or configured properly"
   }
 }
 
@@ -142,6 +154,9 @@ function python-pyenv-main() {
     local FILE=${_LSD__BASHRC_FILE}
 
     source ${FILE}
+
+    # exec "$SHELL"
+
 
     lsd-mod.log.echo "Listing..."
     ${_prog}-list "$@"

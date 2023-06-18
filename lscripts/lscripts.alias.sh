@@ -43,6 +43,8 @@ function lsd-lscripts.alias.main() {
   alias lsd-python.ls.egg="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.utils.ls.egg"
   alias lsd-python.rm.pycache="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.utils.rm.pycache"
   alias lsd-python.rm.egg="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.utils.rm.egg"
+  ##
+  alias lsd-python.libs.test-pytorch="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.python.libs.test-pytorch $@"
   ###----------------------------------------------------------
   ## lsd-admin
   ###----------------------------------------------------------

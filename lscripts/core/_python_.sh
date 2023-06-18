@@ -213,7 +213,6 @@ function lsd-mod.python.virtualenvwrapper.test() {
   } || lsd-mod.log.error "_LSD__PYVENV_PATH does not exists: ${_LSD__PYVENV_PATH}"
 }
 
-
 function lsd-mod.python.virtualenvwrapper.create() {
   local py=python3
   local pyPath
@@ -259,4 +258,9 @@ function lsd-mod.python.virtualenvwrapper.create() {
     lsd-mod.log.error "${_cmd} not installed or corrupted!"
     # return -1
   }
+}
+
+
+function lsd-mod.python.libs.test-pytorch() {
+  python -c 'import torch; print(torch.rand(5, 3)); print(torch.cuda.is_available())'
 }
