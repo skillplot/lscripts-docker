@@ -35,8 +35,10 @@ function lsd-lscripts.alias.main() {
   alias lsd-python.find_vers="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.python.find_vers $@"
   ##
   # alias lsd-python.create.virtualenv="source ${LSCRIPTS}/python-virtualenvwrapper-install.sh"
-  alias lsd-python.create.virtualenv="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.python.virtualenvwrapper.create"
-  alias lsd-python.test.virtualenv="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.python.virtualenvwrapper.test"
+  alias lsd-python.create.virtualenv="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.python.virtualenvwrapper.create $@"
+  alias lsd-python.test.virtualenv="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.python.virtualenvwrapper.test $@"
+  ##
+  alias lsd-python.create.condaenv="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.python.conda.create $@"
   ##
   alias lsd-python.kill="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.utils.kill.python"
   alias lsd-python.ls.pycache="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.utils.ls.pycache"

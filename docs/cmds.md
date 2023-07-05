@@ -1,8 +1,8 @@
 ---
 title: All Commands
 description: List of all commands for Lscripts Docker
-date: 2023-05-30 01:48:11
-last_updated: 01:48:11, 30-May-2023, Tuesday
+date: 2023-07-06 01:06:54
+last_updated: 01:06:54, 06-Jul-2023, Thursday
 note: Auto generated file and will be overwritten
 ---
 
@@ -90,6 +90,7 @@ lsd-install.asciidoc-clone
 lsd-install.atom-wget-dpkg
 lsd-install.audacity-apt
 lsd-install.balenaetcher-apt
+lsd-install.blender-wget
 lsd-install.chrootjail
 lsd-install.core-apt
 lsd-install.couchdb-apt
@@ -158,6 +159,7 @@ lsd-install.prerequisite-pcl
 lsd-install.prerequisite_lite
 lsd-install.pycharm-snap
 lsd-install.python
+lsd-install.python-miniconda
 lsd-install.python-pyenv
 lsd-install.python-virtualenvwrapper
 lsd-install.python-wget
@@ -198,9 +200,11 @@ lsd-nvidia.cfg
 lsd-nvidia.driver.avail
 lsd-nvidia.gpu.info
 lsd-nvidia.gpu.stats
+lsd-python.create.condaenv
 lsd-python.create.virtualenv
 lsd-python.find_vers
 lsd-python.kill
+lsd-python.libs.test-pytorch
 lsd-python.list
 lsd-python.ls.egg
 lsd-python.ls.pycache

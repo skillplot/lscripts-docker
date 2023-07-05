@@ -5,6 +5,10 @@
 ###----------------------------------------------------------
 ## Python utilities functions
 ###----------------------------------------------------------
+## References
+## * https://docs.conda.io/projects/conda/en/latest/user-guide/concepts/environments.html#why-use-venv-based-virtual-environments
+## * https://stackoverflow.com/questions/36539623/how-do-i-find-the-name-of-the-conda-environment-in-which-my-code-is-running
+###----------------------------------------------------------
 
 
 function lsd-mod.python.virtualenvwrapper.getconfig_file() {
@@ -213,6 +217,71 @@ function lsd-mod.python.virtualenvwrapper.test() {
   } || lsd-mod.log.error "_LSD__PYVENV_PATH does not exists: ${_LSD__PYVENV_PATH}"
 }
 
+
+function lsd-mod.python.conda.create() {
+  local __pyVer
+  local py_env_name
+
+  [[ -n "${args['version']+1}" ]] && __pyVer=${args['version']}
+  lsd-mod.log.echo "args:__pyVer: ${__pyVer}"
+
+  [[ -n "${args['name']+1}" ]] && py_env_name=${args['name']}
+  lsd-mod.log.echo "args:py_env_name: ${py_env_name}"
+
+  ## initialize __pyVer from default system python version if version is not mentioned
+  ## alternatively; could have used two different commands; but then I did not like that option as it is not consistent
+  [[ ! -z ${__pyVer} ]] || {
+    local py=python3
+    local pyPath
+
+    type ${pyPath} &>/dev/null && pyPath=$(which ${py})
+
+    [[ -n "${args['path']+1}" ]] && pyPath=${args['path']}
+    type ${pyPath} &>/dev/null && py=${pyPath}
+
+    pyPath=$(which ${py})
+
+    lsd-mod.log.echo "py: ${py}"
+    lsd-mod.log.echo "pyPath: ${pyPath}"
+
+    type ${pyPath} &>/dev/null
+
+    # pyPath=$(lsd-mod.python.path)
+    lsd-mod.log.debug "pyPath: ${pyPath}"
+
+    __pyVer=$(${pyPath} -c 'import sys; print(".".join(map(str, sys.version_info[:3])))')
+  }
+
+  lsd-mod.log.echo "__pyVer: ${__pyVer}"
+
+  [[ ! -z ${py_env_name} ]] || {
+    py_env_name="py_${__pyVer}_$(date -d now +'%d%m%y_%H%M%S')"
+  }
+
+  lsd-mod.log.echo "py_env_name: ${py_env_name}"
+
+  local _cmd='conda'
+  type ${_cmd} &>/dev/null && {
+    ## list conda environments
+    # conda info --env
+    # conda env list
+    # cat ~/.conda/environments.txt
+
+    conda env list | grep ${py_env_name} &>/dev/null
+    [[ $? -eq 0 ]] && {
+      lsd-mod.log.warn "Already exists: ${py_env_name} folder inside: ${_LSD__PYCONDA_PATH}"
+    } || {
+      lsd-mod.log.warn "Creating: ${py_env_name} folder inside: ${_LSD__PYCONDA_PATH}"
+
+      conda create --name ${py_env_name} -y python=${__pyVer}
+    }
+  } 1>&2 || {
+    lsd-mod.log.error "${_cmd} not installed or corrupted!"
+    # return -1
+  }
+}
+
+
 function lsd-mod.python.virtualenvwrapper.create() {
   local py=python3
   local pyPath
@@ -231,7 +300,7 @@ function lsd-mod.python.virtualenvwrapper.create() {
   type ${pyPath} &>/dev/null
 
   # pyPath=$(lsd-mod.python.path)
-  lsd-mod.log.debug "Creating...pyPath: ${pyPath}"
+  lsd-mod.log.debug "pyPath: ${pyPath}"
 
   local __pyVer=$(${pyPath} -c 'import sys; print("-".join(map(str, sys.version_info[:3])))')
   # local _timestamp=$(lsd-mod.date.get__timestamp)
