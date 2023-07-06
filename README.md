@@ -49,7 +49,7 @@ export LSCRIPTS__EXTERNAL_HOME=""
 
 To install or update `lsd`, you should run the install script. To do that, you may either download and run the script manually, or use the following `cURL` or `Wget` command:
 
-<!-- 
+
 ```bash
 curl -o- https://raw.githubusercontent.com/skillplot/lscripts-docker/main/install.sh | bash
 ```
@@ -63,7 +63,7 @@ Running either of the above commands downloads a script and runs it. The script 
 * zsh: `source ~/.zshrc`
 * ksh: `. ~/.profile`
 
- -->
+
 1. Clone the repo
     ```bash
     git clone https://github.com/skillplot/lscripts-docker.git
