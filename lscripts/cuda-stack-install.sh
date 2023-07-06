@@ -143,7 +143,8 @@ function cuda-stack-addrepo-ubuntu1804() {
 
 function cuda-stack-addrepo-ubuntu2004() {
   local __LINUX_DISTRIBUTION="ubuntu20.04"
-  local __LINUX_DISTRIBUTION_TR="ubuntu1804"
+  # local __LINUX_DISTRIBUTION_TR="ubuntu1804"
+  local __LINUX_DISTRIBUTION_TR="ubuntu2004"
   lsd-mod.log.debug "LINUX_DISTRIBUTION: ${LINUX_DISTRIBUTION}"
   lsd-mod.log.debug "__LINUX_DISTRIBUTION: ${__LINUX_DISTRIBUTION}"
 
@@ -169,7 +170,8 @@ function cuda-stack-addrepo-ubuntu2004() {
 
 function cuda-stack-addrepo-ubuntu2204() {
   local __LINUX_DISTRIBUTION="ubuntu20.04"
-  local __LINUX_DISTRIBUTION_TR="ubuntu1804"
+  # local __LINUX_DISTRIBUTION_TR="ubuntu1804"
+  local __LINUX_DISTRIBUTION_TR="ubuntu2004"
   lsd-mod.log.debug "LINUX_DISTRIBUTION: ${LINUX_DISTRIBUTION}"
   lsd-mod.log.debug "__LINUX_DISTRIBUTION: ${__LINUX_DISTRIBUTION}"
 
@@ -414,14 +416,17 @@ function cuda-stack-install.main() {
   _msg="Skipping adding/updating ${_prog} repo!"
   lsd-mod.fio.yesno_${_default} "${_que}" && {
       lsd-mod.log.echo "Adding/Updating ${_prog} repo key..."
-      ${_prog}-addrepo-key
+      # ${_prog}-addrepo-key
+      lsd-mod.cuda.addrepo-key "$@"
+
   } || lsd-mod.log.echo "${_msg}"
 
   _que="Add ${_prog} repo"
   _msg="Skipping adding ${_prog} repo!"
   lsd-mod.fio.yesno_${_default} "${_que}" && {
     lsd-mod.log.echo "Adding ${_prog} repo..."
-    ${_prog}-addrepo "${__LINUX_DISTRIBUTION_TR}"
+    # ${_prog}-addrepo "${__LINUX_DISTRIBUTION_TR}"
+    lsd-mod.cuda.addrepo "$@"
   } || lsd-mod.log.echo "${_msg}"
 
   _que="Install ${_prog} now"

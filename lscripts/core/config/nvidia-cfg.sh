@@ -30,6 +30,8 @@ local NVIDIA_DRIVER_VER="450"
 local NVIDIA_DRIVER_VER="460"
 local NVIDIA_DRIVER_VER="465"
 local NVIDIA_DRIVER_VER="510"
+## For CUDA 11.8 minimum driver required
+local NVIDIA_DRIVER_VER="525"
 ##
 local NVIDIA_OS_ARCH="x86_64"
 local NVIDIA_CUDA_REPO_KEY="3bf863cc.pub"
