@@ -26,11 +26,33 @@ function __docker-buildimg-mongo() {
     "${DOCKER_CONTEXT}/config" \
     "${DOCKER_CONTEXT}/logs"
 
-  local __cmd__="_docker_.image.build"
+  # local __cmd__="_docker_.image.build"
 
-  local TAG="$(echo ${DOCKERFILE} | sed 's:/*$::' | rev | cut -d'/' -f1 | rev)-$(uname -m)-$(date -d now +'%d%m%y_%H%M%S')"
+  local DOCKER_BLD_IMG_TAG="$(echo ${DOCKERFILE} | sed 's:/*$::' | rev | cut -d'/' -f1 | rev)-$(uname -m)-$(date -d now +'%d%m%y_%H%M%S')"
 
-  ${__cmd__} --tag=${TAG} --tag=${DOCKERFILE} --tag=${DOCKER_CONTEXT}
+  # ${__cmd__} --tag=${DOCKER_BLD_IMG_TAG} --tag=${DOCKERFILE} --tag=${DOCKER_CONTEXT}
+
+  lsd-mod.log.ok "Building new image from\n \
+    DOCKERFILE: ${DOCKERFILE}\n \
+    DOCKER_BLD_IMG_TAG: ${DOCKER_BLD_IMG_TAG}\n \
+    DOCKER_BLD_CONTAINER_IMG: ${DOCKER_BLD_CONTAINER_IMG}"
+
+  lsd-mod.fio.yesno_yes "About to execute docker build, check config and confirm" && {
+    lsd-mod.log.echo "Executing... docker build"
+    ${DOCKER_CMD} build \
+      --build-arg "_SKILL__UUID=${__UUID__}" \
+      --build-arg "_SKILL__LINUX_DISTRIBUTION=${BUILD_FOR_LINUX_DISTRIBUTION}" \
+      --build-arg "_SKILL__DUSER=${DUSER}" \
+      --build-arg "_SKILL__DUSER_ID=${DUSER_ID}" \
+      --build-arg "_SKILL__DUSER_GRP=${DUSER_GRP}" \
+      --build-arg "_SKILL__DUSER_GRP_ID=${DUSER_GRP_ID}" \
+      --build-arg "_SKILL__DOCKER_ROOT_BASEDIR=${_LSD__DOCKER_ROOT}" \
+      --build-arg "_SKILL__MAINTAINER=${DOCKER_BLD_MAINTAINER}" \
+      --build-arg "_SKILL__COPYRIGHT=${_COPYRIGHT_}" \
+      -t ${DOCKER_BLD_CONTAINER_IMG} \
+      -f ${DOCKERFILE} ${DOCKER_CONTEXT} || lsd-mod.log.fail "Internal Error: Build image failed! Check the DOCKERFILE: ${DOCKERFILE}"
+  } || lsd-mod.log.echo "Skipping docker duild at the last moment. Hope to see you soon!"
+
 }
 
 function docker-buildimg-mongo() {
@@ -40,12 +62,19 @@ function docker-buildimg-mongo() {
   }
 
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
-  source ${LSCRIPTS}/lscripts.config.sh
+  source ${LSCRIPTS}/lscripts/lscripts.config.sh
+
+  local scriptname=$(basename ${BASH_SOURCE[0]})
+  local contextname=$(echo "${scriptname%.*}" | cut -d'-' -f3)
+
+  lsd-mod.log.debug "executing script...: ${scriptname} with contextname: ${contextname}"
 
   local _default=yes
   local _que
   local _msg
   local _prog
+
+  local DOCKER_BLD_CONTAINER_IMG="${_LSD__DOCKER_HUB_REPO}:${DOCKER_BLD_IMG_TAG}"
 
   _prog="docker-buildimg-mongo"
 

@@ -31,3 +31,26 @@ find / -size +10M -size -12M -ls
 sudo du -sx /* 2>/dev/null | sort -n
 #
 sudo du -aBM 2>/dev/null | sort -nr | head -n 10
+
+
+
+
+## System I/O
+
+
+sysctl vm.swappiness
+
+sudo sysctl vm.swappiness=80
+
+vm.overcommit_memory = 2
+vm.overcommit_ratio = 10
+
+/etc/sysctl.conf
+
+
+
+free -h
+
+
+ls -al ~/.local/share/gnome-shell/extensions
+
