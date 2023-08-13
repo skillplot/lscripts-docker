@@ -43,13 +43,13 @@ function lsd-mod.fingerprint.command_exists() {
 
 function lsd-mod.fingerprint.install_package_apt() {
   ## Function to install a package using apt (Debian/Ubuntu)
-  sudo apt update -y
-  sudo apt install -y "$1"
+  apt update -y
+  apt install -y "$1"
 }
 
 function lsd-mod.fingerprint.install_package_yum() {
   ## Function to install a package using yum (CentOS/RHEL)
-  sudo yum install -y "$1"
+  yum install -y "$1"
 }
 
 
@@ -208,8 +208,8 @@ function lsd-mod.fingerprint.main() {
     local _que="Insall dependencies to print the ASCII ART banner"
     lsd-mod.fio.yesno_${_default} "${_que}" && {
       echo "Installing..."
-      (>&2 echo -e "Installing figlet... sudo access is required!")
-      lsd-mod.fingerprint.install_package_apt ${_cmd} || install_package_yum ${_cmd}
+      (>&2 echo -e "Installing figlet... root access is required!")
+      lsd-mod.fingerprint.install_package_apt ${_cmd}
     }
   }
 
