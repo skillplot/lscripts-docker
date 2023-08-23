@@ -253,7 +253,7 @@ function lsd-mod.serversetup.main() {
   local _que="Insall minium server setup dependencies!"
   lsd-mod.fio.yesno_${_default} "${_que}" && {
     echo "Installing..."
-    (>&2 echo -e "Installing figlet... root access is required!")
+    (>&2 echo -e "Installing required packages... root access is required!")
     lsd-mod.serversetup.install_package_apt
   }
 

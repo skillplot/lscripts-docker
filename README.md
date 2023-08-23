@@ -84,6 +84,21 @@ command -v lsd-ls
 ```
 
 
+## Standalone Scripts
+
+
+1. Fingerprint Banner: Useful for having system fingerprint displayed while taking screenshots for lab assignments. It can be directly executed with the following command (internet access required)
+    ```bash
+    sudo bash <(curl -s https://raw.githubusercontent.com/skillplot/lscripts-docker/main/lscripts/banners/skplt.fingerprint.sh)
+    ## Otherwise, they can download the script and execute it
+    https://raw.githubusercontent.com/skillplot/lscripts-docker/main/lscripts/banners/skplt.fingerprint.sh
+    ```
+2. Server Setup with Banner: Useful for one click minimum ubuntu system setup
+    ```bash
+    sudo bash <(curl -s https://raw.githubusercontent.com/skillplot/lscripts-docker/main/lscripts/banners/skplt.serversetup.sh)
+    ## Otherwise, they can download the script and execute it
+    https://raw.githubusercontent.com/skillplot/lscripts-docker/main/lscripts/banners/skplt.serversetup.sh
+    ```
 
 ## Copyright and License Terms
 
