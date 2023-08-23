@@ -43,14 +43,14 @@ function lsd-mod.serversetup.command_exists() {
 
 function lsd-mod.serversetup.install_package_apt() {
   ## Function to install a package using apt (Debian/Ubuntu)
-  apt update -y
-  apt install -y "$1"
+  sudo apt update -y
+  sudo apt install -y "$1"
 }
 
 function lsd-mod.serversetup.install_prerequisite_apt() {
   ## Function to install pre-requisite packages using apt (Debian/Ubuntu)
   
-  apt -y update && apt -y install --no-install-recommends \
+  sudo apt -y update && sudo apt -y install --no-install-recommends \
         build-essential \
         apt-transport-https \
         ca-certificates \
@@ -87,7 +87,7 @@ function lsd-mod.serversetup.install_prerequisite_apt() {
         apt-utils 2>/dev/null
 
 
-  apt -y install --no-install-recommends \
+  sudo apt -y install --no-install-recommends \
         uuid \
         automake \
         locate \
