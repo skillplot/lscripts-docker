@@ -42,12 +42,6 @@ function lsd-mod.serversetup.command_exists() {
 }
 
 function lsd-mod.serversetup.install_package_apt() {
-  ## Function to install a package using apt (Debian/Ubuntu)
-  sudo apt update -y
-  sudo apt install -y "$1"
-}
-
-function lsd-mod.serversetup.install_prerequisite_apt() {
   ## Function to install pre-requisite packages using apt (Debian/Ubuntu)
   
   sudo apt -y update && sudo apt -y install --no-install-recommends \
@@ -81,9 +75,9 @@ function lsd-mod.serversetup.install_prerequisite_apt() {
         libtool \
         bc \
         jq \
-        locales \
         openssh-server \
         gcc \
+        figlet \
         apt-utils 2>/dev/null
 
 
@@ -95,26 +89,34 @@ function lsd-mod.serversetup.install_prerequisite_apt() {
         vim-gtk > /dev/null
 }
 
-function lsd-mod.serversetup.install_package_yum() {
-  ## Function to install a package using yum (CentOS/RHEL)
-  yum install -y "$1"
+
+function lsd-mod.serversetup.install_lscripts() {
+  local __codehub_root__="/tmp/codehub"
+  local __lscripts_external__="${__codehub_root__}/external"
+
+  sudo mkdir -p ${__lscripts_external__}
+  sudo chown -R $(id -un):$(id -gn) ${__codehub_root__}
+
+  [[ ! -d "${__lscripts_external__}/lscripts-docker" ]] && {
+    echo '${__lscripts_external__}/lscripts-docker directory not exists.' 
+    echo 'git cloning at ${__lscripts_external__}/lscripts-docker directory.' 
+    git -C ${__lscripts_external__} clone https://github.com/skillplot/lscripts-docker.git
+  }
+
+  local BASHRC_FILE="$HOME/.bashrc"
+  local FILE=${BASHRC_FILE}
+  local LINE
+
+  LINE='export LSCRIPTS_DOCKER="'${__lscripts_external__}'/lscripts-docker"'
+  grep -qF "$LINE" "$FILE" || echo "$LINE" >> "$FILE"
+
+  LINE='[ -f ${LSCRIPTS_DOCKER}/lscripts/lscripts.env.sh ] && source ${LSCRIPTS_DOCKER}/lscripts/lscripts.env.sh'
+  grep -qF "$LINE" "$FILE" || echo "$LINE" >> "$FILE"
+
+  ## this will work only if the script is invoked with `source` command
+  source ${FILE}
+  echo 'Open a new terminal.' 
 }
-
-
-# function lsd-mod.serversetup.install_dependencies() {
-#   ## Function to install required dependencies
-#   # if ! lsd-mod.serversetup.command_exists dmidecode; then
-#   #   echo "dmidecode is not installed. Installing..."
-#   #   lsd-mod.serversetup.install_package_apt dmidecode || install_package_yum dmidecode
-#   # fi
-
-#   local _cmd="figlet"
-#   type ${_cmd} &>/dev/null || {
-#     (>&2 echo -e "figlet is not installed.")
-#     (>&2 echo -e "Installing figlet... sudo access is required!")
-#     lsd-mod.serversetup.install_package_apt ${_cmd} || install_package_yum ${_cmd}
-#   }
-# }
 
 
 function lsd-mod.serversetup.get_mac_address() {
@@ -204,8 +206,8 @@ function lsd-mod.serversetup.display_datetime() {
 }
 
 
-## Function to check if the input is non-empty
 function lsd-mod.serversetup.is_non_empty() {
+  ## Function to check if the input is non-empty
   [ -n "$1" ]
 }
 
@@ -249,15 +251,6 @@ function lsd-mod.serversetup.convert_to_output() {
 function lsd-mod.serversetup.main() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
 
-  local _default=no
-  local _que="Insall minium server setup dependencies!"
-  lsd-mod.fio.yesno_${_default} "${_que}" && {
-    echo "Installing..."
-    (>&2 echo -e "Installing required packages... root access is required!")
-    lsd-mod.serversetup.install_package_apt
-  }
-
-
   # ## Get a valid name
   # local user_name=$(lsd-mod.serversetup.get_valid_input "Enter your name" "lsd-mod.serversetup.is_non_empty")
 
@@ -277,7 +270,28 @@ function lsd-mod.serversetup.main() {
   local combined_info=$(lsd-mod.serversetup.banner.system)
   (>&2 echo -e "$combined_info")
 
-  (>&2 echo -e "Thank you! If this is helpful add star to this repo: https://github.com/skillplot/lscripts-docker.
+  local _default=no
+  local _que="Insall minium server setup dependencies!"
+  lsd-mod.fio.yesno_${_default} "${_que}" && {
+    echo "Installing..."
+    (>&2 echo -e "Installing required packages... root access is required!")
+    lsd-mod.serversetup.install_package_apt
+  }
+
+  local _default=no
+  local _cmd="git"
+  type ${_cmd} &>/dev/null && {
+    local _que="Insall lscripts"
+    lsd-mod.fio.yesno_${_default} "${_que}" && {
+      echo "Installing..."
+      (>&2 echo -e "Installing lscripts...git is requried!")
+      lsd-mod.serversetup.install_lscripts
+    }
+  }
+
+
+
+  (>&2 echo -e "Thank you! If this is helpful add star to this repo: https://github.com/skillplot/lscripts-docker
 ###--------------------------------------------------------------------------")
 }
 
