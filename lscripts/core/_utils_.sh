@@ -15,6 +15,12 @@
 ## General utilities
 ###----------------------------------------------------------
 
+function lsd-mod.utils.size() {
+  du -cksh * | sort -h
+  # du -sh -- * | sort -h
+}
+
+
 function lsd-mod.utils.pid() {
   [[ ! -z $1 ]] && (>&2 echo -e $(pgrep -f $1));
 }

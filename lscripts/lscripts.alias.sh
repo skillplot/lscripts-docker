@@ -189,6 +189,7 @@ function lsd-lscripts.alias.main() {
   ###----------------------------------------------------------
   ## lsd-utils => _utils_ module
   ###----------------------------------------------------------
+  alias lsd-utils.size="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.utils.size"
   alias lsd-utils.pid="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.utils.pid"
   alias lsd-utils.kill="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.utils.kill"
   alias lsd-utils.kill.python="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.utils.kill.python"
