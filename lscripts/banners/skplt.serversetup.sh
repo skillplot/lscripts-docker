@@ -292,6 +292,7 @@ function lsd-mod.serversetup.main() {
 
 
   (>&2 echo -e "Thank you! If this is helpful add star to this repo: https://github.com/skillplot/lscripts-docker
+Next:\n 1) Open new terminal, check if skillplot banner comes, if yes then execute following command:\n lsd-stack.nvidia_cuda_python_docker
 ###--------------------------------------------------------------------------")
 }
 
