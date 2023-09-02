@@ -109,6 +109,18 @@ command -v lsd-ls
         ## Otherwise, they can download the script and execute it
         https://raw.githubusercontent.com/skillplot/lscripts-docker/main/lscripts/banners/skplt.serversetup.sh
         ```
+3. Add Login User to the system interactively
+    * Directly execute
+        ```bash
+        sudo apt -y update
+        sudo apt -y install curl
+        bash <(curl -s https://raw.githubusercontent.com/skillplot/lscripts-docker/main/lscripts/banners/skplt.adduser.sh)
+        ```
+    * Download it manually and execute
+        ```bash
+        ## Otherwise, they can download the script and execute it
+        https://raw.githubusercontent.com/skillplot/lscripts-docker/main/lscripts/banners/skplt.adduser.sh
+        ```
 
 
 ## Copyright and License Terms

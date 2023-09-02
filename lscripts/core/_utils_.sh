@@ -15,6 +15,13 @@
 ## General utilities
 ###----------------------------------------------------------
 
+function lsd-mod.utils.random() {
+  local N=$1
+  [[ -z ${N} ]] && N=4
+  echo $(tr -dc 'a-zA-Z0-9' < /dev/urandom | head -c $N)
+}
+
+
 function lsd-mod.utils.size() {
   du -cksh * | sort -h
   # du -sh -- * | sort -h
