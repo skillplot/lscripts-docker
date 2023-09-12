@@ -15,6 +15,15 @@
 ## General utilities
 ###----------------------------------------------------------
 
+function lsd-mod.utils.count-lines() {
+  local res
+  local ext=$1
+  [[ ! -z ${ext} ]] && res=`find . -iname "*.${ext}" -type f -exec cat {} + | wc -l` || {
+    res=`find . -type f -exec cat {} + | wc -l`
+  }
+  echo ${res}
+}
+
 function lsd-mod.utils.random() {
   local N=$1
   [[ -z ${N} ]] && N=4

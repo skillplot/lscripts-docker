@@ -24,7 +24,7 @@ function ros-apt-install.main() {
   source ${LSCRIPTS}/lscripts.config.sh
 
   local ROSVER=''
-  case ${LINUX_ID} in
+  case ${LINUX_VERSION} in
     14.04)
       sudo apt -y install ros-indigo-desktop-full
       ROSVER='indigo'

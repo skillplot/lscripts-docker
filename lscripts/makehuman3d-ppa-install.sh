@@ -13,7 +13,7 @@
 
 
 function makehuman3d-ppa-install.main() {
-  sudo add-apt-repository ppa:makehuman-official/makehuman-community
+  sudo add-apt-repository -y ppa:makehuman-official/makehuman-community
   sudo apt -y update
 
   ## dependencies

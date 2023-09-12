@@ -189,6 +189,7 @@ function lsd-lscripts.alias.main() {
   ###----------------------------------------------------------
   ## lsd-utils => _utils_ module
   ###----------------------------------------------------------
+  alias lsd-utils.count-lines="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.utils.count-lines"
   alias lsd-utils.random="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.utils.random"
   alias lsd-utils.size="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.utils.size"
   alias lsd-utils.pid="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.utils.pid"

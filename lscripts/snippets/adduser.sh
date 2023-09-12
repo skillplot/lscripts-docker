@@ -31,17 +31,17 @@ id -u ${username} &> /dev/null || {
 
   sudo gpasswd -d $(id -un) ${groupname} &> /dev/null
   sudo gpasswd -d ${username} ${groupname} &> /dev/null
+
+  
+  ## "Add new application system user to the secondary group, if it is not already added."
+  # getent group | grep $(id -un) | grep ${groupname} &> /dev/null || {
+  getent group | grep ${username}  | grep ${groupname} &> /dev/null || {
+    sudo groupadd ${groupname}
+    sudo usermod -aG ${groupname} ${username}
+    cat /etc/passwd | grep ${username}
+  }
+
+  ## "Adding current user to the secondary group, if it is not already added."
+  sudo adduser ${username} sudo
 }
 
-## "Add new application system user to the secondary group, if it is not already added."
-getent group | grep ${username}  | grep ${groupname} &> /dev/null || {
-  sudo groupadd ${groupname}
-  sudo usermod -aG ${groupname} ${username}
-}
-
-## "Adding current user to the secondary group, if it is not already added."
-## "Also, adding the user to the sudo group so it can run commands in a privileged mode!"
-getent group | grep $(id -un) | grep ${groupname} &> /dev/null || {
-  sudo usermod -aG ${groupname} $(id -un)
-  cat /etc/passwd | grep ${username}
-}

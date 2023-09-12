@@ -12,8 +12,8 @@
 
 
 function freecad-ppa-install.main() {
-  sudo add-apt-repository ppa:freecad-maintainers/freecad-stable
-  sudo apt update
+  sudo add-apt-repository -y ppa:freecad-maintainers/freecad-stable
+  sudo apt -y update
   sudo apt -y install freecad-daily freecad-daily-doc 
 }
 
