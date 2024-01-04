@@ -209,6 +209,7 @@ function lsd-mod.fio.pdf_to_image() {
   local ext="${filename##*.}"
 
   [[ -f ${fullfilename} ]] && [[ ${ext}=='pdf' ]] && {
+    local timestamp=$(date -d now +'%d%m%y_%H%M%S')
     local outputdir=${fname}-${timestamp}
 
     type pdfimages &>/dev/null && {

@@ -189,6 +189,7 @@ function lsd-lscripts.alias.main() {
   ###----------------------------------------------------------
   ## lsd-utils => _utils_ module
   ###----------------------------------------------------------
+  alias lsd-utils.youtube-download-mp3="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.utils.youtube-download-mp3"
   alias lsd-utils.count-lines="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.utils.count-lines"
   alias lsd-utils.random="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.utils.random"
   alias lsd-utils.size="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.utils.size"
@@ -213,6 +214,7 @@ function lsd-lscripts.alias.main() {
   alias lsd-utils.id.filename-tmp="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.utils.id.filename-tmp"
   alias lsd-utils.cmds="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.utils.cmds lsd"
   alias lsd-utils.python.venvname="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.utils.python.venvname $@"
+  alias lsd-utils.pdf.images="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.utils.pdf.images"
   ###----------------------------------------------------------
   ## lsd-docs => _docs_ module
   ###----------------------------------------------------------

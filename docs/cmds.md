@@ -1,8 +1,8 @@
 ---
 title: All Commands
 description: List of all commands for Lscripts Docker
-date: 2023-09-03 00:00:18
-last_updated: 00:00:18, 03-Sep-2023, Sunday
+date: 2024-01-04 15:18:11
+last_updated: 15:18:11, 04-Jan-2024, Thursday
 note: Auto generated file and will be overwritten
 ---
 
@@ -91,6 +91,7 @@ lsd-install.atom-wget-dpkg
 lsd-install.audacity-apt
 lsd-install.balenaetcher-apt
 lsd-install.blender-wget
+lsd-install.ceressolver-clone
 lsd-install.chrootjail
 lsd-install.core-apt
 lsd-install.couchdb-apt
@@ -114,6 +115,7 @@ lsd-install.gimp-graphics-apt
 lsd-install.gitlab-apt
 lsd-install.gitlfs-wget
 lsd-install.golang
+lsd-install.gource-clone
 lsd-install.handbrake-ppa
 lsd-install.haroopad-wget-dpkg
 lsd-install.heroku-cli-snap
@@ -193,6 +195,8 @@ lsd-install.vulkansdk-apt
 lsd-install.wine-apt
 lsd-install.xnview-wget
 lsd-install.xournal-apt
+lsd-install.xournalpp-clone
+lsd-install.xournalpp-ppa
 lsd-install.yarn-apt
 lsd-install.youtubedl-apt
 lsd-install.zookeeper-wget
@@ -259,6 +263,7 @@ lsd-test.fio
 lsd-test.log
 lsd-test.system
 lsd-utils.cmds
+lsd-utils.count-lines
 lsd-utils.date.get
 lsd-utils.id.filename
 lsd-utils.id.filename-tmp
@@ -272,6 +277,7 @@ lsd-utils.kill.python
 lsd-utils.ls
 lsd-utils.ls.egg
 lsd-utils.ls.pycache
+lsd-utils.pdf.images
 lsd-utils.pid
 lsd-utils.python.venvname
 lsd-utils.random
@@ -281,6 +287,7 @@ lsd-utils.rm.pycache
 lsd-utils.size
 lsd-utils.system.info
 lsd-utils.trash
+lsd-utils.youtube-download-mp3
 lsd-lscripts.exe.install
 lsd-lscripts.install.__itemwise
 lsd-lscripts.install.__menu

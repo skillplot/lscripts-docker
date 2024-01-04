@@ -144,11 +144,16 @@ function gource-install.main() {
   local _que
   local _msg
 
+  _que="Install pre-requisites for ${_prog} now"
+  _msg="Skipping ${_prog} pre-requisites installation!"
+  lsd-mod.fio.yesno_${_default} "${_que}" && {
+      lsd-mod.log.echo "Installing pre-requisites..."
+      __${_prog}-pre_requisite
+    } || lsd-mod.log.echo "${_msg}"
+
   _que="Clone & compile ${_prog} now"
   _msg="Skipping ${_prog} clonning & compiling!"
   lsd-mod.fio.yesno_${_default} "${_que}" && {
-      lsd-mod.log.echo "Installing pre-requisites..."
-      # __${_prog}-pre_requisite
 
       lsd-mod.log.echo "Cloning & compiling..."
       __${_prog}-build

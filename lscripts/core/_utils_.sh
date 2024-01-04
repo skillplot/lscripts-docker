@@ -15,6 +15,32 @@
 ## General utilities
 ###----------------------------------------------------------
 
+
+function lsd-mod.utils.youtube-download-mp3() {
+  ## Specify the file containing the list of items
+  local tmp_download_dir="/tmp/mp3"
+  local filepath="/tmp/mp3/list.txt"
+
+  type yt-dlp &>/dev/null && {
+    mkdir -p ${tmp_download_dir}
+    ## Check if the file exists
+    if [ -e "${filepath}" ]; then
+      ## Read each line from the file and process it
+      while IFS= read -r line; do
+        lsd-mod.log.echo "Processing item: ${line}"
+        local timestamp=$(date -d now +'%d%m%y_%H%M%S')
+        yt-dlp --extract-audio --audio-format mp3 ${line} -o "${tmp_download_dir}/${timestamp}.mp3"
+      done < "${filepath}"
+    else
+      lsd-mod.log.echo "File not found: ${filepath}"
+    fi
+  } || {
+    lsd-mod.log.echo "yt-dlp command not found. Install using following command:"
+    lsd-mod.log.echo "pip install yt-dlp"
+  }
+}
+
+
 function lsd-mod.utils.count-lines() {
   local res
   local ext=$1
@@ -116,12 +142,40 @@ function lsd-mod.utils.trash() {
 ###----------------------------------------------------------
 
 function lsd-mod.utils.image.resize() {
+  local file
   for file in *.${1:-'jpg'}; do convert ${file} -resize ${2:-'50'}% $(date -d now +'%d%m%y_%H%M%S')---${file}; done
 }
 
 
 function lsd-mod.utils.image.pdf() {
   gm convert *.${1:-'jpg'} $(date -d now +'%d%m%y_%H%M%S').pdf;
+}
+
+
+###----------------------------------------------------------
+## lsd-mod.utils.pdf PDF utilities
+###----------------------------------------------------------
+
+function lsd-mod.utils.pdf.images() {
+  local file
+  local timestamp=$(date -d now +'%d%m%y_%H%M%S')
+  for file in *.${1:-'pdf'}; do
+
+    ## filename specific output directory
+    local filename=$(echo "${file}" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-zA-Z0-9._-]/_/g')
+    local fname="${filename%.*}"
+    local ext="${filename##*.}"
+
+    # local outputdir=${timestamp}
+    # local outputdir="${fname}-${timestamp}"
+    local outputdir="${timestamp}/${fname}"
+
+    type pdfimages &>/dev/null && {
+      mkdir -p ${outputdir}
+      pdfimages -j ${filename} ${outputdir}/
+      lsd-mod.log.echo "fname: ${fname} => ${outputdir}"
+    }
+  done
 }
 
 

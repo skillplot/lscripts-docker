@@ -30,24 +30,20 @@ local NVML_VERSION="${CUDA_REL}=${CUDA_VER}.167-1"
 ##----------------------------------------------------------
 local CUDNN_VER="8"
 local CUDNN_MAJOR_VERSION="${CUDNN_VER}"
-#local CUDNN_VERSION="8.0.2.39"
-local CUDNN_VERSION="8.0.5.39"
+local CUDNN_VERSION="8.0.2.39"
 local CUDNN_PKG="${CUDNN_VERSION}-1+cuda${CUDA_VER}"
 
 ##----------------------------------------------------------
 ## NCCL
 ##----------------------------------------------------------
-# local NCCL_VERSION="2.7.8"
-local NCCL_VERSION="2.18.5"
+local NCCL_VERSION="2.7.8"
 local NCCL_PKG="${NCCL_VERSION}-1+cuda${CUDA_VER}"
 
 ##----------------------------------------------------------
 ## TensorRT
 ##----------------------------------------------------------
-# local TENSORRT_VER="7"
-# local LIBNVINFER_VERSION="7.1.3"
-local TENSORRT_VER="8"
-local LIBNVINFER_VERSION="8.0.0"
+local TENSORRT_VER="7"
+local LIBNVINFER_VERSION="7.1.3"
 local LIBNVINFER_PKG="${LIBNVINFER_VERSION}-1+cuda${CUDA_VER}"
 
 ##----------------------------------------------------------

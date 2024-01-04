@@ -1,5 +1,17 @@
 #!/bin/bash
 
+## normalise filenames
+
+
+filename=$(echo "${file}" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-zA-Z0-9._-]/_/g')
+find /path/to/directory -type f -exec rename 's/[^a-zA-Z0-9._-]+/_/g' {} \;
+
+## get filename removing extension
+
+## filename specific output directory
+filename=$(echo "${file}" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-zA-Z0-9._-]/_/g')
+fname="${filename%.*}"
+ext="${filename##*.}"
 
 ## https://askubuntu.com/questions/534658/undo-update-alternatives
 update-alternatives --list cuda
