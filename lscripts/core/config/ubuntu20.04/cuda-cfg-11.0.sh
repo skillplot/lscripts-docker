@@ -38,7 +38,8 @@ local CUDNN_PKG="${CUDNN_VERSION}-1+cuda${CUDA_VER}"
 ## NCCL
 ##----------------------------------------------------------
 # local NCCL_VERSION="2.7.8"
-local NCCL_VERSION="2.18.5"
+# local NCCL_VERSION="2.18.5"
+local NCCL_VERSION="2.8.4"
 local NCCL_PKG="${NCCL_VERSION}-1+cuda${CUDA_VER}"
 
 ##----------------------------------------------------------
