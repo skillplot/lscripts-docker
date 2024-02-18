@@ -98,6 +98,12 @@ function lsd-mod.utils.kill.python() {
 ###----------------------------------------------------------
 
 
+function lsd-mod.utils.lsdir() {
+  declare -a arr=($(ls -d -1 $PWD/*))
+  echo "${#arr[@]}"
+}
+
+
 function lsd-mod.utils.ls() {
   ls -lrth | awk '{k=0;for(i=0;i<=8;i++)k+=((substr($1,i+2,1)~/[rwx]/) *2^(8-i));if(k)printf("%0o ",k);print}';
 }
@@ -133,6 +139,12 @@ function lsd-mod.utils.rm.node_modules() {
 }
 
 
+function lsd-mod.utils.rm._site() {
+  find ${PWD}/ -iname _site -type d | xargs -n 1 bash -c 'rm -rf "$0"'
+}
+
+
+
 function lsd-mod.utils.trash() {
   for item in "$@" ; do echo "Trashing: $item" ; mv "$item" ${HOME}/.Trash/; done
 }
@@ -149,6 +161,32 @@ function lsd-mod.utils.image.resize() {
 
 function lsd-mod.utils.image.pdf() {
   gm convert *.${1:-'jpg'} $(date -d now +'%d%m%y_%H%M%S').pdf;
+}
+
+
+function lsd-mod.utils.image.tiff2cog() {
+  local LSCRIPTS=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
+  local scriptname=$(basename ${BASH_SOURCE[0]})
+
+  source ${LSCRIPTS}/argparse.sh "$@"
+
+  local filepath
+  local filepath_cog
+
+  
+  [[ -n "${args['path']+1}" ]] && filepath=${args['path']}
+
+  type uuid &>/dev/null && {
+    filepath_cog="/tmp/$(uuid).tif"
+
+    lsd-mod.log.debug "filepath: ${filepath}"
+    lsd-mod.log.debug "filepath_cog: ${filepath_cog}"
+
+    type gdal_translate &>/dev/null && {
+      # (>&2 echo -e "key: 'line' exists")
+      gdal_translate -co TILED=YES -co COMPRESS=DEFLATE -co BIGTIFF=YES ${filepath} ${filepath_cog}
+    } 2>/dev/null
+  }
 }
 
 
@@ -185,6 +223,31 @@ function lsd-mod.utils.pdf.images() {
 
 function lsd-mod.utils.date.get() {
   echo $(date +"%d-%b-%Y, %A");
+}
+
+
+###----------------------------------------------------------
+## lsd-mod.utils.convert
+###----------------------------------------------------------
+
+
+function lsd-mod.utils.convert.utf8() {
+  ## https://fedingo.com/how-to-convert-files-to-utf-8-in-linux/
+  local _file
+  local _convert
+  local _from_encoding
+  local _to_encoding="UTF-8"
+  declare -a _files=($(ls -1 $PWD/*))
+
+  for _file in ${_files[@]}; do
+    _from_encoding=$(file -b --mime-encoding ${_file})
+    ## convert to uppercase
+    _from_encoding=${_from_encoding^^}
+    lsd-mod.log.echo "_from_encoding: ${_from_encoding}"
+
+    _convert="iconv -f ${_from_encoding} -t ${_to_encoding}"
+    lsd-mod.log.echo ${_convert} "${_file}" -o  "${_file%}.utf8"
+  done
 }
 
 

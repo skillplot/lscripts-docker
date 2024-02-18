@@ -54,6 +54,8 @@ function essentials-apt-install.main() {
     exuberant-ctags \
     cmake-curses-gui
 
+    # yamllint \
+
   # sudo apt -y install --no-install-recommends locales
 
   sudo apt -y install --no-install-recommends \

@@ -1,8 +1,8 @@
 ---
 title: All Commands
 description: List of all commands for Lscripts Docker
-date: 2024-01-04 15:18:11
-last_updated: 15:18:11, 04-Jan-2024, Thursday
+date: 2024-02-19 00:04:20
+last_updated: 00:04:20, 19-Feb-2024, Monday
 note: Auto generated file and will be overwritten
 ---
 
@@ -263,6 +263,7 @@ lsd-test.fio
 lsd-test.log
 lsd-test.system
 lsd-utils.cmds
+lsd-utils.convert-utf8
 lsd-utils.count-lines
 lsd-utils.date.get
 lsd-utils.id.filename
@@ -272,15 +273,18 @@ lsd-utils.id.salt
 lsd-utils.id.uuid
 lsd-utils.image.pdf
 lsd-utils.image.resize
+lsd-utils.image.tiff2cog
 lsd-utils.kill
 lsd-utils.kill.python
 lsd-utils.ls
 lsd-utils.ls.egg
 lsd-utils.ls.pycache
+lsd-utils.lsdir
 lsd-utils.pdf.images
 lsd-utils.pid
 lsd-utils.python.venvname
 lsd-utils.random
+lsd-utils.rm._site
 lsd-utils.rm.egg
 lsd-utils.rm.node_modules
 lsd-utils.rm.pycache

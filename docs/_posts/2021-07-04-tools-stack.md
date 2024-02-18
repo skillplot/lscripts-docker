@@ -33,6 +33,82 @@ categories: Tools
 * encryption-apt
 
 
+### Core Packages
+
+### Essential Packages
+
+1. first set
+    ```bash
+    libfreetype6-dev
+    libhdf5-serial-dev
+    libzmq3-dev
+    pkg-config
+    aptitude
+    graphviz
+    openmpi-bin
+    rsync
+    unzip
+    zip
+    zlib1g-dev
+    git
+    swig
+    grep
+    feh
+    tree
+    sudo
+    libpng-dev
+    libjpeg-dev
+    libtool
+    bc
+    jq
+    openssh-client
+    openssh-server
+    apt-utils
+    gparted
+    net-tools
+    ppa-purge
+    sshfs
+    inxi
+    dos2unix
+    tree
+    exuberant-ctags
+    cmake-curses-gui
+    ```
+2. Second set
+    ```bash
+    uuid
+    automake
+    locate
+    unrar
+    mono-complete
+    chromium-browser
+    libimage-exiftool-perl
+    doxygen
+    doxygen-gui
+    libexif-dev
+    ntp
+    libconfig++-dev
+    kino
+    htop
+    apcalc
+    xclip
+    xsel
+    ```
+3. Third set
+    ```bash
+    dconf-editor
+    openvpn
+    neofetch
+    libcanberra-gtk-module
+    ```
+
+#### Package Details
+
+* `jq` - JSON command line parser
+* `yamllint` - YAML command line parser and validator -
+
+
+
 ## [3]: sysutils
 
 * rclone
