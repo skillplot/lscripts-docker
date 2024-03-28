@@ -21,7 +21,7 @@ local DOCKER_COMPOSE_CMD="docker-compose"
 ## docker version --format '{{.Server.Version}}'
 type ${DOCKER_CMD} &>/dev/null && DOCKER_VERSION=$(${DOCKER_CMD} --version | cut -d',' -f1 | cut -d' ' -f3)
 
-local DOCKER_PREFIX="bzohub"
+local DOCKER_PREFIX="skplt"
 
 ###----------------------------------------------------------
 ## For environment variables mapping

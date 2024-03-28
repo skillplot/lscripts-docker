@@ -10,7 +10,7 @@
 ###----------------------------------------------------------
 
 
-local _LSD__DOCKER_VOLUMES="${LSCRIPTS_DOCKER_VOLUMES}"
+local _LSD__DOCKER_VOLUMES="${LSCRIPTS__DOCKER_VOLUMES}"
 local _LSD__DOCKER_VOLUMES_UUID=$(od -x /dev/urandom | head -1 | awk '{OFS="-"; print $2$3,$4,$5,$6,$7$8$9}')
 ## DOCKER_VOLUMES provides for mapping of enitre code, vm, data and mobile dirs
 ## inside the container, making it completely stateless. Even python virtual env created
@@ -40,9 +40,13 @@ local DOCKER_VOLUMES=""
 ## Do NOT delete the trailing space
 ###----------------------------------------------------------
 DOCKER_VOLUMES="${DOCKER_VOLUMES} -v ${_LSD__HOME}:${_LSD__HOME} "
+DOCKER_VOLUMES="${DOCKER_VOLUMES} -v ${_LSD__DOCKER_AIHUB_ROOT}:${_LSD__DOCKER_AIHUB_ROOT} "
+DOCKER_VOLUMES="${DOCKER_VOLUMES} -v ${_LSD__DOCKER_AILAB_ROOT}:${_LSD__DOCKER_AILAB_ROOT} "
+DOCKER_VOLUMES="${DOCKER_VOLUMES} -v ${_LSD__DOCKER_EXTERNAL_ROOT}:${_LSD__DOCKER_EXTERNAL_ROOT} "
 DOCKER_VOLUMES="${DOCKER_VOLUMES} -v ${_LSD__DOCKER_VM_ROOT}:${_LSD__DOCKER_VM_ROOT} "
 DOCKER_VOLUMES="${DOCKER_VOLUMES} -v ${_LSD__DOCKER_DATA_ROOT}:${_LSD__DOCKER_DATA_ROOT} "
 DOCKER_VOLUMES="${DOCKER_VOLUMES} -v ${_LSD__DOCKER_MOBILE_ROOT}:${_LSD__DOCKER_MOBILE_ROOT} "
+DOCKER_VOLUMES="${DOCKER_VOLUMES} -v ${_LSD__DOCKER_DATAHUB_ROOT}:${_LSD__DOCKER_DATAHUB_ROOT} "
 
 ###----------------------------------------------------------
 ## MongoDB Container volume map

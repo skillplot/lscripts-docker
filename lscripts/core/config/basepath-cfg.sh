@@ -36,6 +36,9 @@
 local _LSD__BASENAME="${LSCRIPTS__BASENAME}"
 local _LSD__BASENAME_OS="${LSCRIPTS__BASENAME_OS}"
 local _LSD__ROOT="${LSCRIPTS__ROOT}"
+local _LSD__CODEHUB_ROOT="${LSCRIPTS__CODEHUB_ROOT}"
+local _LSD__DATAHUB_ROOT="${LSCRIPTS__DATAHUB_ROOT}"
+local _LSD__AIMLHUB_ROOT="${LSCRIPTS__AIMLHUB_ROOT}"
 declare -A _LSD__ENVVARS=()
 ##----
 local _LSD__BASHRC_FILE="${LSCRIPTS__BASHRC_FILE}"
@@ -44,8 +47,14 @@ local _LSD__BASHRC_FILE="${LSCRIPTS__BASHRC_FILE}"
 ##----
 [[ ! -z "${_LSD__BASENAME}" ]] || _LSD__BASENAME="lsdhub"
 [[ ! -z "${_LSD__BASENAME_OS}" ]] || _LSD__BASENAME_OS="lsdos"
+
 [[ ! -z "${_LSD__ROOT}" ]] || _LSD__ROOT="/codehub"
 # [[ ! -z "${_LSD__ROOT}" ]] || _LSD__ROOT="${HOME}"
+
+[[ ! -z "${_LSD__CODEHUB_ROOT}" ]] || _LSD__CODEHUB_ROOT="/codehub"
+[[ ! -z "${_LSD__DATAHUB_ROOT}" ]] || _LSD__DATAHUB_ROOT="/datahub"
+# [[ ! -z "${_LSD__WORKSPACE_ROOT}" ]] || _LSD__WORKSPACE_ROOT="/workspace"
+[[ ! -z "${_LSD__AIMLHUB_ROOT}" ]] || _LSD__AIMLHUB_ROOT="${_LSD__CODEHUB_ROOT}/aihub"
 
 ## only alpha-numeric values are allowed
 _LSD__BASENAME=$(tr -dc '0-9a-zA-Z' <<< "${_LSD__BASENAME}")
@@ -151,6 +160,9 @@ local _LSD__DOCKER_DATA_ROOT="${_LSD__DATA_ROOT}"
 local _LSD__DOCKER_MOBILE_ROOT="${_LSD__MOBILE_ROOT}"
 local _LSD__DOCKER_OS_ROOT="${_LSD__OS_ROOT}"
 local _LSD__DOCKER_VM_ROOT="${_LSD__VM_ROOT}"
+local _LSD__DOCKER_DATAHUB_ROOT="${_LSD__DATAHUB_ROOT}"
+# local _LSD__DOCKER_WORKSPACE_ROOT="${_LSD__WORKSPACE_ROOT}"
+
 ## local _LSD__DOCKER_VM_HOME="${_LSD__VM_HOME}"
 ##
 [[ ! -z "${_LSD__DOCKER_BASENAME}" ]] || _LSD__DOCKER_BASENAME="lscripts"
@@ -160,6 +172,10 @@ local _LSD__DOCKER_VM_ROOT="${_LSD__VM_ROOT}"
 [[ ! -z "${_LSD__DOCKER_MOBILE_ROOT}" ]] || _LSD__DOCKER_MOBILE_ROOT="${_LSD__ROOT}/${_LSD__DOCKER_BASENAME}-mobile"
 [[ ! -z "${_LSD__DOCKER_OS_ROOT}" ]] || _LSD__DOCKER_OS_ROOT="${_LSD__ROOT}/${_LSD__DOCKER_BASENAME}-os"
 [[ ! -z "${_LSD__DOCKER_VM_ROOT}" ]] || _LSD__DOCKER_VM_ROOT="${_LSD__ROOT}/virtualmachines"
+[[ ! -z "${_LSD__DOCKER_AIHUB_ROOT}" ]] || _LSD__DOCKER_AIHUB_ROOT="${_LSD__ROOT}/aihub"
+[[ ! -z "${_LSD__DOCKER_AILAB_ROOT}" ]] || _LSD__DOCKER_AILAB_ROOT="${_LSD__ROOT}/ailab"
+[[ ! -z "${_LSD__DOCKER_EXTERNAL_ROOT}" ]] || _LSD__DOCKER_EXTERNAL_ROOT="${_LSD__ROOT}/external"
+[[ ! -z "${_LSD__DOCKER_DATAHUB_ROOT}" ]] || _LSD__DOCKER_DATAHUB_ROOT="/datahub"
 ##----
 ## This directory is the home directory for the root user
 local _LSD__OS_USR_ROOT=${_LSD__OS_ROOT}/root

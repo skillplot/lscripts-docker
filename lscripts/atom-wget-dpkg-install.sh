@@ -17,7 +17,7 @@ function atom-wget-dpkg-install() {
   source ${LSCRIPTS}/lscripts.config.sh
 
   if [ -z "${_LSD__EXTERNAL_HOME}" ]; then
-    local BASEPATH="${HOME}/softwares"
+    # local BASEPATH="${HOME}/softwares"
     echo "Unable to get BASEPATH, using default path#: ${_LSD__EXTERNAL_HOME}"
   fi
 
@@ -39,7 +39,6 @@ function atom-wget-dpkg-install() {
   echo "Number of threads will be used: ${NUMTHREADS}"
   echo "BASEPATH: ${_LSD__EXTERNAL_HOME}"
   echo "URL: ${URL}"
-  echo "PROG_DIR: ${PROG_DIR}"
 
   source ${LSCRIPTS}/partials/wget.sh
 

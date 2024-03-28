@@ -145,6 +145,13 @@ function lsd-lscripts.alias.main() {
   ###----------------------------------------------------------
   alias lsd-docker.cfg="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.docker.get__vars"
   alias lsd-docker.osvers="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.docker.get__os_vers_avail"
+  alias lsd-docker.verify="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.docker.verify"
+  ###-------
+  alias lsd-docker.get.local_volumes="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.docker.local_volumes"
+  alias lsd-docker.get.port_maps="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.docker.port_maps"
+  alias lsd-docker.get.envvars="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.docker.envvars"
+  alias lsd-docker.get.restart_policy="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.docker.restart_policy"
+  alias lsd-docker.get.enable_nvidia_gpu="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.docker.enable_nvidia_gpu"
   ###-------
   alias lsd-docker.container.delete-all="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.docker.container.delete-all"
   alias lsd-docker.container.delete-byimage="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.docker.container.delete-byimage $@"
@@ -156,8 +163,12 @@ function lsd-lscripts.alias.main() {
   alias lsd-docker.container.status="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.docker.container.status"
   alias lsd-docker.container.stop-all="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.docker.container.stop-all"
   alias lsd-docker.container.test="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.docker.container.test"
+  alias lsd-docker.container.create="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.docker.container.create $@"
   ###-------
   alias lsd-docker.image.build="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.docker.image.build"
+  ###-------
+  alias lsd-docker.user.fix="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.docker.userfix $@"
+  alias lsd-docker.user.add2sudoer="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.docker.adduser_to_sudoer $@"
   ###----------------------------------------------------------
   ## lsd-stack => _stack_ module
   ###----------------------------------------------------------

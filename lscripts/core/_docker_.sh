@@ -115,11 +115,18 @@ function lsd-mod.docker.container.exec() {
   local DOCKER_CONTAINER_NAME=${args['name']}
 
   xhost +local:root 1>/dev/null 2>&1
-  docker container start ${DOCKER_CONTAINER_NAME} &>/dev/null && docker exec \
+  ${DOCKER_CMD} container start ${DOCKER_CONTAINER_NAME} &>/dev/null && ${DOCKER_CMD} exec \
       -u $(id -u):$(id -g) \
       -it ${DOCKER_CONTAINER_NAME} \
       /bin/bash
   xhost -local:root 1>/dev/null 2>&1
+}
+
+
+function lsd-mod.docker.image.pull {
+  local DOCKER_IMAGE_NAME=$1
+  [[ -z ${DOCKER_IMAGE_NAME} ]] && DOCKER_IMAGE_NAME="hello-world"
+  ${DOCKER_CMD} pull ${DOCKER_BLD_CONTAINER_IMG}
 }
 
 
@@ -144,7 +151,7 @@ function lsd-mod.docker.image.build() {
   ## Fail on first error.
   set -e
   [[ -f ${args['dockerfile']} ]] && {
-    docker build -t "${args['tag']}" -f "${args['dockerfile']}" "${args['context']}" && \
+    ${DOCKER_CMD} build -t "${args['tag']}" -f "${args['dockerfile']}" "${args['context']}" && \
       lsd-mod.log.info "Built new image with ${tag}" || lsd-mod.log.fail "built docker image failed"
   } || lsd-mod.log.fail "File does not exists: ${args['dockerfile']}"
 }
@@ -216,16 +223,16 @@ ulimit -c unlimited
 ' >> \"/home/${HUSER}/.bashrc\"
 "
 
-    # ${DOCKER_CMD} exec ${DOCKER_CONTAINER_NAME} /bin/bash -c "chown -R ${HUSER}:${HUSER_GRP} ${WORK_BASE_PATH}"
-    # ${DOCKER_CMD} exec ${DOCKER_CONTAINER_NAME} /bin/bash -c "[ -d ${WORK_BASE_PATH} ] && chown -R ${HUSER}:${HUSER_GRP} ${WORK_BASE_PATH} && \
-    #   chmod a+w ${WORK_BASE_PATH}"
+    # ${DOCKER_CMD} exec ${DOCKER_CONTAINER_NAME} /bin/bash -c "chown -R ${HUSER}:${HUSER_GRP} ${WORKBASE_PATH}"
+    # ${DOCKER_CMD} exec ${DOCKER_CONTAINER_NAME} /bin/bash -c "[ -d ${WORKBASE_PATH} ] && chown -R ${HUSER}:${HUSER_GRP} ${WORKBASE_PATH} && \
+    #   chmod a+w ${WORKBASE_PATH}"
     # ${DOCKER_CMD} exec ${DOCKER_CONTAINER_NAME} /bin/bash -c "[ -d ${OTHR_BASE_PATHS} ] && chown -R ${HUSER}:${HUSER_GRP} ${OTHR_BASE_PATHS} && \
     #   chmod a+w ${OTHR_BASE_PATHS}"
 
     # ## testing
     # declare -a DATA_DIRS
-    # DATA_DIRS=("${WORK_BASE_PATH}/test1"
-    #            "${WORK_BASE_PATH}/test2")
+    # DATA_DIRS=("${WORKBASE_PATH}/test1"
+    #            "${WORKBASE_PATH}/test2")
     
     # for DATA_DIR in "${DATA_DIRS[@]}"; do
     #   ${DOCKER_CMD} exec ${DOCKER_CONTAINER_NAME} bash -c \
@@ -276,7 +283,7 @@ function lsd-mod.docker.adduser() {
 function lsd-mod.docker.container.list {
   # declare -a cids=$(echo $(docker container ps -a --format "table {{.ID}}\t{{.Image}}\t{{.Names}}"))
   # echo "${cids[@]}"
-  docker container ps -a --format "table {{.ID}}\t{{.Image}}\t{{.Names}}\t{{.Status}}"
+  ${DOCKER_CMD} container ps -a --format "table {{.ID}}\t{{.Image}}\t{{.Names}}\t{{.Status}}"
 }
 
 
@@ -289,7 +296,7 @@ function lsd-mod.docker.container.list-ids {
   local DOCKER_IMAGE_NAME=$1
   [[ -z ${DOCKER_IMAGE_NAME} ]] && DOCKER_IMAGE_NAME="hello-world"
 
-  declare -a cids=$(echo $(docker container ps -a --format "table {{.ID}},{{.Image}},{{.Names}}" | jq -nR '[ 
+  declare -a cids=$(echo $(${DOCKER_CMD} container ps -a --format "table {{.ID}},{{.Image}},{{.Names}}" | jq -nR '[ 
       ( input | split(",") ) as $keys | 
       ( inputs | split(",") ) as $vals | 
       [ [$keys, $vals] | 
@@ -302,7 +309,7 @@ function lsd-mod.docker.container.list-ids {
 
 
 function lsd-mod.docker.container.list-ids-all {
-  declare -a cids=$(echo $(docker container ps -a --format "table {{.ID}},{{.Image}},{{.Names}}" | jq -nR '[ 
+  declare -a cids=$(echo $(${DOCKER_CMD} container ps -a --format "table {{.ID}},{{.Image}},{{.Names}}" | jq -nR '[ 
       ( input | split(",") ) as $keys | 
       ( inputs | split(",") ) as $vals | 
       [ [$keys, $vals] | 
@@ -321,8 +328,8 @@ function lsd-mod.docker.container.exec-byname {
   }
 
   local DOCKER_CONTAINER_NAME=$1
-  [[ ! -z $(docker container ps -a --format "{{.Names}}" | grep ${DOCKER_CONTAINER_NAME}) ]] && {
-    docker exec -u $(id -u):$(id -g) -it ${DOCKER_CONTAINER_NAME} /bin/bash && xhost -local:root 1>/dev/null 2>&1
+  [[ ! -z $(${DOCKER_CMD} container ps -a --format "{{.Names}}" | grep ${DOCKER_CONTAINER_NAME}) ]] && {
+    ${DOCKER_CMD} exec -u $(id -u):$(id -g) -it ${DOCKER_CONTAINER_NAME} /bin/bash && xhost -local:root 1>/dev/null 2>&1
     [[ $? -ne 0 ]] && lsd-mod.log.error "Unable execute container with name: ${DOCKER_CONTAINER_NAME}" || lsd-mod.log.ok "Bye from ${DOCKER_CONTAINER_NAME}!"
   } || lsd-mod.log.error "Container name not found or not started: ${DOCKER_CONTAINER_NAME}"
 }
@@ -336,10 +343,10 @@ function lsd-mod.docker.container.status {
   }
 
   local DOCKER_CONTAINER_NAME=$1
-  local RUNNING=$(docker inspect --format="{{.State.Running}}" ${DOCKER_CONTAINER_NAME} 2> /dev/null)
-  local RESTARTING=$(docker inspect --format="{{.State.Restarting}}" ${DOCKER_CONTAINER_NAME})
-  local STARTED=$(docker inspect --format="{{.State.StartedAt}}" ${DOCKER_CONTAINER_NAME})
-  local NETWORK=$(docker inspect --format="{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}" ${DOCKER_CONTAINER_NAME})
+  local RUNNING=$(${DOCKER_CMD} inspect --format="{{.State.Running}}" ${DOCKER_CONTAINER_NAME} 2> /dev/null)
+  local RESTARTING=$(${DOCKER_CMD} inspect --format="{{.State.Restarting}}" ${DOCKER_CONTAINER_NAME})
+  local STARTED=$(${DOCKER_CMD} inspect --format="{{.State.StartedAt}}" ${DOCKER_CONTAINER_NAME})
+  local NETWORK=$(${DOCKER_CMD} inspect --format="{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}" ${DOCKER_CONTAINER_NAME})
 
   lsd-mod.log.echo "RUNNING: \e[1;32m${RUNNING}"
   lsd-mod.log.echo "RESTARTING: \e[1;32m${RESTARTING}"
@@ -349,8 +356,8 @@ function lsd-mod.docker.container.status {
 
 
 function lsd-mod.docker.container.stop-all() {
-  docker stop $(docker ps -a -q) && lsd-mod.log.info "All containers stopped!"
-  docker ps -a
+  ${DOCKER_CMD} stop $(${DOCKER_CMD} ps -a -q) && lsd-mod.log.info "All containers stopped!"
+  ${DOCKER_CMD} ps -a
 }
 
 
@@ -358,9 +365,9 @@ function lsd-mod.docker.container.delete-all() {
   local _que="Are you sure you want to delete all containers"
   local _msg="Skipping deleting all containers!"
   lsd-mod.fio.yesno_no "${_que}" && {
-    docker stop $(docker ps -a -q) && docker rm $(docker ps -a -q)
+    ${DOCKER_CMD} stop $(${DOCKER_CMD} ps -a -q) && ${DOCKER_CMD} rm $(${DOCKER_CMD} ps -a -q)
     lsd-mod.log.info "All containers are deleted!"
-    docker ps -a
+    ${DOCKER_CMD} ps -a
   } || lsd-mod.log.echo "${_msg}"
 }
 
@@ -375,9 +382,9 @@ function lsd-mod.docker.container.delete-byimage {
     declare -a cids=$(lsd-mod.docker.container.list-ids ${DOCKER_IMAGE_NAME})
     echo "cids:${cids[@]}"
     ## Todo:: if array is empty condition
-    docker stop ${cids[@]} && docker rm ${cids[@]}
+    ${DOCKER_CMD} stop ${cids[@]} && ${DOCKER_CMD} rm ${cids[@]}
     lsd-mod.log.info "All containers with image: ${DOCKER_IMAGE_NAME} cids are deleted!"
-    docker ps -a
+    ${DOCKER_CMD} ps -a
   } || lsd-mod.log.echo "${_msg}"
 }
 
@@ -387,4 +394,149 @@ function lsd-mod.docker.container.test() {
   [[ ! -z "$1" ]] && DOCKER_BLD_CONTAINER_IMG="$1" || lsd-mod.log.fail "Empty DOCKER_BLD_CONTAINER_IMG: ${DOCKER_BLD_CONTAINER_IMG}"
   lsd-mod.log.info "Creating self-destructing test container using image: ${DOCKER_BLD_CONTAINER_IMG}"
   ${DOCKER_CMD} run --name $(uuid) --user $(id -u):$(id -u) --gpus all --rm -it "${DOCKER_BLD_CONTAINER_IMG}" bash
+}
+
+
+function lsd-mod.docker.verify() {
+  local _cmd="docker"
+  lsd-mod.log.info "Verifying ${_cmd} installation..."
+
+  type ${_cmd} &>/dev/null && {
+    (${_cmd} version && ${_cmd} run hello-world) 1>&2
+    lsd-mod.log.ok "${_cmd} is available!"
+    return 0
+  } || {
+    lsd-mod.log.error "${_cmd} not installed or corrupted!"
+    return -1
+  }
+}
+
+
+function ___docker_.local_volumes() {
+  ## Do NOT delete the trailing space
+  local volumes="$(lsd-mod.docker.local_volumes) ${DOCKER_VOLUMES} "
+  echo "${volumes}"
+}
+
+function ___docker_.envvars() {
+  ## Do NOT delete the trailing space
+  local envvars="$(lsd-mod.docker.envvars) "
+  echo "${envvars}"
+}
+
+
+function __docker_.createcontainer() {
+  local DOCKER_BLD_CONTAINER_IMG="$1"
+  local DOCKER_CONTAINER_NAME=$2
+
+  ${DOCKER_CMD} ps -a --format "{{.Names}}" | grep "${DOCKER_CONTAINER_NAME}" 1>/dev/null
+
+  # [[ $? == 0 ]] && ${DOCKER_CMD} stop ${DOCKER_CONTAINER_NAME} 1>/dev/null && \
+  #   ${DOCKER_CMD} rm -f ${DOCKER_CONTAINER_NAME} 1>/dev/null
+
+  # ${DOCKER_CMD} start ${DOCKER_CONTAINER_NAME} 1>/dev/null
+
+  lsd-mod.log.warn "Published ports are discarded when using host network mode!"
+
+  ## Todo:
+  ## 1) static name for docker container
+  ## 2) check if docker image exists, if not then ask to pull the image confirmation
+
+  ## Use these flags with docker cmd if required
+  # $(lsd-mod.docker.enable_nvidia_gpu) \
+  # $(lsd-mod.docker.restart_policy) \
+
+
+  ${DOCKER_CMD} run -d -it \
+    --name ${DOCKER_CONTAINER_NAME} \
+    $(___docker_.envvars) \
+    $(___docker_.local_volumes) \
+    --net host \
+    --add-host ${LOCAL_HOST}:127.0.0.1 \
+    --add-host ${DOCKER_LOCAL_HOST}:127.0.0.1 \
+    --hostname ${DOCKER_LOCAL_HOST} \
+    --shm-size ${SHM_SIZE_2GB} \
+    ${DOCKER_BLD_CONTAINER_IMG} &>/dev/null
+
+  [[ $? -eq 0 ]] || lsd-mod.log.fail "Internal Error: Failed to create docker container!"
+
+  ## Grant docker access to host X server to show images
+  xhost +local:`${DOCKER_CMD} inspect --format='{{ .Config.Hostname }}' ${DOCKER_CONTAINER_NAME}`
+
+  lsd-mod.log.echo "Finished setting up ${DOCKER_CONTAINER_NAME} docker environment."
+  lsd-mod.log.ok "Enjoy!"
+  lsd-mod.log.info "Execute container..."
+  lsd-mod.log.echo "lsd-docker.container.exec --name=${DOCKER_CONTAINER_NAME}\n"
+
+  lsd-mod.log.info "Or simple execution:\n ${DOCKER_CMD} exec -it ${DOCKER_CONTAINER_NAME}\n"
+}
+
+
+function lsd-mod.docker.container.create() {
+  local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
+  source ${LSCRIPTS}/argparse.sh "$@"
+
+
+  local scriptname=$(basename ${BASH_SOURCE[0]})
+  lsd-mod.log.debug "executing script...: ${scriptname}"
+
+  ## This creates hello-world, hence do not use this; only for debugging purpose
+  # lsd-mod.docker.verify &>/dev/null \
+  #   || lsd-mod.log.fail "Dependency docker-ce-verify is not installed!"
+
+
+  [[ "$#" -lt "1" ]] && lsd-mod.log.fail "Invalid number of paramerters: required --image [--container] given $#"
+  [[ -n "${args['image']+1}" ]] || lsd-mod.log.fail "Required params: --image=<imageName> [--container=<containerName>]"
+
+  local DOCKER_BLD_CONTAINER_IMG="${args['image']}"
+
+  local DOCKER_CONTAINER_PREFIX
+  [[ -n "${args['prefix']+1}" ]] && DOCKER_CONTAINER_PREFIX=${args['prefix']} || \
+    DOCKER_CONTAINER_PREFIX=${DOCKER_PREFIX}
+
+  local DOCKER_CONTAINER_NAME
+  [[ -n "${args['container']+1}" ]] && DOCKER_CONTAINER_NAME=${args['container']} || \
+    DOCKER_CONTAINER_NAME=${DOCKER_CONTAINER_PREFIX}-$(date -d now +'%d%m%y_%H%M%S')
+
+
+  # local DOCKER_BLD_CONTAINER_IMG="$1"
+  lsd-mod.log.info "Using DOCKER_BLD_CONTAINER_IMG: ${DOCKER_BLD_CONTAINER_IMG}"
+
+  # local DOCKER_CONTAINER_NAME=${DOCKER_CONTAINER_PREFIX}-$(date -d now +'%d%m%y_%H%M%S')
+  lsd-mod.log.info "Using DOCKER_CONTAINER_NAME: ${DOCKER_CONTAINER_NAME}"
+
+  local _default=yes
+  local _que
+  local _msg
+  local _prog
+
+  _prog="docker"
+
+  _que="Pull docker image before creating the container"
+  _msg="Skipping pulling docker image. It must already exists before you continue further!"
+  lsd-mod.fio.yes_or_no_loop "${_que}" && {
+      lsd-mod.log.echo "Pulling image from dockerhub..."
+      lsd-mod.docker.image.pull ${DOCKER_BLD_CONTAINER_IMG}
+    } || lsd-mod.log.echo "${_msg}"
+
+  _que="Create container using ${_prog} now"
+  _msg="Skipping ${_prog} container creation!"
+  lsd-mod.fio.yesno_${_default} "${_que}" && {
+      lsd-mod.log.echo "Creating container..."
+      __${_prog}_.createcontainer ${DOCKER_BLD_CONTAINER_IMG} ${DOCKER_CONTAINER_NAME}
+    } || lsd-mod.log.echo "${_msg}"
+
+  _que="Create Host user inside container"
+  _msg="Skipping host user creation!"
+  lsd-mod.fio.yesno_${_default} "${_que}" && {
+      lsd-mod.log.echo "Creating Host user..."
+      lsd-mod.docker.userfix --name=${DOCKER_CONTAINER_NAME}
+    } || lsd-mod.log.echo "${_msg}"
+
+  _que="Add Docker user inside container to sudoer"
+  _msg="Skipping adding docker user to sudoer!"
+  lsd-mod.fio.yesno_${_default} "${_que}" && {
+      lsd-mod.log.echo "Adding to sudoer..."
+      lsd-mod.docker.adduser_to_sudoer --name=${DOCKER_CONTAINER_NAME}
+    } || lsd-mod.log.echo "${_msg}"
 }
