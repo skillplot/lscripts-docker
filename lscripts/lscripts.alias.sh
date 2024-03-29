@@ -256,4 +256,5 @@ function lsd-lscripts.alias.main() {
   alias lsd-crypto.keygen="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.crypto.ssh-keygen $@"
   alias lsd-crypto.encrypt="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.crypto.openssl-encrypt $@"
   alias lsd-crypto.decrypt="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.crypto.openssl-decrypt $@"
+  alias lsd-crypto.copykey="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.crypto.ssh-copy-id $@"
 }

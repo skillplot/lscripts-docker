@@ -118,7 +118,6 @@ local _LSD__ANT=${_LSD__DATA_ROOT}/ant
 local _LSD__AUTH=${LSCRIPTS__AUTH}
 [[ ! -z "${_LSD__AUTH}" ]] || _LSD__AUTH="${_LSD__DATA_ROOT}/auth"
 local _LSD__AUTH_PVT=${_LSD__AUTH}/.ssh
-local _LSD__AUTH_PUB=${_LSD__AUTH}/.ssh.pub
 
 local _LSD__ROS=${_LSD__DATA_ROOT}/catkin_ws
 local _LSD__CFG=${_LSD__DATA_ROOT}/cfg
