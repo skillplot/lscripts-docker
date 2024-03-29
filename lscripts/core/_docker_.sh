@@ -414,7 +414,7 @@ function lsd-mod.docker.verify() {
 
 function ___docker_.local_volumes() {
   ## Do NOT delete the trailing space
-  local volumes="$(lsd-mod.docker.local_volumes) ${DOCKER_VOLUMES} "
+  local volumes="$(lsd-mod.docker.local_volumes) "
   echo "${volumes}"
 }
 
@@ -426,8 +426,16 @@ function ___docker_.envvars() {
 
 
 function __docker_.createcontainer() {
-  local DOCKER_BLD_CONTAINER_IMG="$1"
-  local DOCKER_CONTAINER_NAME=$2
+  local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
+  source ${LSCRIPTS}/argparse.sh "$@"
+
+  local DOCKER_BLD_CONTAINER_IMG="${args['image']}"
+  local DOCKER_CONTAINER_NAME="${args['container']}"
+  local DOCKER_CONTAINER_PREFIX="${args['prefix']}"
+
+  local DOCKER_CONTAINER_HOSTNAME
+  [[ -n "${args['hostname']+1}" ]] && DOCKER_CONTAINER_HOSTNAME="${args['hostname']}" || \
+    DOCKER_CONTAINER_HOSTNAME="${DOCKER_LOCAL_HOST}"
 
   ${DOCKER_CMD} ps -a --format "{{.Names}}" | grep "${DOCKER_CONTAINER_NAME}" 1>/dev/null
 
@@ -441,22 +449,22 @@ function __docker_.createcontainer() {
   ## Todo:
   ## 1) static name for docker container
   ## 2) check if docker image exists, if not then ask to pull the image confirmation
+  ## 3) user input for docker volume, environment variables
 
   ## Use these flags with docker cmd if required
   # $(lsd-mod.docker.enable_nvidia_gpu) \
   # $(lsd-mod.docker.restart_policy) \
 
-
   ${DOCKER_CMD} run -d -it \
-    --name ${DOCKER_CONTAINER_NAME} \
-    $(___docker_.envvars) \
-    $(___docker_.local_volumes) \
-    --net host \
-    --add-host ${LOCAL_HOST}:127.0.0.1 \
-    --add-host ${DOCKER_LOCAL_HOST}:127.0.0.1 \
-    --hostname ${DOCKER_LOCAL_HOST} \
-    --shm-size ${SHM_SIZE_2GB} \
-    ${DOCKER_BLD_CONTAINER_IMG} &>/dev/null
+      --name ${DOCKER_CONTAINER_NAME} \
+      $(___docker_.envvars) \
+      $(___docker_.local_volumes) \
+      --net host \
+      --add-host ${LOCAL_HOST}:127.0.0.1 \
+      --add-host ${DOCKER_LOCAL_HOST}:127.0.0.1 \
+      --hostname ${DOCKER_CONTAINER_HOSTNAME} \
+      --shm-size ${SHM_SIZE_2GB} \
+      ${DOCKER_BLD_CONTAINER_IMG}
 
   [[ $? -eq 0 ]] || lsd-mod.log.fail "Internal Error: Failed to create docker container!"
 
@@ -468,7 +476,7 @@ function __docker_.createcontainer() {
   lsd-mod.log.info "Execute container..."
   lsd-mod.log.echo "lsd-docker.container.exec --name=${DOCKER_CONTAINER_NAME}\n"
 
-  lsd-mod.log.info "Or simple execution:\n ${DOCKER_CMD} exec -it ${DOCKER_CONTAINER_NAME}\n"
+  lsd-mod.log.info "Or simple execution:\n ${DOCKER_CMD} exec -it ${DOCKER_CONTAINER_NAME} /bin/bash\n"
 }
 
 
@@ -491,18 +499,21 @@ function lsd-mod.docker.container.create() {
   local DOCKER_BLD_CONTAINER_IMG="${args['image']}"
 
   local DOCKER_CONTAINER_PREFIX
-  [[ -n "${args['prefix']+1}" ]] && DOCKER_CONTAINER_PREFIX=${args['prefix']} || \
-    DOCKER_CONTAINER_PREFIX=${DOCKER_PREFIX}
+  [[ -n "${args['prefix']+1}" ]] && DOCKER_CONTAINER_PREFIX="${args['prefix']}" || \
+    DOCKER_CONTAINER_PREFIX="${DOCKER_PREFIX}"
 
   local DOCKER_CONTAINER_NAME
-  [[ -n "${args['container']+1}" ]] && DOCKER_CONTAINER_NAME=${args['container']} || \
-    DOCKER_CONTAINER_NAME=${DOCKER_CONTAINER_PREFIX}-$(date -d now +'%d%m%y_%H%M%S')
+  [[ -n "${args['container']+1}" ]] && DOCKER_CONTAINER_NAME="${args['container']}" || \
+    DOCKER_CONTAINER_NAME="${DOCKER_CONTAINER_PREFIX}"-$(date -d now +'%d%m%y_%H%M%S')
 
+  local DOCKER_CONTAINER_HOSTNAME
+  [[ -n "${args['hostname']+1}" ]] && DOCKER_CONTAINER_HOSTNAME="${args['hostname']}" || \
+    DOCKER_CONTAINER_HOSTNAME="${DOCKER_LOCAL_HOST}"
 
-  # local DOCKER_BLD_CONTAINER_IMG="$1"
-  lsd-mod.log.info "Using DOCKER_BLD_CONTAINER_IMG: ${DOCKER_BLD_CONTAINER_IMG}"
+  ## override default `DOCKER_IMG` for envvars
+  DOCKER_IMG="${DOCKER_BLD_CONTAINER_IMG}"
 
-  # local DOCKER_CONTAINER_NAME=${DOCKER_CONTAINER_PREFIX}-$(date -d now +'%d%m%y_%H%M%S')
+  lsd-mod.log.info "Using DOCKER_BLD_CONTAINER_IMG, DOCKER_IMG: ${DOCKER_BLD_CONTAINER_IMG}, ${DOCKER_IMG}"
   lsd-mod.log.info "Using DOCKER_CONTAINER_NAME: ${DOCKER_CONTAINER_NAME}"
 
   local _default=yes
@@ -516,27 +527,28 @@ function lsd-mod.docker.container.create() {
   _msg="Skipping pulling docker image. It must already exists before you continue further!"
   lsd-mod.fio.yes_or_no_loop "${_que}" && {
       lsd-mod.log.echo "Pulling image from dockerhub..."
-      lsd-mod.docker.image.pull ${DOCKER_BLD_CONTAINER_IMG}
+      lsd-mod.docker.image.pull "${DOCKER_BLD_CONTAINER_IMG}"
     } || lsd-mod.log.echo "${_msg}"
 
-  _que="Create container using ${_prog} now"
-  _msg="Skipping ${_prog} container creation!"
+
+  _que="Create container (unprivileged) using ${_prog} now"
+  _msg="Skipping ${_prog} (unprivileged) container creation!"
   lsd-mod.fio.yesno_${_default} "${_que}" && {
-      lsd-mod.log.echo "Creating container..."
-      __${_prog}_.createcontainer ${DOCKER_BLD_CONTAINER_IMG} ${DOCKER_CONTAINER_NAME}
+      lsd-mod.log.echo "Creating (unprivileged) container..."
+      __${_prog}_.createcontainer \
+        --image="${DOCKER_BLD_CONTAINER_IMG}" \
+        --container="${DOCKER_CONTAINER_NAME}" \
+        --prefix="${DOCKER_CONTAINER_PREFIX}" \
+        --hostname="${DOCKER_CONTAINER_HOSTNAME}"
+
+      lsd-mod.docker.userfix --name="${DOCKER_CONTAINER_NAME}"
+
     } || lsd-mod.log.echo "${_msg}"
 
-  _que="Create Host user inside container"
-  _msg="Skipping host user creation!"
-  lsd-mod.fio.yesno_${_default} "${_que}" && {
-      lsd-mod.log.echo "Creating Host user..."
-      lsd-mod.docker.userfix --name=${DOCKER_CONTAINER_NAME}
-    } || lsd-mod.log.echo "${_msg}"
-
-  _que="Add Docker user inside container to sudoer"
+  _que="Add Docker user inside unprivileged container to sudoer (recommended for development containers)"
   _msg="Skipping adding docker user to sudoer!"
   lsd-mod.fio.yesno_${_default} "${_que}" && {
       lsd-mod.log.echo "Adding to sudoer..."
-      lsd-mod.docker.adduser_to_sudoer --name=${DOCKER_CONTAINER_NAME}
+      lsd-mod.docker.adduser_to_sudoer --name="${DOCKER_CONTAINER_NAME}"
     } || lsd-mod.log.echo "${_msg}"
 }

@@ -69,7 +69,6 @@ local _LSD__OS_ROOT="${_LSD__ROOT}/${_LSD__BASENAME_OS}"
 local _LSD__CONFIG_ROOT="${_LSD__ROOT}/${_LSD__BASENAME}-config"
 local _LSD__DATA_ROOT="${_LSD__ROOT}/${_LSD__BASENAME}-dat"
 local _LSD__MOBILE_ROOT="${_LSD__ROOT}/${_LSD__BASENAME}-mobile"
-
 ##----
 ## home variables
 local _LSD__VM_HOME="${LSCRIPTS__VMHOME}"
@@ -113,7 +112,14 @@ local _LSD__TMP_HOME
 ## Data roots
 local _LSD__AID=${_LSD__DATA_ROOT}/aid
 local _LSD__ANT=${_LSD__DATA_ROOT}/ant
-local _LSD__AUTH=${_LSD__DATA_ROOT}/auth
+
+## local _LSD__AUTH=${_LSD__DATA_ROOT}/auth
+## authentication base directory is now configurable
+local _LSD__AUTH=${LSCRIPTS__AUTH}
+[[ ! -z "${_LSD__AUTH}" ]] || _LSD__AUTH="${_LSD__DATA_ROOT}/auth"
+local _LSD__AUTH_PVT=${_LSD__AUTH}/.ssh
+local _LSD__AUTH_PUB=${_LSD__AUTH}/.ssh.pub
+
 local _LSD__ROS=${_LSD__DATA_ROOT}/catkin_ws
 local _LSD__CFG=${_LSD__DATA_ROOT}/cfg
 local _LSD__CLOUD=${_LSD__DATA_ROOT}/cloud
@@ -247,6 +253,8 @@ declare -a _LSD__DATA_DIRS=(
   "ant"
   "ant/tfrecords"
   "auth"
+  "auth/.ssh"
+  "auth/.ssh.pub"
   "catkin_ws"
   "cfg"
   "cfg/arch"

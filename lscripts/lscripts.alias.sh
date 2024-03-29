@@ -250,4 +250,10 @@ function lsd-lscripts.alias.main() {
   alias lsd-systemd.list-dependencies="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.systemd.list-dependencies $@"
   alias lsd-systemd.cat="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.systemd.cat $@"
   alias lsd-systemd.nvm-config="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.systemd.nvm.create-service-config $@"
+  ###----------------------------------------------------------
+  ## lsd-crypto => _crypto_ module
+  ###----------------------------------------------------------
+  alias lsd-crypto.keygen="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.crypto.ssh-keygen $@"
+  alias lsd-crypto.encrypt="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.crypto.openssl-encrypt $@"
+  alias lsd-crypto.decrypt="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.crypto.openssl-decrypt $@"
 }
