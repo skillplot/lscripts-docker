@@ -6,7 +6,7 @@
 
 
 echo -e "__BUILD_FOR_CUDA_VER=\"${__BUILD_FOR_CUDA_VER}\""
-echo -e "__LINUX_DISTRIBUTION=\"${__LINUX_DISTRIBUTION}\""
+echo -e "__LINUX_DISTRIBUTION_TR=\"${__LINUX_DISTRIBUTION_TR}\""
 echo -e "OS=\"${OS}\""
 echo -e "CUDA_OS_REL=\"${CUDA_OS_REL}\""
 

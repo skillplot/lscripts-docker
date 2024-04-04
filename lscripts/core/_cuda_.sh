@@ -9,6 +9,20 @@
 
 
 function lsd-mod.cuda.get__vars() {
+  source ${__LSCRIPTS}/argparse.sh "$@"
+
+  local __LINUX_DISTRIBUTION_TR="${LINUX_DISTRIBUTION_TR}"
+  lsd-mod.log.echo "Allowed:: dist: ${bgre}ubuntu1604 ubuntu1804 ubuntu2004  ubuntu2204 ${nocolor}"
+  lsd-mod.log.echo "Default:: dist: ${bgre}${__LINUX_DISTRIBUTION_TR}${nocolor}"
+
+  [[ -n "${args['dist']+1}" ]] && __LINUX_DISTRIBUTION_TR=${args['dist']}
+  lsd-mod.log.echo "Using:: dist: ${bgre}${__LINUX_DISTRIBUTION_TR}${nocolor}"
+
+
+  local CUDA_REPO_KEY_URL="${NVIDIA_CUDA_REPO_BASEURL}/${__LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH}/${NVIDIA_CUDA_REPO_KEY}"
+  local ML_REPO_KEY_URL="${NVIDIA_ML_REPO_BASEURL}/${__LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH}/${NVIDIA_ML_REPO_KEY}"
+
+
   lsd-mod.log.echo "###----------------------------------------------------------"
   lsd-mod.log.echo "System CFG"
   lsd-mod.log.echo "###----------------------------------------------------------"
@@ -42,8 +56,11 @@ function lsd-mod.cuda.get__vars() {
 
   local __CUDA_REPO_KEY_URL="${NVIDIA_CUDA_REPO_BASEURL}/${LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH}/${NVIDIA_CUDA_REPO_KEY}"
   local __ML_REPO_KEY_URL="${NVIDIA_ML_REPO_BASEURL}/${LINUX_DISTRIBUTION_TR}/${NVIDIA_OS_ARCH}/${NVIDIA_ML_REPO_KEY}"
-  lsd-mod.log.echo "__CUDA_REPO_KEY_URL: ${bgre}${__CUDA_REPO_KEY_URL}${nocolor}"
-  lsd-mod.log.echo "__ML_REPO_KEY_URL: ${bgre}${__ML_REPO_KEY_URL}${nocolor}"
+  lsd-mod.log.echo "deprecated::__CUDA_REPO_KEY_URL: ${bgre}${__CUDA_REPO_KEY_URL}${nocolor}"
+  lsd-mod.log.echo "deprecated::__ML_REPO_KEY_URL: ${bgre}${__ML_REPO_KEY_URL}${nocolor}"
+
+  lsd-mod.log.echo "CUDA_REPO_KEY_URL: ${bgre}${CUDA_REPO_KEY_URL}${nocolor}"
+  lsd-mod.log.echo "ML_REPO_KEY_URL: ${bgre}${ML_REPO_KEY_URL}${nocolor}"
 
 
   lsd-mod.log.echo "###----------------------------------------------------------"
