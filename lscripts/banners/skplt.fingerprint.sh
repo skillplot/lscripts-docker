@@ -213,16 +213,30 @@ function lsd-mod.fingerprint.main() {
     }
   }
 
+  ## Check if information provided as arguments
+  local user_name=""
+  local user_email=""
+  local student_id=""
+  
+  while getopts n:e:i: flag
+  do
+    case "${flag}" in
+      n) user_name=${OPTARG};;
+      e) user_email=${OPTARG};;
+      i) student_id=${OPTARG};;
+    esac
+  done
 
   ## Get a valid name
-  local user_name=$(lsd-mod.fingerprint.get_valid_input "Enter your name" "lsd-mod.fingerprint.is_non_empty")
+  [ -z "$user_name" ] && user_name=$(lsd-mod.fingerprint.get_valid_input "Enter your name" "lsd-mod.fingerprint.is_non_empty")
 
   ## Get a valid email
-  local user_email=$(lsd-mod.fingerprint.get_valid_input "Enter your email" "lsd-mod.fingerprint.is_valid_email")
+  [ -z "$user_email" ] && user_email=$(lsd-mod.fingerprint.get_valid_input "Enter your email" "lsd-mod.fingerprint.is_valid_email")
 
 
   ## Get a valid student id
-  local student_id=$(lsd-mod.fingerprint.get_valid_input "Enter your Student ID" "lsd-mod.fingerprint.is_non_empty")
+  [ -z "$student_id" ] && student_id=$(lsd-mod.fingerprint.get_valid_input "Enter your Student ID" "lsd-mod.fingerprint.is_non_empty")
+
 
   lsd-mod.fingerprint.banner.skillplot
 
