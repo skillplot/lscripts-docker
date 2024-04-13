@@ -86,8 +86,13 @@ command -v lsd-ls
 
 ## Standalone Scripts
 
-
-1. Fingerprint Banner: Useful for having system fingerprint displayed while taking screenshots for lab assignments. It can be directly executed with the following command (internet access required)
+1. `wget` or `curl` is required if you are using direct execution of script from the URL. Install `wget` or `curl`, if they are not installed already. These utilities may not be installed on system newly installed.
+    ```bash
+    sudo apt -y update
+    sudo apt -y install wget
+    sudo apt -y install curl
+    ```
+2. Fingerprint Banner: Useful for having system fingerprint displayed while taking screenshots for lab assignments. It can be directly executed with the following command (internet access required)
     * Directly execute
         ```bash
         sudo bash <(curl -s https://raw.githubusercontent.com/skillplot/lscripts-docker/main/lscripts/banners/skplt.fingerprint.sh)
@@ -97,11 +102,14 @@ command -v lsd-ls
         ## Otherwise, they can download the script and execute it
         https://raw.githubusercontent.com/skillplot/lscripts-docker/main/lscripts/banners/skplt.fingerprint.sh
         ```
-2. Server Setup with Banner
+3. Server Setup with Banner
     * Directly execute
         ```bash
         sudo apt -y update
         sudo apt -y install curl
+        ## using wget
+        bash <(wget -qO- https://raw.githubusercontent.com/skillplot/lscripts-docker/main/lscripts/banners/skplt.serversetup.sh)
+        ## using curl
         bash <(curl -s https://raw.githubusercontent.com/skillplot/lscripts-docker/main/lscripts/banners/skplt.serversetup.sh)
         ```
     * Download it manually and execute
@@ -109,7 +117,7 @@ command -v lsd-ls
         ## Otherwise, they can download the script and execute it
         https://raw.githubusercontent.com/skillplot/lscripts-docker/main/lscripts/banners/skplt.serversetup.sh
         ```
-3. Add Login User to the system interactively
+4. Add Login User to the system interactively
     * Directly execute
         ```bash
         sudo apt -y update

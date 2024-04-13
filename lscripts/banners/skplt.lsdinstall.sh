@@ -18,7 +18,7 @@ function lsd-mod.fio.yesno_no() {
 
 ###----------------------------------------------------------
 
-function lsd-mod.banner.skillplot() {
+function lsd-mod.lsdinstall.banner.skillplot() {
 
 (>&2 echo -e "
 ###--------------------------------------------------------------------------
@@ -36,25 +36,25 @@ function lsd-mod.banner.skillplot() {
 }
 
 
-function lsd-mod.install_package_apt() {
+function lsd-mod.lsdinstall.install_package_apt() {
   ## Function to install a package using apt (Debian/Ubuntu)
   sudo apt update -y
   sudo apt install -y "$1"
 }
 
 ## Function to check if the input is non-empty
-function lsd-mod.is_non_empty() {
+function lsd-mod.lsdinstall.is_non_empty() {
   [ -n "$1" ]
 }
 
-function lsd-mod.is_valid_email() {
+function lsd-mod.lsdinstall.is_valid_email() {
   ## Function to validate the email format
   local email_regex="^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$"
   [[ "$1" =~ $email_regex ]]
 }
 
 
-function lsd-mod.get_valid_input() {
+function lsd-mod.lsdinstall.get_valid_input() {
   ## Function to get a valid input (non-empty and matching the specified data type)
   local prompt="$1"
   local validation_func="$2"
@@ -62,7 +62,7 @@ function lsd-mod.get_valid_input() {
   
   while true; do
     read -p "$prompt: " input
-    if $(lsd-mod.is_non_empty "$input" && $validation_func "$input"); then
+    if $(lsd-mod.lsdinstall.is_non_empty "$input" && $validation_func "$input"); then
       break
     fi
   done
@@ -71,7 +71,7 @@ function lsd-mod.get_valid_input() {
 }
 
 
-function lsd-mod.setup() {
+function lsd-mod.lsdinstall.setup() {
   local codehub="$1"
   local datahub="$2"
 
@@ -110,10 +110,10 @@ function lsd-mod.setup() {
 }
 
 
-function lsd-mod.main() {
+function lsd-mod.lsdinstall.main() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
 
-  lsd-mod.banner.skillplot
+  lsd-mod.lsdinstall.banner.skillplot
 
   ## Create and configure base directories for installation
 
@@ -131,12 +131,12 @@ function lsd-mod.main() {
   done
 
   ## Get a valid codehub root
-  [ -z "${codehub}" ] && codehub=$(lsd-mod.get_valid_input "Enter codehub root absolute basepath" "lsd-mod.is_non_empty")
+  [ -z "${codehub}" ] && codehub=$(lsd-mod.lsdinstall.get_valid_input "Enter codehub root absolute basepath" "lsd-mod.lsdinstall.is_non_empty")
 
   ## Get a valid datahub root
-  [ -z "${datahub}" ] && datahub=$(lsd-mod.get_valid_input "Enter datahub root absolute basepath" "lsd-mod.is_non_empty")
+  [ -z "${datahub}" ] && datahub=$(lsd-mod.lsdinstall.get_valid_input "Enter datahub root absolute basepath" "lsd-mod.lsdinstall.is_non_empty")
 
-  lsd-mod.setup "${codehub}" "${datahub}"
+  lsd-mod.lsdinstall.setup "${codehub}" "${datahub}"
   (>&2 echo -e "lscripts-docker installation path: ${codehub}! and datahub path is: ${datahub}.
 ###--------------------------------------------------------------------------")
 
@@ -147,7 +147,7 @@ function lsd-mod.main() {
   lsd-mod.fio.yesno_${_default} "${_que}" && {
     echo "Installing..."
     (>&2 echo -e "Installing lscripts-docker... root access is required!")
-    lsd-mod.install_package_apt ${_cmd}
+    lsd-mod.lsdinstall.install_package_apt ${_cmd}
 
     ## clone repo
     git -C ${codehub}/external clone https://github.com/skillplot/lscripts-docker.git
@@ -156,4 +156,4 @@ function lsd-mod.main() {
 
 }
 
-lsd-mod.main "$@"
+lsd-mod.lsdinstall.main "$@"
