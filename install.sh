@@ -4,6 +4,8 @@
 ##__author__ = 'mangalbhaskar'
 ###----------------------------------------------------------
 ## lscripts-docker installation
+## TODO:
+## * if directory already exists handling
 ###----------------------------------------------------------
 
 
@@ -38,8 +40,8 @@ function lsd-mod.banner.skillplot() {
 
 function lsd-mod.install_package_apt() {
   ## Function to install a package using apt (Debian/Ubuntu)
-  sudo apt update -y
-  sudo apt install -y "$1"
+  sudo apt -y update
+  sudo apt -y install "$1"
 }
 
 ## Function to check if the input is non-empty

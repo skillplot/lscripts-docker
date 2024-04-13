@@ -1,8 +1,8 @@
 ---
 title: All Commands
 description: List of all commands for Lscripts Docker
-date: 2024-02-19 00:04:20
-last_updated: 00:04:20, 19-Feb-2024, Monday
+date: 2024-04-13 12:39:56
+last_updated: 12:39:56, 13-Apr-2024, Saturday
 note: Auto generated file and will be overwritten
 ---
 
@@ -38,6 +38,10 @@ lsd-cmd.monitoring-cmds
 lsd-cmd.mount.smb
 lsd-cmd.mount.ssh
 lsd-cmd.pm
+lsd-crypto.copykey
+lsd-crypto.decrypt
+lsd-crypto.encrypt
+lsd-crypto.keygen
 lsd-cuda.addrepo
 lsd-cuda.addrepo-key
 lsd-cuda.admin.__purge_cuda_stack
@@ -64,6 +68,7 @@ lsd-dir.cfg
 lsd-dir.get-datadirs-paths
 lsd-dir.get-osdirs-paths
 lsd-docker.cfg
+lsd-docker.container.create
 lsd-docker.container.delete-all
 lsd-docker.container.delete-byimage
 lsd-docker.container.exec
@@ -74,8 +79,16 @@ lsd-docker.container.list-ids-all
 lsd-docker.container.status
 lsd-docker.container.stop-all
 lsd-docker.container.test
+lsd-docker.get.enable_nvidia_gpu
+lsd-docker.get.envvars
+lsd-docker.get.local_volumes
+lsd-docker.get.port_maps
+lsd-docker.get.restart_policy
 lsd-docker.image.build
 lsd-docker.osvers
+lsd-docker.user.add2sudoer
+lsd-docker.user.fix
+lsd-docker.verify
 lsd-docs.admin.update
 lsd-docs.cmds
 lsd-docs.markdown2latex
@@ -89,8 +102,9 @@ lsd-install.apache2
 lsd-install.asciidoc-clone
 lsd-install.atom-wget-dpkg
 lsd-install.audacity-apt
-lsd-install.balenaetcher-apt
+lsd-install.balenaetcher-wget-dpkg
 lsd-install.blender-wget
+lsd-install.bravebrowser-apt
 lsd-install.ceressolver-clone
 lsd-install.chrootjail
 lsd-install.core-apt
@@ -247,6 +261,7 @@ lsd-system.cpu.threads
 lsd-system.df.json
 lsd-system.info
 lsd-system.ip
+lsd-system.ip-public
 lsd-system.osinfo
 lsd-systemd.cat
 lsd-systemd.list-active

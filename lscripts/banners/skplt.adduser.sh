@@ -40,7 +40,7 @@ function lsd-mod.fio.yes_or_no_loop() {
 
 ###----------------------------------------------------------
 
-function lsd-mod.adduser.skillplot() {
+function lsd-mod.skillplot() {
 
 (>&2 echo -e "
 ###--------------------------------------------------------------------------
@@ -58,16 +58,16 @@ function lsd-mod.adduser.skillplot() {
 }
 
 
-function lsd-mod.adduser.command_exists() {
+function lsd-mod.command_exists() {
   ## Function to check if a command is available
   command -v "$1" >/dev/null 2>&1
 }
 
 
-function lsd-mod.adduser.create-login-user() {
+function lsd-mod.create-login-user() {
   ## Get a username name
-  local username=$(lsd-mod.adduser.get_valid_input "Enter username" "lsd-mod.adduser.is_non_empty")
-  ## local groupname=$(lsd-mod.adduser.get_valid_input "Enter group name" "lsd-mod.adduser.is_non_empty")
+  local username=$(lsd-mod.get_valid_input "Enter username" "lsd-mod.is_non_empty")
+  ## local groupname=$(lsd-mod.get_valid_input "Enter group name" "lsd-mod.is_non_empty")
   local groupname="skillplot"
 
   (>&2 echo -e "New system user (${username}) will be added to the groups: (${username}) and (${groupname})")
@@ -112,26 +112,26 @@ function lsd-mod.adduser.create-login-user() {
 }
 
 
-function lsd-mod.adduser.get_mac_address() {
+function lsd-mod.get_mac_address() {
   ## Function to get the MAC address
   # ip link show | awk '/ether/ && !/link\/ether/ {print $2; exit}'
   # echo $(LANG=C ip link show | awk '/link\/ether/ {print $2}' | tr '\n' '|')
   echo $(ip link | awk '{print $2}'  | tr '\n' '|')
 }
 
-function lsd-mod.adduser.get_hostname() {
+function lsd-mod.get_hostname() {
   ## Function to get the hostname
   hostname
 }
 
-function lsd-mod.adduser.get_cpu_info() {
+function lsd-mod.get_cpu_info() {
   ## Function to get CPU information
   cat /proc/cpuinfo | grep 'model name' | head -n 1
 }
 
-function lsd-mod.adduser.get_os_name() {
+function lsd-mod.get_os_name() {
   ## Function to obtain the operating system name (fallback if lsb_release is unavailable)
-  if lsd-mod.adduser.command_exists lsb_release; then
+  if lsd-mod.command_exists lsb_release; then
     lsb_release -d | awk -F'\t' '{print $2}'
   else
     # Fallback method to obtain OS name
@@ -145,16 +145,16 @@ function lsd-mod.adduser.get_os_name() {
   fi
 }
 
-function lsd-mod.adduser.system() {
+function lsd-mod.system() {
   ## Function to generate a unique system ID by hashing the input
-  local mac_address=$(lsd-mod.adduser.get_mac_address)
-  local hostname=$(lsd-mod.adduser.get_hostname)
-  local cpu_info=$(lsd-mod.adduser.get_cpu_info)
+  local mac_address=$(lsd-mod.get_mac_address)
+  local hostname=$(lsd-mod.get_hostname)
+  local cpu_info=$(lsd-mod.get_cpu_info)
   local cpu_cores=$(grep -c '^processor' /proc/cpuinfo)
   local cpu_threads=$(grep -c '^processor' /proc/cpuinfo)
   local architecture=$(uname -m)
   local kernel_version=$(uname -r)
-  local os_name=$(lsd-mod.adduser.get_os_name)
+  local os_name=$(lsd-mod.get_os_name)
   
   local total_ram=$(free -h --si | awk '/Mem:/{print $2}')
   local storage_available=$(df -h / | awk '/\//{print $4}')
@@ -181,7 +181,7 @@ Current User: $current_user ")
 }
 
 
-function lsd-mod.adduser.display_datetime() {
+function lsd-mod.display_datetime() {
   ## Function to display the current date, time, month, and year
   local current_date=$(date "+%A, %B %d, %Y")
   local current_time=$(date "+%T")
@@ -190,13 +190,13 @@ function lsd-mod.adduser.display_datetime() {
 }
 
 
-function lsd-mod.adduser.is_non_empty() {
+function lsd-mod.is_non_empty() {
   ## Function to check if the input is non-empty
   [ -n "$1" ]
 }
 
 
-function lsd-mod.adduser.get_valid_input() {
+function lsd-mod.get_valid_input() {
   ## Function to get a valid input (non-empty and matching the specified data type)
   local prompt="$1"
   local validation_func="$2"
@@ -204,7 +204,7 @@ function lsd-mod.adduser.get_valid_input() {
   
   while true; do
     read -p "$prompt: " input
-    if $(lsd-mod.adduser.is_non_empty "$input" && $validation_func "$input"); then
+    if $(lsd-mod.is_non_empty "$input" && $validation_func "$input"); then
       break
     fi
   done
@@ -213,12 +213,12 @@ function lsd-mod.adduser.get_valid_input() {
 }
 
 
-function lsd-mod.adduser.main() {
+function lsd-mod.main() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
 
-  lsd-mod.adduser.skillplot
+  lsd-mod.skillplot
 
-  local combined_info=$(lsd-mod.adduser.system)
+  local combined_info=$(lsd-mod.system)
   (>&2 echo -e "$combined_info")
 
   (>&2 echo -e "###--------------------------------------------------------------------------")
@@ -230,12 +230,12 @@ function lsd-mod.adduser.main() {
   lsd-mod.fio.yesno_${_default} "${_que}" && {
     (>&2 echo -e "Executing... sudo access is required!")
 
-    lsd-mod.adduser.create-login-user
+    lsd-mod.create-login-user
 
     while true; do
       _que="Add another user."
       lsd-mod.fio.yes_or_no_loop "${_que}" && {
-          lsd-mod.adduser.create-login-user
+          lsd-mod.create-login-user
       } || {
         (>&2 echo -e "Thank you! If this is helpful add star to this repo: https://github.com/skillplot/lscripts-docker
 ###--------------------------------------------------------------------------")
@@ -245,4 +245,4 @@ function lsd-mod.adduser.main() {
   }  
 }
 
-lsd-mod.adduser.main "$@"
+lsd-mod.main "$@"

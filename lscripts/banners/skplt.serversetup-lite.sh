@@ -3,7 +3,7 @@
 ## Copyright (c) 2024 mangalbhaskar. All Rights Reserved.
 ##__author__ = 'mangalbhaskar'
 ###----------------------------------------------------------
-## Fingerprint Banner for Educational Screenshots
+## Ubuntu Server Setup for Educational and Research Purpose
 ###----------------------------------------------------------
 
 
@@ -42,31 +42,56 @@ function lsd-mod.command_exists() {
 }
 
 function lsd-mod.install_package_apt() {
-  ## Function to install a package using apt (Debian/Ubuntu)
-  sudo apt -y update
-  sudo apt -y install "$1"
+  ## Function to install pre-requisite packages using apt (Debian/Ubuntu)
+  sudo apt -y update && sudo apt -y install --no-install-recommends \
+    build-essential \
+    ca-certificates \
+    gnupg \
+    gnupg2 \
+    wget \
+    curl \
+    rsync \
+    unzip \
+    zip \
+    git \
+    grep \
+    feh \
+    tree \
+    sudo \
+    jq \
+    openssh-server \
+    gcc \
+    vim 2>/dev/null
 }
 
-function lsd-mod.install_package_yum() {
-  ## Function to install a package using yum (CentOS/RHEL)
-  yum install -y "$1"
+
+function lsd-mod.install_lscripts() {
+  local __codehub_root__="/tmp/codehub"
+  local __lscripts_external__="${__codehub_root__}/external"
+
+  sudo mkdir -p ${__lscripts_external__}
+  sudo chown -R $(id -un):$(id -gn) ${__codehub_root__}
+
+  [[ ! -d "${__lscripts_external__}/lscripts-docker" ]] && {
+    echo '${__lscripts_external__}/lscripts-docker directory not exists.' 
+    echo 'git cloning at ${__lscripts_external__}/lscripts-docker directory.' 
+    git -C ${__lscripts_external__} clone https://github.com/skillplot/lscripts-docker.git
+  }
+
+  local BASHRC_FILE="$HOME/.bashrc"
+  local FILE=${BASHRC_FILE}
+  local LINE
+
+  LINE='export LSCRIPTS_DOCKER="'${__lscripts_external__}'/lscripts-docker"'
+  grep -qF "$LINE" "$FILE" || echo "$LINE" >> "$FILE"
+
+  LINE='[ -f ${LSCRIPTS_DOCKER}/lscripts/lscripts.env.sh ] && source ${LSCRIPTS_DOCKER}/lscripts/lscripts.env.sh'
+  grep -qF "$LINE" "$FILE" || echo "$LINE" >> "$FILE"
+
+  ## this will work only if the script is invoked with `source` command
+  source ${FILE}
+  echo 'Open a new terminal.' 
 }
-
-
-# function lsd-mod.install_dependencies() {
-#   ## Function to install required dependencies
-#   # if ! lsd-mod.command_exists dmidecode; then
-#   #   echo "dmidecode is not installed. Installing..."
-#   #   lsd-mod.install_package_apt dmidecode || install_package_yum dmidecode
-#   # fi
-
-#   local _cmd="figlet"
-#   type ${_cmd} &>/dev/null || {
-#     (>&2 echo -e "figlet is not installed.")
-#     (>&2 echo -e "Installing figlet... sudo access is required!")
-#     lsd-mod.install_package_apt ${_cmd} || install_package_yum ${_cmd}
-#   }
-# }
 
 
 function lsd-mod.get_mac_address() {
@@ -156,8 +181,8 @@ function lsd-mod.display_datetime() {
 }
 
 
-## Function to check if the input is non-empty
 function lsd-mod.is_non_empty() {
+  ## Function to check if the input is non-empty
   [ -n "$1" ]
 }
 
@@ -185,69 +210,38 @@ function lsd-mod.get_valid_input() {
 }
 
 
-function lsd-mod.convert_to_output() {
-  ## Function to convert input to ASCII art using figlet or simple text output
-  local input="$1"
-  local _art=$input
-
-  if lsd-mod.command_exists figlet; then
-    _art=$(figlet "$input")
-  fi
-
-  (>&2 echo -e "$_art")
-}
-
-
 function lsd-mod.main() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
-
-  local _default=no
-  local _cmd="figlet"
-  type ${_cmd} &>/dev/null || {
-    # (>&2 echo -e "figlet is not installed.")
-    local _que="Insall dependencies to print the ASCII ART banner"
-    lsd-mod.fio.yesno_${_default} "${_que}" && {
-      echo "Installing..."
-      (>&2 echo -e "Installing figlet... root access is required!")
-      lsd-mod.install_package_apt ${_cmd}
-    }
-  }
-
-  ## Check if information provided as arguments
-  local user_name=""
-  local user_email=""
-  local student_id=""
-  
-  while getopts n:e:i: flag
-  do
-    case "${flag}" in
-      n) user_name=${OPTARG};;
-      e) user_email=${OPTARG};;
-      i) student_id=${OPTARG};;
-    esac
-  done
-
-  ## Get a valid name
-  [ -z "$user_name" ] && user_name=$(lsd-mod.get_valid_input "Enter your name" "lsd-mod.is_non_empty")
-
-  ## Get a valid email
-  [ -z "$user_email" ] && user_email=$(lsd-mod.get_valid_input "Enter your email" "lsd-mod.is_valid_email")
-
-
-  ## Get a valid student id
-  [ -z "$student_id" ] && student_id=$(lsd-mod.get_valid_input "Enter your Student ID" "lsd-mod.is_non_empty")
-
 
   lsd-mod.banner.skillplot
 
 
-  # ## Print ASCII art of the input or use simple text output
-  lsd-mod.convert_to_output "$student_id"
-
   local combined_info=$(lsd-mod.banner.system)
   (>&2 echo -e "$combined_info")
 
-  (>&2 echo -e "Thank you, $user_name! Details you provided are - ID: $student_id and Email: $user_email.
+  local _default=no
+  local _que="Insall minium server setup dependencies!"
+  lsd-mod.fio.yesno_${_default} "${_que}" && {
+    echo "Installing..."
+    (>&2 echo -e "Installing required packages... root access is required!")
+    lsd-mod.install_package_apt
+  }
+
+  local _default=no
+  local _cmd="git"
+  type ${_cmd} &>/dev/null && {
+    local _que="Insall lscripts"
+    lsd-mod.fio.yesno_${_default} "${_que}" && {
+      echo "Installing..."
+      (>&2 echo -e "Installing lscripts...git is requried!")
+      lsd-mod.install_lscripts
+    }
+  }
+
+
+
+  (>&2 echo -e "Thank you! If this is helpful add star to this repo: https://github.com/skillplot/lscripts-docker
+Next:\n 1) Open new terminal, check if skillplot banner comes, if yes then execute following command:\n lsd-stack.nvidia_cuda_python_docker
 ###--------------------------------------------------------------------------")
 }
 

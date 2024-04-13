@@ -57,14 +57,13 @@ sudo apt -y install wget
 ```
 
 ```bash
-curl -o- https://raw.githubusercontent.com/skillplot/lscripts-docker/main/install.sh | bash
-sudo bash <(curl -s https://raw.githubusercontent.com/skillplot/lscripts-docker/main/install.sh)
+bash <(wget -qO- https://raw.githubusercontent.com/skillplot/lscripts-docker/main/install.sh)
 ```
 
 ```bash
-wget -qO- https://raw.githubusercontent.com/skillplot/lscripts-docker/main/install.sh | bash
-sudo bash <(wget -qO- https://raw.githubusercontent.com/skillplot/lscripts-docker/main/install.sh)
+bash <(curl -s https://raw.githubusercontent.com/skillplot/lscripts-docker/main/install.sh)
 ```
+
 
 Running either of the above commands downloads a script and runs it. The script clones the `lscripts-docker` repository to `~/.lscripts-docker`, and attempts to add the source lines from the snippet below to the correct profile file: `~/.bash_profile`, `~/.zshrc`, `~/.profile`, or `~/.bashrc`).
 * bash: `source ~/.bashrc`
@@ -78,7 +77,9 @@ Running either of the above commands downloads a script and runs it. The script 
     ```
 2. Put the following in the end of the `~/.bashrc` file. Change the path where you cloned the repo:
     ```bash
-    export LSCRIPTS_DOCKER="/<replace_this_with_basepath>/lscripts-docker"
+    ## Replace /codehub with your desired basepath
+    export __CODEHUB_ROOT__="/codehub"
+    export __LSCRIPTS_DOCKER="${__CODEHUB_ROOT__}/external/lscripts-docker"
     [ -f ${LSCRIPTS_DOCKER}/lscripts/lscripts.env.sh ] && source ${LSCRIPTS_DOCKER}/lscripts/lscripts.env.sh
     ```
 
@@ -129,7 +130,10 @@ command -v lsd-ls
 4. Add Login User to the system interactively
     * Directly execute
         ```bash
+        ## using curl
         bash <(curl -s https://raw.githubusercontent.com/skillplot/lscripts-docker/main/lscripts/banners/skplt.adduser.sh)
+        ## using wget
+        bash <(wget -qO- https://raw.githubusercontent.com/skillplot/lscripts-docker/main/lscripts/banners/skplt.adduser.sh)
         ```
     * Download it manually and execute
         ```bash

@@ -15,7 +15,9 @@ categories: quick-start
   ```
 2. Put the following in the end of the `~/.bashrc` file. Change the path where you cloned the repo:
   ```bash
-  export LSCRIPTS__DOCKER="<change_this_to_path_absolute_path>/lscripts-docker"
+  ## Replace /codehub with your desired basepath
+  export __CODEHUB_ROOT__="/codehub"
+  export __LSCRIPTS_DOCKER="${__CODEHUB_ROOT__}/external/lscripts-docker"
   [ -f ${LSCRIPTS__DOCKER}/lscripts/lscripts.env.sh ] && source ${LSCRIPTS__DOCKER}/lscripts/lscripts.env.sh
   ```
 

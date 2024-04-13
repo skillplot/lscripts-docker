@@ -18,7 +18,7 @@ function lsd-mod.fio.yesno_no() {
 
 ###----------------------------------------------------------
 
-function lsd-mod.serversetup.banner.skillplot() {
+function lsd-mod.banner.skillplot() {
 
 (>&2 echo -e "
 ###--------------------------------------------------------------------------
@@ -36,12 +36,12 @@ function lsd-mod.serversetup.banner.skillplot() {
 }
 
 
-function lsd-mod.serversetup.command_exists() {
+function lsd-mod.command_exists() {
   ## Function to check if a command is available
   command -v "$1" >/dev/null 2>&1
 }
 
-function lsd-mod.serversetup.install_package_apt() {
+function lsd-mod.install_package_apt() {
   ## Function to install pre-requisite packages using apt (Debian/Ubuntu)
   
   sudo apt -y update && sudo apt -y install --no-install-recommends \
@@ -90,7 +90,7 @@ function lsd-mod.serversetup.install_package_apt() {
 }
 
 
-function lsd-mod.serversetup.install_lscripts() {
+function lsd-mod.install_lscripts() {
   local __codehub_root__="/tmp/codehub"
   local __lscripts_external__="${__codehub_root__}/external"
 
@@ -119,26 +119,26 @@ function lsd-mod.serversetup.install_lscripts() {
 }
 
 
-function lsd-mod.serversetup.get_mac_address() {
+function lsd-mod.get_mac_address() {
   ## Function to get the MAC address
   # ip link show | awk '/ether/ && !/link\/ether/ {print $2; exit}'
   # echo $(LANG=C ip link show | awk '/link\/ether/ {print $2}' | tr '\n' '|')
   echo $(ip link | awk '{print $2}'  | tr '\n' '|')
 }
 
-function lsd-mod.serversetup.get_hostname() {
+function lsd-mod.get_hostname() {
   ## Function to get the hostname
   hostname
 }
 
-function lsd-mod.serversetup.get_cpu_info() {
+function lsd-mod.get_cpu_info() {
   ## Function to get CPU information
   cat /proc/cpuinfo | grep 'model name' | head -n 1
 }
 
-function lsd-mod.serversetup.get_os_name() {
+function lsd-mod.get_os_name() {
   ## Function to obtain the operating system name (fallback if lsb_release is unavailable)
-  if lsd-mod.serversetup.command_exists lsb_release; then
+  if lsd-mod.command_exists lsb_release; then
     lsb_release -d | awk -F'\t' '{print $2}'
   else
     # Fallback method to obtain OS name
@@ -152,16 +152,16 @@ function lsd-mod.serversetup.get_os_name() {
   fi
 }
 
-function lsd-mod.serversetup.banner.system() {
+function lsd-mod.banner.system() {
   ## Function to generate a unique system ID by hashing the input
-  local mac_address=$(lsd-mod.serversetup.get_mac_address)
-  local hostname=$(lsd-mod.serversetup.get_hostname)
-  local cpu_info=$(lsd-mod.serversetup.get_cpu_info)
+  local mac_address=$(lsd-mod.get_mac_address)
+  local hostname=$(lsd-mod.get_hostname)
+  local cpu_info=$(lsd-mod.get_cpu_info)
   local cpu_cores=$(grep -c '^processor' /proc/cpuinfo)
   local cpu_threads=$(grep -c '^processor' /proc/cpuinfo)
   local architecture=$(uname -m)
   local kernel_version=$(uname -r)
-  local os_name=$(lsd-mod.serversetup.get_os_name)
+  local os_name=$(lsd-mod.get_os_name)
   
   local total_ram=$(free -h --si | awk '/Mem:/{print $2}')
   local storage_available=$(df -h / | awk '/\//{print $4}')
@@ -176,7 +176,7 @@ function lsd-mod.serversetup.banner.system() {
     
   
   # ## Try to get the system UUID from dmidecode if available
-  # if lsd-mod.serversetup.command_exists dmidecode; then
+  # if lsd-mod.command_exists dmidecode; then
   #   vm_uuid=$(sudo dmidecode -s system-uuid 2>/dev/null)
   #   if [ -n "$vm_uuid" ]; then
   #     system_id="$system_id\nVM UUID: $vm_uuid"
@@ -197,7 +197,7 @@ Current User: $current_user ")
 }
 
 
-function lsd-mod.serversetup.display_datetime() {
+function lsd-mod.display_datetime() {
   ## Function to display the current date, time, month, and year
   local current_date=$(date "+%A, %B %d, %Y")
   local current_time=$(date "+%T")
@@ -206,19 +206,19 @@ function lsd-mod.serversetup.display_datetime() {
 }
 
 
-function lsd-mod.serversetup.is_non_empty() {
+function lsd-mod.is_non_empty() {
   ## Function to check if the input is non-empty
   [ -n "$1" ]
 }
 
-function lsd-mod.serversetup.is_valid_email() {
+function lsd-mod.is_valid_email() {
   ## Function to validate the email format
   local email_regex="^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$"
   [[ "$1" =~ $email_regex ]]
 }
 
 
-function lsd-mod.serversetup.get_valid_input() {
+function lsd-mod.get_valid_input() {
   ## Function to get a valid input (non-empty and matching the specified data type)
   local prompt="$1"
   local validation_func="$2"
@@ -226,7 +226,7 @@ function lsd-mod.serversetup.get_valid_input() {
   
   while true; do
     read -p "$prompt: " input
-    if $(lsd-mod.serversetup.is_non_empty "$input" && $validation_func "$input"); then
+    if $(lsd-mod.is_non_empty "$input" && $validation_func "$input"); then
       break
     fi
   done
@@ -235,47 +235,20 @@ function lsd-mod.serversetup.get_valid_input() {
 }
 
 
-function lsd-mod.serversetup.convert_to_output() {
-  ## Function to convert input to ASCII art using figlet or simple text output
-  local input="$1"
-  local _art=$input
-
-  if lsd-mod.serversetup.command_exists figlet; then
-    _art=$(figlet "$input")
-  fi
-
-  (>&2 echo -e "$_art")
-}
-
-
-function lsd-mod.serversetup.main() {
+function lsd-mod.main() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
 
-  # ## Get a valid name
-  # local user_name=$(lsd-mod.serversetup.get_valid_input "Enter your name" "lsd-mod.serversetup.is_non_empty")
+  lsd-mod.banner.skillplot
 
-  # ## Get a valid email
-  # local user_email=$(lsd-mod.serversetup.get_valid_input "Enter your email" "lsd-mod.serversetup.is_valid_email")
-
-
-  # ## Get a valid student id
-  # local student_id=$(lsd-mod.serversetup.get_valid_input "Enter your Student ID" "lsd-mod.serversetup.is_non_empty")
-
-  lsd-mod.serversetup.banner.skillplot
-
-
-  # ## Print ASCII art of the input or use simple text output
-  # lsd-mod.serversetup.convert_to_output "$student_id"
-
-  local combined_info=$(lsd-mod.serversetup.banner.system)
+  local combined_info=$(lsd-mod.banner.system)
   (>&2 echo -e "$combined_info")
 
   local _default=no
-  local _que="Insall minium server setup dependencies!"
+  local _que="Insall essential server setup dependencies. If you want instead for minimal dependencies: skplt.serversetup-lite.sh and for Edge devices: skplt.serversetup-edge.sh!"
   lsd-mod.fio.yesno_${_default} "${_que}" && {
     echo "Installing..."
     (>&2 echo -e "Installing required packages... root access is required!")
-    lsd-mod.serversetup.install_package_apt
+    lsd-mod.install_package_apt
   }
 
   local _default=no
@@ -285,7 +258,7 @@ function lsd-mod.serversetup.main() {
     lsd-mod.fio.yesno_${_default} "${_que}" && {
       echo "Installing..."
       (>&2 echo -e "Installing lscripts...git is requried!")
-      lsd-mod.serversetup.install_lscripts
+      lsd-mod.install_lscripts
     }
   }
 
@@ -296,4 +269,4 @@ Next:\n 1) Open new terminal, check if skillplot banner comes, if yes then execu
 ###--------------------------------------------------------------------------")
 }
 
-lsd-mod.serversetup.main "$@"
+lsd-mod.main "$@"
