@@ -2,7 +2,7 @@ site_name: Lscripts Docker Toolkit
 site_description: Shell script framework for MLOps.
 site_author: mangalbhaskar
 ## Copyright
-copyright: © skillplot.org 2021. All Rights Reserved.
+copyright: © skillplot.org 2024. All Rights Reserved.
 
 ## Configuration
 ## https://squidfunk.github.io/mkdocs-material/setup/changing-the-colors/#primary-color
