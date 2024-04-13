@@ -1,6 +1,6 @@
 #!/bin/bash
 
-## Copyright (c) 2021 mangalbhaskar. All Rights Reserved.
+## Copyright (c) 2024 mangalbhaskar. All Rights Reserved.
 ##__author__ = 'mangalbhaskar'
 ##----------------------------------------------------------
 ## CUDA Stack 11.6, Nvidia Driver: 510+

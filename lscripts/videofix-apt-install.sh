@@ -1,6 +1,6 @@
 #!/bin/bash
 
-## Copyright (c) 2021 mangalbhaskar. All Rights Reserved.
+## Copyright (c) 2024 mangalbhaskar. All Rights Reserved.
 ##__author__ = 'mangalbhaskar'
 ###----------------------------------------------------------
 ## How to Enable Ubuntu 18.04 LTS to Play Videos Files
