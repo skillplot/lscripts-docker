@@ -1,6 +1,6 @@
 #!/bin/bash
 
-## Copyright (c) 2021 mangalbhaskar. All Rights Reserved.
+## Copyright (c) 2024 mangalbhaskar. All Rights Reserved.
 ##__author__ = 'mangalbhaskar'
 ###----------------------------------------------------------
 ## Alias for system configurations and convenience utilities
@@ -130,6 +130,7 @@ function lsd-lscripts.alias.main() {
   alias lsd-system.cpu.threads="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.system.get__numthreads"
   alias lsd-system.df.json="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.system.df_json"
   alias lsd-system.ip="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.system.get__ip"
+  alias lsd-system.ip-public="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.system.get__ip-public"
   alias lsd-system.osinfo="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.system.get__osinfo"
   alias lsd-system.info="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.system.get__info"
   ###-------

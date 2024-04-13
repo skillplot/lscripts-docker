@@ -130,6 +130,6 @@ Content under `/docs` directory under the Creative Commons Attribution-NonCommer
 All other content under [License](LICENSE) terms.
 
 ```
-Copyright 2016-2021 Bhaskar Mangal (a.k.a. mangalbhaskar). All rights reserved.
+Copyright 2016-2024 Bhaskar Mangal (a.k.a. mangalbhaskar). All rights reserved.
 __author__ = 'mangalbhaskar'
 ```

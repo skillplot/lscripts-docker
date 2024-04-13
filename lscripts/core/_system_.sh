@@ -1,6 +1,6 @@
 #!/bin/bash
 
-## Copyright (c) 2021 mangalbhaskar. All Rights Reserved.
+## Copyright (c) 2024 mangalbhaskar. All Rights Reserved.
 ##__author__ = 'mangalbhaskar'
 ###----------------------------------------------------------
 ## system utility functions
@@ -36,6 +36,17 @@ function lsd-mod.system.get__info() {
 
 function lsd-mod.system.get__cpu_cores() {
   cat /proc/cpuinfo |grep -i 'core id'|wc -l
+}
+
+
+function lsd-mod.system.get__ip-public() {
+  curl ifconfig.me
+  echo -e ""
+  curl icanhazip.com
+  curl ipinfo.io/ip
+  echo -e ""
+  wget -qO- ifconfig.me
+  echo -e ""
 }
 
 

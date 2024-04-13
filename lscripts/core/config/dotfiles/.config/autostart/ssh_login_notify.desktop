@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Exec=/usr/local/bin/ssh_login_notify.sh
+Hidden=false
+NoDisplay=false
+X-GNOME-Autostart-enabled=true
+Name[en_IN]=SSH Login Notify
+Name=SSH Login Notify
+Comment=Monitor SSH logins and send notifications

@@ -18,6 +18,7 @@ function extras-apt-install.main() {
   # vim ~/.config/redshift.conf
   # sudo apt -y install sct
   sudo apt -y install gnuplot
+  sudo apt -y install traceroute
 
   # https://linuxconfig.org/how-to-fix-missing-plugin-gstreamer-on-ubuntu-18-04-bionic-beaver-linux
   # sudo apt -y install ubuntu-restricted-extras
