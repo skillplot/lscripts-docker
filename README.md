@@ -45,17 +45,25 @@ export LSCRIPTS__EXTERNAL_HOME=""
 
 
 ## Installation
-> wip: work-in-progress
 
 To install or update `lsd`, you should run the install script. To do that, you may either download and run the script manually, or use the following `cURL` or `Wget` command:
 
 
 ```bash
+## Install the pre-requisite if not available
+sudo apt -y update
+sudo apt -y install curl
+sudo apt -y install wget
+```
+
+```bash
 curl -o- https://raw.githubusercontent.com/skillplot/lscripts-docker/main/install.sh | bash
+sudo bash <(curl -s https://raw.githubusercontent.com/skillplot/lscripts-docker/main/install.sh)
 ```
 
 ```bash
 wget -qO- https://raw.githubusercontent.com/skillplot/lscripts-docker/main/install.sh | bash
+sudo bash <(wget -qO- https://raw.githubusercontent.com/skillplot/lscripts-docker/main/install.sh)
 ```
 
 Running either of the above commands downloads a script and runs it. The script clones the `lscripts-docker` repository to `~/.lscripts-docker`, and attempts to add the source lines from the snippet below to the correct profile file: `~/.bash_profile`, `~/.zshrc`, `~/.profile`, or `~/.bashrc`).
@@ -95,7 +103,10 @@ command -v lsd-ls
 2. Fingerprint Banner: Useful for having system fingerprint displayed while taking screenshots for lab assignments. It can be directly executed with the following command (internet access required)
     * Directly execute
         ```bash
-        sudo bash <(curl -s https://raw.githubusercontent.com/skillplot/lscripts-docker/main/lscripts/banners/skplt.fingerprint.sh)
+        ## using curl
+        bash <(curl -s https://raw.githubusercontent.com/skillplot/lscripts-docker/main/lscripts/banners/skplt.fingerprint.sh)
+        ## using wget
+        bash <(wget -qO- https://raw.githubusercontent.com/skillplot/lscripts-docker/main/lscripts/banners/skplt.fingerprint.sh)
         ```
     * Download it manually and execute
         ```bash
@@ -105,8 +116,6 @@ command -v lsd-ls
 3. Server Setup with Banner
     * Directly execute
         ```bash
-        sudo apt -y update
-        sudo apt -y install curl
         ## using wget
         bash <(wget -qO- https://raw.githubusercontent.com/skillplot/lscripts-docker/main/lscripts/banners/skplt.serversetup.sh)
         ## using curl
@@ -120,8 +129,6 @@ command -v lsd-ls
 4. Add Login User to the system interactively
     * Directly execute
         ```bash
-        sudo apt -y update
-        sudo apt -y install curl
         bash <(curl -s https://raw.githubusercontent.com/skillplot/lscripts-docker/main/lscripts/banners/skplt.adduser.sh)
         ```
     * Download it manually and execute
