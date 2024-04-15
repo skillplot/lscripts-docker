@@ -16,6 +16,23 @@
 ###----------------------------------------------------------
 
 
+function lsd-mod.utils.tmux-4pane() {
+  tmux new-session -d -s 4p-$(date -d now +'%d%m%y_%H%M%S')
+  tmux split-window -h
+  tmux split-window -v
+  tmux select-pane -t 0
+  tmux split-window -v
+  tmux -2 attach-session -d
+}
+
+
+function lsd-mod.utils.tmux-3pane() {
+  tmux new-session -s 3p-$(date -d now +'%d%m%y_%H%M%S') \; \
+      split-window -h -p 50 \; \
+      split-window -v -p 50 \;
+}
+
+
 function lsd-mod.utils.youtube-download-mp3() {
   ## Specify the file containing the list of items
   local tmp_download_dir="/tmp/mp3"

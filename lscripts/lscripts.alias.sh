@@ -231,6 +231,9 @@ function lsd-lscripts.alias.main() {
   alias lsd-utils.cmds="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.utils.cmds lsd"
   alias lsd-utils.python.venvname="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.utils.python.venvname $@"
   alias lsd-utils.pdf.images="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.utils.pdf.images"
+  ###---TODO: move to _tmux_ module
+  alias lsd-tmux.4p="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.utils.tmux-4pane"
+  alias lsd-tmux.3p="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.utils.tmux-3pane"
   ###----------------------------------------------------------
   ## lsd-docs => _docs_ module
   ###----------------------------------------------------------

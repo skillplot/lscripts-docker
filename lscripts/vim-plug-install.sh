@@ -3,7 +3,7 @@
 ## Copyright (c) 2024 mangalbhaskar. All Rights Reserved.
 ##__author__ = 'mangalbhaskar'
 ###----------------------------------------------------------
-## Vim plugins
+## vim plugins
 ###----------------------------------------------------------
 
 
