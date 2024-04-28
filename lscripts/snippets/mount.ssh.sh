@@ -33,7 +33,9 @@ function mount.ssh.main() {
   echo "Enter the REMOTE path you want to mount:"
   read remote_path
 
-  local local_path=${remote_path}
+  local local_path
+  echo "Enter the LOCAL path you want to ON:"
+  read local_path
   echo "local mount path will be: ${local_path}"
 
   local mode

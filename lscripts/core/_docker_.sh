@@ -62,6 +62,9 @@ function lsd-mod.docker.local_volumes() {
   ## https://jpetazzo.github.io/2015/09/03/do-not-use-docker-in-docker-for-ci/
   ## This looks like Docker-in-Docker, feels like Docker-in-Docker, but it’s not Docker-in-Docker:
   volumes="${volumes} -v /var/run/docker.sock:/var/run/docker.sock "
+
+  ## add current directory path to the workspace
+  volumes="${volumes} -v $PWD:/workspace "
   echo "${volumes}"
 }
 
@@ -169,9 +172,16 @@ function lsd-mod.docker.adduser_to_sudoer() {
 
     local DOCKER_CONTAINER_NAME=${args['name']}
 
-    ${DOCKER_CMD} exec ${DOCKER_CONTAINER_NAME} /bin/bash -c  "adduser ${DUSER} sudo && \
-      /bin/echo \"user ALL=(root) NOPASSWD:ALL\" > /etc/sudoers.d/user && \
-      /bin/echo \"%sudo ALL=(ALL) NOPASSWD:ALL\" > /etc/sudoers.d/user
+    # ${DOCKER_CMD} exec ${DOCKER_CONTAINER_NAME} /bin/bash -c  "adduser ${DUSER} sudo > /dev/null && \
+    #   /bin/echo \"%sudo ALL=(ALL) NOPASSWD:ALL\" > /etc/sudoers.d/${DUSER} && \
+    #   /bin/echo \"${DUSER} ALL=(root) NOPASSWD:ALL\" > /etc/sudoers.d/${DUSER} && \
+    #   /bin/echo \"${DUSER} ALL=(ALL:ALL) ALL\" > /etc/sudoers.d/${DUSER} && \
+    #   chmod 0440 /etc/sudoers.d/${DUSER}
+    # "
+
+    ${DOCKER_CMD} exec ${DOCKER_CONTAINER_NAME} /bin/bash -c  "adduser ${DUSER} sudo > /dev/null && \
+      /bin/echo \"${DUSER} ALL=(root) NOPASSWD:ALL\" > /etc/sudoers.d/${DUSER} && \
+      chmod 0440 /etc/sudoers.d/${DUSER}
     "
   fi
 }
@@ -201,7 +211,7 @@ function lsd-mod.docker.userfix() {
       sudo /bin/echo ${DUSER}:${DUSER} | chpasswd
     "
 
-    ${DOCKER_CMD} exec ${DOCKER_CONTAINER_NAME} /bin/bash -c "/bin/cp -r /etc/skel/. /home/${DUSER} && \
+    ${DOCKER_CMD} exec ${DOCKER_CONTAINER_NAME} /bin/bash -c "/bin/cp -rf /etc/skel/. /home/${DUSER} && \
       chown ${DUSER}:${DUSER_GRP} /home/${DUSER} && \
       /bin/ls -ad /home/${DUSER}/.??* | xargs chown -R ${DUSER}:${DUSER_GRP}
     "
@@ -451,14 +461,22 @@ function __docker_.createcontainer() {
   ## 2) check if docker image exists, if not then ask to pull the image confirmation
   ## 3) user input for docker volume, environment variables
 
-  ## Use these flags with docker cmd if required
-  # $(lsd-mod.docker.enable_nvidia_gpu) \
-  # $(lsd-mod.docker.restart_policy) \
+  ## prepare docker options
+  local _docker_opts_="$(___docker_.envvars) $(___docker_.local_volumes)"
+
+  type nvidia-smi &>/dev/null && {
+    _docker_opts_="${_docker_opts_} $(lsd-mod.docker.enable_nvidia_gpu) "
+  }
+
+  local _default="no"
+  local _que="restart always"
+  lsd-mod.fio.yesno_${_default} "${_que}" && {
+    _docker_opts_="${_docker_opts_} $(lsd-mod.docker.restart_policy) "
+  }
 
   ${DOCKER_CMD} run -d -it \
       --name ${DOCKER_CONTAINER_NAME} \
-      $(___docker_.envvars) \
-      $(___docker_.local_volumes) \
+      ${_docker_opts_} \
       --net host \
       --add-host ${LOCAL_HOST}:127.0.0.1 \
       --add-host ${DOCKER_LOCAL_HOST}:127.0.0.1 \

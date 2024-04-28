@@ -61,5 +61,6 @@ local NVIDIA_ML_REPO_BASEURL="${NVIDIA_REPO_BASEURL}/machine-learning/repos"
 local NVIDIA_DOCKER_CUDA_REPO_URL="https://gitlab.com/nvidia/container-images/cuda"
 #
 ## Nvidia Container Toolkit
-local NVIDIA_DOCKER_URL="https://nvidia.github.io/nvidia-docker"
+##local NVIDIA_DOCKER_URL="https://nvidia.github.io/nvidia-docker"
+local NVIDIA_DOCKER_URL="https://nvidia.github.io/libnvidia-container"
 local NVIDIA_DOCKER_KEY_URL="${NVIDIA_DOCKER_URL}/gpgkey"

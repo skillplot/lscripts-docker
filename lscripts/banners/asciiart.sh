@@ -39,7 +39,7 @@ function lsd-mod.asciiart.banner.skillplot-1() {
      \___ \| |/ / | | |  ___/| |/ _ \| __|
      ____) |   <| | | | |    | | (_) | |_ 
     |_____/|_|\_\_|_|_|_|    |_|\___/ \__|.org
-    >>> LSCRIPTS: $(lsd-utils.date.get)
+    >>> LSCRIPTS: $(lsd-utils.date.get): $(hostname)
 
     ")
 }
@@ -50,7 +50,7 @@ function lsd-mod.asciiart.banner.skillplot-2() {
     ░█▀▀░█░█░▀█▀░█░░░█░░░█▀█░█░░░█▀█░▀█▀
     ░▀▀█░█▀▄░░█░░█░░░█░░░█▀▀░█░░░█░█░░█░
     ░▀▀▀░▀░▀░▀▀▀░▀▀▀░▀▀▀░▀░░░▀▀▀░▀▀▀░░▀░.org
-    >>> LSCRIPTS: $(lsd-utils.date.get)
+    >>> LSCRIPTS: $(lsd-utils.date.get): $(hostname)
 
     ")
 }
@@ -66,7 +66,7 @@ function lsd-mod.asciiart.banner.skillplot-3() {
      ▀▄▄▄▄▀    █  █  ▐█ ███▄ ███▄ █     ███▄ ▀████    █    .org 
                  █    ▐     ▀    ▀ █        ▀        ▀      
                 ▀                   ▀                       
-    >>> LSCRIPTS: $(lsd-utils.date.get)
+    >>> LSCRIPTS: $(lsd-utils.date.get): $(hostname)
 
     ")
 }
@@ -84,7 +84,7 @@ function lsd-mod.asciiart.banner.skillplot-4() {
        ▄█    ███   ███ ▀███▄ ███  ███▌    ▄ ███▌    ▄   ███        ███▌    ▄ ███    ███     ███     
      ▄████████▀    ███   ▀█▀ █▀   █████▄▄██ █████▄▄██  ▄████▀      █████▄▄██  ▀██████▀     ▄████▀   .org
                    ▀              ▀         ▀                      ▀                                
-    >>> LSCRIPTS: $(lsd-utils.date.get)
+    >>> LSCRIPTS: $(lsd-utils.date.get): $(hostname)
 
     ")
 }

@@ -17,6 +17,9 @@ function lsd-mod.lscripts.export() {
   [[ ! -z ${LSCRIPTS__BASENAME} ]] || export LSCRIPTS__BASENAME="lsdhub"
   [[ ! -z ${LSCRIPTS__ROOT} ]] || export LSCRIPTS__ROOT="/boozo-hub"
   ##
+  [[ ! -z ${LSCRIPTS__CODEHUB_ROOT} ]] || export LSCRIPTS__CODEHUB_ROOT="/codehub"
+  [[ ! -z ${LSCRIPTS__DATAHUB_ROOT} ]] || export LSCRIPTS__DATAHUB_ROOT="/datahub"
+  ##
   [[ ! -z ${LSCRIPTS__BANNER} ]] || LSCRIPTS__BANNER=1
   [[ ! -z ${LSCRIPTS__BANNER_TYPE} ]] || LSCRIPTS__BANNER_TYPE="skillplot-1"
   ##
