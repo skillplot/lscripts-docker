@@ -474,6 +474,7 @@ function __docker_.createcontainer() {
     _docker_opts_="${_docker_opts_} $(lsd-mod.docker.restart_policy) "
   }
 
+  ## TODO: allow for --shm-size -1; for no memory upper bound; caution to be used for development purposes for memory intensive processes
   ${DOCKER_CMD} run -d -it \
       --name ${DOCKER_CONTAINER_NAME} \
       ${_docker_opts_} \

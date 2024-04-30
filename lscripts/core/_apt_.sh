@@ -15,7 +15,7 @@ function lsd-mod.apt.get__vars() {
 function lsd-mod.apt.search() {
   local __error_msg="
   Usage:
-    lsd-mod.apt.search <search-phrase>
+    lsd-apt.search <search-phrase>
   "
   local _str=${1? "${__error_msg}" }
   [[ "$#" -ne "1" ]] && lsd-mod.log.error "Invalid number of parameters: required 1 given $#\n ${__error_msg}"
@@ -32,7 +32,7 @@ function lsd-mod.apt.search() {
 function lsd-mod.apt.guess() {
   local __error_msg="
   Usage:
-    lsd-mod.apt.guess <search-phrase>
+    lsd-apt.guess <search-phrase>
   "
   local _str=${1? "${__error_msg}" }
 
@@ -79,7 +79,7 @@ function lsd-mod.apt.add-repo() {
   Utility to add PPA repositories in your debian machine
 
   Usage:
-    lsd-mod.apt.add-repo ppa:user/ppa-name
+    lsd-apt.add-repo ppa:user/ppa-name
   "
   local _ppa=${1? "${__error_msg}" }
   [[ "$#" -ne "1" ]] && lsd-mod.log.error "Invalid number of parameters: required 1 given $#\n ${__error_msg}"
@@ -114,7 +114,7 @@ function lsd-mod.apt.add-repo() {
 function lsd-mod.apt.deprecated.add-repo() {
   local __error_msg="
   Usage:
-    lsd-mod.apt.add-repo <url> <file>
+    lsd-apt.add-repo <url> <file>
 
   Example:
   lsd-mod.apt.add-repo 'deb https://qgis.org/debian' qgis3.list

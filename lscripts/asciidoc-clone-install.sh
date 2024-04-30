@@ -1,6 +1,6 @@
 #!/bin/bash
 
-## Copyright (c) 2020 mangalbhaskar. All Rights Reserved.
+## Copyright (c) 2024 mangalbhaskar. All Rights Reserved.
 ##__author__ = 'mangalbhaskar'
 ##----------------------------------------------------------
 ## AsciiDoc
@@ -18,7 +18,7 @@ function asciidoc-uninstall() {
 
 
 function asciidoc-clone() {
-  echo "LINUX_CODE_NAME: ${LINUX_CODE_NAME}"
+  lsd-mod.log.info "LINUX_CODE_NAME: ${LINUX_CODE_NAME}"
   # sudo sh -c 'echo "deb https://qgis.org/debian bionic main" > /etc/apt/sources.list.d/asciidoc.list'
   sudo sh -c "echo \"deb https://qgis.org/debian ${LINUX_CODE_NAME} main\" > /etc/apt/sources.list.d/asciidoc.list"
   # cat /etc/apt/sources.list.d/asciidoc.list
@@ -48,12 +48,12 @@ function __asciidoc-install() {
 
   if [ -z "${BASEPATH}" ]; then
    local BASEPATH="$HOME/softwares"
-   echo "Unable to get BASEPATH, using default path#: ${BASEPATH}"
+   lsd-mod.log.info "Unable to get BASEPATH, using default path#: ${BASEPATH}"
   fi
 
   if [ -z "${SIMPLE_WEB_SERVER_VER}" ]; then
    local SIMPLE_WEB_SERVER_VER="v3.0.2"
-   echo "Unable to get SIMPLE_WEB_SERVER_VER version, falling back to default version#: ${SIMPLE_WEB_SERVER_VER}"
+   lsd-mod.log.info "Unable to get SIMPLE_WEB_SERVER_VER version, falling back to default version#: ${SIMPLE_WEB_SERVER_VER}"
   fi
 
   local PROG="asciidoc-py3"
@@ -62,10 +62,10 @@ function __asciidoc-install() {
   ## https://github.com/asciidoc/asciidoc-py3.git
   local URL="https://github.com/asciidoc/${PROG}.git"
 
-  echo "Number of threads will be used: ${NUMTHREADS}"
-  echo "BASEPATH: ${BASEPATH}"
-  echo "URL: ${URL}"
-  echo "PROG_DIR: ${PROG_DIR}"
+  lsd-mod.log.info "Number of threads will be used: ${NUMTHREADS}"
+  lsd-mod.log.info "BASEPATH: ${BASEPATH}"
+  lsd-mod.log.info "URL: ${URL}"
+  lsd-mod.log.info "PROG_DIR: ${PROG_DIR}"
 
   source ${LSCRIPTS}/partials/gitclone.sh
 
@@ -73,9 +73,7 @@ function __asciidoc-install() {
   git pull
   git checkout ${ASCIIDOC_REL}
 
-  if [ -d ${PROG_DIR}/build ]; then
-   rm -rf ${PROG_DIR}/build
-  fi
+  [[ -d ${PROG_DIR}/build ]] && rm -rf ${PROG_DIR}/build
 
   mkdir ${PROG_DIR}/build
   cd ${PROG_DIR}/build

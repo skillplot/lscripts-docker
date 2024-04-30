@@ -1,8 +1,8 @@
 ---
 title: All Commands
 description: List of all commands for Lscripts Docker
-date: 2024-04-13 12:39:56
-last_updated: 12:39:56, 13-Apr-2024, Saturday
+date: 2024-04-30 23:27:43
+last_updated: 23:27:43, 30-Apr-2024, Tuesday
 note: Auto generated file and will be overwritten
 ---
 
@@ -146,6 +146,7 @@ lsd-install.krita-ppa
 lsd-install.latex-apt
 lsd-install.latex-editors-apt
 lsd-install.librecad-ppa
+lsd-install.llvm-clone
 lsd-install.lyx-ppa
 lsd-install.makehuman3d-ppa
 lsd-install.mongodb-apt
@@ -160,8 +161,10 @@ lsd-install.nvidia-driver
 lsd-install.nvm
 lsd-install.obsstudio-ppa
 lsd-install.octave-apt
+lsd-install.onednn-clone
 lsd-install.openscad-ppa
 lsd-install.openshot-ppa
+lsd-install.openssh-server-apt
 lsd-install.openvpn-apt
 lsd-install.pandoc-wget-dpkg
 lsd-install.php
@@ -197,6 +200,8 @@ lsd-install.sublime-apt
 lsd-install.sublimemerge-apt
 lsd-install.systemsensors-apt
 lsd-install.timeshift-apt
+lsd-install.tmux-apt
+lsd-install.tmux-plug
 lsd-install.typora-apt
 lsd-install.videofix-apt
 lsd-install.vim-apt
@@ -232,6 +237,7 @@ lsd-python.rm.pycache
 lsd-python.test.virtualenv
 lsd-python.venv.list
 lsd-python.venv.name
+lsd-search-cmds
 lsd-select.bazel
 lsd-select.cuda
 lsd-select.gcc
@@ -277,6 +283,8 @@ lsd-test.echo
 lsd-test.fio
 lsd-test.log
 lsd-test.system
+lsd-tmux.3p
+lsd-tmux.4p
 lsd-utils.cmds
 lsd-utils.convert-utf8
 lsd-utils.count-lines

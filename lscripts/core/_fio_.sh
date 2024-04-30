@@ -86,7 +86,9 @@ function lsd-mod.fio.find_in_array() {
   ## * https://stackoverflow.com/a/10433783
   ## example:
   ## some_words=( these are some words )
-  ## lsd-mod.fio.find_in_array itemvalue "${some_array_of_items[@]}" || echo "expected missing! since words != word"
+  ## lsd-mod.fio.find_in_array itemvalue "${some_words[@]}" || echo "expected missing! since words != word"
+  ## lsd-mod.fio.find_in_array word "${some_words[@]}" || echo "expected missing! since words != word"
+
 
   local item=$1
   local e

@@ -66,11 +66,7 @@ function __ceres_solver-build() {
   lsd-mod.log.info "URL: ${URL}"
   lsd-mod.log.info "PROG_DIR: ${PROG_DIR}"
 
-  if [ ! -d ${PROG_DIR} ]; then
-    git -C ${PROG_DIR} || git clone ${URL} ${PROG_DIR}
-  else
-    echo Gid clone for ${URL} exists at: ${PROG_DIR}
-  fi
+  source ${LSCRIPTS}/partials/gitclone.sh
 
   cd ${PROG_DIR}
   git pull

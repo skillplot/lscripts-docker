@@ -11,5 +11,7 @@
 
   ## git version >= 2.8
   # git clone --recurse-submodules -j8 "${URL}" "${PROG_DIR}"
-  git -C "${PROG_DIR}" || git clone "${URL}" "${PROG_DIR}"
+  # git -C "${PROG_DIR}" || git clone "${URL}" "${PROG_DIR}"
+  (>&2 echo -e "git -C \"${PROG_DIR}\" --depth=1 || git clone \"${URL}\" \"${PROG_DIR}\" --depth=1")
+  git -C "${PROG_DIR}" --depth=1 || git clone "${URL}" "${PROG_DIR}" --depth=1
 ) || (>&2 echo -e "Git clone for ${URL} exists at: ${PROG_DIR}")

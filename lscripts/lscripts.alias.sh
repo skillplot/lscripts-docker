@@ -243,6 +243,8 @@ function lsd-lscripts.alias.main() {
   alias lsd-docs.admin.update="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.docs.update $@"
   alias lsd-docs.cmds="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.docs.update.get__cmds $@"
   alias lsd-docs.markdown2latex="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.docs.pandoc.markdown2latex $@"
+  ###---
+  alias lsd-search-cmds="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.docs.search.cmds $@"
   ###----------------------------------------------------------
   ## lsd-systemd => _systemd_ module
   ###----------------------------------------------------------

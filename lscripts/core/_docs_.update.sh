@@ -53,6 +53,20 @@ EOF
 }
 
 
+function lsd-mod.docs.search.cmds() {
+  local _search="$1"
+  local _cmds=($(lsd-mod.docs.update.get__cmds))
+  local _cmd
+  for _cmd in "${_cmds[@]}"; do
+    # echo -e "${_cmd}" | grep -inH --color="auto" "${_search}"
+    # echo -e "${_cmd}"
+    # printf '%s\n' "${_cmd}" | grep -inH --color="auto" "${_search}"
+    # [[ "$_cmd" == *"${_search}"* ]] && echo -e "${_cmd//${_search}/"\e[0;31m${_search}\e[0m"}" || :
+    [[ "$_cmd" == *"${_search}"* ]] && echo -e "${_cmd//${_search}/"${bred}${_search}${nocolor}"}" || :
+  done
+}
+
+
 function lsd-mod.docs.update() {
   lsd-mod.docs.update.cmds
 }
