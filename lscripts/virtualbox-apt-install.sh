@@ -9,6 +9,7 @@
 ## https://linuxize.com/post/how-to-install-virtualbox-on-ubuntu-18-04/
 ## https://linuxize.com/post/how-to-install-vagrant-on-ubuntu-18-04/
 ## https://www.virtualbox.org/wiki/Documentation
+## https://www.linuxcapable.com/install-virtualbox-on-ubuntu-linux/
 ###----------------------------------------------------------
 
 
@@ -38,12 +39,15 @@ function virtualbox-addrepo-key() {
   # sudo apt-key fingerprint ${VIRTUALBOX_REPO_URL}
   # sudo apt-key fingerprint ${VIRTUALBOX_REPO_KEY_URL}
 
+  # curl -fSsL https://www.virtualbox.org/download/oracle_vbox_2016.asc | gpg --dearmor | sudo tee /usr/share/keyrings/virtualbox.gpg > /dev/null
+  curl -fSsL https://www.virtualbox.org/download/oracle_vbox.asc | gpg --dearmor | sudo tee /usr/share/keyrings/virtualbox-archive-keyring.gpg > /dev/null
 
-  # wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo apt-key add -
-  curl -sSL https://www.virtualbox.org/download/oracle_vbox_2016.asc | sudo apt-key add -
+  # ## this gives warning:: Warning: apt-key is deprecated. Manage keyring files in trusted.gpg.d instead (see apt-key(8)).
+  # # wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo apt-key add -
+  # curl -sSL https://www.virtualbox.org/download/oracle_vbox_2016.asc | sudo apt-key add -
 
-  # wget -q https://www.virtualbox.org/download/oracle_vbox.asc -O- | sudo apt-key add -
-  curl -sSL https://www.virtualbox.org/download/oracle_vbox.asc | sudo apt-key add -
+  # # wget -q https://www.virtualbox.org/download/oracle_vbox.asc -O- | sudo apt-key add -
+  # curl -sSL https://www.virtualbox.org/download/oracle_vbox.asc | sudo apt-key add -
 }
 
 
@@ -57,6 +61,8 @@ function virtualbox-addrepo() {
       curl \
       software-properties-common
 
+  # dirmngr
+
   # local VIRTUALBOX_REPO_URL="http://download.virtualbox.org/virtualbox/debian"
   lsd-mod.log.debug "VIRTUALBOX_REPO_URL: ${VIRTUALBOX_REPO_URL}"
 
@@ -66,13 +72,13 @@ function virtualbox-addrepo() {
   ## Use the following command to set up the stable repository.
   ## You always need the stable repository, even if you want to install
   ## builds from the edge or test repositories as well.
-  # sudo add-apt-repository \
+  # sudo add-apt-repository -y \
   #    "deb [arch=amd64] ${VIRTUALBOX_REPO_URL} \
   #    $(lsb_release -cs) \
   #    stable"
 
   # sudo add-apt-repository "deb [arch=amd64] http://download.virtualbox.org/virtualbox/debian $(lsb_release -cs) contrib"
-  sudo add-apt-repository \
+  sudo add-apt-repository -y \
      "deb [arch=amd64] ${VIRTUALBOX_REPO_URL} \
      $(lsb_release -cs) \
      contrib"
@@ -80,14 +86,14 @@ function virtualbox-addrepo() {
   sudo apt -y update
 
   ## List the versions available in your repo
-  apt-cache virtualbox
+  # apt-cache policy virtualbox
 }
 
 
 function __virtualbox-install() {
   ##  Install a specific version by its fully qualified package name, which is package name (virtualbox) “=” version string (2nd column), for example, virtualbox=18.03.0~ce-0~ubuntu.
   # sudo apt install virtualbox-6.0
-  sudo apt install virtualbox virtualbox-ext-pack
+  sudo apt -y install virtualbox virtualbox-ext-pack
 
   ## Make sure the version of the Extension Pack matches with the VirtualBox version.
   # wget https://download.virtualbox.org/virtualbox/6.0.0/Oracle_VM_VirtualBox_Extension_Pack-6.0.0.vbox-extpack
@@ -101,6 +107,34 @@ function virtualbox-configure() {
   ## References:
   ###----------------------------------------------------------
   lsd-mod.log.debug "no configuration steps yet"
+
+  sudo systemctl status vboxdrv
+
+  # sudo systemctl enable vboxdrv --now
+  # virtualbox
+
+
+  # ### Install VirtualBox Extension Pack on Ubuntu 22.04 or 20.04
+
+  # vboxmanage -v | cut -dr -f1
+
+  # ### Replace each instance of ‘7.0.x’ in the URL with your specific VirtualBox version.
+  # wget https://download.virtualbox.org/virtualbox/7.0.x/Oracle_VM_VirtualBox_Extension_Pack-7.0.x.vbox-extpack
+
+
+  # sudo vboxmanage extpack install Oracle_VM_VirtualBox_Extension_Pack-7.0.x.vbox-extpack
+
+  # vboxmanage list extpacks
+
+
+  ## add the current user to the vboxsf group to grant access to shared folders set up in VirtualBox, you should use:
+  ## usermod: group 'vboxsf' does not exist
+  # sudo usermod -aG vboxsf $USER
+
+  ## add the current user to the vboxusers group, which is typically used to grant permissions for accessing certain devices (such as USB devices) within virtual machines, you should use:
+  sudo usermod -aG vboxusers $USER
+  # ## groups $USER
+
 }
 
 

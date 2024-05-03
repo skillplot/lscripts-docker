@@ -26,6 +26,7 @@ function test.all.case-0() {
   # source ${LSCRIPTS}/test.lsd-mod.fio.sh
   source ${LSCRIPTS}/test.lsd-mod.system.sh
   # source ${LSCRIPTS}/test.argparse.sh
+  # source ${LSCRIPTS}/test.argparse-menu.sh
   # source ${LSCRIPTS}/test.cuda_config_supported.sh
   # source ${LSCRIPTS}/test.lsd-mod.log.sh
 }

@@ -86,8 +86,10 @@ function lsd-mod.utils.pid() {
 
 
 function lsd-mod.utils.alpha-numeric() {
+  ## TBD: to be tested
   ## only alpha-numeric values are allowed
-  [[ ! -z $1 ]] && (>&2 echo -e $(tr -dc '0-9a-zA-Z' <<< "$1"));
+  # [[ ! -z $1 ]] && (>&2 echo -e $(tr -dc '0-9a-zA-Z' <<< "$1"));
+  [[ ! -z $1 ]] && echo $(tr -dc '0-9a-zA-Z' <<< "$1" | tr '[:upper:]' '[:lower:]');
 }
 
 
