@@ -1,8 +1,8 @@
 ---
 title: All Commands
 description: List of all commands for Lscripts Docker
-date: 2024-04-30 23:27:43
-last_updated: 23:27:43, 30-Apr-2024, Tuesday
+date: 2024-05-03 22:31:52
+last_updated: 22:31:52, 03-May-2024, Friday
 note: Auto generated file and will be overwritten
 ---
 
@@ -315,6 +315,7 @@ lsd-utils.size
 lsd-utils.system.info
 lsd-utils.trash
 lsd-utils.youtube-download-mp3
+lsd-virtualbox.create-vm
 lsd-lscripts.exe.install
 lsd-lscripts.install.__itemwise
 lsd-lscripts.install.__menu
