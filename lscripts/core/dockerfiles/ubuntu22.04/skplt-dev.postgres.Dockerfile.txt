@@ -1,0 +1,22 @@
+
+
+## set -eux explaination
+## set -e: This causes the shell to exit immediately if a command exits with a non-zero status. It's a safety feature to ensure that errors stop the build process.
+## set -u: This treats unset variables as an error when substituting.
+## set -x: This option makes the shell print each command before executing it, which is useful for debugging.
+
+# groupadd -r postgres --gid=999:
+# groupadd: Adds a new group to the system.
+# -r: This option specifies that the group being added is a system group, which typically means it's not intended for logging in.
+# postgres: The name of the group.
+# --gid=999: Specifies the numerical group ID for the group. This is often set to a specific number to avoid conflicts and ensure consistency across different systems and containers.
+
+# useradd -r -g postgres --uid=999 --home-dir=/var/lib/postgresql --shell=/bin/bash postgres:
+
+# useradd: Adds a new user to the system.
+# -r: Indicates that this is a system user, similar to the -r option for groupadd.
+# -g postgres: Sets the primary group of the new user to postgres.
+# --uid=999: Sets the user ID of the new user to 999, matching the group ID.
+# --home-dir=/var/lib/postgresql: Specifies the home directory for the user.
+# --shell=/bin/bash: Sets the login shell for the user; here, it’s set to Bash.
+# postgres: The name of the user to be added.

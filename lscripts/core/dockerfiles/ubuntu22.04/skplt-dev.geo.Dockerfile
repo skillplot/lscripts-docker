@@ -1,0 +1,68 @@
+ARG _SKILL__BASE_IMAGE_NAME
+FROM ${_SKILL__BASE_IMAGE_NAME}
+
+ARG _SKILL__POSTGRES_USER
+ARG _SKILL__POSTGRES_USER_ID
+
+ARG _SKILL__POSTGRES_GROUP_ID
+ARG _SKILL__POSTGRES_GROUP
+
+# RUN addgroup --gid $_SKILL__POSTGRES_GROUP_ID $_SKILL__POSTGRES_GROUP
+# RUN useradd -r $_SKILL__POSTGRES_USER --uid $_SKILL__POSTGRES_USER_ID --gid $_SKILL__POSTGRES_GROUP_ID
+
+ARG _SKILL__GEOSERVER_VERSION
+ENV _SKILL__GEOSERVER_VERSION=${_SKILL__GEOSERVER_VERSION}
+
+ARG _SKILL__GEOSERVER_HOME
+ENV _SKILL__GEOSERVER_HOME=${_SKILL__GEOSERVER_HOME}
+
+ARG _SKILL__POSTGRES_USER
+ENV _SKILL__POSTGRES_USER=${_SKILL__POSTGRES_USER}
+
+ARG _SKILL__POSTGRES_GROUP
+ENV _SKILL__POSTGRES_GROUP=${_SKILL__POSTGRES_GROUP}
+
+ARG _SKILL__POSTGRES_PASSWORD
+ENV _SKILL__POSTGRES_PASSWORD=${_SKILL__POSTGRES_PASSWORD}
+
+ARG _SKILL__GEOSERVER_USER
+ENV _SKILL__GEOSERVER_USER=${_SKILL__GEOSERVER_USER}
+
+ARG _SKILL__GEOSERVER_PASSWORD
+ENV _SKILL__GEOSERVER_PASSWORD=${_SKILL__GEOSERVER_PASSWORD}
+
+ARG _SKILL__GEOSERVER_URL
+ENV _SKILL__GEOSERVER_URL=${_SKILL__GEOSERVER_URL}
+
+
+USER root
+
+RUN mkdir -p $_SKILL__GEOSERVER_HOME
+
+RUN wget -q -O /tmp/geoserver.zip $_SKILL__GEOSERVER_URL
+RUN unzip /tmp/geoserver.zip -d $_SKILL__GEOSERVER_HOME && rm /tmp/geoserver.zip
+
+# RUN  sudo echo "GEOSERVER_USER=$_SKILL__GEOSERVER_USER" >> /etc/environment && \
+#      sudo echo "GEOSERVER_PASSWORD=$_SKILL__GEOSERVER_PASSWORD" >> /etc/environment
+
+## ---
+
+RUN apt-get update && \
+    sudo apt-get install -y postgresql postgresql-contrib
+
+RUN mkdir -p /var/lib/postgresql/data
+
+RUN chown -R ${_SKILL__POSTGRES_USER}:${_SKILL__POSTGRES_GROUP} /var/lib/postgresql/data && \
+    echo "host all  all    0.0.0.0/0  md5" >> /etc/postgresql/14/main/pg_hba.conf && \
+    echo "listen_addresses='*'" >> /etc/postgresql/14/main/postgresql.conf
+
+USER ${_SKILL__POSTGRES_USER}
+
+RUN /etc/init.d/postgresql start && \
+    psql --command "CREATE USER $_SKILL__POSTGRES_USER WITH SUPERUSER PASSWORD '"$_SKILL__POSTGRES_PASSWORD"';" && \
+    /etc/init.d/postgresql stop
+
+USER root
+
+EXPOSE 5432 
+EXPOSE 8080

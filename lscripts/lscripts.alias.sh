@@ -166,7 +166,7 @@ function lsd-lscripts.alias.main() {
   alias lsd-docker.container.test="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.docker.container.test"
   alias lsd-docker.container.create="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.docker.container.create $@"
   ###-------
-  alias lsd-docker.image.build="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.docker.image.build"
+  alias lsd-docker.image.build-dev-ubuntu22.04="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.docker.image.build --from=ubuntu:22.04"
   ###-------
   alias lsd-docker.user.fix="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.docker.userfix $@"
   alias lsd-docker.user.add2sudoer="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.docker.adduser_to_sudoer $@"
@@ -201,6 +201,8 @@ function lsd-lscripts.alias.main() {
   ###----------------------------------------------------------
   ## lsd-utils => _utils_ module
   ###----------------------------------------------------------
+  alias lsd-lcd="source ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.utils.lcd $@"
+  ###-------
   alias lsd-utils.youtube-download-mp3="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.utils.youtube-download-mp3"
   alias lsd-utils.count-lines="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.utils.count-lines"
   alias lsd-utils.random="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.utils.random"

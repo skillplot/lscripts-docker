@@ -139,24 +139,70 @@ function lsd-mod.docker.image.build() {
 
   lsd-mod.log.debug "Total args: $# with args value: ${args[@]}"
 
-  [[ "$#" -ne "3" ]] && \
-    lsd-mod.log.info "\nUsage: --tag=<tag> --dockerfile=<dockerfile> --context=<context_dir>" && \
-    lsd-mod.log.fail "Invalid inputs!"
 
-  local key
-  for key in 'tag' 'dockerfile' 'context'; do
-    lsd-mod.log.debug "verifying key: ${key}"
-    [[ -n "${args[${key}]+1}" ]] || lsd-mod.log.fail "Key does not exists: ${key}"
-  done
+  local DOCKER_CONTEXT="$PWD"
+  local DOCKERFILE=${args['from']}
+  local DOCKER_BLD_IMG_TAG=${args['tag']}
+  local BUILD_FOR_LINUX_DISTRIBUTION=${args['dist']}
+  [[ -z ${BUILD_FOR_LINUX_DISTRIBUTION} ]] && BUILD_FOR_LINUX_DISTRIBUTION=${LINUX_DISTRIBUTION}
 
-  lsd-mod.log.debug "\n --tag=${args['tag']}, --dockerfile=${args['dockerfile']}, --context=${args['context']}"
+  local BUILD_FOR_LINUX_DISTRIBUTION_TR=${BUILD_FOR_LINUX_DISTRIBUTION//./}
 
-  ## Fail on first error.
-  set -e
-  [[ -f ${args['dockerfile']} ]] && {
-    ${DOCKER_CMD} build -t "${args['tag']}" -f "${args['dockerfile']}" "${args['context']}" && \
-      lsd-mod.log.info "Built new image with ${tag}" || lsd-mod.log.fail "built docker image failed"
-  } || lsd-mod.log.fail "File does not exists: ${args['dockerfile']}"
+  [[ -z $DOCKERFILE ]] && {
+    DOCKERFILE=${LSCRIPTS}/dockerfiles/ubuntu22.04/skplt-dev.min.Dockerfile
+  }
+
+  [[ -z ${DOCKER_BLD_IMG_TAG} ]] && {
+    # DOCKER_BLD_IMG_TAG="$(echo ${DOCKERFILE} | sed 's:/*$::' | rev | cut -d'/' -f1 | rev)-$(uname -m)-$(date -d now +'%d%m%y_%H%M%S')"
+    DOCKER_BLD_IMG_TAG="skplt-$(uname -m)-$(date -d now +'%d%m%y_%H%M%S')"
+  }
+
+  local DOCKER_BLD_CONTAINER_IMG="${_LSD__DOCKER_HUB_REPO}:${DOCKER_BLD_IMG_TAG}"
+
+
+  ## Fingerprint
+  local __UUID__=$(uuid)
+  local _SKILL__BASE_IMAGE_NAME="ubuntu:22.04"
+
+  lsd-mod.log.echo "BUILD_FOR_LINUX_DISTRIBUTION=${BUILD_FOR_LINUX_DISTRIBUTION}"
+  lsd-mod.log.echo "BUILD_FOR_LINUX_DISTRIBUTION_TR=${BUILD_FOR_LINUX_DISTRIBUTION_TR}"
+  lsd-mod.log.echo "_LSD__DOCKER_HUB_REPO=${_LSD__DOCKER_HUB_REPO}"
+
+  lsd-mod.log.echo "DOCKERFILE=${DOCKERFILE}"
+  lsd-mod.log.echo "DOCKER_CONTEXT=${DOCKER_CONTEXT}"
+  lsd-mod.log.echo "DOCKER_BLD_IMG_TAG=${DOCKER_BLD_IMG_TAG}"
+  lsd-mod.log.echo "DOCKER_BLD_CONTAINER_IMG=${DOCKER_BLD_CONTAINER_IMG}"
+
+  lsd-mod.log.echo "_SKILL__BASE_IMAGE_NAME=${_SKILL__BASE_IMAGE_NAME}"
+  lsd-mod.log.echo "_SKILL__UUID=${__UUID__}"
+  lsd-mod.log.echo "_SKILL__LINUX_DISTRIBUTION=${BUILD_FOR_LINUX_DISTRIBUTION}"
+  lsd-mod.log.echo "_SKILL__DUSER=${DUSER}"
+  lsd-mod.log.echo "_SKILL__DUSER_ID=${DUSER_ID}"
+  lsd-mod.log.echo "_SKILL__DUSER_GRP=${DUSER_GRP}"
+  lsd-mod.log.echo "_SKILL__DUSER_GRP_ID=${DUSER_GRP_ID}"
+  lsd-mod.log.echo "_SKILL__DOCKER_ROOT_BASEDIR=${_LSD__DOCKER_ROOT}"
+  lsd-mod.log.echo "_SKILL__MAINTAINER=${DOCKER_BLD_MAINTAINER}"
+  lsd-mod.log.echo "_SKILL__COPYRIGHT=${_COPYRIGHT_}"
+
+
+  lsd-mod.fio.yesno_yes "About to execute docker build, check config and confirm" && {
+    lsd-mod.log.echo "Executing... docker build"
+
+    ${DOCKER_CMD} build \
+      --build-arg "_SKILL__BASE_IMAGE_NAME=${_SKILL__BASE_IMAGE_NAME}" \
+      --build-arg "_SKILL__UUID=${__UUID__}" \
+      --build-arg "_SKILL__LINUX_DISTRIBUTION=${BUILD_FOR_LINUX_DISTRIBUTION}" \
+      --build-arg "_SKILL__DUSER=${DUSER}" \
+      --build-arg "_SKILL__DUSER_ID=${DUSER_ID}" \
+      --build-arg "_SKILL__DUSER_GRP=${DUSER_GRP}" \
+      --build-arg "_SKILL__DUSER_GRP_ID=${DUSER_GRP_ID}" \
+      --build-arg "_SKILL__DOCKER_ROOT_BASEDIR=${_LSD__DOCKER_ROOT}" \
+      --build-arg "_SKILL__MAINTAINER=${DOCKER_BLD_MAINTAINER}" \
+      --build-arg "_SKILL__COPYRIGHT=${_COPYRIGHT_}" \
+      -t ${DOCKER_BLD_CONTAINER_IMG} \
+      -f ${DOCKERFILE} ${DOCKER_CONTEXT} || lsd-mod.log.fail "Internal Error: Build image failed! Check the DOCKERFILE: ${DOCKERFILE}"
+  } || lsd-mod.log.echo "Skipping docker duild at the last moment. Hope to see you soon!"
+
 }
 
 

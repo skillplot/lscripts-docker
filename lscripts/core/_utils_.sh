@@ -117,6 +117,13 @@ function lsd-mod.utils.kill.python() {
 ###----------------------------------------------------------
 
 
+function lsd-mod.utils.lcd() {
+  local _p="$(dirname "$1")"
+  echo ${_p}
+  cd ${_p}
+}
+
+
 function lsd-mod.utils.lsdir() {
   declare -a arr=($(ls -d -1 $PWD/*))
   echo "${#arr[@]}"

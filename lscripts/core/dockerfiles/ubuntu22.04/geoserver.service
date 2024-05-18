@@ -1,0 +1,12 @@
+[Unit]
+Description=GeoServer
+After=network.target
+
+[Service]
+Type=simple
+User=geoserver
+ExecStart=/opt/geoserver/bin/startup.sh
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
