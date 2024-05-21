@@ -80,7 +80,7 @@ Running either of the above commands downloads a script and runs it. The script 
     ## Replace /codehub with your desired basepath
     export __CODEHUB_ROOT__="/codehub"
     export __LSCRIPTS_DOCKER="${__CODEHUB_ROOT__}/external/lscripts-docker"
-    [ -f ${LSCRIPTS_DOCKER}/lscripts/lscripts.env.sh ] && source ${LSCRIPTS_DOCKER}/lscripts/lscripts.env.sh
+    [ -f ${__LSCRIPTS_DOCKER}/lscripts/lscripts.env.sh ] && source ${__LSCRIPTS_DOCKER}/lscripts/lscripts.env.sh
     ```
 
 
