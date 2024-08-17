@@ -81,6 +81,7 @@ Running either of the above commands downloads a script and runs it. The script 
     export __CODEHUB_ROOT__="/codehub"
     export __LSCRIPTS_DOCKER="${__CODEHUB_ROOT__}/external/lscripts-docker"
     [ -f ${__LSCRIPTS_DOCKER}/lscripts/lscripts.env.sh ] && source ${__LSCRIPTS_DOCKER}/lscripts/lscripts.env.sh
+    [ -f ${__LSCRIPTS_DOCKER}/env.sh ] && source ${__LSCRIPTS_DOCKER}/env.sh
     ```
 
 

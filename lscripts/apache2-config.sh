@@ -21,7 +21,7 @@ function apache2_config() {
   source ${LSCRIPTS}/lscripts.config.sh
 
   if [ -z "${PHP_VER}" ]; then
-    PHP_VER="7.2"
+    PHP_VER="8.1"
     echo "Unable to get PHP version, falling back to default version#: ${PHP_VER}"
   fi
 

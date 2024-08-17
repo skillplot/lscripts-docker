@@ -34,7 +34,7 @@ function apache2-config() {
 
 function apache2-modules() {
   if [ -z "${PHP_VER}" ]; then
-    local PHP_VER="7.2"
+    local PHP_VER="8.1"
     echo "Unable to get PHP version, falling back to default version#: ${PHP_VER}"
   fi
 

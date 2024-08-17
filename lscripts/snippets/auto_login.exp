@@ -1,0 +1,26 @@
+#!/usr/bin/expect
+
+# Set timeout for the script
+set timeout 20
+
+# Get the username, password, and URL from the command line arguments
+set username [lindex $argv 0]
+set password [lindex $argv 1]
+set url [lindex $argv 2]
+
+# Start w3m with the provided URL
+spawn w3m $url
+
+# Look for the username prompt and enter the username
+expect {
+  "username:" {
+    send "$username\r"
+    exp_continue
+  }
+  "password:" {
+    send "$password\r"
+  }
+}
+
+# Interact with w3m to handle any further prompts or redirections
+interact

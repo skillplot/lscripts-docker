@@ -78,8 +78,8 @@ RUN mkdir -p "${_SKILL__PYVENV_PATH}" \
       "/var/run/sshd"
 
 
-COPY ./installer ${_SKILL__DOCKER_ROOT_BASEDIR}/installer
-COPY ./logs ${_SKILL__DOCKER_ROOT_BASEDIR}/logs
+# COPY ./installer ${_SKILL__DOCKER_ROOT_BASEDIR}/installer
+# COPY ./logs ${_SKILL__DOCKER_ROOT_BASEDIR}/logs
 
 RUN chown -R ${_SKILL__DUSER}:${_SKILL__DUSER} "${_SKILL__DOCKER_ROOT_BASEDIR}" "${_SKILL__PYVENV_PATH}" && \
     chmod -R a+w "${_SKILL__DOCKER_ROOT_BASEDIR}" && \

@@ -56,8 +56,8 @@ function __vscode-install() {
   sudo apt -y install --no-install-recommends code
   # lsd-mod.log.info "code version is: $(code --version)"
 
-  log._info_ "I did not like microsoft hicjacking 'code' as the executable name. It's a conspiracy in my opinion to dictate and rule!"
-  log._info_ "Relinking 'code' to 'vscode' as executable name"
+  lsd-mod.log.info "I did not like microsoft hicjacking 'code' as the executable name. It's a conspiracy in my opinion to dictate and rule!"
+  lsd-mod.log.info "Relinking 'code' to 'vscode' as executable name"
   sudo unlink /usr/bin/code
   sudo ln -s /usr/share/code/bin/code /usr/bin/vscode
 }

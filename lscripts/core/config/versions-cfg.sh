@@ -37,6 +37,7 @@ local PHP_VER="7.1"
 local PHP_VER="7.2"
 [[ "${__LINUX_VERSION}" == "18.04" ]] && PHP_VER="7.2"
 [[ "${__LINUX_VERSION}" == "20.04" ]] && PHP_VER="7.4"
+[[ "${__LINUX_VERSION}" == "22.04" ]] && PHP_VER="8.1"
 
 ## for ubuntu 20.04 LTS
 #local 

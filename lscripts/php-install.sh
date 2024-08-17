@@ -59,7 +59,6 @@ function __php-install() {
   sudo apt -y install \
     ${_php}-fpm \
     ${_php}-gd \
-    ${_php}-json \
     ${_php}-mysql \
     ${_php}-readline \
     ${_php}-xml \
@@ -67,6 +66,9 @@ function __php-install() {
     ${_php}-curl \
     ${_php}-zip
 
+  ## TODO: conditionaly check only for php < 8.0 as
+  ## Reference: https://php.watch/versions/8.0/ext-json
+  sudo apt -y install ${_php}-json
   ##----------------------------------------------------------
   ### Install PHP 7 Imagick Extension
   ## Tested on Ubuntu 16.04

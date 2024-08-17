@@ -1,0 +1,1 @@
+find /path/to/directory -name '*.csv' -type f -exec wc -l {} + | awk 'BEGIN {total_lines=0; total_files=0} {total_lines+=$1; total_files++} END {print "Total Files: " total_files "\nTotal Lines: " total_lines}'
