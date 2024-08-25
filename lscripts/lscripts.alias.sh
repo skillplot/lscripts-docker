@@ -73,6 +73,12 @@ function lsd-lscripts.alias.main() {
   alias lsd-git.pull="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.git-pull"
   alias lsd-git.repo-pull="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.git.repo-pull"
   ###----------------------------------------------------------
+  ## lsd-github => _github_.cli module
+  ###----------------------------------------------------------
+  alias lsd-github-cli.install="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.github.cli.install"
+  alias lsd-github-cli.login="source ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.github.cli.login $@"
+  alias lsd-github-cli.logout="source ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.github.cli.logout"
+  ###----------------------------------------------------------
   ## lsd-nvidia => _nvidia_ module
   ###----------------------------------------------------------
   alias lsd-nvidia.cfg="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.nvidia.get__vars"

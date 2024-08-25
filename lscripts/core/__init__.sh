@@ -35,3 +35,5 @@ source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/_mongodb_.sh
 source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/_systemd_.sh
 source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/_crypto_.sh
 source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/_virtualbox_.sh
+source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/_github_.sh
+source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/_github_.cli.sh
