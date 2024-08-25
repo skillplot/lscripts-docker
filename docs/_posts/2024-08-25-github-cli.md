@@ -16,26 +16,29 @@ I found `GH_TOKEN` is convenient way to enable working across different github a
 
 ## Installations
 
-* Using `lscripts-docker` modules
-    ```bash
-    ## Using lsd-install module
-    lsd-install.githubcli-apt
+### Using `lscripts-docker` modules
 
-    ## Or, using lsd-github module
-    lsd-github-cli.install
-    ```
+```bash
+## Using lsd-install module
+lsd-install.githubcli-apt
+
+## Or, using lsd-github module
+lsd-github-cli.install
+```
 
 
-* Using direct installation script
-    ```bash
-    (type -p wget >/dev/null || (sudo apt update && sudo apt-get install wget -y)) \
-    && sudo mkdir -p -m 755 /etc/apt/keyrings \
-    && wget -qO- https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo tee /etc/apt/keyrings/githubcli-archive-keyring.gpg > /dev/null \
-    && sudo chmod go+r /etc/apt/keyrings/githubcli-archive-keyring.gpg \
-    && echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
-    && sudo apt update \
-    && sudo apt install gh -y
-    ```
+### Using direct installation script
+
+```bash
+(type -p wget >/dev/null || (sudo apt update && sudo apt-get install wget -y)) \
+&& sudo mkdir -p -m 755 /etc/apt/keyrings \
+&& wget -qO- https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo tee /etc/apt/keyrings/githubcli-archive-keyring.gpg > /dev/null \
+&& sudo chmod go+r /etc/apt/keyrings/githubcli-archive-keyring.gpg \
+&& echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
+&& sudo apt update \
+&& sudo apt install gh -y
+```
+
 
 **TIP**: This uses new and secured mechanism to store the gpg keys. You may have deprecated warning when you run `sudo apt update`, may be from other package keys example:
 
@@ -59,7 +62,9 @@ W: https://download.sublimetext.com/apt/stable/InRelease: Key is stored in legac
 4. To login to the given username. You would need to login whenever you open a new terminal for security purpose as it uses `GH_TOKEN` environment variable login mechanism with github client (gh) to login to a specific user account.
     ```bash
     lsd-github-cli.login username
-    ## check for login status anytime
+    ```
+5. You check for login status anytime
+    ```bash
     gh auth status
     ```
 
@@ -106,7 +111,24 @@ alias gclone-username="git clone https://username:$(cat ~/.cred/github.username)
     ```
 
 
+## Basic Commands for Github cli (gh)
+
+The commands are self explanatory or use the official [github cli documentation](https://docs.github.com/en/github-cli/github-cli/quickstart).
+
+```bash
+gh --version
+gh auth login
+gh auth status
+gh repo clone <username>/<repository>
+gh repo create <repository-name> --public --description "A new repository"
+gh issue list
+gh pr create --title "Pull Request Title" --body "Description of the PR"
+gh notification list
+gh repo create <username> --public --confirm
+gh auth logout
+```
+
+
 ## References
 
-* https://docs.github.com/en/github-cli/github-cli/quickstart
-* https://github.com/cli/cli/blob/trunk/docs/install_linux.d
+* [github-cli/quickstart](https://docs.github.com/en/github-cli/github-cli/quickstart)
