@@ -12,6 +12,7 @@ github provide github cli (gh) client to automate certain process that generally
 
 I found `GH_TOKEN` is convenient way to enable working across different github accounts, as currently there is lack of option to select different profiles related to like work, opensource etc and expects a single username to work across all user accounts. Additionally, other challenges include working across different machine, access token management for different accounts in secured way
 
+Here, I present simple and secure practices to address the challenges. These practices work alongside `lscripts-docker` in non-intrusive way.
 
 
 ## Installations
