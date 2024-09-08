@@ -61,6 +61,12 @@ function __python-install() {
     python-scipy
   }
 
+
+  ## TODO: In ubuntu 24.04 LTS fix
+  # E: Package 'python-dev' has no installation candidate
+  # E: Package 'python-nose' has no installation candidate
+  # E: Unable to locate package python-numpy
+
   sudo apt -y install --no-install-recommends \
     python-dev \
     python-nose \

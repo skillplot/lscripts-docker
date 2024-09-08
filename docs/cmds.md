@@ -1,8 +1,8 @@
 ---
 title: All Commands
 description: List of all commands for Lscripts Docker
-date: 2024-05-03 22:31:52
-last_updated: 22:31:52, 03-May-2024, Friday
+date: 2024-08-25 17:21:42
+last_updated: 17:21:42, 25-Aug-2024, Sunday
 note: Auto generated file and will be overwritten
 ---
 
@@ -84,7 +84,7 @@ lsd-docker.get.envvars
 lsd-docker.get.local_volumes
 lsd-docker.get.port_maps
 lsd-docker.get.restart_policy
-lsd-docker.image.build
+lsd-docker.image.build-dev-ubuntu22.04
 lsd-docker.osvers
 lsd-docker.user.add2sudoer
 lsd-docker.user.fix
@@ -97,6 +97,9 @@ lsd-docs.mkdocs.deploy
 lsd-docs.mkdocs.link
 lsd-git.pull
 lsd-git.repo-pull
+lsd-github-cli.install
+lsd-github-cli.login
+lsd-github-cli.logout
 lsd-install.android-studio-wget
 lsd-install.apache2
 lsd-install.asciidoc-clone
@@ -126,6 +129,7 @@ lsd-install.ftp-apt
 lsd-install.gcc-apt
 lsd-install.ghostwriter-apt
 lsd-install.gimp-graphics-apt
+lsd-install.githubcli-apt
 lsd-install.gitlab-apt
 lsd-install.gitlfs-wget
 lsd-install.golang

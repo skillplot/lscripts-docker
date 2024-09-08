@@ -119,9 +119,9 @@ function lsd-mod.main() {
 
   ## Create and configure base directories for installation
 
-  ## Check if information provided as arguments
-  local codehub=""
-  local datahub=""
+  ## Default values
+  local codehub="/codehub"
+  local datahub="/datahub"
   local aihub=""
   
   while getopts c:d: flag
@@ -132,11 +132,11 @@ function lsd-mod.main() {
     esac
   done
 
-  ## Get a valid codehub root
-  [ -z "${codehub}" ] && codehub=$(lsd-mod.get_valid_input "Enter codehub root absolute basepath" "lsd-mod.is_non_empty")
+  ## Get a valid codehub root with default value
+  [ -z "${codehub}" ] && codehub=$(lsd-mod.get_valid_input "Enter codehub root absolute basepath (default: ${codehub})" "lsd-mod.is_non_empty") && [ -z "${codehub}" ] && codehub="/codehub"
 
-  ## Get a valid datahub root
-  [ -z "${datahub}" ] && datahub=$(lsd-mod.get_valid_input "Enter datahub root absolute basepath" "lsd-mod.is_non_empty")
+  ## Get a valid datahub root with default value
+  [ -z "${datahub}" ] && datahub=$(lsd-mod.get_valid_input "Enter datahub root absolute basepath (default: ${datahub})" "lsd-mod.is_non_empty") && [ -z "${datahub}" ] && datahub="/datahub"
 
   lsd-mod.setup "${codehub}" "${datahub}"
   (>&2 echo -e "lscripts-docker installation path: ${codehub}! and datahub path is: ${datahub}.
@@ -144,7 +144,7 @@ function lsd-mod.main() {
 
   ## Install git and clone the repo
   local _default=no
-  local _que="Insall git and clone lscripts-docker repo from: https://github.com/skillplot/lscripts-docker"
+  local _que="Install git and clone lscripts-docker repo from: https://github.com/skillplot/lscripts-docker"
   local _cmd="git"
   lsd-mod.fio.yesno_${_default} "${_que}" && {
     echo "Installing..."
@@ -157,5 +157,6 @@ function lsd-mod.main() {
   }
 
 }
+
 
 lsd-mod.main "$@"
