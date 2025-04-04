@@ -1,6 +1,11 @@
 from __future__ import print_function
 import torch
 
+# !nvcc --version
+TORCH_VERSION = ".".join(torch.__version__.split(".")[:2])
+CUDA_VERSION = torch.__version__.split("+")[-1]
+print("torch: ", TORCH_VERSION, "; cuda: ", CUDA_VERSION)
+
 x = torch.rand(5, 3)
 print(x)
 
@@ -18,3 +23,5 @@ if torch.cuda.is_available():
           gpu_properties.total_memory / 1e9))
 else:    
    print ("Cuda is not available")
+
+

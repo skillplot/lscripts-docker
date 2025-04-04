@@ -64,6 +64,7 @@ function essentials-apt-install.main() {
     locate \
     unrar \
     mono-complete \
+    w3m \
     chromium-browser \
     libimage-exiftool-perl \
     doxygen \
@@ -71,11 +72,13 @@ function essentials-apt-install.main() {
     libexif-dev \
     ntp \
     libconfig++-dev \
-    kino \
     htop \
-    apcalc \
     xclip \
     xsel
+
+  [[ "${LINUX_VERSION}" < "24.04" ]] && {
+    sudo apt -y install kino apcalc
+  }
 
   ## For gnome Ubuntu >= 17
   sudo apt -y install --no-install-recommends \

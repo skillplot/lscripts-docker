@@ -31,12 +31,12 @@ function prerequisite-install.main() {
   sudo apt -y install libqt5x11extras5-dev
   sudo apt -y install qttools5-dev
   #
-  sudo apt -y install libsuitesparseconfig4.4.6 libsuitesparse-dev
+  sudo apt -y install libsuitesparse-dev
   sudo apt -y install metis libmetis-dev
   #
   sudo apt -y install maven
   sudo apt -y install openssh-server openssh-client
-  sudo apt -y install libssl-dev libsslcommon2-dev
+  sudo apt -y install libssl-dev
   sudo apt -y install pkg-config
   sudo apt -y install libglfw3 libglfw3-dev
   ## noninteractive ssh password provider
@@ -44,7 +44,7 @@ function prerequisite-install.main() {
 
   ## https://www.pyimagesearch.com/2015/08/24/resolved-matplotlib-figures-not-showing-up-or-displaying/
   ## https://github.com/tctianchi/pyvenn/issues/3
-  sudo apt -y install tcl-dev tk-dev python-tk python3-tk
+  sudo apt -y install tcl-dev tk-dev python3-tk
   #
   sudo apt -y install autoconf automake libtool curl unzip
   #
@@ -54,7 +54,13 @@ function prerequisite-install.main() {
   sudo apt -y install libgflags2.2 libgflags-dev python3-gflags libgoogle-glog-dev
   #
   ## apache superset (visulization tool in python)
-  # sudo apt -y install libssl-dev libffi-dev libsasl2-dev libldap2-dev  
+  # sudo apt -y install libssl-dev libffi-dev libsasl2-dev libldap2-dev
+
+  [[ "${LINUX_VERSION}" < "24.04" ]] && {
+    sudo apt -y install libsuitesparseconfig4.4.6 libsuitesparse-dev
+    sudo apt -y install libsslcommon2-dev
+    sudo apt -y install python-tk
+  }
 }
 
 prerequisite-install.main "$@"
