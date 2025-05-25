@@ -246,6 +246,7 @@ function lsd-lscripts.alias.main() {
   ## lsd-docs => _docs_ module
   ###----------------------------------------------------------
   alias lsd-docs.mkdocs="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.docs.mkdocs $@"
+  alias lsd-docs.asciidoc.create_pdf="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.docs.asciidoc.create_pdf $@"
   alias lsd-docs.mkdocs.link="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.docs.mkdocs.link $@"
   alias lsd-docs.mkdocs.deploy="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.docs.mkdocs.deploy $@"
   alias lsd-docs.admin.update="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.docs.update $@"
