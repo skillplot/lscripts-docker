@@ -239,6 +239,11 @@ function lsd-lscripts.alias.main() {
   alias lsd-utils.cmds="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.utils.cmds lsd"
   alias lsd-utils.python.venvname="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.utils.python.venvname $@"
   alias lsd-utils.pdf.images="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.utils.pdf.images"
+  ###---utils.epoch
+  alias lsd-utils.epoch._normalize_secs="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.utils.epoch._normalize_secs $@"
+  alias lsd-utils.epoch.to-utc="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.utils.epoch.to-utc $@"
+  alias lsd-utils.epoch.to-local="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.utils.epoch.to-local $@"
+  alias lsd-utils.epoch.show="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.utils.epoch.show $@"
   ###---TODO: move to _tmux_ module
   alias lsd-tmux.4p="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.utils.tmux-4pane"
   alias lsd-tmux.3p="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.utils.tmux-3pane"

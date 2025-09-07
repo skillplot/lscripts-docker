@@ -414,3 +414,73 @@ function lsd-mod.utils.python.venvname() {
   } 2>/dev/null
   echo "${py_env_name}"
 }
+
+
+###----------------------------------------------------------
+## lsd-mod.utils.epoch time conversion utilities
+###----------------------------------------------------------
+
+## Normalizes an epoch-like input into integer seconds.
+## Accepts: 1704182907 | 1704182907123 | 1704182907.42 | 1.704182907E9
+function lsd-mod.utils.epoch._normalize_secs() {
+  local in="$1"
+  local secs="$in"
+
+  ## Strip quotes if present
+  secs="${secs%\"}"; secs="${secs#\"}"
+
+  ## Scientific notation or float -> integer seconds
+  if [[ "$secs" =~ [eE] ]] || [[ "$secs" == *.* ]]; then
+    secs="$(awk -v t="$secs" 'BEGIN{printf "%.0f", t}')"
+  fi
+
+  ## Milliseconds or higher precision -> seconds
+  if (( ${#secs} > 10 )); then
+    secs="$(awk -v t="$secs" 'BEGIN{printf "%.0f", t/1000}')"
+  fi
+
+  echo "$secs"
+}
+
+function lsd-mod.utils.epoch.to-utc() {
+  ## Prints UTC time for a given epoch-like input.
+  local in="$1"
+  local secs
+  secs="$(lsd-mod.utils.epoch._normalize_secs "$in")"
+  TZ=UTC date -d "@${secs}" "+%Y-%m-%d %H:%M:%S UTC"
+}
+
+function lsd-mod.utils.epoch.to-local() {
+  ## Prints system-local time (your default timezone) for a given epoch-like input.
+  local in="$1"
+  local secs
+  secs="$(lsd-mod.utils.epoch._normalize_secs "$in")"
+  date -d "@${secs}" "+%Y-%m-%d %H:%M:%S %Z (%z)"
+}
+
+function lsd-mod.utils.epoch.show() {
+  ## Convenience: show both UTC and local for one or more inputs, or stdin if no args.
+  if [[ $# -eq 0 ]]; then
+    while IFS= read -r line; do
+      [[ -z "$line" ]] && continue
+      local secs
+      secs="$(lsd-mod.utils.epoch._normalize_secs "$line")"
+      echo "input: $line"
+      echo "seconds: $secs"
+      echo "UTC:    $(TZ=UTC date -d "@${secs}" "+%Y-%m-%d %H:%M:%S UTC")"
+      echo "Local:  $(date -d "@${secs}" "+%Y-%m-%d %H:%M:%S %Z (%z)")"
+      echo
+    done
+  else
+    local arg
+    for arg in "$@"; do
+      local secs
+      secs="$(lsd-mod.utils.epoch._normalize_secs "$arg")"
+      echo "input: $arg"
+      echo "seconds: $secs"
+      echo "UTC:    $(TZ=UTC date -d "@${secs}" "+%Y-%m-%d %H:%M:%S UTC")"
+      echo "Local:  $(date -d "@${secs}" "+%Y-%m-%d %H:%M:%S %Z (%z)")"
+      echo
+    done
+  fi
+}
