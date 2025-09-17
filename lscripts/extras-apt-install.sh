@@ -19,6 +19,7 @@ function extras-apt-install.main() {
   # sudo apt -y install sct
   sudo apt -y install gnuplot
   sudo apt -y install traceroute
+  sudo apt -y install hyperfine
 
   # https://linuxconfig.org/how-to-fix-missing-plugin-gstreamer-on-ubuntu-18-04-bionic-beaver-linux
   # sudo apt -y install ubuntu-restricted-extras

@@ -281,4 +281,11 @@ function lsd-lscripts.alias.main() {
   ## lsd-virtualbox => _virtualbox_ module
   ###----------------------------------------------------------
   alias lsd-virtualbox.create-vm="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.virtualbox.create-vm $@"
+  ###----------------------------------------------------------
+  ## lsd-perf => _perf_ module
+  ###----------------------------------------------------------
+  alias lsd-perf.time="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.perf.time $@"
+  alias lsd-perf.time-verbose="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.perf.time-verbose $@"
+  alias lsd-perf.time-append="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.perf.time-append $@"
+  alias lsd-perf.psrecord="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.perf.psrecord $@"
 }

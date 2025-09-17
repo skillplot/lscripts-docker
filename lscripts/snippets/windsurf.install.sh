@@ -10,3 +10,14 @@ sudo apt install apt-transport-https
 sudo apt update
 
 sudo apt install windsurf
+
+
+# windsurf --install-extension akamud.vscode-theme-onedark
+# windsurf --install-extension jprestidge.theme-material-theme
+# windsurf --install-extension jdinhlife.gruvbox
+
+# "workbench.colorTheme": "Sublime Mariana"
+
+
+
+# "workbench.colorTheme": "Default Dark+",
