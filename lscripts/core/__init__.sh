@@ -37,5 +37,5 @@ source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/_systemd_.sh
 source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/_crypto_.sh
 source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/_virtualbox_.sh
 source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/_github_.sh
-source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/_github_.cli.sh
+source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/_gh_.sh
 source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/_perf_.sh

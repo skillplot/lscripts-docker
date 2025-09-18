@@ -4,9 +4,9 @@
 ##__author__ = 'mangalbhaskar'
 ###----------------------------------------------------------
 
+username=$1
 
-curl -H "Authorization: token $(cat ~/.cred/github.$1)" https://api.github.com/user
+curl -H "Authorization: token $(cat ~/.cred/github.${username})" https://api.github.com/user
 
-GH_CONFIG_DIR=~/.config/gh-$1 \
-  gh auth login --hostname github.com --git-protocol ssh --with-token < ~/.cred/github.$1
-
+GH_CONFIG_DIR=~/.config/gh-${username} \
+  gh auth login --hostname github.com --git-protocol ssh --with-token < ~/.cred/github.${username}

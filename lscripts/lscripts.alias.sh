@@ -73,11 +73,22 @@ function lsd-lscripts.alias.main() {
   alias lsd-git.pull="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.git-pull"
   alias lsd-git.repo-pull="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.git.repo-pull"
   ###----------------------------------------------------------
-  ## lsd-github => _github_.cli module
+  ## lsd-gh => _gh_ module
   ###----------------------------------------------------------
-  alias lsd-github-cli.install="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.github.cli.install"
-  alias lsd-github-cli.login="source ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.github.cli.login $@"
-  alias lsd-github-cli.logout="source ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.github.cli.logout"
+  alias lsd-github.auth="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.gh.auth $@"
+  alias lsd-github.view="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.gh.view $@"
+  alias lsd-github.push="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.gh.push $@"
+  alias lsd-github.set-url-https="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.gh.set-url-https $@"
+  alias lsd-github.set-url-ssh="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.gh.set-url-ssh $@"
+
+  alias lsd-github.create-repo="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.gh.create-repo $@"
+  alias lsd-github.create-org-repo="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.gh.create-org-repo $@"
+
+  alias lsd-github.copy-gitignore="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.gh.copy-gitignore $@"
+  alias lsd-github.copy-gitattributes="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.gh.copy-gitattributes $@"
+
+  alias lsd-github.create-pages="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.gh.create-pages $@"
+  alias lsd-github.delete-pages="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.gh.delete-pages $@"
   ###----------------------------------------------------------
   ## lsd-nvidia => _nvidia_ module
   ###----------------------------------------------------------
