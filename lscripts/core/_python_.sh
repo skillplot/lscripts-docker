@@ -333,3 +333,69 @@ function lsd-mod.python.virtualenvwrapper.create() {
 function lsd-mod.python.libs.test-pytorch() {
   python -c 'import torch; print(torch.rand(5, 3)); print(torch.cuda.is_available())'
 }
+
+
+function lsd-mod.python.conda.create.hpc() {
+  local __pyVer py_env_name
+  local CONDA_ROOT CONDA_CMD
+
+  # --- Step 1: Try to locate conda root generically ------------------------
+  CONDA_CMD=$(command -v conda 2>/dev/null)
+
+  # Case 1: Conda already in PATH
+  if [[ -n "${CONDA_CMD}" ]]; then
+    CONDA_ROOT=$(dirname "$(dirname "${CONDA_CMD}")")
+  # Case 2: Common cluster shared Miniconda
+  elif [[ -d "/nfs_home/software/miniconda" ]]; then
+    CONDA_ROOT="/nfs_home/software/miniconda"
+  # Case 3: Fallback (standalone-style path)
+  elif [[ -d "/datahub/conda" ]]; then
+    CONDA_ROOT="/datahub/conda"
+  else
+    lsd-mod.log.error "No valid Conda installation found in PATH or known locations!"
+    return 1
+  fi
+
+  lsd-mod.log.echo "Detected Conda root: ${CONDA_ROOT}"
+
+  # --- Step 2: Source Conda and ensure usability --------------------------
+  if [[ -f "${CONDA_ROOT}/etc/profile.d/conda.sh" ]]; then
+    source "${CONDA_ROOT}/etc/profile.d/conda.sh"
+  else
+    export PATH="${CONDA_ROOT}/bin:${PATH}"
+  fi
+
+  # --- Step 3: Force classic solver (safe everywhere) ---------------------
+  conda config --set solver classic >/dev/null 2>&1
+
+  # --- Step 4: Parse inputs ------------------------------------------------
+  [[ -n "${args['version']+1}" ]] && __pyVer=${args['version']}
+  [[ -n "${args['name']+1}" ]] && py_env_name=${args['name']}
+  [[ -z "${__pyVer}" ]] && __pyVer=$(python3 -c 'import sys; print(".".join(map(str, sys.version_info[:3])))')
+  [[ -z "${py_env_name}" ]] && py_env_name="py_${__pyVer}_$(date -d now +'%d%m%y_%H%M%S')"
+
+  lsd-mod.log.echo "__pyVer: ${__pyVer}"
+  lsd-mod.log.echo "py_env_name: ${py_env_name}"
+
+  # --- Step 5: Determine where to create environments ---------------------
+  local TARGET_ROOT="${HOME}/datahub/conda/envs"
+  mkdir -p "${TARGET_ROOT}"
+  local ENV_PATH="${TARGET_ROOT}/${py_env_name}"
+
+  lsd-mod.log.echo "Environment target: ${ENV_PATH}"
+
+  # --- Step 6: Create environment safely ----------------------------------
+  conda env list | grep -q "${py_env_name}" && {
+    lsd-mod.log.warn "Already exists: ${py_env_name}"
+  } || {
+    lsd-mod.log.warn "Creating: ${py_env_name}"
+    conda create -p "${ENV_PATH}" -y python="${__pyVer}" || {
+      lsd-mod.log.error "conda create failed for ${py_env_name}"
+      return 1
+    }
+  }
+
+  # --- Step 7: Success message --------------------------------------------
+  lsd-mod.log.info "Conda environment created at: ${ENV_PATH}"
+  lsd-mod.log.info "Activate with: conda activate ${ENV_PATH}"
+}

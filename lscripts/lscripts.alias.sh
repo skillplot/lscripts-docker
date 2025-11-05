@@ -39,6 +39,7 @@ function lsd-lscripts.alias.main() {
   alias lsd-python.test.virtualenv="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.python.virtualenvwrapper.test $@"
   ##
   alias lsd-python.create.condaenv="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.python.conda.create $@"
+  alias lsd-python.create.condaenv-hpc="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.python.conda.create.hpc $@"
   ##
   alias lsd-python.kill="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.utils.kill.python"
   alias lsd-python.ls.pycache="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.utils.ls.pycache"
@@ -184,6 +185,7 @@ function lsd-lscripts.alias.main() {
   alias lsd-docker.container.create="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.docker.container.create $@"
   ###-------
   alias lsd-docker.image.build-dev-ubuntu22.04="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.docker.image.build --from=ubuntu:22.04"
+  alias lsd-docker.image.build.skplt-dev.min="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.docker.image.build $@"
   ###-------
   alias lsd-docker.user.fix="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.docker.userfix $@"
   alias lsd-docker.user.add2sudoer="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.docker.adduser_to_sudoer $@"
