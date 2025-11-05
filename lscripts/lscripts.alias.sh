@@ -299,4 +299,14 @@ function lsd-lscripts.alias.main() {
   alias lsd-perf.time-verbose="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.perf.time-verbose $@"
   alias lsd-perf.time-append="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.perf.time-append $@"
   alias lsd-perf.psrecord="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.perf.psrecord $@"
+  ###----------------------------------------------------------
+  ## lsd-www => _www_ module
+  ###----------------------------------------------------------
+  ###---www.clone-site
+  alias lsd-www.clone-site.static="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.www.clone-site.static $@"
+  alias lsd-www.clone-site.capture-website="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.www.clone-site.capture-website $@"
+  alias lsd-www.clone-site.browsertrix="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.www.clone-site.browsertrix $@"
+  alias lsd-www.clone-site.list="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.www.clone-site.list $@"
+  alias lsd-www.site-info="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.www.site.info $@"
+  alias lsd-www.site-fingerprint="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.www.site.fingerprint $@"
 }
