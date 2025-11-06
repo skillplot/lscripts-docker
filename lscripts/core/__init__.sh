@@ -1,6 +1,6 @@
 #!/bin/bash
 
-## Copyright (c) 2024 mangalbhaskar. All Rights Reserved.
+## Copyright (c) 2025 mangalbhaskar. All Rights Reserved.
 ##__author__ = 'mangalbhaskar'
 ##----------------------------------------------------------
 ## common configurations
@@ -40,3 +40,4 @@ source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/_github_.sh
 source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/_gh_.sh
 source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/_perf_.sh
 source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/_www_.sh
+source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/_hpc_.sh

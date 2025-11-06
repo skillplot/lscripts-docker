@@ -311,4 +311,44 @@ function lsd-lscripts.alias.main() {
   alias lsd-www.clone-site.list="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.www.clone-site.list $@"
   alias lsd-www.site-info="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.www.site.info $@"
   alias lsd-www.site-fingerprint="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.www.site.fingerprint $@"
+  ###----------------------------------------------------------
+  ## lsd-hpc => _hpc_ module
+  ###----------------------------------------------------------
+  ### GROUP 1: SUBMIT
+  alias lsd-hpc.submit.generate-slurm-template="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.hpc.submit.generate-slurm-template $@"
+  alias lsd-hpc.submit.run-job="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.hpc.submit.run-job $@"
+  alias lsd-hpc.submit.run-sh="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.hpc.submit.run-sh $@"
+  alias lsd-hpc.submit.run-py="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.hpc.submit.run-py $@"
+  alias lsd-hpc.submit.run-batch="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.hpc.submit.run-batch $@"
+  alias lsd-hpc.submit.run-dependent="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.hpc.submit.run-dependent $@"
+  ### GROUP 2: MONITOR
+  alias lsd-hpc.monitor.list-jobs="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.hpc.monitor.list-jobs $@"
+  alias lsd-hpc.monitor.describe-job="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.hpc.monitor.describe-job $@"
+  alias lsd-hpc.monitor.tail-job="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.hpc.monitor.tail-job $@"
+  alias lsd-hpc.monitor.history="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.hpc.monitor.history $@"
+  alias lsd-hpc.monitor.stats="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.hpc.monitor.stats $@"
+  ### GROUP 3: MANAGE
+  alias lsd-hpc.manage.cancel-job="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.hpc.manage.cancel-job $@"
+  alias lsd-hpc.manage.cancel-all="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.hpc.manage.cancel-all $@"
+  alias lsd-hpc.manage.requeue-job="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.hpc.manage.requeue-job $@"
+  alias lsd-hpc.manage.purge-old="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.hpc.manage.purge-old $@"
+  alias lsd-hpc.manage.resubmit="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.hpc.manage.resubmit $@"
+  ### GROUP 4: AUDIT
+  alias lsd-hpc.audit.save-job-metadata="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.hpc.audit.save-job-metadata $@"
+  alias lsd-hpc.audit.load-job-metadata="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.hpc.audit.load-job-metadata $@"
+  alias lsd-hpc.audit.export-report="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.hpc.audit.export-report $@"
+  alias lsd-hpc.audit.view-log="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.hpc.audit.view-log $@"
+  alias lsd-hpc.audit.summary="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.hpc.audit.summary $@"
+  ### GROUP 5: RESOURCE
+  alias lsd-hpc.resource.cluster-status="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.hpc.resource.cluster-status $@"
+  alias lsd-hpc.resource.list-gpus="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.hpc.resource.list-gpus $@"
+  alias lsd-hpc.resource.list-partitions="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.hpc.resource.list-partitions $@"
+  alias lsd-hpc.resource.user-quota="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.hpc.resource.user-quota $@"
+  alias lsd-hpc.resource.capacity-overview="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.hpc.resource.capacity-overview $@"
+  ### GROUP 6: SCHEDULE
+  alias lsd-hpc.schedule.chain-jobs="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.hpc.schedule.chain-jobs $@"
+  alias lsd-hpc.schedule.schedule-job="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.hpc.schedule.schedule-job $@"
+  alias lsd-hpc.schedule.batch-submit="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.hpc.schedule.batch-submit $@"
+  alias lsd-hpc.schedule.workflow="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.hpc.schedule.workflow $@"
+  ###----------------------------------------------------------
 }
