@@ -1,8 +1,8 @@
 ---
 title: All Commands
 description: List of all commands for Lscripts Docker
-date: 2024-08-25 17:21:42
-last_updated: 17:21:42, 25-Aug-2024, Sunday
+date: 2025-11-06 22:11:42
+last_updated: 22:11:42, 06-Nov-2025, Thursday
 note: Auto generated file and will be overwritten
 ---
 
@@ -85,11 +85,13 @@ lsd-docker.get.local_volumes
 lsd-docker.get.port_maps
 lsd-docker.get.restart_policy
 lsd-docker.image.build-dev-ubuntu22.04
+lsd-docker.image.build.skplt-dev.min
 lsd-docker.osvers
 lsd-docker.user.add2sudoer
 lsd-docker.user.fix
 lsd-docker.verify
 lsd-docs.admin.update
+lsd-docs.asciidoc.create_pdf
 lsd-docs.cmds
 lsd-docs.markdown2latex
 lsd-docs.mkdocs
@@ -97,9 +99,60 @@ lsd-docs.mkdocs.deploy
 lsd-docs.mkdocs.link
 lsd-git.pull
 lsd-git.repo-pull
-lsd-github-cli.install
-lsd-github-cli.login
-lsd-github-cli.logout
+lsd-github.auth
+lsd-github.copy-gitattributes
+lsd-github.copy-gitignore
+lsd-github.create-org-repo
+lsd-github.create-pages
+lsd-github.create-repo
+lsd-github.delete-pages
+lsd-github.push
+lsd-github.set-url-https
+lsd-github.set-url-ssh
+lsd-github.view
+lsd-hpc.audit.export-report
+lsd-hpc.audit.load-job-metadata
+lsd-hpc.audit.save-job-metadata
+lsd-hpc.audit.summary
+lsd-hpc.audit.view-log
+lsd-hpc.debug.env
+lsd-hpc.debug.job-context
+lsd-hpc.debug.show-template
+lsd-hpc.help.audit
+lsd-hpc.help.manage
+lsd-hpc.help.monitor
+lsd-hpc.help.resource
+lsd-hpc.help.schedule
+lsd-hpc.help.submit
+lsd-hpc.manage.cancel-all
+lsd-hpc.manage.cancel-job
+lsd-hpc.manage.purge-old
+lsd-hpc.manage.requeue-job
+lsd-hpc.manage.resubmit
+lsd-hpc.monitor.describe-job
+lsd-hpc.monitor.history
+lsd-hpc.monitor.list-jobs
+lsd-hpc.monitor.stats
+lsd-hpc.monitor.tail-job
+lsd-hpc.resource.capacity-overview
+lsd-hpc.resource.cluster-status
+lsd-hpc.resource.list-gpus
+lsd-hpc.resource.list-partitions
+lsd-hpc.resource.user-quota
+lsd-hpc.schedule.batch-submit
+lsd-hpc.schedule.chain-jobs
+lsd-hpc.schedule.schedule-job
+lsd-hpc.schedule.workflow
+lsd-hpc.submit.generate-slurm-template
+lsd-hpc.submit.run-batch
+lsd-hpc.submit.run-dependent
+lsd-hpc.submit.run-job
+lsd-hpc.submit.run-py
+lsd-hpc.submit.run-sh
+lsd-hpc.test.all
+lsd-hpc.test.env
+lsd-hpc.test.submit-dryrun
+lsd-hpc.test.template
 lsd-install.android-studio-wget
 lsd-install.apache2
 lsd-install.asciidoc-clone
@@ -124,9 +177,11 @@ lsd-install.epub-readers-apt
 lsd-install.essentials-apt
 lsd-install.extras-apt
 lsd-install.ffmpeg-apt
+lsd-install.figma
 lsd-install.freecad-ppa
 lsd-install.ftp-apt
 lsd-install.gcc-apt
+lsd-install.gh
 lsd-install.ghostwriter-apt
 lsd-install.gimp-graphics-apt
 lsd-install.githubcli-apt
@@ -223,11 +278,17 @@ lsd-install.xournalpp-ppa
 lsd-install.yarn-apt
 lsd-install.youtubedl-apt
 lsd-install.zookeeper-wget
+lsd-lcd
 lsd-nvidia.cfg
 lsd-nvidia.driver.avail
 lsd-nvidia.gpu.info
 lsd-nvidia.gpu.stats
+lsd-perf.psrecord
+lsd-perf.time
+lsd-perf.time-append
+lsd-perf.time-verbose
 lsd-python.create.condaenv
+lsd-python.create.condaenv-hpc
 lsd-python.create.virtualenv
 lsd-python.find_vers
 lsd-python.kill
@@ -293,6 +354,10 @@ lsd-utils.cmds
 lsd-utils.convert-utf8
 lsd-utils.count-lines
 lsd-utils.date.get
+lsd-utils.epoch._normalize_secs
+lsd-utils.epoch.show
+lsd-utils.epoch.to-local
+lsd-utils.epoch.to-utc
 lsd-utils.id.filename
 lsd-utils.id.filename-tmp
 lsd-utils.id.get
@@ -320,6 +385,12 @@ lsd-utils.system.info
 lsd-utils.trash
 lsd-utils.youtube-download-mp3
 lsd-virtualbox.create-vm
+lsd-www.clone-site.browsertrix
+lsd-www.clone-site.capture-website
+lsd-www.clone-site.list
+lsd-www.clone-site.static
+lsd-www.site-fingerprint
+lsd-www.site-info
 lsd-lscripts.exe.install
 lsd-lscripts.install.__itemwise
 lsd-lscripts.install.__menu

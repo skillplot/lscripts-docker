@@ -206,3 +206,141 @@ function lsd-mod.hpc.schedule.chain-jobs() {
   sbatch --dependency=afterok:"${first}" "${second}"
   echo "🔗 Chained ${second} after ${first}"
 }
+
+### GROUP 7: HELP
+function lsd-mod.hpc.help.main() {
+  echo "----------------------------------------------------------"
+  echo "🚀 LSD HPC Module Help"
+  echo "----------------------------------------------------------"
+  echo "Semantic Groups:"
+  echo "  submit     - Create and run jobs"
+  echo "  monitor    - Observe, inspect, or tail jobs"
+  echo "  manage     - Control job lifecycle"
+  echo "  audit      - Persist and query job metadata"
+  echo "  resource   - Cluster and GPU/CPU info"
+  echo "  schedule   - Chaining and workflow orchestration"
+  echo "  debug      - Inspect runtime env"
+  echo "  test       - Validate HPC setup"
+  echo "----------------------------------------------------------"
+  echo "Use: lsd-hpc.<group>.help to view group-level commands."
+  echo "----------------------------------------------------------"
+}
+
+function lsd-mod.hpc.help.submit() {
+  cat <<EOF
+🧠 SUBMIT COMMANDS:
+  lsd-hpc.submit.generate-slurm-template   → Generate SLURM batch file
+  lsd-hpc.submit.run-job                   → Submit dynamic job
+  lsd-hpc.submit.run-sh                    → Submit shell script job
+  lsd-hpc.submit.run-py                    → Submit Python script job
+  lsd-hpc.submit.run-batch                 → Submit directory of jobs
+  lsd-hpc.submit.run-dependent             → Submit dependent job
+EOF
+}
+
+function lsd-mod.hpc.help.monitor() {
+  cat <<EOF
+📊 MONITOR COMMANDS:
+  lsd-hpc.monitor.list-jobs       → Show active jobs
+  lsd-hpc.monitor.describe-job    → Show job details
+  lsd-hpc.monitor.tail-job        → Tail job logs live
+  lsd-hpc.monitor.history         → Historical job summary
+  lsd-hpc.monitor.stats           → Running/queued/failed stats
+EOF
+}
+
+function lsd-mod.hpc.help.manage() {
+  cat <<EOF
+🔧 MANAGE COMMANDS:
+  lsd-hpc.manage.cancel-job       → Cancel specific job
+  lsd-hpc.manage.cancel-all       → Cancel all jobs
+  lsd-hpc.manage.purge-old        → Clean old logs
+  lsd-hpc.manage.requeue-job      → Requeue failed job
+  lsd-hpc.manage.resubmit         → Resubmit from metadata
+EOF
+}
+
+function lsd-mod.hpc.help.audit() {
+  cat <<EOF
+📚 AUDIT COMMANDS:
+  lsd-hpc.audit.summary           → List job summaries
+  lsd-hpc.audit.export-report     → Export to CSV/JSON
+  lsd-hpc.audit.view-log          → Display job log
+  lsd-hpc.audit.save-job-metadata → Store metadata
+  lsd-hpc.audit.load-job-metadata → Retrieve metadata
+EOF
+}
+
+function lsd-mod.hpc.help.resource() {
+  cat <<EOF
+⚡ RESOURCE COMMANDS:
+  lsd-hpc.resource.cluster-status   → Cluster status
+  lsd-hpc.resource.list-gpus        → Available GPU types
+  lsd-hpc.resource.list-partitions  → Available partitions
+  lsd-hpc.resource.user-quota       → User quota utilization
+  lsd-hpc.resource.capacity-overview→ Capacity overview
+EOF
+}
+
+function lsd-mod.hpc.help.schedule() {
+  cat <<EOF
+🔁 SCHEDULE COMMANDS:
+  lsd-hpc.schedule.chain-jobs     → Chain dependent jobs
+  lsd-hpc.schedule.schedule-job   → Time-based scheduling
+  lsd-hpc.schedule.batch-submit   → Bulk submission
+  lsd-hpc.schedule.workflow       → Multi-stage workflow
+EOF
+}
+
+### GROUP 8: TEST
+function lsd-mod.hpc.test.env() {
+  echo "🧪 Checking SLURM binaries..."
+  command -v sbatch >/dev/null && echo "✅ sbatch found" || echo "❌ sbatch missing"
+  command -v squeue >/dev/null && echo "✅ squeue found" || echo "❌ squeue missing"
+  command -v sacct >/dev/null && echo "✅ sacct found" || echo "⚠️ sacct optional"
+}
+
+function lsd-mod.hpc.test.template() {
+  echo "🧪 Testing SLURM template generation..."
+  lsd-mod.hpc.submit.generate-slurm-template --name testjob --output /tmp/testjob.slurm
+  [[ -f /tmp/testjob.slurm ]] && echo "✅ Template created" || echo "❌ Template creation failed"
+}
+
+function lsd-mod.hpc.test.submit-dryrun() {
+  echo "🧪 Dry-run submission (no sbatch execution)..."
+  lsd-mod.hpc.submit.generate-slurm-template --name dryrun --output /tmp/dryrun.slurm
+  echo "bash echo 'Hello World'" >> /tmp/dryrun.slurm
+  echo "✅ Created /tmp/dryrun.slurm for manual sbatch testing"
+}
+
+function lsd-mod.hpc.test.all() {
+  lsd-mod.hpc.test.env
+  lsd-mod.hpc.test.template
+  lsd-mod.hpc.test.submit-dryrun
+}
+
+### GROUP 9: DEBUG
+function lsd-mod.hpc.debug.env() {
+  echo "🐞 SLURM ENVIRONMENT VARIABLES:"
+  env | grep SLURM_ || echo "No SLURM_* environment variables set."
+}
+
+function lsd-mod.hpc.debug.job-context() {
+  echo "🐞 Job Context Info:"
+  echo "  Job ID      : ${SLURM_JOB_ID:-N/A}"
+  echo "  Job Name    : ${SLURM_JOB_NAME:-N/A}"
+  echo "  Node        : $(hostname)"
+  echo "  GPUs        : ${CUDA_VISIBLE_DEVICES:-N/A}"
+  echo "  Working Dir : $(pwd)"
+}
+
+function lsd-mod.hpc.debug.show-template() {
+  local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
+  source "${LSCRIPTS}/argparse.sh" "$@"
+  local path=${args['file']:-""}
+  [[ -z "${path}" ]] && { echo "Usage: --file <slurm_template>"; return 1; }
+  echo "🐞 Showing SLURM template contents for: ${path}"
+  echo "----------------------------------------------------------"
+  cat "${path}"
+  echo "----------------------------------------------------------"
+}

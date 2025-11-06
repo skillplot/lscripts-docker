@@ -350,5 +350,22 @@ function lsd-lscripts.alias.main() {
   alias lsd-hpc.schedule.schedule-job="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.hpc.schedule.schedule-job $@"
   alias lsd-hpc.schedule.batch-submit="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.hpc.schedule.batch-submit $@"
   alias lsd-hpc.schedule.workflow="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.hpc.schedule.workflow $@"
+  ### GROUP 7: HELP
+  alias lsd-hpc.help.main="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.hpc.help.main $@"
+  alias lsd-hpc.help.submit="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.hpc.help.submit $@"
+  alias lsd-hpc.help.monitor="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.hpc.help.monitor $@"
+  alias lsd-hpc.help.manage="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.hpc.help.manage $@"
+  alias lsd-hpc.help.audit="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.hpc.help.audit $@"
+  alias lsd-hpc.help.resource="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.hpc.help.resource $@"
+  alias lsd-hpc.help.schedule="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.hpc.help.schedule $@"
+  ### GROUP 8: TEST
+  alias lsd-hpc.test.env="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.hpc.test.env $@"
+  alias lsd-hpc.test.template="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.hpc.test.template $@"
+  alias lsd-hpc.test.submit-dryrun="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.hpc.test.submit-dryrun $@"
+  alias lsd-hpc.test.all="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.hpc.test.all $@"
+  ### GROUP 9: DEBUG
+  alias lsd-hpc.debug.env="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.hpc.debug.env $@"
+  alias lsd-hpc.debug.job-context="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.hpc.debug.job-context $@"
+  alias lsd-hpc.debug.show-template="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.hpc.debug.show-template $@"
   ###----------------------------------------------------------
 }
