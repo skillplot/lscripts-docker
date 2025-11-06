@@ -84,36 +84,137 @@ EOF
 }
 
 function lsd-mod.hpc.submit.run-job() {
-  ## Dynamically inject a script into a generated SLURM wrapper and submit.
+  ##----------------------------------------------------------
+  ## Submit a job to SLURM, with or without config file.
+  ## Supports YAML (.yaml/.yml) or JSON (.json) configs.
+  ##----------------------------------------------------------
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
   source "${LSCRIPTS}/argparse.sh" "$@"
 
-  local script job_name partition gpu cpus mem time conda_env
+  local config script job_name partition gpu cpus mem time conda_env logdir dryrun
   local _timestamp=$(_lsd_hpc__timestamp)
-  local logdir=$(_lsd_hpc__ensure_logdir "logs")
+  logdir=$(_lsd_hpc__ensure_logdir "logs")
 
+  ##----------------------------------------------------------
+  ## Parse CLI args
+  ##----------------------------------------------------------
+  config=${args['config']:-""}
   script=${args['script']:-""}
-  job_name=${args['name']:-"hpcjob"}
-  partition=${args['partition']:-"gpu-short"}
-  gpu=${args['gpu']:-"gpu:1"}
-  cpus=${args['cpus']:-8}
-  mem=${args['mem']:-"32G"}
-  time=${args['time']:-"01:00:00"}
+  job_name=${args['name']:-""}
+  partition=${args['partition']:-""}
+  gpu=${args['gpu']:-""}
+  cpus=${args['cpus']:-""}
+  mem=${args['mem']:-""}
+  time=${args['time']:-""}
   conda_env=${args['conda']:-""}
+  dryrun=${args['dryrun']:-false}
 
+  ##----------------------------------------------------------
+  ## If a config file is provided, detect its type and parser.
+  ##----------------------------------------------------------
+  if [[ -n "${config}" && -f "${config}" ]]; then
+    local ext="${config##*.}"
+    case "$ext" in
+      yaml|yml)
+        if ! command -v yq >/dev/null 2>&1; then
+          echo "❌ Error: YAML config detected but 'yq' not found."
+          echo "   Please install with:"
+          echo "   conda install -c conda-forge yq"
+          return 1
+        fi
+        echo "📄 Loading YAML job config: ${config}"
+        job_name=$(yq -r '.job.name' "${config}")
+        partition=$(yq -r '.job.partition' "${config}")
+        gpu=$(yq -r '.job.gpu' "${config}")
+        cpus=$(yq -r '.job.cpus' "${config}")
+        mem=$(yq -r '.job.mem' "${config}")
+        time=$(yq -r '.job.time' "${config}")
+        conda_env=$(yq -r '.job.conda' "${config}")
+        script=$(yq -r '.job.script' "${config}")
+        logdir=$(yq -r '.job.logdir' "${config}")
+        dryrun=$(yq -r '.job.dryrun' "${config}")
+        ;;
+      json)
+        if ! command -v jq >/dev/null 2>&1; then
+          echo "❌ Error: JSON config detected but 'jq' not found."
+          echo "   Please install with:"
+          echo "   conda install -c conda-forge jq"
+          return 1
+        fi
+        echo "📄 Loading JSON job config: ${config}"
+        job_name=$(jq -r '.job.name' "${config}")
+        partition=$(jq -r '.job.partition' "${config}")
+        gpu=$(jq -r '.job.gpu' "${config}")
+        cpus=$(jq -r '.job.cpus' "${config}")
+        mem=$(jq -r '.job.mem' "${config}")
+        time=$(jq -r '.job.time' "${config}")
+        conda_env=$(jq -r '.job.conda' "${config}")
+        script=$(jq -r '.job.script' "${config}")
+        logdir=$(jq -r '.job.logdir' "${config}")
+        dryrun=$(jq -r '.job.dryrun' "${config}")
+        ;;
+      *)
+        echo "⚠️  Unknown config file type: ${ext}. Skipping config parse."
+        ;;
+    esac
+  fi
+
+  ##----------------------------------------------------------
+  ## Defaults if missing
+  ##----------------------------------------------------------
+  job_name=${job_name:-"hpcjob"}
+  partition=${partition:-"gpu-short"}
+  gpu=${gpu:-"gpu:1"}
+  cpus=${cpus:-8}
+  mem=${mem:-"32G"}
+  time=${time:-"01:00:00"}
+  conda_env=${conda_env:-""}
+  logdir=${logdir:-"logs"}
+  dryrun=${dryrun:-false}
+
+  ##----------------------------------------------------------
+  ## Validate script path
+  ##----------------------------------------------------------
   if [[ -z "${script}" ]]; then
-    echo "❌ Error: --script path required."
+    echo "❌ Error: No script specified (use --script or --config <file>)"
     return 1
   fi
 
+  if [[ ! -f "${script}" ]]; then
+    echo "⚠️  Warning: Script '${script}' does not exist yet."
+  fi
+
+  ##----------------------------------------------------------
+  ## Generate SLURM wrapper
+  ##----------------------------------------------------------
   local wrapper="/tmp/${job_name}_${_timestamp}.slurm"
-  lsd-mod.hpc.submit.generate-slurm-template --name "${job_name}" --partition "${partition}" --gpu "${gpu}" --cpus "${cpus}" --mem "${mem}" --time "${time}" --conda "${conda_env}" --output "${wrapper}"
+
+  lsd-mod.hpc.submit.generate-slurm-template \
+    --name "${job_name}" \
+    --partition "${partition}" \
+    --gpu "${gpu}" \
+    --cpus "${cpus}" \
+    --mem "${mem}" \
+    --time "${time}" \
+    --conda "${conda_env}" \
+    --output "${wrapper}"
+
   echo "bash ${script}" >> "${wrapper}"
+
+  ##----------------------------------------------------------
+  ## Dry-run or submit
+  ##----------------------------------------------------------
+  if [[ "${dryrun}" == "true" ]]; then
+    echo "🧪 Dry-run mode enabled. Wrapper generated at:"
+    echo "   ${wrapper}"
+    echo "----------------------------------------------------------"
+    cat "${wrapper}"
+    return 0
+  fi
 
   echo "🚀 Submitting job: ${job_name}"
   sbatch "${wrapper}"
 }
-
 
 function lsd-mod.hpc.submit.run-sh() {
   ## Shortcut for shell job submission.
