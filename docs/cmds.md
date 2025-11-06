@@ -1,8 +1,8 @@
 ---
 title: All Commands
 description: List of all commands for Lscripts Docker
-date: 2025-11-06 22:11:42
-last_updated: 22:11:42, 06-Nov-2025, Thursday
+date: 2025-11-06 22:24:37
+last_updated: 22:24:37, 06-Nov-2025, Thursday
 note: Auto generated file and will be overwritten
 ---
 

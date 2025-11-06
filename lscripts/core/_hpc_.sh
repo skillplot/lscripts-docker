@@ -29,14 +29,30 @@ function lsd-mod.hpc.submit.generate-slurm-template() {
   local job_name partition gpu cpus mem time conda_env output_file
   local _timestamp=$(_lsd_hpc__timestamp)
 
-  job_name=${args['name']:-"hpcjob"}
-  partition=${args['partition']:-"gpu-short"}
-  gpu=${args['gpu']:-"gpu:1"}
-  cpus=${args['cpus']:-8}
-  mem=${args['mem']:-"32G"}
-  time=${args['time']:-"01:00:00"}
-  conda_env=${args['conda']:-""}
-  output_file=${args['output']:-"${PWD}/${job_name}_${_timestamp}.slurm"}
+  # --- Safe fallback mapping in case argparse fails ---
+  for arg in "$@"; do
+    case $arg in
+      --name) shift; job_name="$1"; shift ;;
+      --partition) shift; partition="$1"; shift ;;
+      --gpu) shift; gpu="$1"; shift ;;
+      --cpus) shift; cpus="$1"; shift ;;
+      --mem) shift; mem="$1"; shift ;;
+      --time) shift; time="$1"; shift ;;
+      --conda) shift; conda_env="$1"; shift ;;
+      --output) shift; output_file="$1"; shift ;;
+    esac
+  done
+
+  # --- Defaults if missing ---
+  job_name=${job_name:-"hpcjob"}
+  partition=${partition:-"gpu-short"}
+  gpu=${gpu:-"gpu:1"}
+  cpus=${cpus:-8}
+  mem=${mem:-"32G"}
+  time=${time:-"01:00:00"}
+  output_file=${output_file:-"${PWD}/${job_name}_${_timestamp}.slurm"}
+
+  local logdir=$(_lsd_hpc__ensure_logdir "logs")
 
   cat <<EOF > "${output_file}"
 #!/bin/bash
@@ -46,8 +62,8 @@ function lsd-mod.hpc.submit.generate-slurm-template() {
 #SBATCH --cpus-per-task=${cpus}
 #SBATCH --mem=${mem}
 #SBATCH --time=${time}
-#SBATCH --output=logs/${job_name}_%j.out
-#SBATCH --error=logs/${job_name}_%j.err
+#SBATCH --output=${logdir}/${job_name}_%j.out
+#SBATCH --error=${logdir}/${job_name}_%j.err
 
 echo "----------------------------------------------------------"
 echo "Job Name   : \${SLURM_JOB_NAME}"
@@ -57,14 +73,15 @@ echo "Node       : \$(hostname)"
 echo "GPUs       : \${CUDA_VISIBLE_DEVICES}"
 echo "Start Time : \$(date)"
 echo "----------------------------------------------------------"
-
 EOF
 
-  [[ -n "${conda_env}" ]] && echo "source /nfs_home/software/miniconda/etc/profile.d/conda.sh && conda activate ${conda_env}" >> "${output_file}"
+  if [[ -n "${conda_env}" ]]; then
+    echo "source /nfs_home/software/miniconda/etc/profile.d/conda.sh" >> "${output_file}"
+    echo "conda activate ${conda_env}" >> "${output_file}"
+  fi
 
   echo "✅ Generated SLURM template: ${output_file}"
 }
-
 
 function lsd-mod.hpc.submit.run-job() {
   ## Dynamically inject a script into a generated SLURM wrapper and submit.
