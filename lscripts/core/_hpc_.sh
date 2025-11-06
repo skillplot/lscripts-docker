@@ -285,13 +285,28 @@ function lsd-mod.hpc.monitor.describe-job() {
 }
 
 function lsd-mod.hpc.monitor.tail-job() {
+  ## Stream the log of a running job.
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
   source "${LSCRIPTS}/argparse.sh" "$@"
-  local jobid=${args['id']:-""}
-  [[ -z "${jobid}" ]] && { echo "Usage: --id <jobid>"; return 1; }
-  tail -f logs/*"${jobid}".out
-}
 
+  ## Support shorthand: lsd-hpc.monitor.tail-job 1460
+  local jobid=${args['id']:-"$1"}
+
+  if [[ -z "${jobid}" ]]; then
+    echo "Usage: lsd-hpc.monitor.tail-job --id <jobid>"
+    return 1
+  fi
+
+  local logfile=$(ls logs/*"${jobid}".out 2>/dev/null | head -n 1)
+  if [[ -z "${logfile}" ]]; then
+    echo "⚠️  Log file for JobID ${jobid} not found in logs/."
+    return 1
+  fi
+
+  echo "📡 Tailing job ${jobid} -> ${logfile}"
+  echo "----------------------------------------------------------"
+  tail -f "${logfile}"
+}
 
 function lsd-mod.hpc.monitor.history() {
   ## Display recent job history for current user.
