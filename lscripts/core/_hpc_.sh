@@ -187,7 +187,10 @@ function lsd-mod.hpc.submit.run-job() {
   ##----------------------------------------------------------
   ## Generate SLURM wrapper
   ##----------------------------------------------------------
-  local wrapper="/tmp/${job_name}_${_timestamp}.slurm"
+  local slurm_dir="${PWD}/logs/scrum"
+  mkdir -p "${slurm_dir}"
+
+  local wrapper="${slurm_dir}/${job_name}.${_timestamp}.slurm"
 
   lsd-mod.hpc.submit.generate-slurm-template \
     --name "${job_name}" \
@@ -200,6 +203,12 @@ function lsd-mod.hpc.submit.run-job() {
     --output "${wrapper}"
 
   echo "bash ${script}" >> "${wrapper}"
+  ## Immediately after writing the wrapper, lock it down to be readable only by the job owner
+  chmod 600 "${wrapper}"
+
+  ### Find all files in ${slurm_dir} that are regular files, older than 7 days, and whose names end with .slurm, then delete them quietly.
+  ## find "${slurm_dir}" -type f -mtime +7 -name "*.slurm" -print ## dry-run
+  ## find "${slurm_dir}" -type f -mtime +7 -name "*.slurm" -delete 2>/dev/null
 
   ##----------------------------------------------------------
   ## Dry-run or submit
@@ -233,7 +242,10 @@ function lsd-mod.hpc.submit.run-py() {
     echo "❌ Error: --script path required."
     return 1
   fi
-  local tmp=$(mktemp /tmp/lsd_pyjob_XXXX.sh)
+  local tmp_dir="${PWD}/logs/slurm"
+  mkdir -p "${tmp_dir}"
+  local tmp="${tmp_dir}/lsd_pyjob_$(_lsd_hpc__timestamp).sh"
+
   echo "python ${script}" > "${tmp}"
   lsd-mod.hpc.submit.run-job --script "${tmp}" "$@"
 }
@@ -554,6 +566,9 @@ function lsd-mod.hpc.help.main() {
 }
 
 function lsd-mod.hpc.help.submit() {
+  echo "   🗂 SLURM wrappers are saved under: logs/scrum/"
+  echo "   🧪 Test & dry-run files are under: logs/slurm/"
+
   cat <<EOF
 🧠 SUBMIT COMMANDS:
   lsd-hpc.submit.generate-slurm-template   → Generate SLURM batch file
@@ -629,18 +644,33 @@ function lsd-mod.hpc.test.env() {
 
 function lsd-mod.hpc.test.template() {
   echo "🧪 Testing SLURM template generation..."
-  lsd-mod.hpc.submit.generate-slurm-template --name testjob --output /tmp/testjob.slurm
-  [[ -f /tmp/testjob.slurm ]] && echo "✅ Template created" || echo "❌ Template creation failed"
+  local test_dir="${PWD}/logs/slurm"
+  mkdir -p "${test_dir}"
+  # find "${test_dir}" -type f -mtime +7 -name "*.slurm" -delete 2>/dev/null
+
+  local testfile="${test_dir}/testjob.$(_lsd_hpc__timestamp).slurm"
+  lsd-mod.hpc.submit.generate-slurm-template --name testjob --output "${testfile}"
+  [[ -f "${testfile}" ]] && echo "✅ Template created: ${testfile}" || echo "❌ Template creation failed"
+  chmod 600 "${testfile}"
 }
 
 function lsd-mod.hpc.test.submit-dryrun() {
   echo "🧪 Dry-run submission (no sbatch execution)..."
-  lsd-mod.hpc.submit.generate-slurm-template --name dryrun --output /tmp/dryrun.slurm
-  echo "bash echo 'Hello World'" >> /tmp/dryrun.slurm
-  echo "✅ Created /tmp/dryrun.slurm for manual sbatch testing"
+  local dry_dir="${PWD}/logs/slurm"
+  mkdir -p "${dry_dir}"
+  # find "${test_dir}" -type f -mtime +7 -name "*.slurm" -delete 2>/dev/null
+
+  local dryfile="${dry_dir}/dryrun.$(_lsd_hpc__timestamp).slurm"
+  lsd-mod.hpc.submit.generate-slurm-template --name dryrun --output "${dryfile}"
+  echo "bash echo 'Hello World'" >> "${dryfile}"
+  chmod 600 "${dryfile}"
+
+  echo "✅ Created dry-run SLURM file: ${dryfile}"
+  echo "   You can inspect it safely under logs/slurm/"
 }
 
 function lsd-mod.hpc.test.all() {
+  echo "📁 Using local test SLURM directory: logs/slurm"
   lsd-mod.hpc.test.env
   lsd-mod.hpc.test.template
   lsd-mod.hpc.test.submit-dryrun
