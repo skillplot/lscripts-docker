@@ -3,7 +3,8 @@
 ## Copyright (c) 2025 mangalbhaskar. All Rights Reserved.
 ##__author__ = 'mangalbhaskar'
 ###----------------------------------------------------------
-## HPC (SLURM) job submission and utilities
+## HPC (SLURM) job submission, monitoring, management,
+## auditing, debugging, and scheduling utilities.
 ###----------------------------------------------------------
 
 
@@ -120,6 +121,38 @@ function lsd-mod.hpc.submit.run-py() {
 }
 
 
+function lsd-mod.hpc.submit.run-batch() {
+  ## Submit all .sh scripts from a directory.
+  local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
+  source "${LSCRIPTS}/argparse.sh" "$@"
+
+  local dir=${args['dir']:-"./batch_jobs"}
+
+  for script in "${dir}"/*.sh; do
+    echo "🚀 Submitting: ${script}"
+    lsd-mod.hpc.submit.run-job --script "${script}"
+  done
+}
+
+
+function lsd-mod.hpc.submit.run-dependent() {
+  ## Run a job dependent on another job completion.
+  local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
+  source "${LSCRIPTS}/argparse.sh" "$@"
+
+  local dep=${args['after']:-""}
+  local script=${args['script']:-""}
+
+  if [[ -z "${dep}" || -z "${script}" ]]; then
+    echo "Usage: --after <jobid> --script <path>"
+    return 1
+  fi
+
+  sbatch --dependency=afterok:${dep} "${script}"
+  echo "🔗 Dependent job submitted: ${script} (after ${dep})"
+}
+
+
 ### GROUP 2: MONITOR
 function lsd-mod.hpc.monitor.list-jobs() {
   squeue -u "$USER" -o "%.18i %.9P %.25j %.8u %.2t %.10M %.6D %R"
@@ -142,6 +175,18 @@ function lsd-mod.hpc.monitor.tail-job() {
 }
 
 
+function lsd-mod.hpc.monitor.history() {
+  ## Display recent job history for current user.
+  sacct -u "$USER" --format=JobID,JobName,State,Elapsed,ExitCode,Start,End | tail -n +3
+}
+
+
+function lsd-mod.hpc.monitor.stats() {
+  ## Display summary of job states for user.
+  squeue -u "$USER" | awk 'NR>1 {count[$5]++} END{for (s in count) print s, count[s]}'
+}
+
+
 ### GROUP 3: MANAGE
 function lsd-mod.hpc.manage.cancel-job() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
@@ -155,6 +200,21 @@ function lsd-mod.hpc.manage.cancel-all() {
   scancel -u "$USER"
 }
 
+function lsd-mod.hpc.manage.requeue-job() {
+  ## Requeue a failed or stopped job.
+  local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
+  source "${LSCRIPTS}/argparse.sh" "$@"
+
+  local jobid=${args['id']:-""}
+
+  if [[ -z "${jobid}" ]]; then
+    echo "Usage: --id <jobid>"
+    return 1
+  fi
+
+  scontrol requeue "${jobid}" && echo "♻️  Job ${jobid} requeued."
+}
+
 function lsd-mod.hpc.manage.purge-old() {
   ## Remove logs older than N days
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
@@ -164,8 +224,72 @@ function lsd-mod.hpc.manage.purge-old() {
   echo "🧹 Purged logs older than ${days} days."
 }
 
+function lsd-mod.hpc.manage.resubmit() {
+  ## Resubmit a job using saved metadata.
+  local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
+  source "${LSCRIPTS}/argparse.sh" "$@"
+
+  local meta=${args['meta']:-""}
+
+  if [[ -z "${meta}" ]]; then
+    echo "Usage: --meta <metadata.json>"
+    return 1
+  fi
+
+  local script=$(jq -r '.script' "${meta}")
+
+  echo "Resubmitting ${script}"
+  sbatch "${script}"
+}
+
 
 ### GROUP 4: AUDIT
+function lsd-mod.hpc.audit.save-job-metadata() {
+  ## Save SLURM job metadata to JSON file.
+  local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
+  source "${LSCRIPTS}/argparse.sh" "$@"
+
+  local jobid=${args['id']:-""}
+
+  if [[ -z "${jobid}" ]]; then
+    echo "Usage: --id <jobid>"
+    return 1
+  fi
+
+  scontrol show job "${jobid}" > ".meta_${jobid}.json"
+  echo "💾 Metadata saved: .meta_${jobid}.json"
+}
+
+function lsd-mod.hpc.audit.load-job-metadata() {
+  ## Load and display job metadata file.
+  local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
+  source "${LSCRIPTS}/argparse.sh" "$@"
+
+  local meta=${args['file']:-""}
+
+  if [[ -z "${meta}" ]]; then
+    echo "Usage: --file <metadata.json>"
+    return 1
+  fi
+
+  cat "${meta}"
+}
+
+function lsd-mod.hpc.audit.view-log() {
+  ## View job output log interactively.
+  local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
+  source "${LSCRIPTS}/argparse.sh" "$@"
+
+  local jobid=${args['id']:-""}
+
+  if [[ -z "${jobid}" ]]; then
+    echo "Usage: --id <jobid>"
+    return 1
+  fi
+
+  less logs/*"${jobid}".out
+}
+
 function lsd-mod.hpc.audit.summary() {
   echo "JobID,JobName,Partition,AllocCPUS,State,Elapsed,MaxRSS,ReqMem,Start,End"
   sacct -u "$USER" --format=JobID,JobName,Partition,AllocCPUS,State,Elapsed,MaxRSS,ReqMem,Start,End | tail -n +3
@@ -194,6 +318,20 @@ function lsd-mod.hpc.resource.list-gpus() {
   scontrol show nodes | grep "Gres=" | awk -F'=' '{print $2}' | sort | uniq
 }
 
+function lsd-mod.hpc.resource.list-partitions() {
+  sinfo -o "%.10P %.6D %.10C %.10m %.10G"
+}
+
+
+function lsd-mod.hpc.resource.user-quota() {
+  sacctmgr show assoc user=${USER} format=User,GrpTRESMins,GrpTRESRunMins,GrpJobs
+}
+
+
+function lsd-mod.hpc.resource.capacity-overview() {
+  sinfo -N -o "%.10P %.15N %.6D %.10C %.10m %.10G"
+}
+
 
 ### GROUP 6: SCHEDULE
 function lsd-mod.hpc.schedule.chain-jobs() {
@@ -206,6 +344,62 @@ function lsd-mod.hpc.schedule.chain-jobs() {
   sbatch --dependency=afterok:"${first}" "${second}"
   echo "🔗 Chained ${second} after ${first}"
 }
+
+function lsd-mod.hpc.schedule.schedule-job() {
+  ## Schedule a job to start after a delay.
+  local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
+  source "${LSCRIPTS}/argparse.sh" "$@"
+
+  local script=${args['script']:-""}
+  local delay=${args['delay']:-60}
+
+  if [[ -z "${script}" ]]; then
+    echo "Usage: --script <path>"
+    return 1
+  fi
+
+  echo "⏱ Scheduling ${script} to run in ${delay}s..."
+  sleep "${delay}" && sbatch "${script}"
+}
+
+function lsd-mod.hpc.schedule.batch-submit() {
+  ## Submit multiple jobs from a JSON list file.
+  local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
+  source "${LSCRIPTS}/argparse.sh" "$@"
+
+  local list=${args['list']:-"jobs.json"}
+
+  if [[ ! -f "${list}" ]]; then
+    echo "File ${list} not found."
+    return 1
+  fi
+
+  for script in $(jq -r '.jobs[]' "${list}"); do
+    echo "Submitting ${script}"
+    sbatch "${script}"
+  done
+}
+
+function lsd-mod.hpc.schedule.workflow() {
+  ## Execute multi-step workflow based on JSON config.
+  local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
+  source "${LSCRIPTS}/argparse.sh" "$@"
+
+  local config=${args['config']:-"workflow.json"}
+
+  if [[ ! -f "${config}" ]]; then
+    echo "Missing workflow config"
+    return 1
+  fi
+
+  echo "🧩 Executing workflow ${config}"
+
+  for step in $(jq -r '.steps[].script' "${config}"); do
+    echo "Running ${step}"
+    sbatch "${step}"
+  done
+}
+
 
 ### GROUP 7: HELP
 function lsd-mod.hpc.help.main() {
