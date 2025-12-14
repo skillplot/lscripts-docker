@@ -368,4 +368,79 @@ function lsd-lscripts.alias.main() {
   alias lsd-hpc.debug.job-context="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.hpc.debug.job-context $@"
   alias lsd-hpc.debug.show-template="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.hpc.debug.show-template $@"
   ###----------------------------------------------------------
+  ## lsd-image => _image_ module
+  ###----------------------------------------------------------
+  ## INSTALL
+  alias lsd-image.install.core="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.image.install.core $@"
+  alias lsd-image.install.all="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.image.install.all $@"
+  ## TRANSFORM
+  alias lsd-image.transform.resize="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.image.transform.resize $@"
+  alias lsd-image.transform.to-gray="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.image.transform.to-gray $@"
+  alias lsd-image.transform.compress="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.image.transform.compress $@"
+  ## CONVERT (new feature)
+  alias lsd-image.convert.to-pdf="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.image.convert.to-pdf $@"
+  alias lsd-image.convert.all-to-pdf="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.image.convert.all-to-pdf $@"
+  ## EXTRACT
+  alias lsd-image.extract.from-pdf="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.image.extract.from-pdf $@"
+  ## HELP
+  alias lsd-image.help.main="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.image.help.main $@"
+  alias lsd-image.help.install="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.image.help.install $@"
+  alias lsd-image.help.transform="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.image.help.transform $@"
+  alias lsd-image.help.convert="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.image.help.convert $@"
+  alias lsd-image.help.extract="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.image.help.extract $@"
+  ###----------------------------------------------------------
+  ## lsd-pdf => _pdf_ module
+  ###----------------------------------------------------------
+  ## INSTALL
+  alias lsd-pdf.install.core="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.pdf.install.core $@"
+  alias lsd-pdf.install.all="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.pdf.install.all $@"
+  ### MERGE
+  alias lsd-pdf.merge.two="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.pdf.merge.two $@"
+  alias lsd-pdf.merge.all="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.pdf.merge.all $@"
+  ### CONVERT
+  alias lsd-pdf.convert.rgb-to-gray="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.pdf.convert.rgb-to-gray $@"
+  alias lsd-pdf.convert.pages-to-images="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.pdf.convert.pages-to-images $@"
+  ### INSPECT
+  alias lsd-pdf.inspect.grep="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.pdf.inspect.grep $@"
+  ### HELP
+  alias lsd-pdf.help.main="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.pdf.help.main $@"
+  alias lsd-pdf.help.install="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.pdf.help.install $@"
+  alias lsd-pdf.help.merge="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.pdf.help.merge $@"
+  alias lsd-pdf.help.convert="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.pdf.help.convert $@"
+  alias lsd-pdf.help.inspect="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.pdf.help.inspect $@"
+  ###----------------------------------------------------------
+  ## lsd-gdal => _gdal_ module
+  ###----------------------------------------------------------
+  ## INSTALL
+  alias lsd-gdal.install.core="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.gdal.install.core $@"
+  alias lsd-gdal.install.cog-tools="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.gdal.install.cog-tools $@"
+  alias lsd-gdal.install.all="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.gdal.install.all $@"
+  ## COG
+  alias lsd-gdal.cog.from-tiff="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.gdal.cog.from-tiff $@"
+  alias lsd-gdal.cog.from-dir="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.gdal.cog.from-dir $@"
+  alias lsd-gdal.cog.validate="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.gdal.cog.validate $@"
+  ## TIFF
+  alias lsd-gdal.tiff.compress="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.gdal.tiff.compress $@"
+  alias lsd-gdal.tiff.info="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.gdal.tiff.info $@"
+  ## INFO
+  alias lsd-gdal.info="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.gdal.info $@"
+  ## WARP
+  alias lsd-gdal.warp.reproject="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.gdal.warp.reproject $@"
+  ## TRANSLATE
+  alias lsd-gdal.translate.generic="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.gdal.translate.generic $@"
+  ## BATCH
+  alias lsd-gdal.batch.cog-from-list="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.gdal.batch.cog-from-list $@"
+  ## HELP
+  alias lsd-gdal.help.main="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.gdal.help.main $@"
+  alias lsd-gdal.help.install="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.gdal.help.install $@"
+  alias lsd-gdal.help.cog="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.gdal.help.cog $@"
+  alias lsd-gdal.help.tiff="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.gdal.help.tiff $@"
+  alias lsd-gdal.help.info="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.gdal.help.info $@"
+  alias lsd-gdal.help.warp="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.gdal.help.warp $@"
+  alias lsd-gdal.help.translate="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.gdal.help.translate $@"
+  alias lsd-gdal.help.batch="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.gdal.help.batch $@"
+  alias lsd-gdal.help.test="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.gdal.help.test $@"
+  ## TEST
+  alias lsd-gdal.test.env="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.gdal.test.env $@"
+  ###----------------------------------------------------------
 }

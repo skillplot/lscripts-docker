@@ -1,8 +1,8 @@
 ---
 title: All Commands
 description: List of all commands for Lscripts Docker
-date: 2025-11-06 22:24:37
-last_updated: 22:24:37, 06-Nov-2025, Thursday
+date: 2025-12-15 00:51:46
+last_updated: 00:51:46, 15-Dec-2025, Monday
 note: Auto generated file and will be overwritten
 ---
 
@@ -97,6 +97,27 @@ lsd-docs.markdown2latex
 lsd-docs.mkdocs
 lsd-docs.mkdocs.deploy
 lsd-docs.mkdocs.link
+lsd-gdal.batch.cog-from-list
+lsd-gdal.cog.from-dir
+lsd-gdal.cog.from-tiff
+lsd-gdal.cog.validate
+lsd-gdal.help.batch
+lsd-gdal.help.cog
+lsd-gdal.help.info
+lsd-gdal.help.install
+lsd-gdal.help.test
+lsd-gdal.help.tiff
+lsd-gdal.help.translate
+lsd-gdal.help.warp
+lsd-gdal.info
+lsd-gdal.install.all
+lsd-gdal.install.cog-tools
+lsd-gdal.install.core
+lsd-gdal.test.env
+lsd-gdal.tiff.compress
+lsd-gdal.tiff.info
+lsd-gdal.translate.generic
+lsd-gdal.warp.reproject
 lsd-git.pull
 lsd-git.repo-pull
 lsd-github.auth
@@ -153,6 +174,18 @@ lsd-hpc.test.all
 lsd-hpc.test.env
 lsd-hpc.test.submit-dryrun
 lsd-hpc.test.template
+lsd-image.convert.all-to-pdf
+lsd-image.convert.to-pdf
+lsd-image.extract.from-pdf
+lsd-image.help.convert
+lsd-image.help.extract
+lsd-image.help.install
+lsd-image.help.transform
+lsd-image.install.all
+lsd-image.install.core
+lsd-image.transform.compress
+lsd-image.transform.resize
+lsd-image.transform.to-gray
 lsd-install.android-studio-wget
 lsd-install.apache2
 lsd-install.asciidoc-clone
@@ -283,6 +316,17 @@ lsd-nvidia.cfg
 lsd-nvidia.driver.avail
 lsd-nvidia.gpu.info
 lsd-nvidia.gpu.stats
+lsd-pdf.convert.pages-to-images
+lsd-pdf.convert.rgb-to-gray
+lsd-pdf.help.convert
+lsd-pdf.help.inspect
+lsd-pdf.help.install
+lsd-pdf.help.merge
+lsd-pdf.inspect.grep
+lsd-pdf.install.all
+lsd-pdf.install.core
+lsd-pdf.merge.all
+lsd-pdf.merge.two
 lsd-perf.psrecord
 lsd-perf.time
 lsd-perf.time-append

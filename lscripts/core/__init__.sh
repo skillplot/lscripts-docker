@@ -28,6 +28,8 @@ source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/_python_.sh
 source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/_stack_.sh
 source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/_dir_.sh
 source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/_apt_.sh
+source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/_image_.sh
+source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/_pdf_.sh
 source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/_git_.sh
 source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/_nvidia_.sh
 source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/_cuda_.sh
@@ -41,3 +43,4 @@ source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/_gh_.sh
 source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/_perf_.sh
 source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/_www_.sh
 source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/_hpc_.sh
+source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/_gdal_.sh
