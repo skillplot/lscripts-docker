@@ -408,6 +408,11 @@ function lsd-lscripts.alias.main() {
   alias lsd-pdf.help.merge="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.pdf.help.merge $@"
   alias lsd-pdf.help.convert="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.pdf.help.convert $@"
   alias lsd-pdf.help.inspect="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.pdf.help.inspect $@"
+  ### COLOR
+  alias lsd-pdf.color.inspect="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.pdf.color.inspect $@"
+  alias lsd-pdf.help.color="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.pdf.help.color $@"
+  ### COLOR (EPS)
+  alias lsd-pdf.color.inspect.eps="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.pdf.color.inspect.eps $@"
   ###----------------------------------------------------------
   ## lsd-gdal => _gdal_ module
   ###----------------------------------------------------------
