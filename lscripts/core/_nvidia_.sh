@@ -249,9 +249,46 @@ function _lsd_nvidia__gpu_stats_row_cmd() {
 ## GPU STATS (LOGGING WITH ROLLING FILES)
 ###----------------------------------------------------------
 function lsd-mod.nvidia.get__gpu_stats_log() {
-  local _delay="$1"
-  [[ -n "${_delay}" ]] || _delay=1
+  local _delay=1
+  local _size_mb=""
+  local _arg
 
+  ## -----------------------------------------
+  ## Parse args:
+  ##   <delay_secs> [--size=<MB>]
+  ## -----------------------------------------
+  for _arg in "$@"; do
+    case "${_arg}" in
+      --size=*)
+        _size_mb="${_arg#*=}"
+        ;;
+      *)
+        # first non-flag numeric argument = delay
+        if [[ "${_arg}" =~ ^[0-9]+$ ]]; then
+          _delay="${_arg}"
+        fi
+        ;;
+    esac
+  done
+
+  ## -----------------------------------------
+  ## Resolve log size (MB)
+  ## precedence: CLI > ENV > default
+  ## -----------------------------------------
+  if [[ -z "${_size_mb}" ]]; then
+    _size_mb="${LSD_NVIDIA_GPUSTATS_LOG_MB:-100}"
+  fi
+
+  if ! [[ "${_size_mb}" =~ ^[0-9]+$ ]]; then
+    lsd-mod.log.error "Invalid --size value: ${_size_mb} (must be integer MB)"
+    return 1
+  fi
+
+  local _max_bytes=$((_size_mb * 1024 * 1024))
+
+  ## -----------------------------------------
+  ## Paths & metadata
+  ## -----------------------------------------
   local _logdir
   _logdir="$(_lsd_nvidia__ensure_logdir "/tmp/gpustats")"
 
@@ -262,24 +299,26 @@ function lsd-mod.nvidia.get__gpu_stats_log() {
   _ts="$(_lsd_nvidia__timestamp)"
 
   local _i=0
-  local _max_bytes=$((100 * 1024 * 1024))  # 100 MB
-
   local _outfile="${_logdir}/gpustats-${_user}-${_ts}-${_i}.csv"
 
   lsd-mod.log.debug "_delay: ${_delay} seconds"
-  lsd-mod.log.info "Logging GPU stats to: ${_outfile}"
-  lsd-mod.log.info "Rolling cutoff: 100 MB per file"
-  lsd-mod.log.info "Stop with: Ctrl+C"
+  lsd-mod.log.info "GPU stats logdir : ${_logdir}"
+  lsd-mod.log.info "Rolling log size : ${_size_mb} MB"
+  lsd-mod.log.info "Initial logfile : ${_outfile}"
+  lsd-mod.log.info "Stop with        : Ctrl+C"
 
-  # Write header for first file
+  ## -----------------------------------------
+  ## Write header
+  ## -----------------------------------------
   _lsd_nvidia__gpu_stats_header > "${_outfile}"
 
-  # Build the streaming command
+  ## -----------------------------------------
+  ## Streaming command
+  ## -----------------------------------------
   local _cmd
   _cmd="$(_lsd_nvidia__gpu_stats_row_cmd) ${_delay}"
 
-  # Stream rows; rotate when file reaches cutoff
-  # stdbuf ensures line-buffering so rotation checks happen promptly.
+  ## Line-buffered streaming + rolling
   eval "stdbuf -oL ${_cmd}" | while IFS= read -r line; do
     local _sz
     _sz="$(_lsd_nvidia__filesize_bytes "${_outfile}")"
@@ -287,13 +326,14 @@ function lsd-mod.nvidia.get__gpu_stats_log() {
     if [[ "${_sz}" -ge "${_max_bytes}" ]]; then
       _i=$((_i + 1))
       _outfile="${_logdir}/gpustats-${_user}-${_ts}-${_i}.csv"
-      lsd-mod.log.info "Rolling log -> ${_outfile}"
+      lsd-mod.log.info "Rolling logfile  : ${_outfile}"
       _lsd_nvidia__gpu_stats_header > "${_outfile}"
     fi
 
     echo "${line}" >> "${_outfile}"
   done
 }
+
 
 ###----------------------------------------------------------
 ## HELP
@@ -337,16 +377,27 @@ EOF
 function lsd-mod.nvidia.help.gpu() {
   cat <<'EOF'
 📈 GPU COMMANDS:
-  lsd-nvidia.gpu.stats [delay_secs]
-      → Live CSV output to terminal (defaults to 5 in your current function)
 
-  lsd-nvidia.gpu.stats-log [delay_secs]
-      → Log GPU stats CSV to /tmp/gpustats with rolling files
-      → Output file format:
-          /tmp/gpustats/gpustats-<username>-<ddmmyy_hhmmss>-<i>.csv
-      → Rolling cutoff:
-          100 MB per file
-      → delay_secs defaults to 1
-      → Stop with Ctrl+C
+  lsd-nvidia.gpu.stats [delay_secs]
+      → Live CSV output to terminal
+
+  lsd-nvidia.gpu.stats-log [delay_secs] [--size=<MB>]
+      → Log GPU stats to CSV files under /tmp/gpustats
+
+      Logfile format:
+        gpustats-<username>-<ddmmyy_hhmmss>-<i>.csv
+
+      Options:
+        delay_secs     Sampling interval in seconds (default: 1)
+        --size=<MB>    Per-file rolling size in MB (default: 100)
+
+      Environment override:
+        LSD_NVIDIA_GPUSTATS_LOG_MB=<MB>
+
+      Notes:
+        • Files roll automatically when size is exceeded
+        • CSV header is written per file
+        • Stop logging with Ctrl+C
 EOF
 }
+
