@@ -215,3 +215,138 @@ function lsd-mod.nvidia.get__gpu_stats() {
   # https://www.pyimagesearch.com/2018/01/29/scalable-keras-deep-learning-rest-api/
   # https://blog.keras.io/building-a-simple-keras-deep-learning-rest-api.how-to-move-machine-learning-model-to-production
 }
+
+
+###----------------------------------------------------------
+## Internal helpers
+###----------------------------------------------------------
+function _lsd_nvidia__timestamp() {
+  date +'%d%m%y_%H%M%S'
+}
+
+function _lsd_nvidia__ensure_logdir() {
+  local logdir="${1:-/tmp/gpustats}"
+  mkdir -p "${logdir}"
+  echo "${logdir}"
+}
+
+function _lsd_nvidia__filesize_bytes() {
+  local f="$1"
+  [[ -f "${f}" ]] || { echo 0; return 0; }
+  stat -c%s "${f}" 2>/dev/null || echo 0
+}
+
+function _lsd_nvidia__gpu_stats_header() {
+  echo "timestamp, name, pci.bus_id, driver_version, pstate, pcie.link.gen.max, pcie.link.gen.current, temperature.gpu, power.draw [W], utilization.gpu [%], utilization.memory [%], memory.total [MiB], memory.free [MiB], memory.used [MiB]"
+}
+
+function _lsd_nvidia__gpu_stats_row_cmd() {
+  # NOTE: keep this aligned with the header above
+  echo "nvidia-smi --query-gpu=timestamp,name,pci.bus_id,driver_version,pstate,pcie.link.gen.max,pcie.link.gen.current,temperature.gpu,power.draw,utilization.gpu,utilization.memory,memory.total,memory.free,memory.used --format=csv,noheader -l"
+}
+
+###----------------------------------------------------------
+## GPU STATS (LOGGING WITH ROLLING FILES)
+###----------------------------------------------------------
+function lsd-mod.nvidia.get__gpu_stats_log() {
+  local _delay="$1"
+  [[ -n "${_delay}" ]] || _delay=1
+
+  local _logdir
+  _logdir="$(_lsd_nvidia__ensure_logdir "/tmp/gpustats")"
+
+  local _user
+  _user="$(id -un 2>/dev/null || whoami)"
+
+  local _ts
+  _ts="$(_lsd_nvidia__timestamp)"
+
+  local _i=0
+  local _max_bytes=$((100 * 1024 * 1024))  # 100 MB
+
+  local _outfile="${_logdir}/gpustats-${_user}-${_ts}-${_i}.csv"
+
+  lsd-mod.log.debug "_delay: ${_delay} seconds"
+  lsd-mod.log.info "Logging GPU stats to: ${_outfile}"
+  lsd-mod.log.info "Rolling cutoff: 100 MB per file"
+  lsd-mod.log.info "Stop with: Ctrl+C"
+
+  # Write header for first file
+  _lsd_nvidia__gpu_stats_header > "${_outfile}"
+
+  # Build the streaming command
+  local _cmd
+  _cmd="$(_lsd_nvidia__gpu_stats_row_cmd) ${_delay}"
+
+  # Stream rows; rotate when file reaches cutoff
+  # stdbuf ensures line-buffering so rotation checks happen promptly.
+  eval "stdbuf -oL ${_cmd}" | while IFS= read -r line; do
+    local _sz
+    _sz="$(_lsd_nvidia__filesize_bytes "${_outfile}")"
+
+    if [[ "${_sz}" -ge "${_max_bytes}" ]]; then
+      _i=$((_i + 1))
+      _outfile="${_logdir}/gpustats-${_user}-${_ts}-${_i}.csv"
+      lsd-mod.log.info "Rolling log -> ${_outfile}"
+      _lsd_nvidia__gpu_stats_header > "${_outfile}"
+    fi
+
+    echo "${line}" >> "${_outfile}"
+  done
+}
+
+###----------------------------------------------------------
+## HELP
+###----------------------------------------------------------
+function lsd-mod.nvidia.help.main() {
+  echo "----------------------------------------------------------"
+  echo "📚 LSD NVIDIA MODULE HELP"
+  echo "----------------------------------------------------------"
+  echo "Semantic Groups:"
+  echo "  cfg      - Show configured NVIDIA variables"
+  echo "  driver   - Driver version / availability / info"
+  echo "  gpu      - GPU stats (live + logging)"
+  echo "----------------------------------------------------------"
+  echo "Use: lsd-nvidia.help.<group> to view group-level commands."
+  echo "----------------------------------------------------------"
+}
+
+function lsd-mod.nvidia.help.cfg() {
+  cat <<'EOF'
+⚙️ CFG COMMANDS:
+  lsd-nvidia.cfg
+      → Print NVIDIA-related environment/config variables
+EOF
+}
+
+function lsd-mod.nvidia.help.driver() {
+  cat <<'EOF'
+🧱 DRIVER COMMANDS:
+  lsd-nvidia.driver.avail
+      → List available NVIDIA driver versions from apt cache
+
+  (via module function)
+  lsd-mod.nvidia.version
+      → Print installed driver version info (modinfo + /proc)
+      
+  lsd-nvidia.gpu.info
+      → Post-install sanity checks (nvidia-smi, settings, modules, prime-select)
+EOF
+}
+
+function lsd-mod.nvidia.help.gpu() {
+  cat <<'EOF'
+📈 GPU COMMANDS:
+  lsd-nvidia.gpu.stats [delay_secs]
+      → Live CSV output to terminal (defaults to 5 in your current function)
+
+  lsd-nvidia.gpu.stats-log [delay_secs]
+      → Log GPU stats CSV to /tmp/gpustats with rolling files
+      → Output file format:
+          /tmp/gpustats/gpustats-<username>-<ddmmyy_hhmmss>-<i>.csv
+      → Rolling cutoff:
+          100 MB per file
+      → delay_secs defaults to 1
+      → Stop with Ctrl+C
+EOF
+}

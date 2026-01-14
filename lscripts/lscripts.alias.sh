@@ -97,6 +97,11 @@ function lsd-lscripts.alias.main() {
   alias lsd-nvidia.gpu.info="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.nvidia.get__driver_info"
   alias lsd-nvidia.gpu.stats="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.nvidia.get__gpu_stats $1"
   alias lsd-nvidia.driver.avail="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.nvidia.get__driver_avail"
+  alias lsd-nvidia.gpu.stats-log="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.nvidia.get__gpu_stats_log $1"
+  alias lsd-nvidia.help.main="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.nvidia.help.main"
+  alias lsd-nvidia.help.cfg="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.nvidia.help.cfg"
+  alias lsd-nvidia.help.driver="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.nvidia.help.driver"
+  alias lsd-nvidia.help.gpu="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.nvidia.help.gpu"
   ###----------------------------------------------------------
   ## lsd-cuda => _cuda_ module
   ###----------------------------------------------------------
