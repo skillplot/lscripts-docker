@@ -97,6 +97,10 @@ function lsd-mod.utils.alpha-numeric() {
 ## lsd-mod.utils.kill Terminating utilities
 ###----------------------------------------------------------
 
+function lsd-mod.utils.pkill.update-manager() {
+  pkill -f '/usr/bin/update-manager'
+}
+
 function lsd-mod.utils.kill() {
   [[ ! -z $1 ]] && sudo kill -9 $(pgrep -f $1);
 }
@@ -110,6 +114,16 @@ function lsd-mod.utils.kill.python() {
 # function lsd-mod.utils.kill.python() {
 #   sudo kill -9 $(pgrep -f python);
 # }
+
+
+###----------------------------------------------------------
+## lsd-mod.utils.w3m commandline brower utils
+###----------------------------------------------------------
+
+function lsd-mod.utils.w3m.captive-portal() {
+  ## sudo apt install w3m
+  w3m $(wget -q -O - ${1:-http://example.com} | grep -oP '(?<=window.location=")[^"]*')
+}
 
 
 ###----------------------------------------------------------
