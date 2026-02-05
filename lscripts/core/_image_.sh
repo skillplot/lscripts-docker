@@ -186,6 +186,121 @@ function lsd-mod.image.extract.from-pdf() {
   done
 }
 
+###----------------------------------------------------------
+## INTERNAL: logo / square conversion helpers
+###----------------------------------------------------------
+
+function _lsd_image__default_logo_sizes() {
+  echo "1536x1536,1400x1400,1280x1280,1152x1152,1024x1024,896x896"
+}
+
+function _lsd_image__parse_sizes() {
+  local input="$1"
+  local default_sizes
+  default_sizes=$(_lsd_image__default_logo_sizes)
+
+  if [[ -z "${input}" ]]; then
+    echo "${default_sizes}"
+    return
+  fi
+
+  # validate wxh pattern
+  local valid=1
+  IFS=',' read -r -a arr <<< "${input}"
+  for s in "${arr[@]}"; do
+    [[ "${s}" =~ ^[0-9]+x[0-9]+$ ]] || valid=0
+  done
+
+  if [[ "${valid}" -eq 0 ]]; then
+    echo "⚠️  Invalid --size input '${input}', using defaults" >&2
+    echo "${default_sizes}"
+  else
+    echo "${input}"
+  fi
+}
+
+###----------------------------------------------------------
+## CONVERT: logo / square image variants
+###----------------------------------------------------------
+function lsd-mod.image.convert.logo() {
+  local input="$1"; shift
+
+  if [[ -z "${input}" ]]; then
+    echo "❌ Input image or directory is required"
+    return 1
+  fi
+
+  local size_arg=""
+  local ext_override=""
+
+  for arg in "$@"; do
+    case "${arg}" in
+      --size=*) size_arg="${arg#*=}" ;;
+      --ext=*)  ext_override="${arg#*=}" ;;
+    esac
+  done
+
+  local ts
+  ts=$(_lsd_image__timestamp)
+  local outroot="logs/images-${ts}"
+  mkdir -p "${outroot}"
+
+  local sizes_csv
+  sizes_csv=$(_lsd_image__parse_sizes "${size_arg}")
+  IFS=',' read -r -a SIZES <<< "${sizes_csv}"
+
+  local process_file
+  process_file() {
+    local src="$1"
+    local rel="$2"
+
+    local fname
+    fname="$(basename "${src}")"
+    local base="${fname%.*}"
+    local in_ext="${fname##*.}"
+    local out_ext="${ext_override:-${in_ext}}"
+
+    local outdir="${outroot}/${rel}"
+    mkdir -p "${outdir}"
+
+    for sz in "${SIZES[@]}"; do
+      local w="${sz%x*}"
+      local h="${sz#*x}"
+      local pad=$(( w / 5 ))
+
+      local outfile="${outdir}/${base}-${w}x${h}.${out_ext}"
+
+      convert "${src}" \
+        -resize $((w - pad))x$((h - pad)) \
+        -background white \
+        -gravity center \
+        -extent "${w}x${h}" \
+        "${outfile}"
+
+      echo "✔ ${outfile}"
+    done
+  }
+
+  if [[ -f "${input}" ]]; then
+    process_file "${input}" ""
+  elif [[ -d "${input}" ]]; then
+    local base_dir
+    base_dir="$(basename "${input}")"
+
+    find "${input}" -type f \( -iname '*.png' -o -iname '*.jpg' -o -iname '*.jpeg' \) | while read -r f; do
+      local rel
+      rel="$(dirname "${f#${input}/}")"
+      process_file "${f}" "${base_dir}/${rel}"
+    done
+  else
+    echo "❌ Invalid input: ${input}"
+    return 1
+  fi
+
+  echo "----------------------------------------------------------"
+  echo "📂 Output directory:"
+  echo "  ${outroot}"
+}
 
 ###----------------------------------------------------------
 ## HELP
@@ -229,6 +344,11 @@ EOF
 function lsd-mod.image.help.convert() {
   cat <<EOF
 📄 CONVERT COMMANDS:
+
+----------------------------------------------------------
+PDF CONVERSION
+----------------------------------------------------------
+
   lsd-image.convert.to-pdf <input>
       → Convert images to PDF
 
@@ -243,13 +363,35 @@ function lsd-mod.image.help.convert() {
       lsd-image.convert.to-pdf jpg,png
       lsd-image.convert.to-pdf "*.jpg,*.png"
       lsd-image.convert.to-pdf "img 1.jpg,img 2.png"
-EOF
-}
 
-function lsd-mod.image.help.extract() {
-  cat <<EOF
-📤 EXTRACT COMMANDS:
-  lsd-image.extract.from-pdf <ext>
-      → Extract all images from PDFs using poppler-utils
+----------------------------------------------------------
+LOGO / SOCIAL IMAGE CONVERSION
+----------------------------------------------------------
+
+  lsd-image.convert.logo <image|directory>
+      [--size=wxh,w2xh2,...]
+      [--ext=jpg|png|webp]
+
+      → Generate square logo / social-media variants
+      → Preserves directory & nested sub-directory structure
+      → Outputs to: logs/images-<ddmmyy_hhmmss>/
+
+  Defaults:
+      sizes : 1536x1536,1400x1400,1280x1280,1152x1152,1024x1024,896x896
+      ext   : same as input image
+
+  Notes:
+      - --size accepts a single value or CSV (always parsed as array)
+      - Invalid --size falls back to defaults with warning
+      - Basename is derived from input filename
+      - No default image name is assumed
+
+  Examples:
+      lsd-image.convert.logo logo.png
+      lsd-image.convert.logo logo.png --size=1024x1024
+      lsd-image.convert.logo logos/
+      lsd-image.convert.logo logos/ --ext=jpg
+      lsd-image.convert.logo logos/ --size=512x512,256x256
+
 EOF
 }

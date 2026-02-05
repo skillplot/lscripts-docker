@@ -1,6 +1,6 @@
 #!/bin/bash
 
-## Copyright (c) 2024 mangalbhaskar. All Rights Reserved.
+## Copyright (c) 2026 mangalbhaskar. All Rights Reserved.
 ##__author__ = 'mangalbhaskar'
 ###----------------------------------------------------------
 ## Alias for system configurations and convenience utilities
@@ -72,7 +72,16 @@ function lsd-lscripts.alias.main() {
   ## lsd-git => _git_ module
   ###----------------------------------------------------------
   alias lsd-git.pull="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.git-pull"
+  #
   alias lsd-git.repo-pull="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.git.repo-pull"
+  alias lsd-git.repo-remote-list="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.git.repo-remote-list"
+  alias lsd-git.repo-geturls="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.git.repo-geturls"
+  alias lsd-git.repo-checkout="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.git.repo-checkout"
+  alias lsd-git.repo-status="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.git.repo-status"
+  #
+  alias lsd-git.log-date="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.git.log-date"
+  #
+  alias lsd-git.stats-commit="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.git.stats-commit $@"
   ###----------------------------------------------------------
   ## lsd-gh => _gh_ module
   ###----------------------------------------------------------
@@ -81,13 +90,13 @@ function lsd-lscripts.alias.main() {
   alias lsd-github.push="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.gh.push $@"
   alias lsd-github.set-url-https="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.gh.set-url-https $@"
   alias lsd-github.set-url-ssh="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.gh.set-url-ssh $@"
-
+  #
   alias lsd-github.create-repo="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.gh.create-repo $@"
   alias lsd-github.create-org-repo="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.gh.create-org-repo $@"
-
+  #
   alias lsd-github.copy-gitignore="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.gh.copy-gitignore $@"
   alias lsd-github.copy-gitattributes="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.gh.copy-gitattributes $@"
-
+  #
   alias lsd-github.create-pages="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.gh.create-pages $@"
   alias lsd-github.delete-pages="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.gh.delete-pages $@"
   ###----------------------------------------------------------
@@ -205,7 +214,7 @@ function lsd-lscripts.alias.main() {
   alias lsd-cmd.dummy="bash ${LSCRIPTS}/snippets/dummy.sh"
   alias lsd-cmd.git.get.repo-urls="bash ${LSCRIPTS}/snippets/git.get.repo-urls.sh"
   alias lsd-cmd.git.repoviz="bash ${LSCRIPTS}/snippets/git.repoviz.sh"
-  alias lsd-cmd.gitlab.get.cert="bash ${LSCRIPTS}/snippets/gitlab.get.cert.sh"
+  alias lsd-cmd.git.get.cert="bash ${LSCRIPTS}/snippets/git.get.cert.sh"
   alias lsd-cmd.menu-navigation="bash ${LSCRIPTS}/snippets/menu-navigation.sh"
   alias lsd-cmd.monitoring-cmds="bash ${LSCRIPTS}/snippets/monitoring-cmds.sh"
   alias lsd-cmd.mount.smb="bash ${LSCRIPTS}/snippets/mount.smb.sh"
@@ -319,43 +328,43 @@ function lsd-lscripts.alias.main() {
   ###----------------------------------------------------------
   ## lsd-hpc => _hpc_ module
   ###----------------------------------------------------------
-  ### GROUP 1: SUBMIT
+  ### SUBMIT
   alias lsd-hpc.submit.generate-slurm-template="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.hpc.submit.generate-slurm-template $@"
   alias lsd-hpc.submit.run-job="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.hpc.submit.run-job $@"
   alias lsd-hpc.submit.run-sh="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.hpc.submit.run-sh $@"
   alias lsd-hpc.submit.run-py="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.hpc.submit.run-py $@"
   alias lsd-hpc.submit.run-batch="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.hpc.submit.run-batch $@"
   alias lsd-hpc.submit.run-dependent="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.hpc.submit.run-dependent $@"
-  ### GROUP 2: MONITOR
+  ### MONITOR
   alias lsd-hpc.monitor.list-jobs="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.hpc.monitor.list-jobs $@"
   alias lsd-hpc.monitor.describe-job="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.hpc.monitor.describe-job $@"
   alias lsd-hpc.monitor.tail-job="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.hpc.monitor.tail-job $@"
   alias lsd-hpc.monitor.history="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.hpc.monitor.history $@"
   alias lsd-hpc.monitor.stats="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.hpc.monitor.stats $@"
-  ### GROUP 3: MANAGE
+  ### MANAGE
   alias lsd-hpc.manage.cancel-job="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.hpc.manage.cancel-job $@"
   alias lsd-hpc.manage.cancel-all="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.hpc.manage.cancel-all $@"
   alias lsd-hpc.manage.requeue-job="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.hpc.manage.requeue-job $@"
   alias lsd-hpc.manage.purge-old="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.hpc.manage.purge-old $@"
   alias lsd-hpc.manage.resubmit="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.hpc.manage.resubmit $@"
-  ### GROUP 4: AUDIT
+  ### AUDIT
   alias lsd-hpc.audit.save-job-metadata="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.hpc.audit.save-job-metadata $@"
   alias lsd-hpc.audit.load-job-metadata="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.hpc.audit.load-job-metadata $@"
   alias lsd-hpc.audit.export-report="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.hpc.audit.export-report $@"
   alias lsd-hpc.audit.view-log="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.hpc.audit.view-log $@"
   alias lsd-hpc.audit.summary="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.hpc.audit.summary $@"
-  ### GROUP 5: RESOURCE
+  ### RESOURCE
   alias lsd-hpc.resource.cluster-status="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.hpc.resource.cluster-status $@"
   alias lsd-hpc.resource.list-gpus="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.hpc.resource.list-gpus $@"
   alias lsd-hpc.resource.list-partitions="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.hpc.resource.list-partitions $@"
   alias lsd-hpc.resource.user-quota="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.hpc.resource.user-quota $@"
   alias lsd-hpc.resource.capacity-overview="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.hpc.resource.capacity-overview $@"
-  ### GROUP 6: SCHEDULE
+  ### SCHEDULE
   alias lsd-hpc.schedule.chain-jobs="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.hpc.schedule.chain-jobs $@"
   alias lsd-hpc.schedule.schedule-job="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.hpc.schedule.schedule-job $@"
   alias lsd-hpc.schedule.batch-submit="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.hpc.schedule.batch-submit $@"
   alias lsd-hpc.schedule.workflow="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.hpc.schedule.workflow $@"
-  ### GROUP 7: HELP
+  ### HELP
   alias lsd-hpc.help.main="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.hpc.help.main $@"
   alias lsd-hpc.help.submit="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.hpc.help.submit $@"
   alias lsd-hpc.help.monitor="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.hpc.help.monitor $@"
@@ -363,31 +372,32 @@ function lsd-lscripts.alias.main() {
   alias lsd-hpc.help.audit="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.hpc.help.audit $@"
   alias lsd-hpc.help.resource="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.hpc.help.resource $@"
   alias lsd-hpc.help.schedule="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.hpc.help.schedule $@"
-  ### GROUP 8: TEST
+  ### TEST
   alias lsd-hpc.test.env="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.hpc.test.env $@"
   alias lsd-hpc.test.template="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.hpc.test.template $@"
   alias lsd-hpc.test.submit-dryrun="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.hpc.test.submit-dryrun $@"
   alias lsd-hpc.test.all="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.hpc.test.all $@"
-  ### GROUP 9: DEBUG
+  ### DEBUG
   alias lsd-hpc.debug.env="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.hpc.debug.env $@"
   alias lsd-hpc.debug.job-context="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.hpc.debug.job-context $@"
   alias lsd-hpc.debug.show-template="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.hpc.debug.show-template $@"
   ###----------------------------------------------------------
   ## lsd-image => _image_ module
   ###----------------------------------------------------------
-  ## INSTALL
+  ### INSTALL
   alias lsd-image.install.core="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.image.install.core $@"
   alias lsd-image.install.all="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.image.install.all $@"
-  ## TRANSFORM
+  ### TRANSFORM
   alias lsd-image.transform.resize="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.image.transform.resize $@"
   alias lsd-image.transform.to-gray="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.image.transform.to-gray $@"
   alias lsd-image.transform.compress="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.image.transform.compress $@"
-  ## CONVERT (new feature)
+  ### CONVERT
   alias lsd-image.convert.to-pdf="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.image.convert.to-pdf $@"
   alias lsd-image.convert.all-to-pdf="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.image.convert.all-to-pdf $@"
-  ## EXTRACT
+  alias lsd-image.convert.logo="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.image.convert.logo $@"
+  ### EXTRACT
   alias lsd-image.extract.from-pdf="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.image.extract.from-pdf $@"
-  ## HELP
+  ### HELP
   alias lsd-image.help.main="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.image.help.main $@"
   alias lsd-image.help.install="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.image.help.install $@"
   alias lsd-image.help.transform="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.image.help.transform $@"
@@ -396,7 +406,7 @@ function lsd-lscripts.alias.main() {
   ###----------------------------------------------------------
   ## lsd-pdf => _pdf_ module
   ###----------------------------------------------------------
-  ## INSTALL
+  ### INSTALL
   alias lsd-pdf.install.core="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.pdf.install.core $@"
   alias lsd-pdf.install.all="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.pdf.install.all $@"
   ### MERGE
@@ -421,26 +431,26 @@ function lsd-lscripts.alias.main() {
   ###----------------------------------------------------------
   ## lsd-gdal => _gdal_ module
   ###----------------------------------------------------------
-  ## INSTALL
+  ### INSTALL
   alias lsd-gdal.install.core="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.gdal.install.core $@"
   alias lsd-gdal.install.cog-tools="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.gdal.install.cog-tools $@"
   alias lsd-gdal.install.all="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.gdal.install.all $@"
-  ## COG
+  ### COG
   alias lsd-gdal.cog.from-tiff="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.gdal.cog.from-tiff $@"
   alias lsd-gdal.cog.from-dir="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.gdal.cog.from-dir $@"
   alias lsd-gdal.cog.validate="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.gdal.cog.validate $@"
-  ## TIFF
+  ### TIFF
   alias lsd-gdal.tiff.compress="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.gdal.tiff.compress $@"
   alias lsd-gdal.tiff.info="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.gdal.tiff.info $@"
-  ## INFO
+  ### INFO
   alias lsd-gdal.info="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.gdal.info $@"
-  ## WARP
+  ### WARP
   alias lsd-gdal.warp.reproject="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.gdal.warp.reproject $@"
-  ## TRANSLATE
+  ### TRANSLATE
   alias lsd-gdal.translate.generic="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.gdal.translate.generic $@"
-  ## BATCH
+  ### BATCH
   alias lsd-gdal.batch.cog-from-list="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.gdal.batch.cog-from-list $@"
-  ## HELP
+  ### HELP
   alias lsd-gdal.help.main="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.gdal.help.main $@"
   alias lsd-gdal.help.install="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.gdal.help.install $@"
   alias lsd-gdal.help.cog="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.gdal.help.cog $@"
@@ -450,7 +460,58 @@ function lsd-lscripts.alias.main() {
   alias lsd-gdal.help.translate="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.gdal.help.translate $@"
   alias lsd-gdal.help.batch="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.gdal.help.batch $@"
   alias lsd-gdal.help.test="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.gdal.help.test $@"
-  ## TEST
+  ### TEST
   alias lsd-gdal.test.env="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.gdal.test.env $@"
+  ###----------------------------------------------------------
+  ## lsd-huggingface => _huggingface_ module
+  ###----------------------------------------------------------
+  ### INSTALL
+  alias lsd-huggingface.install.core="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.huggingface.install.core"
+  alias lsd-huggingface.install.all="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.huggingface.install.all"
+  ### AUTH / CONFIG
+  alias lsd-huggingface.token="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.huggingface.token $@"
+  alias lsd-huggingface.login="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.huggingface.login $@"
+  alias lsd-huggingface.logout="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.huggingface.logout"
+  alias lsd-huggingface.whoami="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.huggingface.whoami"
+  alias lsd-huggingface.config.show="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.huggingface.config.show"
+  alias lsd-huggingface.version="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.huggingface.version"
+  ### MONITOR
+  alias lsd-huggingface.monitor.cache="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.huggingface.monitor.cache"
+  alias lsd-huggingface.monitor.repos="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.huggingface.monitor.repos"
+  ### DATASETS
+  alias lsd-huggingface.datasets.ls="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.huggingface.datasets.ls"
+  alias lsd-huggingface.datasets.info="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.huggingface.datasets.info $@"
+  alias lsd-huggingface.download.dataset="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.huggingface.download.dataset $@"
+  ### MODELS
+  alias lsd-huggingface.models.ls="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.huggingface.models.ls"
+  alias lsd-huggingface.models.info="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.huggingface.models.info $@"
+  alias lsd-huggingface.download.model="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.huggingface.download.model $@"
+  alias lsd-huggingface.download.model.qwen2vl="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.huggingface.download.model.qwen2vl $@"
+  alias lsd-huggingface.download.model.text-encoder="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.huggingface.download.model.text-encoder $@"
+  alias lsd-huggingface.download.model.audio="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.huggingface.download.model.audio $@"
+  ### SPACES
+  alias lsd-huggingface.spaces.ls="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.huggingface.spaces.ls"
+  alias lsd-huggingface.spaces.info="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.huggingface.spaces.info $@"
+  ### COLLECTIONS
+  alias lsd-huggingface.collections.ls="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.huggingface.collections.ls"
+  alias lsd-huggingface.collections.info="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.huggingface.collections.info $@"
+  alias lsd-huggingface.collections.add="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.huggingface.collections.add $@"
+  ### RAW CLI
+  alias lsd-huggingface.cli="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.huggingface.cli $@"
+  ### HELP
+  alias lsd-huggingface.help.main="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.huggingface.help.main"
+  alias lsd-huggingface.help.cli="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.huggingface.help.cli"
+  ###----------------------------------------------------------
+  ## lsd-datasets => _datasets_ module
+  ###----------------------------------------------------------
+  ### GENERIC (HF BACKEND)
+  alias lsd-datasets.hf.download="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.datasets.hf.download $@"
+  ### DATASET: LongVideoBench (STRATEGIC MODES)
+  alias lsd-datasets.hf.longvideobench.meta="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.datasets.hf.longvideobench.meta $@"
+  alias lsd-datasets.hf.longvideobench.chunk="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.datasets.hf.longvideobench.chunk $@"
+  alias lsd-datasets.hf.longvideobench.full="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.datasets.hf.longvideobench.full $@"
+  ### HELP
+  alias lsd-datasets.help.main="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.datasets.help.main"
+  alias lsd-datasets.help.hf="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.datasets.help.hf"
   ###----------------------------------------------------------
 }

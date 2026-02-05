@@ -44,3 +44,5 @@ source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/_perf_.sh
 source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/_www_.sh
 source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/_hpc_.sh
 source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/_gdal_.sh
+source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/_huggingface_.sh
+source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/_datasets_.sh
