@@ -1,8 +1,8 @@
 ---
 title: All Commands
 description: List of all commands for Lscripts Docker
-date: 2026-02-06 11:36:21
-last_updated: 11:36:21, 06-Feb-2026, Friday
+date: 2026-02-06 20:48:29
+last_updated: 20:48:29, 06-Feb-2026, Friday
 note: Auto generated file and will be overwritten
 ---
 
@@ -377,11 +377,22 @@ lsd-perf.time
 lsd-perf.time-append
 lsd-perf.time-verbose
 lsd-python.conda.cfg.show
+lsd-python.conda.envs.bundle.export
+lsd-python.conda.envs.bundle.install
+lsd-python.conda.envs.bundle.manifest
+lsd-python.conda.envs.bundle.verify
+lsd-python.conda.envs.delete
 lsd-python.conda.envs.list
 lsd-python.conda.envs.list-details
 lsd-python.conda.envs.list-fast
 lsd-python.conda.envs.pin
+lsd-python.conda.envs.pin-all
+lsd-python.conda.envs.pip.install
+lsd-python.conda.envs.pip.verify
+lsd-python.conda.envs.purge-all
 lsd-python.conda.envs.replicate
+lsd-python.conda.envs.replicate-conda
+lsd-python.conda.envs.torch.install
 lsd-python.conda.telemetry.disable
 lsd-python.conda.telemetry.status
 lsd-python.create.condaenv
