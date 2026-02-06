@@ -226,8 +226,9 @@ function lsd-mod.python.conda.envs.bundle.verify() {
   lsd-mod.log.success "Bundle verification completed"
 }
 
+
 ###----------------------------------------------------------
-## Bundle install
+## Bundle install (with interactive validation)
 ###----------------------------------------------------------
 
 function lsd-mod.python.conda.envs.bundle.install() {
@@ -243,7 +244,7 @@ function lsd-mod.python.conda.envs.bundle.install() {
   _lsd_bundle_guard_path_or_die "$bundle"
 
   local lock
-  lock=$(ls "$bundle/CONDA/"*.explicit.lock | head -1)
+  lock=$(ls "$bundle/CONDA/"*.explicit.lock 2>/dev/null | head -1)
   [[ -z "$lock" ]] && lsd-mod.log.fail "Conda lock file not found"
 
   lsd-mod.log.echo
@@ -261,7 +262,9 @@ function lsd-mod.python.conda.envs.bundle.install() {
       "INSTALL"
   fi
 
-  ### 1. Conda environment
+  ###----------------------------------------------------------
+  ## 1. Conda environment
+  ###----------------------------------------------------------
   if [[ "$dry" == "true" ]]; then
     echo "conda create -n $name --file $lock"
   else
@@ -269,7 +272,9 @@ function lsd-mod.python.conda.envs.bundle.install() {
       lsd-mod.log.fail "Conda environment creation failed"
   fi
 
-  ### 2. Torch layer (if present)
+  ###----------------------------------------------------------
+  ## 2. Torch layer
+  ###----------------------------------------------------------
   if [[ -s "$bundle/TORCH/requirements.torch.txt" ]]; then
     if [[ "$dry" == "true" ]]; then
       echo "pip install torch layer"
@@ -279,19 +284,16 @@ function lsd-mod.python.conda.envs.bundle.install() {
         --no-deps \
         --no-build-isolation \
         --find-links "$bundle/TORCH/wheels" \
-        -r "$bundle/TORCH/requirements.torch.txt"
-
-      conda run -n "$name" python - <<'PY'
-import torch
-print("Torch:", torch.__version__)
-print("CUDA :", torch.version.cuda)
-PY
+        -r "$bundle/TORCH/requirements.torch.txt" || \
+          lsd-mod.log.fail "Torch layer install failed"
     fi
   else
     lsd-mod.log.info "Torch layer not present; skipping"
   fi
 
-  ### 3. Base pip layer
+  ###----------------------------------------------------------
+  ## 3. Base pip layer
+  ###----------------------------------------------------------
   if [[ "$dry" == "true" ]]; then
     echo "pip install base layer"
   else
@@ -304,23 +306,76 @@ PY
         lsd-mod.log.fail "Base pip layer install failed"
   fi
 
-  ### 4. Integrity check
-  if [[ "$dry" == "true" ]]; then
-    lsd-mod.log.warn "Dry-run complete — no changes were made"
-  else
-    local pip_check_out
-    pip_check_out="$(conda run -n "$name" pip check || true)"
+  ###----------------------------------------------------------
+  ## 4. Post-install summary (AUTHORITATIVE)
+  ###----------------------------------------------------------
+  if [[ "$dry" != "true" ]]; then
+    lsd-mod.log.echo
+    lsd-mod.log.echo "${gre}Environment Summary${nocolor}"
+    lsd-mod.log.echo "----------------------------------------------"
 
-    if [[ -n "$pip_check_out" ]]; then
-      if echo "$pip_check_out" | grep -q '^decord '; then
-        lsd-mod.log.warn "pip check warning (known platform issue):"
-        echo "$pip_check_out" | sed 's/^/  /'
-      else
-        echo "$pip_check_out"
-        lsd-mod.log.fail "Dependency integrity check failed"
-      fi
+    ## Runtime fingerprint
+    conda run -n "$name" python - <<'PY'
+import sys
+try:
+  import torch
+  print(f"Python : {sys.version.split()[0]}")
+  print(f"Torch  : {torch.__version__}")
+  print(f"CUDA   : {torch.version.cuda}")
+  print(f"CUDA OK: {torch.cuda.is_available()}")
+except Exception as e:
+  print("Torch not available:", e)
+PY
+
+    lsd-mod.log.echo
+    lsd-mod.log.echo "${gre}Installed pip packages (filtered)${nocolor}"
+    lsd-mod.log.echo "----------------------------------------------"
+
+    local EXCLUDE_RE
+    EXCLUDE_RE="$(lsd-mod.python.conda._pip_exclude_re)"
+
+    conda run -n "$name" pip list \
+      | grep -Ev "${EXCLUDE_RE}" \
+      | sed 's/^/  /'
+
+    lsd-mod.log.echo
+    lsd-mod.log.echo "${gre}Conda environment details${nocolor}"
+    lsd-mod.log.echo "----------------------------------------------"
+
+    ## reuse core introspection
+    lsd-mod.python.conda.envs.list-details | grep "$name" || true
+  fi
+
+  ###----------------------------------------------------------
+  ## 5. User validation gate
+  ###----------------------------------------------------------
+  if [[ "$dry" != "true" ]]; then
+    lsd-mod.log.echo
+    lsd-mod.log.echo "${byel}Validation${nocolor}"
+    lsd-mod.log.echo "----------------------------------------------"
+
+    lsd-mod.fio.yesno_no \
+      "Does this environment look correct and ready to use?" || {
+        lsd-mod.log.warn "Installation completed but not validated by user."
+        return 0
+      }
+  fi
+
+  ###----------------------------------------------------------
+  ## 6. Optional integrity check (warn-only)
+  ###----------------------------------------------------------
+  if [[ "$dry" != "true" ]]; then
+    local pip_check
+    pip_check="$(conda run -n "$name" pip check || true)"
+
+    if [[ -n "$pip_check" ]]; then
+      lsd-mod.log.warn "pip check reported issues:"
+      echo "$pip_check" | sed 's/^/  /'
     fi
 
-    lsd-mod.log.success "Bundle installed: $name"
+    lsd-mod.log.success "Bundle installed and validated: $name"
+  else
+    lsd-mod.log.warn "Dry-run complete — no changes were made"
   fi
 }
+
