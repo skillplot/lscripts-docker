@@ -16,6 +16,7 @@
 !.nojekyll
 !.gitignore
 !.gitmodules/
+!.github/
 !.husky/
 !.flake8
 !*.cjs
