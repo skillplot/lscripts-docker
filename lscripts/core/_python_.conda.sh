@@ -52,9 +52,27 @@ function lsd-mod.python.conda._kv_table() {
   done
 }
 
+function lsd-mod.python.conda._pip_exclude_re() {
+  echo '^(pip|setuptools|wheel|torch|torchvision|torchaudio|nvidia-.*|intel-.*|mkl|tbb|tcmlib|umf)\b'
+}
+
+function lsd-mod.python.conda.pip.split() {
+  local env="$1"
+  local outdir="$2"
+
+  local EXCLUDE_RE
+  EXCLUDE_RE="$(lsd-mod.python.conda._pip_exclude_re)"
+
+  conda run -n "${env}" pip freeze --all \
+    | tee "${outdir}/pip.freeze.txt" \
+    | grep -Ev "${EXCLUDE_RE}" > "${outdir}/requirements.pip.txt"
+
+  grep -E "${EXCLUDE_RE}" "${outdir}/pip.freeze.txt" \
+    > "${outdir}/requirements.torch.txt" || true
+}
 
 ###----------------------------------------------------------
-## 1. Conda configuration snapshot
+## Conda configuration snapshot
 ###----------------------------------------------------------
 
 function lsd-mod.python.conda.cfg.show() {
@@ -104,7 +122,7 @@ function lsd-mod.python.conda.cfg.show() {
 
 
 ###----------------------------------------------------------
-## 2. List all environments with locations & symlinks
+## List all environments with locations & symlinks
 ###----------------------------------------------------------
 
 function lsd-mod.python.conda._env_runtime_fingerprint() {
@@ -380,12 +398,12 @@ function lsd-mod.python.conda.envs.list-details() {
 
 
 ###----------------------------------------------------------
-## 3. Pin an environment (explicit + yaml + metadata)
+## Pin an environment (explicit + yaml + metadata)
 ###----------------------------------------------------------
 
 function lsd-mod.python.conda.envs.pin() {
   lsd-mod.python.conda._require_conda
-  source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/argparse.sh" "$@"
+  source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/argparse-v2.sh" "$@"
 
   local env outdir
   env="${args['name']}"
@@ -414,7 +432,8 @@ function lsd-mod.python.conda.envs.pin() {
     > "${outdir}/${env}.env.yml"
 
   ## pip packages
-  local _PIP_EXCLUDE_RE='^(pip|setuptools|wheel|torch|torchvision|torchaudio|nvidia-.*)\b'
+  # local _PIP_EXCLUDE_RE='^(pip|setuptools|wheel|torch|torchvision|torchaudio|nvidia-.*)\b'
+  local _PIP_EXCLUDE_RE='^(pip|setuptools|wheel|torch|torchvision|torchaudio|nvidia-.*|intel-.*|mkl|tbb|tcmlib|umf)\b'
   conda run -n "${env}" pip freeze --all \
     | grep -Ev "${_PIP_EXCLUDE_RE}" \
     > "${outdir}/${env}.pip.txt"
@@ -438,7 +457,7 @@ function lsd-mod.python.conda.envs.pin() {
 
 function lsd-mod.python.conda.envs.pin-all() {
   lsd-mod.python.conda._require_conda
-  source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/argparse.sh" "$@"
+  source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/argparse-v2.sh" "$@"
 
   local outdir failures=0
   outdir="${args['out']}"
@@ -476,7 +495,7 @@ function lsd-mod.python.conda.envs.pin-all() {
 
 
 ###----------------------------------------------------------
-## 4. Replicate environment (delegates creation)
+## Replicate environment (delegates creation)
 ###----------------------------------------------------------
 
 function lsd-mod.python.conda.envs.pip.install() {
@@ -485,7 +504,7 @@ function lsd-mod.python.conda.envs.pip.install() {
   ###----------------------------------------------------------
 
   lsd-mod.python.conda._require_conda
-  source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/argparse.sh" "$@"
+  source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/argparse-v2.sh" "$@"
 
   local env="${args['name']}"
   local pipfile="${args['file']}"
@@ -509,7 +528,8 @@ function lsd-mod.python.conda.envs.pip.install() {
   ## sanitize pip manifest defensively
   local filtered
   filtered=$(mktemp)
-  local _PIP_EXCLUDE_RE='^(pip|setuptools|wheel|torch|torchvision|torchaudio|nvidia-.*)\b'
+  # local _PIP_EXCLUDE_RE='^(pip|setuptools|wheel|torch|torchvision|torchaudio|nvidia-.*)\b'
+  local _PIP_EXCLUDE_RE='^(pip|setuptools|wheel|torch|torchvision|torchaudio|nvidia-.*|intel-.*|mkl|tbb|tcmlib|umf)\b'
   grep -Ev "${_PIP_EXCLUDE_RE}" "${pipfile}" > "${filtered}"
 
   conda run --live-stream -n "${env}" \
@@ -533,7 +553,7 @@ function lsd-mod.python.conda.envs.torch.install() {
 
   lsd-mod.python.conda._require_conda
   local __LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
-  source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/argparse.sh" "$@"
+  source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/argparse-v2.sh" "$@"
 
   local env="${args['name']}"
   local torch_ver="${args['torch']}"
@@ -598,7 +618,7 @@ function lsd-mod.python.conda.envs.torch.install() {
 
 function lsd-mod.python.conda.envs.replicate-conda() {
   lsd-mod.python.conda._require_conda
-  source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/argparse.sh" "$@"
+  source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/argparse-v2.sh" "$@"
 
   local src="${args['from']}"
   local name="${args['name']}"
@@ -654,7 +674,7 @@ function lsd-mod.python.conda.envs.replicate() {
 
 function lsd-mod.python.conda.envs.pip.verify() {
   lsd-mod.python.conda._require_conda
-  source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/argparse.sh" "$@"
+  source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/argparse-v2.sh" "$@"
 
   local env="${args['name']}"
   local pipfile="${args['file']}"
@@ -711,7 +731,7 @@ function lsd-mod.python.conda.telemetry.disable() {
 
 function lsd-mod.python.conda.envs.delete() {
   lsd-mod.python.conda._require_conda
-  source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/argparse.sh" "$@"
+  source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/argparse-v2.sh" "$@"
 
   local env="${args['name']}"
   local force="${args['force']}"
@@ -759,7 +779,7 @@ function lsd-mod.python.conda.envs.delete() {
 
 function lsd-mod.python.conda.envs.purge-all() {
   lsd-mod.python.conda._require_conda
-  source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/argparse.sh" "$@"
+  source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/argparse-v2.sh" "$@"
 
   local include_base="${args['include-base']}"
   local dry_run="${args['dry-run']}"

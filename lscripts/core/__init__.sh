@@ -26,6 +26,7 @@ source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/_docs_.sh
 source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/_docs_.update.sh
 source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/_python_.sh
 source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/_python_.conda.sh
+source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/_python_.conda-bundle.sh
 source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/_stack_.sh
 source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/_dir_.sh
 source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/_apt_.sh

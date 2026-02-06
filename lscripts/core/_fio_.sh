@@ -308,3 +308,34 @@ function lsd-mod.fio.mkdir() {
   [[ "$#" -eq 0 ]] && { lsd-mod.log.echo "$0: dirname"; return; }
   [[ ! -d "${_dirname}" ]] && mkdir -m "${_permission}" -p "${_dirname}"
 }
+
+
+function lsd-mod.fio.confirm() {
+  local title=""
+  local message=""
+  local expect=""
+
+  while [[ "$#" -gt 0 ]]; do
+    case "$1" in
+      --title)   title="$2"; shift 2 ;;
+      --message) message="$2"; shift 2 ;;
+      --expect)  expect="$2"; shift 2 ;;
+      *) shift ;;
+    esac
+  done
+
+  [[ -z "${expect}" ]] && {
+    lsd-mod.log.error "fio.confirm: --expect is required"
+    return 1
+  }
+
+  lsd-mod.log.echo
+  [[ -n "${title}" ]] && lsd-mod.log.echo "${byel}${title}${nocolor}"
+  [[ -n "${message}" ]] && lsd-mod.log.echo "${message}"
+  lsd-mod.log.echo
+
+  local reply
+  read -e -p "Type '${expect}' to confirm > " reply
+
+  [[ "${reply}" == "${expect}" ]]
+}

@@ -51,28 +51,37 @@ function lsd-lscripts.alias.main() {
   ###----------------------------------------------------------
   ## lsd-python.conda => _python_.conda.sh
   ###----------------------------------------------------------
+  ## Conda configuration & introspection
   alias lsd-python.conda.cfg.show="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.python.conda.cfg.show"
-  ##
+  ## Environment listing
   alias lsd-python.conda.envs.list="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.python.conda.envs.list"
   alias lsd-python.conda.envs.list-fast="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.python.conda.envs.list-fast"
   alias lsd-python.conda.envs.list-details="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.python.conda.envs.list-details"
-  ##
+  ## Environment pinning (reproducibility)
   alias lsd-python.conda.envs.pin="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.python.conda.envs.pin $@"
   alias lsd-python.conda.envs.pin-all="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.python.conda.envs.pin-all"
-  ##
+  ## Environment replication (online)
   alias lsd-python.conda.envs.replicate="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.python.conda.envs.replicate $@"
   alias lsd-python.conda.envs.replicate-conda="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.python.conda.envs.replicate-conda $@"
-  ##
+  ## Pip layer (explicit, no-deps)
   alias lsd-python.conda.envs.pip.install="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.python.conda.envs.pip.install $@"
   alias lsd-python.conda.envs.pip.verify="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.python.conda.envs.pip.verify $@"
-  ## 🔥 torch layer (explicit, intentional)
+  ## 🔥 torch layer (explicit, intentional, ABI-aware)
   alias lsd-python.conda.envs.torch.install="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.python.conda.envs.torch.install \$@"
-  ##
+  ## Telemetry & privacy
   alias lsd-python.conda.telemetry.status="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.python.conda.telemetry.status"
   alias lsd-python.conda.telemetry.disable="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.python.conda.telemetry.disable"
-  ##
+  ## Environment destruction (dangerous)
   alias lsd-python.conda.envs.delete="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.python.conda.envs.delete $@"
   alias lsd-python.conda.envs.purge-all="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.python.conda.envs.purge-all $@"
+  ## ---------------------------------------------------------
+  ## lsd-python.conda.envs.bundle => _python_.conda-bundle.sh
+  ## ---------------------------------------------------------
+  ## Offline bundle (air-gapped / no-internet)
+  alias lsd-python.conda.envs.bundle.export="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.python.conda.envs.bundle.export $@"
+  alias lsd-python.conda.envs.bundle.verify="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.python.conda.envs.bundle.verify $@"
+  alias lsd-python.conda.envs.bundle.manifest="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.python.conda.envs.bundle.manifest $@"
+  alias lsd-python.conda.envs.bundle.install="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.python.conda.envs.bundle.install $@"
   ###----------------------------------------------------------
   ## lsd-admin
   ###----------------------------------------------------------

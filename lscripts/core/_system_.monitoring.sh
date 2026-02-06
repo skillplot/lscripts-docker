@@ -108,10 +108,10 @@ function lsd-mod.system.monitoring.run_all() {
 function lsd-mod.system.monitoring.main() {
   local LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
   local timestamp=$(date +'%d%m%y_%H%M%S')
-  # local default_logdir="/tmp/logs/_system_.monitoring-${timestamp}"
+  ## local default_logdir="/tmp/logs/_system_.monitoring-${timestamp}"
   local default_logdir="/tmp/logs"
 
-  # JSON schema for argument parsing and help menu
+  ## JSON schema for argument parsing and help menu
   local json_data='
   {
     "interval": {
@@ -128,15 +128,12 @@ function lsd-mod.system.monitoring.main() {
     }
   }'
 
-  # Source argparse-menu.sh for JSON-based argument parsing
+  ## Source argparse-menu.sh for JSON-based argument parsing
   source "${LSCRIPTS}/argparse-menu.sh" "$json_data" "$@"
 
-  # Initialize arguments with defaults or provided values
+  ## Initialize arguments with defaults or provided values
   local interval="${args[interval]}"
   local logdir="${args[logdir]}"
 
   mkdir -p "$logdir"
 }
-
-# Execute main function
-lsd-mod.system.monitoring.main "$@"
