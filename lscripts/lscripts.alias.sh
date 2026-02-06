@@ -52,14 +52,27 @@ function lsd-lscripts.alias.main() {
   ## lsd-python.conda => _python_.conda.sh
   ###----------------------------------------------------------
   alias lsd-python.conda.cfg.show="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.python.conda.cfg.show"
+  ##
   alias lsd-python.conda.envs.list="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.python.conda.envs.list"
   alias lsd-python.conda.envs.list-fast="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.python.conda.envs.list-fast"
   alias lsd-python.conda.envs.list-details="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.python.conda.envs.list-details"
+  ##
   alias lsd-python.conda.envs.pin="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.python.conda.envs.pin $@"
   alias lsd-python.conda.envs.pin-all="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.python.conda.envs.pin-all"
+  ##
   alias lsd-python.conda.envs.replicate="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.python.conda.envs.replicate $@"
+  alias lsd-python.conda.envs.replicate-conda="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.python.conda.envs.replicate-conda $@"
+  ##
+  alias lsd-python.conda.envs.pip.install="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.python.conda.envs.pip.install $@"
+  alias lsd-python.conda.envs.pip.verify="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.python.conda.envs.pip.verify $@"
+  ## 🔥 torch layer (explicit, intentional)
+  alias lsd-python.conda.envs.torch.install="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.python.conda.envs.torch.install \$@"
+  ##
   alias lsd-python.conda.telemetry.status="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.python.conda.telemetry.status"
   alias lsd-python.conda.telemetry.disable="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.python.conda.telemetry.disable"
+  ##
+  alias lsd-python.conda.envs.delete="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.python.conda.envs.delete $@"
+  alias lsd-python.conda.envs.purge-all="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.python.conda.envs.purge-all $@"
   ###----------------------------------------------------------
   ## lsd-admin
   ###----------------------------------------------------------

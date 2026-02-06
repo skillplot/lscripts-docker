@@ -203,7 +203,7 @@ function lsd-mod.python.conda._envs.enumerate_canonical_tsv() {
     canon="${REALPATH_TO_CANON[$real]}"
     aliases="$(echo "${REALPATH_TO_ALIASES[$real]}" | sed 's/,$//')"
     [[ -z "$aliases" ]] && aliases="-"
-    # real<TAB>canon<TAB>aliases
+    ## real<TAB>canon<TAB>aliases
     echo -e "${real}\t${canon}\t${aliases}"
   done
 }
@@ -270,8 +270,8 @@ function lsd-mod.python.conda.envs.list-details() {
     created=$(stat -c %y "$real" 2>/dev/null | cut -d'.' -f1)
     [[ -z "$created" ]] && created="0000-00-00 00:00:00"
 
-    # last-used heuristic:
-    # prefer conda-meta/history mtime; else fallback to newest mtime under conda-meta; else created.
+    ## last-used heuristic:
+    ## prefer conda-meta/history mtime; else fallback to newest mtime under conda-meta; else created.
     if [[ -f "$real/conda-meta/history" ]]; then
       last_used=$(stat -c %y "$real/conda-meta/history" 2>/dev/null | cut -d'.' -f1)
     elif [[ -d "$real/conda-meta" ]]; then
@@ -293,15 +293,15 @@ function lsd-mod.python.conda.envs.list-details() {
     )
   done < <(lsd-mod.python.conda._envs.enumerate_canonical_tsv)
 
-  # Handle empty case cleanly
+  ## Handle empty case cleanly
   if [[ ${#ENV_ROWS[@]} -eq 0 ]]; then
     lsd-mod.log.warn "No conda environments found (or conda not installed / no permissions)."
     return 0
   fi
 
-  # ----------------------------------------------------------
-  # Main table
-  # ----------------------------------------------------------
+  ### ----------------------------------------------------------
+  ## Main table
+  ### ----------------------------------------------------------
   lsd-mod.log.echo
   lsd-mod.log.echo "${gre}Conda Environments (detailed)${nocolor}"
   lsd-mod.log.echo
@@ -337,9 +337,9 @@ function lsd-mod.python.conda.envs.list-details() {
           "${aliases:-"-"}"
       done
 
-  # ----------------------------------------------------------
-  # Summary
-  # ----------------------------------------------------------
+  ### ----------------------------------------------------------
+  ## Summary
+  ### ----------------------------------------------------------
   local env_count=${#ENV_ROWS[@]}
   local total_gb
   total_gb=$(awk "BEGIN {printf \"%.1f\", $total_size_kb/1024/1024}")
@@ -396,7 +396,7 @@ function lsd-mod.python.conda.envs.pin() {
 
   [[ -z "${outdir}" ]] && outdir="logs/envs/${env}"
 
-  # verify env exists
+  ## verify env exists
   conda env list | awk '{print $1}' | grep -qx "${env}" || \
     lsd-mod.log.fail "Environment not found: ${env}"
 
@@ -414,7 +414,9 @@ function lsd-mod.python.conda.envs.pin() {
     > "${outdir}/${env}.env.yml"
 
   ## pip packages
+  local _PIP_EXCLUDE_RE='^(pip|setuptools|wheel|torch|torchvision|torchaudio|nvidia-.*)\b'
   conda run -n "${env}" pip freeze --all \
+    | grep -Ev "${_PIP_EXCLUDE_RE}" \
     > "${outdir}/${env}.pip.txt"
 
   {
@@ -477,7 +479,124 @@ function lsd-mod.python.conda.envs.pin-all() {
 ## 4. Replicate environment (delegates creation)
 ###----------------------------------------------------------
 
-function lsd-mod.python.conda.envs.replicate() {
+function lsd-mod.python.conda.envs.pip.install() {
+  ###----------------------------------------------------------
+  ## Pip layer installer (env-scoped, retryable)
+  ###----------------------------------------------------------
+
+  lsd-mod.python.conda._require_conda
+  source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/argparse.sh" "$@"
+
+  local env="${args['name']}"
+  local pipfile="${args['file']}"
+  local no_cache="${args['no-cache']}"
+
+  [[ -z "${env}" ]] && lsd-mod.log.fail "--name=<env> is required"
+  [[ -z "${pipfile}" ]] && lsd-mod.log.fail "--file=<pip.txt> is required"
+  [[ ! -f "${pipfile}" ]] && lsd-mod.log.fail "pip file not found: ${pipfile}"
+
+  ## verify env exists
+  conda env list | awk '{print $1}' | grep -qx "${env}" || \
+    lsd-mod.log.fail "Environment not found: ${env}"
+
+  lsd-mod.log.info "Installing pip layer"
+  lsd-mod.log.info "Env     : ${env}"
+  lsd-mod.log.info "Pipfile : ${pipfile}"
+
+  local cache_flag=""
+  [[ "${no_cache}" == "true" ]] && cache_flag="--no-cache-dir"
+
+  ## sanitize pip manifest defensively
+  local filtered
+  filtered=$(mktemp)
+  local _PIP_EXCLUDE_RE='^(pip|setuptools|wheel|torch|torchvision|torchaudio|nvidia-.*)\b'
+  grep -Ev "${_PIP_EXCLUDE_RE}" "${pipfile}" > "${filtered}"
+
+  conda run --live-stream -n "${env}" \
+    pip install ${cache_flag} --no-deps -r "${filtered}" || {
+    lsd-mod.log.error "pip install failed (env preserved)"
+    rm -f "${filtered}"
+    return 1
+  }
+
+  rm -f "${filtered}"
+  lsd-mod.log.success "Pip layer installed successfully"
+}
+
+
+function lsd-mod.python.conda.envs.torch.install() {
+  ## Requirement file convention
+  ## core/config/<os>/requirements.torch-<torch_abi>.<backend>.txt
+  ## Examples:
+  ## core/config/ubuntu22.04/requirements.torch-2.4.0+cpu.cpu.txt
+  ## core/config/ubuntu22.04/requirements.torch-2.4.0+cu121.gpu.txt
+
+  lsd-mod.python.conda._require_conda
+  local __LSCRIPTS=$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )
+  source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/argparse.sh" "$@"
+
+  local env="${args['name']}"
+  local torch_ver="${args['torch']}"
+  local cuda_ver="${args['cuda']}"
+
+  [[ -z "${env}" ]] && lsd-mod.log.fail "--name=<env> is required"
+  [[ -z "${torch_ver}" ]] && lsd-mod.log.fail "--torch=<version> is required"
+
+  ## verify env exists
+  conda env list | awk '{print $1}' | grep -qx "${env}" || \
+    lsd-mod.log.fail "Environment not found: ${env}"
+
+  ### ----------------------------------------------------------
+  ## Backend derivation (CPU default, GPU override)
+  ### ----------------------------------------------------------
+  local backend="cpu"
+  local torch_abi="${torch_ver}+cpu"
+
+  [[ -n "${cuda_ver}" ]] && {
+    backend="gpu"
+    torch_abi="${torch_ver}+cu${cuda_ver//./}"
+  }
+
+  ### ----------------------------------------------------------
+  ## Resolve OS + requirement file
+  ### ----------------------------------------------------------
+  local os="${LINUX_DISTRIBUTION}"
+  local reqfile="${__LSCRIPTS}/config/${os}/requirements.torch-${torch_abi}.${backend}.txt"
+  lsd-mod.log.debug "__LSCRIPTS=${__LSCRIPTS}"
+
+  lsd-mod.log.echo
+  lsd-mod.log.echo "${gre}Torch Installation Plan${nocolor}"
+  lsd-mod.log.echo "----------------------------------------------"
+  lsd-mod.log.echo "Env        : ${env}"
+  lsd-mod.log.echo "OS         : ${os}"
+  lsd-mod.log.echo "Torch      : ${torch_ver}"
+  lsd-mod.log.echo "Backend    : ${backend}"
+  [[ "${backend}" == "gpu" ]] && lsd-mod.log.echo "CUDA       : ${cuda_ver}"
+  lsd-mod.log.echo "ABI        : ${torch_abi}"
+  lsd-mod.log.echo "Req file   : ${reqfile}"
+  lsd-mod.log.echo
+
+  ### ----------------------------------------------------------
+  ## Guard: requirement file must exist
+  ### ----------------------------------------------------------
+  [[ -f "${reqfile}" ]] || \
+    lsd-mod.log.fail "Torch requirements file not found: ${reqfile}"
+
+  ### ----------------------------------------------------------
+  ## Install torch layer
+  ### ----------------------------------------------------------
+  lsd-mod.log.info "Installing Torch layer into env: ${env}"
+
+  conda run --live-stream -n "${env}" \
+    pip install --no-cache-dir -r "${reqfile}" || {
+    lsd-mod.log.fail "Torch installation failed (env preserved)"
+  }
+
+  lsd-mod.log.success "Torch ${torch_abi} installed successfully"
+}
+
+
+function lsd-mod.python.conda.envs.replicate-conda() {
   lsd-mod.python.conda._require_conda
   source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/argparse.sh" "$@"
 
@@ -487,36 +606,73 @@ function lsd-mod.python.conda.envs.replicate() {
   [[ -z "${src}" ]] && lsd-mod.log.fail "--from=<env-dir> required"
   [[ -z "${name}" ]] && lsd-mod.log.fail "--name=<new-env-name> required"
 
-  lsd-mod.log.info "Replicating environment from: ${src}"
-  lsd-mod.log.info "Target environment name: ${name}"
+  local lockfile ymlfile
+  lockfile=$(ls "${src}"/*.explicit.lock 2>/dev/null | head -n1)
+  ymlfile=$(ls "${src}"/*.env.yml 2>/dev/null | head -n1)
 
-  local lockfile=$(ls "${src}"/*.explicit.lock 2>/dev/null | head -n1)
-  local ymlfile=$(ls "${src}"/*.env.yml 2>/dev/null | head -n1)
-  local pipfile=$(ls "${src}"/*.pip.txt 2>/dev/null | head -n1)
-
-  ### -----------------------------
-  ## Phase 1: base conda env
-  ### -----------------------------
-  if [[ -n "$lockfile" ]]; then
-    lsd-mod.log.info "Using explicit lockfile (binary exact)"
+  if [[ -n "${lockfile}" ]]; then
+    lsd-mod.log.info "Creating conda env (explicit lock)"
     conda create -n "${name}" --file "${lockfile}"
-  elif [[ -n "$ymlfile" ]]; then
-    lsd-mod.log.info "Using environment YAML (solver based, prefix-free)"
+  elif [[ -n "${ymlfile}" ]]; then
+    lsd-mod.log.info "Creating conda env (env.yml)"
     conda env create -n "${name}" \
       -f <(grep -v '^prefix:' "${ymlfile}")
   else
-    lsd-mod.log.fail "No explicit.lock or env.yml found in ${src}"
+    lsd-mod.log.fail "No conda artifacts found in ${src}"
   fi
+}
 
-  ### -----------------------------
-  ## Phase 2: pip replay
-  ### -----------------------------
-  if [[ -n "$pipfile" ]]; then
-    lsd-mod.log.info "Phase 2: installing pip packages"
-    conda run -n "${name}" pip install --no-cache-dir -r "${pipfile}"
-  else
-    lsd-mod.log.warn "No pip manifest found; skipping pip install"
-  fi
+
+function lsd-mod.python.conda.envs.replicate() {
+  lsd-mod.python.conda.envs.replicate-conda "$@"
+
+  local src="${args['from']}"
+  local name="${args['name']}"
+  local pipfile
+
+  ## 1. Torch FIRST
+  [[ -n "${args['torch']}" ]] && {
+    lsd-mod.python.conda.envs.torch.install \
+      --name="${name}" \
+      --torch="${args['torch']}" \
+      --cuda="${args['cuda']}"
+  }
+
+  ## 2. Pip SECOND
+  pipfile=$(ls "${src}"/*.pip.txt 2>/dev/null | head -n1)
+  [[ -z "${pipfile}" ]] && {
+    lsd-mod.log.warn "No pip layer found; skipping pip install"
+    return 0
+  }
+
+  lsd-mod.python.conda.envs.pip.install \
+    --name="${name}" \
+    --file="${pipfile}" \
+    --no-cache=true
+}
+
+
+function lsd-mod.python.conda.envs.pip.verify() {
+  lsd-mod.python.conda._require_conda
+  source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/argparse.sh" "$@"
+
+  local env="${args['name']}"
+  local pipfile="${args['file']}"
+
+  [[ -z "${env}" || -z "${pipfile}" ]] && \
+    lsd-mod.log.fail "--name and --file required"
+
+  lsd-mod.log.info "Verifying pip layer for ${env}"
+
+  conda run -n "${env}" pip freeze | sort > /tmp/current.pip
+  grep -Ev '^(pip|setuptools|wheel)\b' "${pipfile}" | sort > /tmp/expected.pip
+
+  diff -u /tmp/expected.pip /tmp/current.pip || {
+    lsd-mod.log.warn "Pip state differs from pinned manifest"
+    return 1
+  }
+
+  lsd-mod.log.success "Pip layer matches pinned manifest"
 }
 
 
@@ -547,4 +703,130 @@ function lsd-mod.python.conda.telemetry.disable() {
 
   lsd-mod.log.success "Telemetry disabled (non-destructive)"
   lsd-mod.log.info "For full isolation, export: CONDA_NO_PLUGINS=true"
+}
+
+###----------------------------------------------------------
+## Conda env delete (safe, fio-based)
+###----------------------------------------------------------
+
+function lsd-mod.python.conda.envs.delete() {
+  lsd-mod.python.conda._require_conda
+  source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/argparse.sh" "$@"
+
+  local env="${args['name']}"
+  local force="${args['force']}"
+
+  [[ -z "${env}" ]] && lsd-mod.log.fail "--name=<env> is required"
+
+  ## verify env exists
+  conda env list | awk '{print $1}' | grep -qx "${env}" || \
+    lsd-mod.log.fail "Environment not found: ${env}"
+
+  ## protect base
+  if [[ "${env}" == "base" && "${force}" != "true" ]]; then
+    lsd-mod.log.fail "Refusing to delete 'base' without --force=true"
+  fi
+
+  local prefix
+  prefix=$(conda env list | awk -v e="${env}" '$1==e {print $NF}')
+
+  lsd-mod.log.echo
+  lsd-mod.log.echo "${red}${bld}==============================================${nocolor}"
+  lsd-mod.log.echo "${red}${bld} DANGER: CONDA ENV DELETION${nocolor}"
+  lsd-mod.log.echo "${red}${bld}----------------------------------------------${nocolor}"
+  lsd-mod.log.echo "${red}${bld} ENV   : ${env}${nocolor}"
+  lsd-mod.log.echo "${red}${bld} PREFIX: ${prefix}${nocolor}"
+  lsd-mod.log.echo "${red}${bld}==============================================${nocolor}"
+  lsd-mod.log.echo
+
+  ## default NO
+  lsd-mod.fio.yesno_no "Permanently delete this conda environment" || {
+    lsd-mod.log.warn "Aborted by user."
+    return 0
+  }
+
+  lsd-mod.log.warn "Deleting conda environment: ${env}"
+  conda env remove -n "${env}" -y || \
+    lsd-mod.log.fail "conda env remove failed"
+
+  lsd-mod.log.success "Deleted environment: ${env}"
+}
+
+
+###----------------------------------------------------------
+## Conda purge-all (privacy clean slate)
+###----------------------------------------------------------
+
+function lsd-mod.python.conda.envs.purge-all() {
+  lsd-mod.python.conda._require_conda
+  source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/argparse.sh" "$@"
+
+  local include_base="${args['include-base']}"
+  local dry_run="${args['dry-run']}"
+
+  lsd-mod.log.echo
+  lsd-mod.log.echo "${red}${bld}====================================================${nocolor}"
+  lsd-mod.log.echo "${red}${bld} DANGER: CLEAN-SLATE CONDA PURGE${nocolor}"
+  lsd-mod.log.echo "${red}${bld} This will REMOVE ALL conda environments${nocolor}"
+  lsd-mod.log.echo "${red}${bld} INCLUDING caches and user conda traces${nocolor}"
+  lsd-mod.log.echo "${red}${bld}====================================================${nocolor}"
+  lsd-mod.log.echo
+
+  ## triple confirmation (default NO each time)
+  lsd-mod.fio.yesno_no "CONFIRM #1: Proceed with full conda purge" || return 0
+  lsd-mod.fio.yesno_no "CONFIRM #2: This is irreversible" || return 0
+  lsd-mod.fio.yesno_no "CONFIRM #3: Final confirmation" || return 0
+
+  lsd-mod.log.warn "Enumerating conda environments…"
+
+  local envs
+  envs=$(conda env list | sed '1,2d' | awk '{print $1}' | sed '/^$/d')
+
+  lsd-mod.log.echo
+  lsd-mod.log.echo "${byel}Targets:${nocolor}"
+  for e in ${envs}; do
+    if [[ "${e}" == "base" && "${include_base}" != "true" ]]; then
+      echo "  - base (SKIP)"
+    else
+      echo "  - ${e}"
+    fi
+  done
+  lsd-mod.log.echo
+
+  [[ "${dry_run}" == "true" ]] && {
+    lsd-mod.log.warn "dry-run=true → no deletion performed"
+    return 0
+  }
+
+  ## delete envs
+  for e in ${envs}; do
+    if [[ "${e}" == "base" && "${include_base}" != "true" ]]; then
+      continue
+    fi
+    lsd-mod.log.warn "Removing env: ${e}"
+    conda env remove -n "${e}" -y >/dev/null 2>&1 || true
+  done
+
+  ## clean caches
+  lsd-mod.log.warn "Cleaning conda caches…"
+  conda clean -a -y >/dev/null 2>&1 || true
+
+  ## remove user traces (privacy)
+  lsd-mod.log.warn "Removing user conda traces…"
+  rm -rf ~/.conda ~/.continuum ~/.condarc 2>/dev/null || true
+
+  ## best-effort env dir cleanup
+  lsd-mod.log.warn "Removing env directories (best-effort)…"
+  conda info --json 2>/dev/null | python - <<'PY' 2>/dev/null
+import json,sys,shutil,os
+try:
+  d=json.load(sys.stdin)
+  for p in d.get("envs_dirs",[]):
+    if os.path.isdir(p):
+      shutil.rmtree(p, ignore_errors=True)
+except Exception:
+  pass
+PY
+
+  lsd-mod.log.success "Clean-slate conda purge completed."
 }
