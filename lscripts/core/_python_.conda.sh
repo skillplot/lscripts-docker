@@ -405,12 +405,17 @@ function lsd-mod.python.conda.envs.pin() {
   lsd-mod.log.info "Pinning environment: ${env}"
   lsd-mod.log.info "Output directory: ${outdir}"
 
+  ## explicit environment details
   conda list --explicit -n "${env}" > "${outdir}/${env}.explicit.lock"
-  ## strip away prefix to have no system dependent path for reproducibility
+
+  ## env packages and strip away prefix to have no system dependent path for reproducibility
   conda env export -n "${env}" --no-builds \
     | grep -v '^prefix:' \
     > "${outdir}/${env}.env.yml"
 
+  ## pip packages
+  conda run -n "${env}" pip freeze --all \
+    > "${outdir}/${env}.pip.txt"
 
   {
     echo "name: ${env}"
@@ -476,9 +481,8 @@ function lsd-mod.python.conda.envs.replicate() {
   lsd-mod.python.conda._require_conda
   source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/argparse.sh" "$@"
 
-  local src name
-  src="${args['from']}"
-  name="${args['name']}"
+  local src="${args['from']}"
+  local name="${args['name']}"
 
   [[ -z "${src}" ]] && lsd-mod.log.fail "--from=<env-dir> required"
   [[ -z "${name}" ]] && lsd-mod.log.fail "--name=<new-env-name> required"
@@ -486,17 +490,32 @@ function lsd-mod.python.conda.envs.replicate() {
   lsd-mod.log.info "Replicating environment from: ${src}"
   lsd-mod.log.info "Target environment name: ${name}"
 
-  if [[ -f "${src}"/*.explicit.lock ]]; then
-    lsd-mod.log.info "Using explicit lockfile (binary exact)"
-    conda create -n "${name}" --file "${src}"/*.explicit.lock
+  local lockfile=$(ls "${src}"/*.explicit.lock 2>/dev/null | head -n1)
+  local ymlfile=$(ls "${src}"/*.env.yml 2>/dev/null | head -n1)
+  local pipfile=$(ls "${src}"/*.pip.txt 2>/dev/null | head -n1)
 
-  elif [[ -f "${src}"/*.env.yml ]]; then
+  ### -----------------------------
+  ## Phase 1: base conda env
+  ### -----------------------------
+  if [[ -n "$lockfile" ]]; then
+    lsd-mod.log.info "Using explicit lockfile (binary exact)"
+    conda create -n "${name}" --file "${lockfile}"
+  elif [[ -n "$ymlfile" ]]; then
     lsd-mod.log.info "Using environment YAML (solver based, prefix-free)"
     conda env create -n "${name}" \
-      -f <(grep -v '^prefix:' "${src}"/*.env.yml)
-
+      -f <(grep -v '^prefix:' "${ymlfile}")
   else
     lsd-mod.log.fail "No explicit.lock or env.yml found in ${src}"
+  fi
+
+  ### -----------------------------
+  ## Phase 2: pip replay
+  ### -----------------------------
+  if [[ -n "$pipfile" ]]; then
+    lsd-mod.log.info "Phase 2: installing pip packages"
+    conda run -n "${name}" pip install --no-cache-dir -r "${pipfile}"
+  else
+    lsd-mod.log.warn "No pip manifest found; skipping pip install"
   fi
 }
 
@@ -516,6 +535,7 @@ function lsd-mod.python.conda.telemetry.status() {
   echo
   conda list | grep -i telemetry || true
 }
+
 
 function lsd-mod.python.conda.telemetry.disable() {
   lsd-mod.python.conda._require_conda
