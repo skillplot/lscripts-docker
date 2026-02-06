@@ -1,100 +1,98 @@
-# Welcome to Jekyll!
+# Chirpy-based documentation site for Lscripts
 #
-# This config file is meant for settings that affect your whole blog, values
-# which you are expected to set up once and rarely edit after that. If you find
-# yourself editing this file very often, consider using Jekyll's data files
-# feature for the data you need to update frequently.
+# Site root: /docs (GitHub Pages can build from /docs via GitHub Actions)
 #
-# For technical reasons, this file is *NOT* reloaded automatically when you use
-# 'bundle exec jekyll serve'. If you change this file, please restart the server process.
-#
-# If you need help with YAML syntax, here are some quick references for you: 
-# https://learn-the-web.algonquindesign.ca/topics/markdown-yaml-cheat-sheet/#yaml
-# https://learnxinyminutes.com/docs/yaml/
-#
-# Site settings
-# These are used to personalize your new site. If you look in the HTML files,
-# you will see them accessed via {{ site.title }}, {{ site.email }}, and so on.
-# You can create any custom variable you would like, and they will be accessible
-# in the templates via {{ site.myvariable }}.
+# Author: mangalbhaskar
+# Updated: 2026-02-06
+
+lang: en
+timezone: Asia/Kolkata
 
 title: Lscripts
-description: >- # this means to ignore newlines until "baseurl:"
-  Develop a perspective of what happens when shell scripts limits are pushed to be used in conjunction with machine learning and deep learning projects. When the shell scripts and the command line tools are combined with python it provide for the powerful triad for a cadence.
-baseurl: "" # the subpath of your site, e.g. /blog
-# url: "https://lscripts.skillplot.org" # the base hostname & protocol for your site, e.g. http://example.com
-# twitter_username: theskillplot
-# github_username:  "skillplot/lscripts-docker"
+tagline: Shell-first DevOps & ML Toolkit
+description: >-
+  Lscripts is a shell-first automation framework that scales from a laptop to HPC:
+  Docker, NVIDIA/CUDA, Conda governance, offline bundles, and operational UX.
+  This site is the documentation manual for the lscripts-* toolchain.
 
-# Authors
-authors:
+# If you use a custom domain (CNAME present), keep baseurl empty.
+url: "https://lscripts.skillplot.org"
+baseurl: ""
+
+theme: jekyll-theme-chirpy
+
+# Social / SEO
+github:
+  username: skillplot
+
+social:
   name: mangalbhaskar
-  display_name: Mangal
+  links:
+    - "https://github.com/skillplot/lscripts-docker"
 
-show_excerpts: false # set to true to show excerpts on the homepage
+# Brand assets
+avatar: "/assets/img/avatar.png"
 
-# Minima date format
-# refer to https://shopify.github.io/liquid/filters/date/ if you want to customize this
-minima:
-  date_format: "%b %-d, %Y"
-  # generate social links in footer
-  social_links:
-    github: "skillplot/lscripts-docker"
-    twitter: theskillplot
+# Navigation tabs are defined in _tabs/ and rendered via a collection.
+collections:
+  tabs:
+    output: true
+    sort_by: order
 
-# If you want to link only specific pages in your header, uncomment
-# this and add the path to the pages in order as they should show up
-header_pages:
-  - about.md
+defaults:
+  - scope:
+      path: ""
+      type: posts
+    values:
+      layout: post
+      toc: true
+      comments: false
+      author: mangalbhaskar
+  - scope:
+      path: ""
+      type: tabs
+    values:
+      layout: page
 
-# Build settings
-theme: minima
-plugins:
-  - jekyll-feed
-  - jekyll-seo-tag
-  # - jekyll-relative-links
-  # - jekyll-paginate
-  # - jekyll-sitemap
-  # - jekyll-gist
-  # - jekyll-archives
+# URL style
+permalink: /posts/:title/
 
-# relative_links:
-#   enabled:     true
-#   collections: false
+# Pagination (home page)
+paginate: 10
 
-
-words_per_minute: 200
-
-# Pagination 
-paginate: 5 # amount of posts to show
-paginate_path: /page:num/
-# paginate_path: /blog/page:num/
-timezone: Asia/Kolkata # https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
-
-# Markdown Processing
+# Markdown / syntax
 markdown: kramdown
 kramdown:
   input: GFM
-  hard_wrap: false
-  auto_ids: true
-  footnote_nr: 1
-  entity_output: as_char
-  toc_levels: 1..6
-  smart_quotes: lsquo,rsquo,ldquo,rdquo
-  enable_coderay: false
+  syntax_highlighter: rouge
 
+# Plugins used by Chirpy
+plugins:
+  - jekyll-paginate
+  - jekyll-sitemap
+  - jekyll-feed
+  - jekyll-seo-tag
+  - jekyll-archives
+  - jekyll-include-cache
+  - jekyll-redirect-from
 
-include:
-  - .htaccess
-  - _pages
-  - _posts
+jekyll-archives:
+  enabled:
+    - categories
+    - tags
+  layouts:
+    category: category
+    tag: tag
+  permalinks:
+    tag: /tags/:name/
+    category: /categories/:name/
 
+# Build hygiene
 exclude:
-  - node_modules
-  - changelog.md
-  - LICENSE.txt
-  - README.md
-  - CREDITS.md
-  - Gemfile
-  - Gemfile.lock
+  - legacy-minima
+  - legacy-minima/**
   - vendor
+  - node_modules
+  - tools
+  - "*.zip"
+  - "*.log"
