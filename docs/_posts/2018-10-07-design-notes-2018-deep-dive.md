@@ -3,10 +3,8 @@ title: "Design notes 2018: CUDA stack sanity: drivers → runtime → frameworks
 date: "2018-10-07 09:00:00 +0530"
 categories:
   - Design Notes
-  - 2018
 tags:
   - design-notes
-  - 2018
   - deep-dive
 toc: true
 ---

@@ -3,10 +3,8 @@ title: "Design notes 2024: Modern ML stacks (VLM era)"
 date: "2024-04-07 09:00:00 +0530"
 categories:
   - Design Notes
-  - 2024
 tags:
   - design-notes
-  - 2024
   - principles
 toc: true
 ---

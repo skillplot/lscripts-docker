@@ -19,7 +19,7 @@ description: >-
 url: "https://lscripts.skillplot.org"
 baseurl: ""
 
-remote_theme: cotes2020/jekyll-theme-chirpy
+theme: jekyll-theme-chirpy
 theme_mode: dark
 
 # Social / SEO
@@ -73,20 +73,8 @@ plugins:
   - jekyll-sitemap
   - jekyll-feed
   - jekyll-seo-tag
-  - jekyll-archives
   - jekyll-include-cache
   - jekyll-redirect-from
-
-jekyll-archives:
-  enabled:
-    - categories
-    - tags
-  layouts:
-    category: category
-    tag: tag
-  permalinks:
-    tag: /tags/:name/
-    category: /categories/:name/
 
 # Build hygiene
 exclude:

@@ -3,10 +3,8 @@ title: "Design notes 2019: Air-gapped thinking: offline-first packaging"
 date: "2019-10-06 09:00:00 +0530"
 categories:
   - Design Notes
-  - 2019
 tags:
   - design-notes
-  - 2019
   - deep-dive
 toc: true
 ---

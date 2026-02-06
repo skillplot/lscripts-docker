@@ -3,10 +3,8 @@ title: "Design notes 2019: From scripts to system"
 date: "2019-04-07 09:00:00 +0530"
 categories:
   - Design Notes
-  - 2019
 tags:
   - design-notes
-  - 2019
   - principles
 toc: true
 ---

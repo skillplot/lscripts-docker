@@ -3,10 +3,8 @@ title: "Design notes 2023: HPC ergonomics"
 date: "2023-04-02 09:00:00 +0530"
 categories:
   - Design Notes
-  - 2023
 tags:
   - design-notes
-  - 2023
   - principles
 toc: true
 ---

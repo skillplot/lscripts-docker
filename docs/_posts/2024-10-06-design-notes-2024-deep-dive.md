@@ -3,10 +3,8 @@ title: "Design notes 2024: Reproducibility under constraints: pins and manifests
 date: "2024-10-06 09:00:00 +0530"
 categories:
   - Design Notes
-  - 2024
 tags:
   - design-notes
-  - 2024
   - deep-dive
 toc: true
 ---

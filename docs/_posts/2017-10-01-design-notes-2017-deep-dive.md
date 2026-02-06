@@ -3,10 +3,8 @@ title: "Design notes 2017: Logs, prompts, and safe defaults"
 date: "2017-10-01 09:00:00 +0530"
 categories:
   - Design Notes
-  - 2017
 tags:
   - design-notes
-  - 2017
   - deep-dive
 toc: true
 ---

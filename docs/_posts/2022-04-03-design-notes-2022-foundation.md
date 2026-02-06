@@ -3,10 +3,8 @@ title: "Design notes 2022: Edge and small devices"
 date: "2022-04-03 09:00:00 +0530"
 categories:
   - Design Notes
-  - 2022
 tags:
   - design-notes
-  - 2022
   - principles
 toc: true
 ---

@@ -3,10 +3,8 @@ title: "Design notes 2018: Hardware-aware workflows"
 date: "2018-04-01 09:00:00 +0530"
 categories:
   - Design Notes
-  - 2018
 tags:
   - design-notes
-  - 2018
   - principles
 toc: true
 ---

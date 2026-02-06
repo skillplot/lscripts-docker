@@ -3,10 +3,8 @@ title: "Design notes 2020: CI for scripts: lint, test, prove"
 date: "2020-10-04 09:00:00 +0530"
 categories:
   - Design Notes
-  - 2020
 tags:
   - design-notes
-  - 2020
   - deep-dive
 toc: true
 ---

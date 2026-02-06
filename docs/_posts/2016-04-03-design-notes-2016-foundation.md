@@ -3,10 +3,8 @@ title: "Design notes 2016: Shell-first foundations"
 date: "2016-04-03 09:00:00 +0530"
 categories:
   - Design Notes
-  - 2016
 tags:
   - design-notes
-  - 2016
   - principles
 toc: true
 ---

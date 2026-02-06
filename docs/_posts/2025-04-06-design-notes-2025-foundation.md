@@ -3,10 +3,8 @@ title: "Design notes 2025: Conda governance & replication"
 date: "2025-04-06 09:00:00 +0530"
 categories:
   - Design Notes
-  - 2025
 tags:
   - design-notes
-  - 2025
   - principles
 toc: true
 ---

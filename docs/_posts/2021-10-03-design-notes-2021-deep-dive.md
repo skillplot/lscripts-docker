@@ -3,10 +3,8 @@ title: "Design notes 2021: GPU observability: stats, thermals, profiling"
 date: "2021-10-03 09:00:00 +0530"
 categories:
   - Design Notes
-  - 2021
 tags:
   - design-notes
-  - 2021
   - deep-dive
 toc: true
 ---

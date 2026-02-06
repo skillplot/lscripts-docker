@@ -3,10 +3,8 @@ title: "Design notes 2020: Writing operational manuals"
 date: "2020-04-05 09:00:00 +0530"
 categories:
   - Design Notes
-  - 2020
 tags:
   - design-notes
-  - 2020
   - principles
 toc: true
 ---

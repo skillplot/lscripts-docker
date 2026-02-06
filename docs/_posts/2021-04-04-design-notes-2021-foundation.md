@@ -3,10 +3,8 @@ title: "Design notes 2021: System design of lscripts-docker"
 date: "2021-04-04 09:00:00 +0530"
 categories:
   - Design Notes
-  - 2021
 tags:
   - design-notes
-  - 2021
   - principles
 toc: true
 ---

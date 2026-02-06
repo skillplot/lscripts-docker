@@ -3,10 +3,8 @@ title: "Design notes 2016: Docker as a reproducible substrate"
 date: "2016-10-02 09:00:00 +0530"
 categories:
   - Design Notes
-  - 2016
 tags:
   - design-notes
-  - 2016
   - deep-dive
 toc: true
 ---

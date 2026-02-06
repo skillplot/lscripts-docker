@@ -3,10 +3,8 @@ title: "Design notes 2017: The triad: shell + conda + containers"
 date: "2017-04-02 09:00:00 +0530"
 categories:
   - Design Notes
-  - 2017
 tags:
   - design-notes
-  - 2017
   - principles
 toc: true
 ---
