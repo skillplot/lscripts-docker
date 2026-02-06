@@ -28,7 +28,8 @@ _lsd_hf__require_hf() {
 ###----------------------------------------------------------
 
 lsd-mod.huggingface.install.core() {
-  pip install -U huggingface_hub \
+  ## OS 24.04 LTS onwards require forceful installation on base system using pip
+  pip install -U huggingface_hub --break-system-packages \
     && echo "✔ HuggingFace CLI installed (hf)"
 }
 

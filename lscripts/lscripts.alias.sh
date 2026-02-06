@@ -49,6 +49,18 @@ function lsd-lscripts.alias.main() {
   ##
   alias lsd-python.libs.test-pytorch="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.python.libs.test-pytorch $@"
   ###----------------------------------------------------------
+  ## lsd-python.conda => _python_.conda.sh
+  ###----------------------------------------------------------
+  alias lsd-python.conda.cfg.show="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.python.conda.cfg.show"
+  alias lsd-python.conda.envs.list="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.python.conda.envs.list"
+  alias lsd-python.conda.envs.list-fast="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.python.conda.envs.list-fast"
+  alias lsd-python.conda.envs.list-details="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.python.conda.envs.list-details"
+  alias lsd-python.conda.envs.pin="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.python.conda.envs.pin $@"
+  alias lsd-python.conda.envs.pin-all="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.python.conda.envs.pin-all"
+  alias lsd-python.conda.envs.replicate="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.python.conda.envs.replicate $@"
+  alias lsd-python.conda.telemetry.status="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.python.conda.telemetry.status"
+  alias lsd-python.conda.telemetry.disable="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.python.conda.telemetry.disable"
+  ###----------------------------------------------------------
   ## lsd-admin
   ###----------------------------------------------------------
   alias lsd-admin.mkdir-datadirs="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.dir.admin.mkdir-datadirs"

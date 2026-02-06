@@ -1,8 +1,8 @@
 ---
 title: All Commands
 description: List of all commands for Lscripts Docker
-date: 2025-12-15 00:51:46
-last_updated: 00:51:46, 15-Dec-2025, Monday
+date: 2026-02-06 11:36:21
+last_updated: 11:36:21, 06-Feb-2026, Friday
 note: Auto generated file and will be overwritten
 ---
 
@@ -30,9 +30,9 @@ lsd-cfg.nvidia
 lsd-cfg.system
 lsd-cfg.typeformats
 lsd-cmd.dummy
+lsd-cmd.git.get.cert
 lsd-cmd.git.get.repo-urls
 lsd-cmd.git.repoviz
-lsd-cmd.gitlab.get.cert
 lsd-cmd.menu-navigation
 lsd-cmd.monitoring-cmds
 lsd-cmd.mount.smb
@@ -52,6 +52,11 @@ lsd-cuda.find_vers
 lsd-cuda.select
 lsd-cuda.verify
 lsd-cuda.vers
+lsd-datasets.help.hf
+lsd-datasets.hf.download
+lsd-datasets.hf.longvideobench.chunk
+lsd-datasets.hf.longvideobench.full
+lsd-datasets.hf.longvideobench.meta
 lsd-date.cfg
 lsd-date.get
 lsd-date.get-blog
@@ -118,8 +123,14 @@ lsd-gdal.tiff.compress
 lsd-gdal.tiff.info
 lsd-gdal.translate.generic
 lsd-gdal.warp.reproject
+lsd-git.log-date
 lsd-git.pull
+lsd-git.repo-checkout
+lsd-git.repo-geturls
 lsd-git.repo-pull
+lsd-git.repo-remote-list
+lsd-git.repo-status
+lsd-git.stats-commit
 lsd-github.auth
 lsd-github.copy-gitattributes
 lsd-github.copy-gitignore
@@ -174,7 +185,34 @@ lsd-hpc.test.all
 lsd-hpc.test.env
 lsd-hpc.test.submit-dryrun
 lsd-hpc.test.template
+lsd-huggingface.cli
+lsd-huggingface.collections.add
+lsd-huggingface.collections.info
+lsd-huggingface.collections.ls
+lsd-huggingface.config.show
+lsd-huggingface.datasets.info
+lsd-huggingface.datasets.ls
+lsd-huggingface.download.dataset
+lsd-huggingface.download.model
+lsd-huggingface.download.model.audio
+lsd-huggingface.download.model.qwen2vl
+lsd-huggingface.download.model.text-encoder
+lsd-huggingface.help.cli
+lsd-huggingface.install.all
+lsd-huggingface.install.core
+lsd-huggingface.login
+lsd-huggingface.logout
+lsd-huggingface.models.info
+lsd-huggingface.models.ls
+lsd-huggingface.monitor.cache
+lsd-huggingface.monitor.repos
+lsd-huggingface.spaces.info
+lsd-huggingface.spaces.ls
+lsd-huggingface.token
+lsd-huggingface.version
+lsd-huggingface.whoami
 lsd-image.convert.all-to-pdf
+lsd-image.convert.logo
 lsd-image.convert.to-pdf
 lsd-image.extract.from-pdf
 lsd-image.help.convert
@@ -316,8 +354,15 @@ lsd-nvidia.cfg
 lsd-nvidia.driver.avail
 lsd-nvidia.gpu.info
 lsd-nvidia.gpu.stats
+lsd-nvidia.gpu.stats-log
+lsd-nvidia.help.cfg
+lsd-nvidia.help.driver
+lsd-nvidia.help.gpu
+lsd-pdf.color.inspect
+lsd-pdf.color.inspect.eps
 lsd-pdf.convert.pages-to-images
 lsd-pdf.convert.rgb-to-gray
+lsd-pdf.help.color
 lsd-pdf.help.convert
 lsd-pdf.help.inspect
 lsd-pdf.help.install
@@ -331,6 +376,14 @@ lsd-perf.psrecord
 lsd-perf.time
 lsd-perf.time-append
 lsd-perf.time-verbose
+lsd-python.conda.cfg.show
+lsd-python.conda.envs.list
+lsd-python.conda.envs.list-details
+lsd-python.conda.envs.list-fast
+lsd-python.conda.envs.pin
+lsd-python.conda.envs.replicate
+lsd-python.conda.telemetry.disable
+lsd-python.conda.telemetry.status
 lsd-python.create.condaenv
 lsd-python.create.condaenv-hpc
 lsd-python.create.virtualenv
@@ -418,6 +471,7 @@ lsd-utils.ls.pycache
 lsd-utils.lsdir
 lsd-utils.pdf.images
 lsd-utils.pid
+lsd-utils.pkill.update-manager
 lsd-utils.python.venvname
 lsd-utils.random
 lsd-utils.rm._site
@@ -427,6 +481,7 @@ lsd-utils.rm.pycache
 lsd-utils.size
 lsd-utils.system.info
 lsd-utils.trash
+lsd-utils.w3m.captive-portal
 lsd-utils.youtube-download-mp3
 lsd-virtualbox.create-vm
 lsd-www.clone-site.browsertrix
