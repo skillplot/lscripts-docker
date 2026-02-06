@@ -19,7 +19,8 @@ description: >-
 url: "https://lscripts.skillplot.org"
 baseurl: ""
 
-theme: jekyll-theme-chirpy
+remote_theme: cotes2020/jekyll-theme-chirpy
+theme_mode: dark
 
 # Social / SEO
 github:
