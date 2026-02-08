@@ -26,6 +26,11 @@ source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/stack-cfg.sh
 source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/menu-cfg.sh
 
 ###----------------------------------------------------------
+## CRED configuration
+###----------------------------------------------------------
+source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/cred-cfg.sh
+
+###----------------------------------------------------------
 ## Users configuration
 ###----------------------------------------------------------
 source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/users-cfg.sh

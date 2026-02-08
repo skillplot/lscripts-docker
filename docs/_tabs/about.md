@@ -17,6 +17,6 @@ for building repeatable environments.
 
 ## Author
 
-**mangalbhaskar** — engineering notes and operational playbooks.
+**courtsey [skillplot](https://skillplot.org)** — engineering notes and operational playbooks.
 
 > Want to contribute? See the contribution chapter and open a PR.

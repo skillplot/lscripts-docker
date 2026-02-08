@@ -29,11 +29,3 @@ A `CNAME` file is included and preserved:
 - `docs/CNAME` → `lscripts.skillplot.org`
 
 > If you change the domain, update both `docs/CNAME` and `docs/_config.yml` (`url`).
-
-## Legacy docs
-
-The previous minima-based site is archived under:
-
-- `docs/legacy-minima/`
-
-It is excluded from the build and kept for reference.

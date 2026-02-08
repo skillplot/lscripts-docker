@@ -16,6 +16,7 @@
 
 source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/_log_.sh
 source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/_utils_.sh
+source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/_cred_.sh
 source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/_date_.sh
 source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/_color_.sh
 source $( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd )/_typeformats_.sh

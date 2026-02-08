@@ -1,0 +1,15 @@
+/* Disable soft-wrapping in code blocks */
+pre,
+pre code {
+  white-space: pre !important;
+  word-break: normal !important;
+  overflow-x: auto;
+}
+pre code.language-bash {
+  white-space: pre !important;
+  word-break: normal !important;
+  overflow-x: auto;
+}
+.highlight pre {
+  white-space: pre !important;
+}

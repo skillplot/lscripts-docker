@@ -94,6 +94,11 @@ function lsd-lscripts.alias.main() {
   alias lsd-admin.create-nologin-user="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.system.admin.create-nologin-user $@"
   alias lsd-admin.restrict-cmds-for-sudo-user="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.system.admin.restrict-cmds-for-sudo-user $@"
   ###----------------------------------------------------------
+  ## lsd-vpn
+  ###----------------------------------------------------------
+  alias lsd-vpn.connect-openfortivpn="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.vpn.connect-openfortivpn $@"
+  alias lsd-vpn.connect-openvpn="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.vpn.connect-openvpn $@"
+  ###----------------------------------------------------------
   ## lsd-cfg => from different module
   ###----------------------------------------------------------
   alias lsd-cfg.color="bash ${LSCRIPTS}/exec_cmd.sh cmd=lsd-mod.color.get__vars"
